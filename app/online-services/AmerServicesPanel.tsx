@@ -67,7 +67,7 @@ export default function AmerServicesPanel() {
 
             <ul className={styles.priceList}>
               {group.items.map((item, i) => (
-                <PriceRow key={`${group.key}-${i}`} item={item} index={i} />
+                <PriceRow key={`${group.key}-${i}`} item={item} />
               ))}
             </ul>
           </section>
