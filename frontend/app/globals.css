@@ -1,0 +1,65 @@
+:root {
+  --brand-navy: #1A2A5A;
+  --brand-navy-dark: #11204A;
+  --brand-navy-light: #2C3F76;
+  --brand-blue: #11204A;
+  --brand-orange: #1A2A5A;
+  --brand-orange-light: #2C3F76;
+  --brand-orange-dark: #11204A;
+  --brand-teal: #1BA39C;
+  --brand-gold: #C9A24B;
+  --brand-light: #F4F7FB;
+  --text: #1E293B;
+  --muted: #64748B;
+  --border: #E2E8F0;
+  --soft: #F1F5F9;
+  --container: 1280px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+  background: #fff;
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+}
+
+img,
+video {
+  max-width: 100%;
+  display: block;
+}
+
+.container {
+  width: 100%;
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+@media (max-width: 768px) {
+  .container { padding: 0 1rem; }
+}
+@media (max-width: 480px) {
+  .container { padding: 0 0.85rem; }
+}
+
+/* Mobile bottom nav disabled — no reserved space needed */
