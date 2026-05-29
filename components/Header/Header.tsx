@@ -10,16 +10,11 @@ export default function Header() {
   const [hideMobileBar, setHideMobileBar] = useState(false);
   const pathname = usePathname();
 
-  // On the home page the hero is a long sticky-scroll runway, so the header
-  // should stay transparent until the user has fully scrolled past it.
-  const isHome = pathname === "/";
-
   useEffect(() => {
     let lastY = window.scrollY;
     const onScroll = () => {
       const y = window.scrollY;
-      const threshold = isHome ? window.innerHeight * 1.3 : 40;
-      setScrolled(y > threshold);
+      setScrolled(y > 40);
 
       // Hide bottom bar on scroll down, show on scroll up / at top.
       const delta = y - lastY;
@@ -34,12 +29,8 @@ export default function Header() {
     };
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", onScroll);
-    return () => {
-      window.removeEventListener("scroll", onScroll);
-      window.removeEventListener("resize", onScroll);
-    };
-  }, [isHome]);
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   const nav = [
     { label: "Home", href: "/" },
