@@ -94,7 +94,7 @@ export default function MobileScrollHero() {
         pin: true,
         start: "top top",
         end: "+=400%", // Reverted back to 400vh for a longer, slower scroll
-        scrub: 1.5,
+        scrub: 2.5, // Increased from 1.5 to 2.5 for a heavier, buttery cinematic glide
         anticipatePin: 1, // Prevents mobile pin jitter
       },
     });
