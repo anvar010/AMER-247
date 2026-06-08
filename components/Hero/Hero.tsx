@@ -17,7 +17,7 @@ const featureCards = [
 ];
 
 export default function Hero() {
-  const [isMobile, setIsMobile] = useState(false);
+  const [isMobile, setIsMobile] = useState<boolean | null>(null);
 
   useEffect(() => {
     const handleResize = () => {
@@ -28,12 +28,21 @@ export default function Hero() {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  if (isMobile) {
+  if (isMobile === true) {
     return <MobileScrollHero />;
   }
 
   return (
-    <section className={styles.hero}>
+    <>
+      {/* Lightweight SSR Placeholder for mobile devices to show the first frame immediately before hydration */}
+      {isMobile === null && (
+        <div className={styles.mobilePlaceholder}>
+          <img src="/hero-bg-fr/frame_001.webp" alt="Loading Background" className={styles.placeholderImg} />
+          <div className={styles.placeholderOverlay} />
+        </div>
+      )}
+      
+      <section className={styles.hero}>
       <div className={styles.bg}>
         <video
           className={styles.video}
@@ -85,5 +94,6 @@ export default function Hero() {
         ))}
       </div>
     </section>
+    </>
   );
 }

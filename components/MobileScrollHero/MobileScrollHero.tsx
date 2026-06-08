@@ -122,11 +122,20 @@ export default function MobileScrollHero() {
       135
     );
 
-    // Fade IN final text at the very end (starting at frame 220 of 240)
+    // Fade IN final text at the very end. 
+    // Shifted back slightly so staggers don't exceed frame 240!
     tl.fromTo(
       [titleRef.current, ctaRef.current],
       { y: 50, opacity: 0 },
-      { y: 0, opacity: 1, duration: 20, stagger: 5, ease: "power3.out" },
+      { y: 0, opacity: 1, duration: 15, stagger: 5, ease: "power3.out" },
+      210 
+    );
+
+    // Fade scroll hint back IN at the end, finishing before 240
+    tl.fromTo(
+      scrollHintRef.current,
+      { y: 50, opacity: 0 },
+      { y: 0, opacity: 1, duration: 15, ease: "power3.out", immediateRender: false },
       220 
     );
   });

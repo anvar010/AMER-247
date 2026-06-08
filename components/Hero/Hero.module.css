@@ -5,6 +5,42 @@
   padding-bottom: 8rem;
 }
 
+/* Prevent SSR flash by natively hiding the desktop hero on mobile devices before JS kicks in */
+@media (max-width: 768px) {
+  .hero {
+    display: none !important;
+  }
+}
+
+.mobilePlaceholder {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .mobilePlaceholder {
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    z-index: 50;
+    background: #050B22;
+  }
+  .placeholderImg {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .placeholderOverlay {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse at 50% 40%, rgba(5, 11, 34, 0.25), rgba(5, 11, 34, 0.55) 75%),
+      linear-gradient(180deg, rgba(5, 11, 34, 0.2) 0%, rgba(5, 11, 34, 0.5) 70%, rgba(5, 11, 34, 0.95) 100%);
+  }
+}
+
 .bg {
   position: absolute;
   inset: 0;
