@@ -143,11 +143,11 @@ export default function MobileScrollHero() {
 
         <div className={styles.content}>
           
-          <h2 ref={middleTextRef} className={styles.heroTitle} style={{ opacity: 0, position: 'absolute', top: '50%', transform: 'translateY(-50%)', width: '100%', padding: '0 2rem' }}>
-            Your trusted partner for <br /> UAE visa and immigration
+          <h2 ref={middleTextRef} className={styles.middleText} style={{ opacity: 0, position: 'absolute', top: '50%', transform: 'translateY(-50%)', width: '100%', padding: '0 1.5rem' }}>
+            Your Trusted Partner for <br /> UAE Visa &amp; Immigration
           </h2>
 
-          <h1 ref={titleRef} className={styles.heroTitle} style={{ opacity: 0 }}>
+          <h1 ref={titleRef} className={styles.finalTitle} style={{ opacity: 0 }}>
             UAE Visa &amp; <br /> Immigration Services
           </h1>
           
