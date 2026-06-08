@@ -25,6 +25,7 @@ export default function MobileScrollHero() {
   // We store the current scroll target frame
   const currentFrameRef = useRef(1);
   const overlineRef = useRef<HTMLSpanElement>(null);
+  const middleTextRef = useRef<HTMLHeadingElement>(null);
 
   useGSAP(() => {
     const canvas = canvasRef.current;
@@ -106,9 +107,24 @@ export default function MobileScrollHero() {
       0 
     );
 
-    // Fade IN everything at the very end (starting at frame 220 of 240)
+    // Fade IN middle text around frame 100
     tl.fromTo(
-      [overlineRef.current, titleRef.current, ctaRef.current],
+      middleTextRef.current,
+      { y: 30, opacity: 0 },
+      { y: 0, opacity: 1, duration: 15, ease: "power2.out" },
+      100
+    );
+
+    // Fade OUT middle text shortly after
+    tl.to(
+      middleTextRef.current,
+      { y: -30, opacity: 0, duration: 15, ease: "power2.in" },
+      135
+    );
+
+    // Fade IN final text at the very end (starting at frame 220 of 240)
+    tl.fromTo(
+      [titleRef.current, ctaRef.current],
       { y: 50, opacity: 0 },
       { y: 0, opacity: 1, duration: 20, stagger: 5, ease: "power3.out" },
       220 
@@ -121,8 +137,16 @@ export default function MobileScrollHero() {
         <canvas ref={canvasRef} className={styles.canvas} />
         <div className={styles.overlay} />
 
+        <span ref={overlineRef} className={styles.overline} style={{ opacity: 1, zIndex: 2 }}>
+          24/7 IMMIGRATION <br /> &amp; VISA SERVICES
+        </span>
+
         <div className={styles.content}>
-          <span ref={overlineRef} className={styles.overline} style={{ opacity: 0 }}>24/7 IMMIGRATION &amp; VISA SERVICES</span>
+          
+          <h2 ref={middleTextRef} className={styles.heroTitle} style={{ opacity: 0, position: 'absolute', top: '50%', transform: 'translateY(-50%)', width: '100%', padding: '0 2rem' }}>
+            Your trusted partner for <br /> UAE visa and immigration
+          </h2>
+
           <h1 ref={titleRef} className={styles.heroTitle} style={{ opacity: 0 }}>
             UAE Visa &amp; <br /> Immigration Services
           </h1>
