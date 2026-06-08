@@ -5,6 +5,7 @@
   color: #fff;
   height: 100dvh;
   will-change: transform;
+  z-index: 20;
 }
 
 .stickyContainer {

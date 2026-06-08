@@ -150,15 +150,16 @@ export default function MobileScrollHero() {
       260 
     );
 
-    // Re-add dead zone to let scrub lag settle before unpinning
-    tl.to({}, { duration: 60 });
+    // Add a very small dead zone to let scrub lag settle before unpinning
+    // Reduced from 60 to 10 so the user doesn't get "stuck" at the end
+    tl.to({}, { duration: 10 });
 
     // Auto-scroll the site slowly to frame 37 on load to introduce the mechanic
-    // Total timeline duration is 270 + 60 = 330 frames. Pinned distance is 400vh.
-    // Frame 37 is (37 / 330) * 400vh down the page.
+    // Total timeline duration is 270 + 10 = 280 frames. Pinned distance is 400vh.
+    // Frame 37 is (37 / 280) * 400vh down the page.
     gsap.to(window, {
       scrollTo: { 
-        y: (wrapperRef.current?.offsetTop || 0) + (window.innerHeight * 4 * (37 / 330)), 
+        y: (wrapperRef.current?.offsetTop || 0) + (window.innerHeight * 4 * (37 / 280)), 
         autoKill: true // If the user touches the screen, instantly stop the auto-scroll
       },
       duration: 6.5, // Extremely slow, gentle scroll
