@@ -106,12 +106,6 @@ export default function MobileScrollHero() {
       onUpdate: render,
     });
 
-    tl.to(
-      scrollHintRef.current,
-      { opacity: 0, y: -20, ease: "power2.in", duration: 30 },
-      0
-    );
-
     // Fade IN middle text around frame 100
     tl.fromTo(
       middleTextRef.current,
@@ -135,6 +129,9 @@ export default function MobileScrollHero() {
       240
     );
 
+    // Keep the SCROLL hint visible during the auto-scroll to frame 56, then fade it out
+    tl.to(scrollHintRef.current, { opacity: 0, y: -20, duration: 30, ease: "power2.in" }, 56);
+
     // Fade scroll hint back IN at the end
     tl.fromTo(
       scrollHintRef.current,
@@ -154,16 +151,16 @@ export default function MobileScrollHero() {
     // Reduced from 60 to 10 so the user doesn't get "stuck" at the end
     tl.to({}, { duration: 10 });
 
-    // Auto-scroll the site slowly to frame 37 on load to introduce the mechanic
+    // Auto-scroll the site to frame 56 on load to introduce the mechanic
     // Total timeline duration is 270 + 10 = 280 frames. Pinned distance is 400vh.
-    // Frame 37 is (37 / 280) * 400vh down the page.
+    // Frame 56 is (56 / 280) * 400vh down the page.
     gsap.to(window, {
       scrollTo: { 
-        y: (wrapperRef.current?.offsetTop || 0) + (window.innerHeight * 4 * (37 / 280)), 
+        y: (wrapperRef.current?.offsetTop || 0) + (window.innerHeight * 4 * (56 / 280)), 
         autoKill: true // If the user touches the screen, instantly stop the auto-scroll
       },
-      duration: 6.5, // Extremely slow, gentle scroll
-      ease: "power1.inOut", // Even softer ease
+      duration: 1.5, // Normal user scrolling speed
+      ease: "power2.out", // Natural deceleration
       delay: 0.8 // Wait just under a second before starting
     });
   }, { dependencies: [], scope: wrapperRef });
