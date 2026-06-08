@@ -11,7 +11,7 @@ if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
 }
 
-const FRAME_COUNT = 270;
+const FRAME_COUNT = 363;
 const getFramePath = (index: number) =>
   `/hero-bg-fr/frame_${String(index).padStart(3, "0")}.webp`;
 
@@ -106,19 +106,19 @@ export default function MobileScrollHero() {
       onUpdate: render,
     });
 
-    // Fade IN middle text around frame 100
+    // Fade IN middle text so it is fully visible by frame 102
     tl.fromTo(
       middleTextRef.current,
       { y: 30, opacity: 0 },
       { y: 0, opacity: 1, duration: 15, ease: "power2.out" },
-      100
+      87
     );
 
     // Fade OUT middle text shortly after
     tl.to(
       middleTextRef.current,
       { y: -30, opacity: 0, duration: 15, ease: "power2.in" },
-      135
+      140
     );
 
     // Fade IN final text at the very end
@@ -126,48 +126,48 @@ export default function MobileScrollHero() {
       [titleRef.current, ctaRef.current],
       { y: 50, opacity: 0 },
       { y: 0, opacity: 1, duration: 15, stagger: 5, ease: "power3.out" },
-      240
+      333
     );
 
-    // Keep the SCROLL hint visible during the auto-scroll to frame 56, then fade it out
-    tl.to(scrollHintRef.current, { opacity: 0, y: -20, duration: 30, ease: "power2.in" }, 56);
+    // Keep the SCROLL hint visible during the auto-scroll to frame 102, then fade it out
+    tl.to(scrollHintRef.current, { opacity: 0, y: -20, duration: 30, ease: "power2.in" }, 102);
 
     // Fade scroll hint back IN at the end
     tl.fromTo(
       scrollHintRef.current,
       { y: 50, opacity: 0 },
       { y: 0, opacity: 1, duration: 15, ease: "power3.out", immediateRender: false },
-      250
+      343
     );
 
-    // Fade IN the static final image at the very end (frame 260).
+    // Fade IN the static final image at the very end (frame 353).
     tl.to(
       finalImageRef.current,
       { opacity: 1, duration: 10, ease: "power2.inOut" },
-      260 
+      353 
     );
 
     // Add a very small dead zone to let scrub lag settle before unpinning
-    // Reduced from 60 to 10 so the user doesn't get "stuck" at the end
     tl.to({}, { duration: 10 });
 
-    // Auto-scroll the site to frame 56 on load to introduce the mechanic
-    // Total timeline duration is 270 + 10 = 280 frames. Pinned distance is 400vh.
-    const targetY = (wrapperRef.current?.offsetTop || 0) + (window.innerHeight * 4 * (56 / 280));
+    // Auto-scroll the site to frame 102 on load to introduce the mechanic
+    // Total timeline duration is FRAME_COUNT + 10 frames. Pinned distance is 400vh.
+    const totalDuration = FRAME_COUNT + 10;
+    const targetY = (wrapperRef.current?.offsetTop || 0) + (window.innerHeight * 4 * (102 / totalDuration));
     
     // Slight delay before auto-scrolling
     const timeoutId = setTimeout(() => {
       if ((window as any).lenis) {
         // Use Lenis native smooth scroll to prevent GSAP ScrollToPlugin conflicts
         (window as any).lenis.scrollTo(targetY, { 
-          duration: 1.5, 
+          duration: 2.7, 
           easing: (t: number) => 1 - Math.pow(1 - t, 4) // easeOutQuart
         });
       } else {
         // Fallback
         gsap.to(window, {
           scrollTo: { y: targetY, autoKill: true },
-          duration: 1.5,
+          duration: 2.7,
           ease: "power2.out"
         });
       }
@@ -184,7 +184,7 @@ export default function MobileScrollHero() {
         {/* Static final frame image to guarantee smooth scrolling on exit */}
         <img 
           ref={finalImageRef} 
-          src="/hero-bg-fr/frame_270.webp" 
+          src={`/hero-bg-fr/frame_${FRAME_COUNT}.webp`} 
           alt="" 
           className={styles.finalImage} 
           style={{ opacity: 0 }} 

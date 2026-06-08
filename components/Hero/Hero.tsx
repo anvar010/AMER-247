@@ -41,59 +41,61 @@ export default function Hero() {
           <div className={styles.placeholderOverlay} />
         </div>
       )}
-      
+
       <section className={styles.hero}>
-      <div className={styles.bg}>
-        <video
-          className={styles.video}
-          autoPlay muted loop playsInline
-          poster="/images/dubai.jpg"
-        >
-          <source src="/images/31956-389724705_medium.mp4" type="video/mp4" />
-        </video>
-        <div className={styles.overlay} />
-      </div>
-
-
-
-      <div className={styles.bgWordWrap} aria-hidden>
-        <span className={styles.bgWord}>AMER 24/7</span>
-      </div>
-
-      <div className={`container ${styles.inner}`}>
-        <div className={styles.content}>
-          <span className={styles.overline}>24/7 IMMIGRATION &amp; VISA SERVICES</span>
-          <h1 className={styles.heroTitle}>
-            Your Trusted Partner for <br /> UAE Visa &amp; Immigration
-          </h1>
-          <h2 className={styles.heroSubtitle}>
-            &amp; RESIDENCY SERVICES
-          </h2>
-          <Link href="/services" className={styles.viewMore}>
-            View More
-          </Link>
+        <div className={styles.bg}>
+          <video
+            className={styles.video}
+            autoPlay muted loop playsInline
+            poster="/images/dubai.jpg"
+          >
+            <source src="/images/31956-389724705_medium.mp4" type="video/mp4" />
+          </video>
+          <div className={styles.overlay} />
         </div>
 
-        <div className={styles.scrollHint} aria-hidden>
-          <div className={styles.mouse}>
-            <div className={styles.wheel}></div>
+
+
+        <div className={styles.bgWordWrap} aria-hidden>
+          <span className={styles.bgWord}>AMER 24/7</span>
+        </div>
+
+        <div className={`container ${styles.inner}`}>
+          <div className={styles.content}>
+            <span className={styles.overline}>24/7 IMMIGRATION &amp; VISA SERVICES</span>
+            <h1 className={styles.heroTitle}>
+              Your Trusted Partner for <br /> UAE Visa &amp; Immigration
+            </h1>
+            <h2 className={styles.heroSubtitle}>
+              &amp; RESIDENCY SERVICES
+            </h2>
+            <Link href="/services" className={styles.viewMore}>
+              View More
+            </Link>
           </div>
-          <span className={styles.scrollLabel}>Scroll</span>
-        </div>
-      </div>
 
-      <div className={`container ${styles.cardsRow}`}>
-        {featureCards.map((c) => (
-          <Link key={c.name} href="/services" className={styles.card}>
-            <div className={styles.cardIcon}>
-              <c.icon size={26} strokeWidth={1.7} />
+          <div className={styles.scrollHint} aria-hidden>
+            <div className={styles.mouse}>
+              <div className={styles.wheel}></div>
             </div>
-            <div className={styles.cardName}>{c.name}</div>
-            <div className={styles.cardSub}>{c.sub}</div>
-          </Link>
-        ))}
-      </div>
-    </section>
+            <span className={styles.scrollLabel}>Scroll</span>
+          </div>
+        </div>
+
+        <div className={`container ${styles.cardsRow}`}>
+          {featureCards.map((c) => (
+            <Link key={c.name} href="/services" className={styles.card}>
+              <div className={styles.cardIcon}>
+                <c.icon size={26} strokeWidth={1.7} />
+              </div>
+              <div className={styles.cardTextContent}>
+                <div className={styles.cardName}>{c.name}</div>
+                <div className={styles.cardSub}>{c.sub}</div>
+              </div>
+            </Link>
+          ))}
+        </div>
+      </section>
     </>
   );
 }

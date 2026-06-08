@@ -20,11 +20,16 @@ if not cap.isOpened():
 fps = cap.get(cv2.CAP_PROP_FPS)
 if fps <= 0: fps = 30
 
-frame_count = 0
-extracted_count = 0
-max_extracted = 9 * 30  # 9 seconds at 30 fps = 270 frames
+# Skip the first 99 frames
+for _ in range(99):
+    ret, _ = cap.read()
+    if not ret:
+        break
 
-print(f"Original FPS: {fps}, Target FPS: 30")
+frame_count = 99
+extracted_count = 0
+
+print(f"Original FPS: {fps}, Target FPS: 30. Skipping first 99 frames.")
 
 while True:
     ret, frame = cap.read()
@@ -32,13 +37,10 @@ while True:
         break
         
     # Interpolate to strictly 30fps
-    current_time = frame_count / fps
+    current_time = (frame_count - 99) / fps
     target_time = extracted_count / 30.0
     
     if current_time >= target_time:
-        if extracted_count >= max_extracted:
-            break
-            
         # Scale image to height 800 for maximum mobile scroll performance
         h, w = frame.shape[:2]
         if h > 800:

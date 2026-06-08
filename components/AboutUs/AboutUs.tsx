@@ -74,7 +74,7 @@ export default function AboutUs() {
   return (
     <section ref={sectionRef} className={styles.section}>
       <div className={`container ${styles.grid}`}>
-        
+
         {/* ---------- Diagram ---------- */}
         <div className={styles.diagram}>
           <div ref={ringRef} className={styles.ringOuter} />
@@ -95,7 +95,7 @@ export default function AboutUs() {
                 className={styles.node}
                 data-pos={n.pos}
               >
-                <div 
+                <div
                   className={styles.nodeContents}
                   ref={(el) => { nodeContentsRef.current[i] = el; }}
                 >

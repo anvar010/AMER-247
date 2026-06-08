@@ -1,127 +1,82 @@
 "use client";
 
-import { useRef } from "react";
+import Link from "next/link";
+import { ArrowRight, Sparkles, Building2 } from "lucide-react";
+import { FileText, IdCard, Gem, Stethoscope } from "lucide-react";
 import styles from "./WhoWeAre.module.css";
-import { FileText, IdCard, Gem, Stethoscope, ArrowRight, Sparkles } from "lucide-react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { useGSAP } from "@gsap/react";
 
-if (typeof window !== "undefined") {
-  gsap.registerPlugin(ScrollTrigger);
-}
-
-const cards = [
-  { icon: FileText, title: "Immigration Services" },
-  { icon: Gem, title: "Golden Visa" },
-  { icon: IdCard, title: "Emirates Identity Authority" },
-  { icon: Stethoscope, title: "Medical Test Applications" },
+const services = [
+  { icon: FileText, title: "Immigration\nServices" },
+  { icon: Gem, title: "Golden\nVisa" },
+  { icon: IdCard, title: "Emirates Identity\nAuthority" },
+  { icon: Stethoscope, title: "Medical Test\nApplications" },
 ];
 
 export default function WhoWeAre() {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const leftColRef = useRef<HTMLDivElement>(null);
-  const cardsRef = useRef<(HTMLAnchorElement | null)[]>([]);
-
-  useGSAP(() => {
-    const isDesktop = window.matchMedia("(min-width: 1024px)").matches;
-
-    if (isDesktop) {
-      // Pin the left column while the right column scrolls
-      ScrollTrigger.create({
-        trigger: containerRef.current,
-        start: "top top",
-        end: "bottom bottom",
-        pin: leftColRef.current,
-        pinSpacing: false,
-      });
-
-      // Fade in cards as they scroll up
-      cardsRef.current.forEach((card) => {
-        gsap.from(card, {
-          y: 100,
-          opacity: 0,
-          duration: 0.8,
-          ease: "power2.out",
-          scrollTrigger: {
-            trigger: card,
-            start: "top 85%",
-            toggleActions: "play none none reverse",
-          }
-        });
-      });
-    } else {
-      // Mobile: just fade up everything
-      gsap.from(leftColRef.current, {
-        y: 50,
-        opacity: 0,
-        duration: 0.8,
-        scrollTrigger: {
-          trigger: leftColRef.current,
-          start: "top 80%",
-        }
-      });
-      gsap.from(cardsRef.current, {
-        y: 50,
-        opacity: 0,
-        stagger: 0.15,
-        duration: 0.8,
-        scrollTrigger: {
-          trigger: cardsRef.current[0],
-          start: "top 85%",
-        }
-      });
-    }
-
-  }, { scope: containerRef });
-
   return (
-    <section className={styles.section} ref={containerRef}>
-      <div className={styles.container}>
-
-        {/* Left Pinned Column */}
-        <div className={styles.leftCol} ref={leftColRef}>
-          <div className={styles.eyebrow}>
-            <Sparkles size={16} />
-            <span>ABOUT AMER247</span>
+    <section className={styles.section}>
+      <div className={`container ${styles.container}`}>
+        
+        {/* Header Row */}
+        <div className={styles.header}>
+          <div className={styles.headerLeft}>
+            <div className={styles.eyebrow}>
+              <Sparkles size={16} />
+              <span>ABOUT AMER247</span>
+            </div>
+            <h2 className={styles.title}>Who We Are</h2>
           </div>
-          <h2 className={styles.title}>Who We Are</h2>
-          <span className={styles.titleAccent} />
-          <p className={styles.copy}>
-            Amer247 Center was established in 2017 in collaboration with the
-            General Directorate of Residency and Foreigners Affairs. Our experience
-            is a direct application of the strategy of the Federal Government
-            advocated by His Highness Sheikh Mohammed bin Rashid Al Maktoum,
-            Prime Minister and Ruler of Dubai.
+          <p className={styles.description}>
+            Amer247 Center was established in 2017 in collaboration with the General Directorate of Residency and Foreigners Affairs. Our experience is a direct application of the strategy of the Federal Government advocated by His Highness Sheikh Mohammed bin Rashid Al Maktoum, Prime Minister and Ruler of Dubai.
           </p>
         </div>
 
-        {/* Right Scrolling Column */}
-        <div className={styles.rightCol}>
-          <div className={styles.rightSpacer} />
-          {cards.map((c, i) => {
-            const Icon = c.icon;
-            return (
-              <a
-                key={c.title}
-                href="#"
-                className={styles.card}
-                ref={(el) => { cardsRef.current[i] = el; }}
-              >
-                <span className={styles.cardTopBar} />
-                <span className={styles.cardIconWrap}>
-                  <Icon size={28} strokeWidth={1.6} className={styles.cardIcon} />
-                </span>
-                <h3 className={styles.cardTitle}>{c.title}</h3>
-                <span className={styles.cardCta}>
-                  <span>View Service</span>
-                  <ArrowRight size={18} className={styles.cardArrow} />
-                </span>
-              </a>
-            );
-          })}
-        </div>
+        {/* Bento Grid */}
+        <div className={styles.bentoGrid}>
+          
+          {/* Main Huge Card: 4 Services Grid */}
+          <div className={`${styles.card} ${styles.mainCard}`}>
+            <div className={styles.servicesGrid}>
+              {services.map((service, i) => (
+                <div key={i} className={styles.serviceItem}>
+                  <div className={styles.serviceIcon}>
+                    <service.icon size={32} strokeWidth={1.5} />
+                  </div>
+                  <span className={styles.serviceLabel}>
+                    {service.title.split("\n").map((line, j) => (
+                      <span key={j} style={{ display: 'block' }}>{line}</span>
+                    ))}
+                  </span>
+                  <Link href="#" className={styles.serviceLink}>
+                    View Service <ArrowRight size={16} style={{ marginLeft: "0.25rem" }} />
+                  </Link>
+                </div>
+              ))}
+            </div>
+          </div>
 
+          {/* Right Column */}
+          <div className={styles.rightColumn}>
+            
+            {/* Dark Card */}
+            <div className={`${styles.card} ${styles.darkCard}`}>
+              <div className={styles.darkCardIcon}>
+                <Building2 size={28} strokeWidth={1.5} />
+              </div>
+              <h3 className={styles.darkCardTitle}>
+                Trusted Government<br />Partner
+              </h3>
+              <p className={styles.darkCardText}>
+                We streamline all government processes to ensure efficient, stress-free clearance for your business and personal needs.
+              </p>
+              <Link href="/about" className={styles.button}>
+                Learn more about us <ArrowRight size={16} style={{ marginLeft: "0.25rem" }} />
+              </Link>
+            </div>
+
+          </div>
+        </div>
+        
       </div>
     </section>
   );
