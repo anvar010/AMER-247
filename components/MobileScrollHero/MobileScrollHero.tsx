@@ -28,6 +28,7 @@ export default function MobileScrollHero() {
   const currentFrameRef = useRef(1);
   const overlineRef = useRef<HTMLSpanElement>(null);
   const middleTextRef = useRef<HTMLHeadingElement>(null);
+  const cloneLogoRef = useRef<HTMLImageElement>(null);
 
   useGSAP(() => {
     const canvas = canvasRef.current;
@@ -113,7 +114,62 @@ export default function MobileScrollHero() {
       ease: "none",
       duration: FRAME_COUNT,
       onUpdate: render,
-    });
+    }, 0);
+
+    const headerLogo = document.getElementById("global-header-logo");
+    
+    let endTop = "1rem";
+    let endLeft = "1.5rem";
+    if (window.innerWidth <= 1023) {
+      endTop = "0.75rem";
+      endLeft = "1rem";
+    }
+    if (window.innerWidth <= 480) {
+      endTop = "0.6rem";
+      endLeft = "0.85rem";
+    }
+
+    // Hide global header logo, show clone logo during animation
+    tl.to(headerLogo, { opacity: 0, duration: 0.1 }, 0);
+    tl.to(cloneLogoRef.current, { opacity: 1, duration: 0.1 }, 0);
+
+    // Frame 1 to 104: Animate clone logo from top-left to center
+    tl.to(cloneLogoRef.current, {
+      top: "40%",
+      left: "50%",
+      xPercent: -50,
+      yPercent: -50,
+      scale: 2.5, // Reduced from 3.5
+      ease: "power2.inOut",
+      duration: 104,
+    }, 0);
+
+    // Fade IN overline text as logo arrives
+    tl.fromTo(overlineRef.current, {
+      y: 20, opacity: 0
+    }, {
+      y: 0, opacity: 1, duration: 40, ease: "power2.out"
+    }, 64);
+
+    // Frame 104 to 149: Animate back to header
+    tl.to(cloneLogoRef.current, {
+      top: endTop,
+      left: endLeft,
+      xPercent: 0,
+      yPercent: 0,
+      scale: 1,
+      ease: "power2.inOut",
+      duration: 45,
+    }, 104);
+
+    // Fade OUT overline text as logo leaves
+    tl.to(overlineRef.current, {
+      y: -20, opacity: 0, duration: 30, ease: "power2.in"
+    }, 119);
+
+    // Restore real header logo
+    tl.to(cloneLogoRef.current, { opacity: 0, duration: 0.1 }, 149);
+    tl.to(headerLogo, { opacity: 1, duration: 0.1 }, 149);
 
     // Fade IN middle text so it is fully visible by frame 164
     tl.fromTo(
@@ -159,10 +215,10 @@ export default function MobileScrollHero() {
     // Add a very small dead zone to let scrub lag settle before unpinning
     tl.to({}, { duration: 10 });
 
-    // Auto-scroll the site to frame 98 on load to introduce the mechanic
+    // Auto-scroll the site to frame 101 on load to introduce the mechanic
     // Total timeline duration is FRAME_COUNT + 10 frames. Pinned distance is 400vh.
     const totalDuration = FRAME_COUNT + 10;
-    const targetY = (wrapperRef.current?.offsetTop || 0) + (window.innerHeight * 4 * (98 / totalDuration));
+    const targetY = (wrapperRef.current?.offsetTop || 0) + (window.innerHeight * 4 * (101 / totalDuration));
 
     // Slight delay before auto-scrolling
     const timeoutId = setTimeout(() => {
@@ -185,6 +241,20 @@ export default function MobileScrollHero() {
     return () => clearTimeout(timeoutId);
   }, { dependencies: [], scope: wrapperRef });
 
+  const handleSkip = () => {
+    const target = document.getElementById("who-we-are");
+    if (target) {
+      if ((window as any).lenis) {
+        (window as any).lenis.scrollTo(target, {
+          duration: 1.5,
+          easing: (t: number) => 1 - Math.pow(1 - t, 3)
+        });
+      } else {
+        target.scrollIntoView({ behavior: "smooth" });
+      }
+    }
+  };
+
   return (
     <div ref={wrapperRef} className={styles.heroWrapper}>
       <div className={styles.stickyContainer}>
@@ -201,9 +271,20 @@ export default function MobileScrollHero() {
 
         <div className={styles.overlay} />
 
-        <span ref={overlineRef} className={styles.overline} style={{ opacity: 1, zIndex: 2 }}>
+        {/* Clone Logo for Yoyo Animation */}
+        <img ref={cloneLogoRef} src="/logos/amer.webp" className={styles.cloneLogo} alt="" />
+
+        <span ref={overlineRef} className={styles.overline} style={{ zIndex: 2 }}>
           24/7 IMMIGRATION <br /> &amp; VISA SERVICES
         </span>
+
+        <button className={styles.skipButton} onClick={handleSkip} aria-label="Skip animation">
+          Skip 
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <polyline points="7 13 12 18 17 13"></polyline>
+            <polyline points="7 6 12 11 17 6"></polyline>
+          </svg>
+        </button>
 
         <div className={styles.content}>
 

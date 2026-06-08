@@ -54,7 +54,7 @@ export default function Header() {
     <header className={`${styles.header} ${scrolled ? styles.scrolled : ""}`}>
       <div className={`container ${styles.inner}`}>
         <Link href="/" className={styles.logos}>
-          <img src="/logos/amer.webp" alt="Amer 24/7" className={styles.logoImg} />
+          <img id="global-header-logo" src="/logos/amer.webp" alt="Amer 24/7" className={styles.logoImg} />
         </Link>
 
         <nav className={styles.nav}>

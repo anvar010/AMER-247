@@ -14,7 +14,7 @@ const services = [
 
 export default function WhoWeAre() {
   return (
-    <section className={styles.section}>
+    <section id="who-we-are" className={styles.section}>
       <div className={`container ${styles.container}`}>
         
         {/* Header Row */}

@@ -65,8 +65,8 @@
 
 .overline {
   position: absolute;
-  top: 15%;
-  /* Anchors it towards the top of the screen */
+  top: 53%;
+  /* Anchors it closely below the logo */
   left: 50%;
   transform: translateX(-50%);
   width: 100%;
@@ -78,6 +78,7 @@
   font-weight: 600;
   letter-spacing: 0.3em;
   text-transform: uppercase;
+  opacity: 0;
 }
 
 .middleText {
@@ -196,5 +197,62 @@
   100% {
     transform: translateY(0);
     opacity: 0;
+  }
+}
+
+.cloneLogo {
+  position: absolute;
+  top: 1rem;
+  left: 1.5rem;
+  height: 64px;
+  width: auto;
+  z-index: 100;
+  opacity: 0;
+  pointer-events: none;
+  filter: brightness(0) invert(1);
+  will-change: top, left, transform;
+}
+
+.skipButton {
+  position: absolute;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 0.5rem 1rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  z-index: 100;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.skipButton:hover {
+  background: rgba(255, 255, 255, 0.25);
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+@media (max-width: 1023px) {
+  .cloneLogo {
+    height: 48px;
+    top: 0.75rem;
+    left: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .cloneLogo {
+    height: 42px;
+    top: 0.6rem;
+    left: 0.85rem;
   }
 }
