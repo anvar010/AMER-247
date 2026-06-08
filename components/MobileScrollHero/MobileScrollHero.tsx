@@ -35,23 +35,29 @@ export default function MobileScrollHero() {
     const context = canvas?.getContext("2d", { alpha: false });
     if (!canvas || !context || !wrapperRef.current) return;
 
-    // Dynamically size canvas to exact device screen to prevent GPU scale lag
-    const dpr = window.devicePixelRatio || 1;
+    // Dynamically size canvas to exact device screen
+    // PERFORMANCE FIX: Cap DPR to 2 to prevent 3x/4x mobile screens (like iPhones) from crashing the GPU 
+    // with 20+ megapixel canvas rendering 60 times a second.
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
     canvas.width = window.innerWidth * dpr;
     canvas.height = window.innerHeight * dpr;
 
     const images: HTMLImageElement[] = [];
+    let lastDrawnFrame = -1; // PERFORMANCE FIX: Track last drawn frame
 
     const render = () => {
       let targetFrame = Math.round(currentFrameRef.current);
       let img = images[targetFrame];
 
       // Fallback: If target frame isn't loaded, scrub backwards to the closest loaded frame!
-      // This prevents the canvas from breaking/freezing while waiting for downloads.
       while (targetFrame > 1 && (!img || !img.complete || img.naturalWidth === 0)) {
         targetFrame--;
         img = images[targetFrame];
       }
+
+      // PERFORMANCE FIX: If we are about to draw the exact same image we just drew, skip!
+      // This saves the CPU/GPU from processing drawImage redundantly if images are buffering.
+      if (targetFrame === lastDrawnFrame) return;
 
       if (img && img.complete && img.naturalWidth > 0) {
         const hRatio = canvas.width / img.naturalWidth;
@@ -71,6 +77,8 @@ export default function MobileScrollHero() {
           img.naturalWidth * ratio,
           img.naturalHeight * ratio
         );
+        
+        lastDrawnFrame = targetFrame; // Update cache
       }
     };
 
