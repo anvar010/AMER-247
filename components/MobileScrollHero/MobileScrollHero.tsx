@@ -215,18 +215,18 @@ export default function MobileScrollHero() {
     // Add a very small dead zone to let scrub lag settle before unpinning
     tl.to({}, { duration: 10 });
 
-    // Auto-scroll the site to frame 101 on load to introduce the mechanic
+    // Auto-scroll the site to frame 102 on load to introduce the mechanic
     // Total timeline duration is FRAME_COUNT + 10 frames. Pinned distance is 400vh.
     const totalDuration = FRAME_COUNT + 10;
-    const targetY = (wrapperRef.current?.offsetTop || 0) + (window.innerHeight * 4 * (101 / totalDuration));
+    const targetY = (wrapperRef.current?.offsetTop || 0) + (window.innerHeight * 4 * (102 / totalDuration));
 
     // Slight delay before auto-scrolling
     const timeoutId = setTimeout(() => {
       if ((window as any).lenis) {
         // Use Lenis native smooth scroll to prevent GSAP ScrollToPlugin conflicts
         (window as any).lenis.scrollTo(targetY, {
-          duration: 2.0, // Shortened slightly
-          easing: (t: number) => 1 - Math.pow(1 - t, 2) // easeOutQuad - much shorter tail, stops more accurately
+          duration: 2.4, // Increased for a smoother glide
+          easing: (t: number) => 1 - Math.pow(1 - t, 3) // easeOutCubic - smoother, softer stop
         });
       } else {
         // Fallback
