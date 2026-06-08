@@ -103,7 +103,7 @@ export default function MobileScrollHero() {
         pin: true,
         start: "top top",
         end: "+=400%", // Restore the original longer scroll to keep speed normal
-        scrub: 1.5, // Reduced scrub lag so it stops accurately without trailing
+        scrub: 2.5, // Restored to 2.5 for the heavy, syrupy cinematic glide!
         anticipatePin: 1, // Prevents mobile pin jitter
       },
     });
@@ -159,10 +159,10 @@ export default function MobileScrollHero() {
     // Add a very small dead zone to let scrub lag settle before unpinning
     tl.to({}, { duration: 10 });
 
-    // Auto-scroll the site to frame 92 on load to introduce the mechanic
+    // Auto-scroll the site to frame 98 on load to introduce the mechanic
     // Total timeline duration is FRAME_COUNT + 10 frames. Pinned distance is 400vh.
     const totalDuration = FRAME_COUNT + 10;
-    const targetY = (wrapperRef.current?.offsetTop || 0) + (window.innerHeight * 4 * (92 / totalDuration));
+    const targetY = (wrapperRef.current?.offsetTop || 0) + (window.innerHeight * 4 * (98 / totalDuration));
 
     // Slight delay before auto-scrolling
     const timeoutId = setTimeout(() => {
