@@ -14,7 +14,13 @@ export default function Header() {
     let lastY = window.scrollY;
     const onScroll = () => {
       const y = window.scrollY;
-      setScrolled(y > 40);
+      
+      // On mobile homepage, keep header transparent until scrolling past the 400vh pinned video
+      const isMobile = window.innerWidth <= 768;
+      const isHome = pathname === "/";
+      const threshold = (isHome && isMobile) ? window.innerHeight * 4.2 : 40;
+      
+      setScrolled(y > threshold);
 
       // Hide bottom bar on scroll down, show on scroll up / at top.
       const delta = y - lastY;

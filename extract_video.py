@@ -22,7 +22,7 @@ if fps <= 0: fps = 30
 
 frame_count = 0
 extracted_count = 0
-max_extracted = 8 * 30  # 8 seconds at 30 fps = 240 frames
+max_extracted = 9 * 30  # 9 seconds at 30 fps = 270 frames
 
 print(f"Original FPS: {fps}, Target FPS: 30")
 
