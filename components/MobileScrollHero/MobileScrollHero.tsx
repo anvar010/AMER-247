@@ -31,8 +31,9 @@ export default function MobileScrollHero() {
 
   useGSAP(() => {
     const canvas = canvasRef.current;
-    // { alpha: false } disables transparency computations, providing a massive GPU performance boost!
-    const context = canvas?.getContext("2d", { alpha: false });
+    // PERFORMANCE FIX: { alpha: false, desynchronized: true } provides a massive GPU boost 
+    // by bypassing the browser compositor, reducing input lag and tearing on mobile!
+    const context = canvas?.getContext("2d", { alpha: false, desynchronized: true });
     if (!canvas || !context || !wrapperRef.current) return;
 
     // Dynamically size canvas to exact device screen
@@ -102,7 +103,7 @@ export default function MobileScrollHero() {
         pin: true,
         start: "top top",
         end: "+=400%", // Reverted back to 400vh for a longer, slower scroll
-        scrub: 2.5, // Increased from 1.5 to 2.5 for a heavier, buttery cinematic glide
+        scrub: 3.0, // Increased scrub lag to 3.0 for a buttery, heavy cinematic glide
         anticipatePin: 1, // Prevents mobile pin jitter
       },
     });
