@@ -153,16 +153,27 @@ export default function MobileScrollHero() {
 
     // Auto-scroll the site to frame 56 on load to introduce the mechanic
     // Total timeline duration is 270 + 10 = 280 frames. Pinned distance is 400vh.
-    // Frame 56 is (56 / 280) * 400vh down the page.
-    gsap.to(window, {
-      scrollTo: { 
-        y: (wrapperRef.current?.offsetTop || 0) + (window.innerHeight * 4 * (56 / 280)), 
-        autoKill: true // If the user touches the screen, instantly stop the auto-scroll
-      },
-      duration: 1.5, // Normal user scrolling speed
-      ease: "power2.out", // Natural deceleration
-      delay: 0.8 // Wait just under a second before starting
-    });
+    const targetY = (wrapperRef.current?.offsetTop || 0) + (window.innerHeight * 4 * (56 / 280));
+    
+    // Slight delay before auto-scrolling
+    const timeoutId = setTimeout(() => {
+      if ((window as any).lenis) {
+        // Use Lenis native smooth scroll to prevent GSAP ScrollToPlugin conflicts
+        (window as any).lenis.scrollTo(targetY, { 
+          duration: 1.5, 
+          easing: (t: number) => 1 - Math.pow(1 - t, 4) // easeOutQuart
+        });
+      } else {
+        // Fallback
+        gsap.to(window, {
+          scrollTo: { y: targetY, autoKill: true },
+          duration: 1.5,
+          ease: "power2.out"
+        });
+      }
+    }, 800);
+
+    return () => clearTimeout(timeoutId);
   }, { dependencies: [], scope: wrapperRef });
 
   return (
