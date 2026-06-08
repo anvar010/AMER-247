@@ -106,19 +106,19 @@ export default function MobileScrollHero() {
       onUpdate: render,
     });
 
-    // Fade IN middle text so it is fully visible by frame 102
+    // Fade IN middle text so it is fully visible by frame 164
     tl.fromTo(
       middleTextRef.current,
       { y: 30, opacity: 0 },
       { y: 0, opacity: 1, duration: 15, ease: "power2.out" },
-      87
+      149
     );
 
     // Fade OUT middle text shortly after
     tl.to(
       middleTextRef.current,
       { y: -30, opacity: 0, duration: 15, ease: "power2.in" },
-      140
+      202
     );
 
     // Fade IN final text at the very end
@@ -129,8 +129,8 @@ export default function MobileScrollHero() {
       333
     );
 
-    // Keep the SCROLL hint visible during the auto-scroll to frame 102, then fade it out
-    tl.to(scrollHintRef.current, { opacity: 0, y: -20, duration: 30, ease: "power2.in" }, 102);
+    // Keep the SCROLL hint visible during the auto-scroll to frame 164, then fade it out
+    tl.to(scrollHintRef.current, { opacity: 0, y: -20, duration: 30, ease: "power2.in" }, 164);
 
     // Fade scroll hint back IN at the end
     tl.fromTo(
@@ -144,23 +144,23 @@ export default function MobileScrollHero() {
     tl.to(
       finalImageRef.current,
       { opacity: 1, duration: 10, ease: "power2.inOut" },
-      353 
+      353
     );
 
     // Add a very small dead zone to let scrub lag settle before unpinning
     tl.to({}, { duration: 10 });
 
-    // Auto-scroll the site to frame 102 on load to introduce the mechanic
+    // Auto-scroll the site to frame 88 on load to introduce the mechanic
     // Total timeline duration is FRAME_COUNT + 10 frames. Pinned distance is 400vh.
     const totalDuration = FRAME_COUNT + 10;
-    const targetY = (wrapperRef.current?.offsetTop || 0) + (window.innerHeight * 4 * (102 / totalDuration));
-    
+    const targetY = (wrapperRef.current?.offsetTop || 0) + (window.innerHeight * 4 * (88 / totalDuration));
+
     // Slight delay before auto-scrolling
     const timeoutId = setTimeout(() => {
       if ((window as any).lenis) {
         // Use Lenis native smooth scroll to prevent GSAP ScrollToPlugin conflicts
-        (window as any).lenis.scrollTo(targetY, { 
-          duration: 2.7, 
+        (window as any).lenis.scrollTo(targetY, {
+          duration: 2.7,
           easing: (t: number) => 1 - Math.pow(1 - t, 4) // easeOutQuart
         });
       } else {
@@ -180,16 +180,16 @@ export default function MobileScrollHero() {
     <div ref={wrapperRef} className={styles.heroWrapper}>
       <div className={styles.stickyContainer}>
         <canvas ref={canvasRef} className={styles.canvas} />
-        
+
         {/* Static final frame image to guarantee smooth scrolling on exit */}
-        <img 
-          ref={finalImageRef} 
-          src={`/hero-bg-fr/frame_${FRAME_COUNT}.webp`} 
-          alt="" 
-          className={styles.finalImage} 
-          style={{ opacity: 0 }} 
+        <img
+          ref={finalImageRef}
+          src={`/hero-bg-fr/frame_${FRAME_COUNT}.webp`}
+          alt=""
+          className={styles.finalImage}
+          style={{ opacity: 0 }}
         />
-        
+
         <div className={styles.overlay} />
 
         <span ref={overlineRef} className={styles.overline} style={{ opacity: 1, zIndex: 2 }}>
