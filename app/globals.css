@@ -55,11 +55,17 @@ video {
   margin: 0 auto;
   padding: 0 1.5rem;
 }
+
 @media (max-width: 768px) {
-  .container { padding: 0 1rem; }
+  .container {
+    padding: 0 1rem;
+  }
 }
+
 @media (max-width: 480px) {
-  .container { padding: 0 0.85rem; }
+  .container {
+    padding: 0 0.85rem;
+  }
 }
 
 /* Mobile bottom nav disabled — no reserved space needed */

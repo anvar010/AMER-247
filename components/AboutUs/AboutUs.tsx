@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
+import { useRef } from "react";
 import {
   ArrowRight,
   ShieldCheck,
@@ -12,6 +12,13 @@ import {
   Grip,
 } from "lucide-react";
 import styles from "./AboutUs.module.css";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useGSAP } from "@gsap/react";
+
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollTrigger);
+}
 
 const nodes = [
   { label: "IMMIGRATION\nSERVICES", icon: BookUser, pos: "top" },
@@ -21,36 +28,56 @@ const nodes = [
 ] as const;
 
 export default function AboutUs() {
-  const diagramRef = useRef<HTMLDivElement | null>(null);
-  const [active, setActive] = useState(false);
+  const sectionRef = useRef<HTMLElement>(null);
+  const ringRef = useRef<HTMLDivElement>(null);
+  const nodeWrapperRef = useRef<HTMLDivElement>(null);
+  const nodeContentsRef = useRef<(HTMLDivElement | null)[]>([]);
 
-  useEffect(() => {
-    const el = diagramRef.current;
-    if (!el) return;
-    const io = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((e) => {
-          if (e.isIntersecting) {
-            setActive(true);
-            io.unobserve(e.target);
-          }
-        });
-      },
-      { threshold: 0.35 }
-    );
-    io.observe(el);
-    return () => io.disconnect();
-  }, []);
+  useGSAP(() => {
+    // Scrub orbit rotation on scroll
+    gsap.to(ringRef.current, {
+      rotation: 180,
+      ease: "none",
+      scrollTrigger: {
+        trigger: sectionRef.current,
+        start: "top bottom",
+        end: "bottom top",
+        scrub: 1,
+      }
+    });
+
+    gsap.to(nodeWrapperRef.current, {
+      rotation: 90,
+      ease: "none",
+      scrollTrigger: {
+        trigger: sectionRef.current,
+        start: "top bottom",
+        end: "bottom top",
+        scrub: 1,
+      }
+    });
+
+    // Counter-rotate the contents so they stay upright
+    gsap.to(nodeContentsRef.current, {
+      rotation: -90,
+      ease: "none",
+      scrollTrigger: {
+        trigger: sectionRef.current,
+        start: "top bottom",
+        end: "bottom top",
+        scrub: 1,
+      }
+    });
+
+  }, { scope: sectionRef });
 
   return (
-    <section className={styles.section}>
+    <section ref={sectionRef} className={styles.section}>
       <div className={`container ${styles.grid}`}>
+        
         {/* ---------- Diagram ---------- */}
-        <div
-          ref={diagramRef}
-          className={`${styles.diagram} ${active ? styles.active : ""}`}
-        >
-          <div className={styles.ringOuter} />
+        <div className={styles.diagram}>
+          <div ref={ringRef} className={styles.ringOuter} />
           <div className={styles.ringInner} />
 
           <div className={styles.core}>
@@ -61,22 +88,29 @@ export default function AboutUs() {
             />
           </div>
 
-          {nodes.map((n, i) => (
-            <div
-              key={n.pos}
-              className={`${styles.node} ${styles[n.pos]}`}
-              style={{ transitionDelay: `${0.3 + i * 0.2}s` }}
-            >
-              <span className={styles.nodeBubble}>
-                <n.icon size={20} strokeWidth={1.6} className={styles.nodeIcon} />
-              </span>
-              <span className={styles.nodeLabel}>
-                {n.label.split("\n").map((line, j) => (
-                  <span key={j}>{line}</span>
-                ))}
-              </span>
-            </div>
-          ))}
+          <div ref={nodeWrapperRef} className={styles.nodeWrapper}>
+            {nodes.map((n, i) => (
+              <div
+                key={n.pos}
+                className={styles.node}
+                data-pos={n.pos}
+              >
+                <div 
+                  className={styles.nodeContents}
+                  ref={(el) => { nodeContentsRef.current[i] = el; }}
+                >
+                  <span className={styles.nodeBubble}>
+                    <n.icon size={20} strokeWidth={1.6} />
+                  </span>
+                  <span className={styles.nodeLabel}>
+                    {n.label.split("\n").map((line, j) => (
+                      <span key={j}>{line}</span>
+                    ))}
+                  </span>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
 
         {/* ---------- Content ---------- */}
@@ -97,9 +131,9 @@ export default function AboutUs() {
               <Landmark size={26} strokeWidth={1.6} className={styles.infoIcon} />
             </span>
             <p className={styles.infoText}>
-              Provides services ranging from issuing entry permits, issuing and
-              renewals of a residency visa, visa cancellation and other related
-              services provided by other government institutions and departments.
+              Amer 24/7 provides services ranging from issuing entry permits, issuing and
+              renewals of residency visas, visa cancellations and other related
+              services provided by top government institutions.
             </p>
           </div>
 

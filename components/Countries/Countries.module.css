@@ -18,11 +18,19 @@
   animation: marquee 60s linear infinite;
   padding: 0.5rem 0;
 }
-.marquee:hover .track { animation-play-state: paused; }
+
+.marquee:hover .track {
+  animation-play-state: paused;
+}
 
 @keyframes marquee {
-  from { transform: translateX(0); }
-  to { transform: translateX(-50%); }
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-50%);
+  }
 }
 
 .item {
@@ -37,6 +45,7 @@
   box-shadow: 0 2px 8px rgba(10, 31, 68, 0.05);
   transition: 0.2s;
 }
+
 .item:hover {
   border-color: var(--brand-navy);
   box-shadow: 0 6px 14px rgba(10, 31, 68, 0.1);
@@ -70,6 +79,32 @@
   white-space: nowrap;
 }
 
-.statusFree { background: rgba(33, 161, 121, 0.12); color: #21A179; }
-.statusEvisa { background: rgba(201, 162, 75, 0.18); color: #946F18; }
-.statusReq { background: rgba(220, 38, 38, 0.1); color: #DC2626; }
+.statusFree {
+  background: rgba(33, 161, 121, 0.12);
+  color: #21A179;
+}
+
+.statusEvisa {
+  background: rgba(201, 162, 75, 0.18);
+  color: #946F18;
+}
+
+.statusReq {
+  background: rgba(220, 38, 38, 0.1);
+  color: #DC2626;
+}
+
+.statusFree {
+  background: rgba(16, 185, 129, 0.1);
+  color: #059669;
+}
+
+.statusEvisa {
+  background: rgba(59, 130, 246, 0.1);
+  color: #2563eb;
+}
+
+.statusReq {
+  background: rgba(245, 158, 11, 0.1);
+  color: #d97706;
+}

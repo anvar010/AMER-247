@@ -1,9 +1,12 @@
 "use client";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import {
   Plane, IdCard, FileText, Gem, Stethoscope,
 } from "lucide-react";
+
 import styles from "./Hero.module.css";
+import MobileScrollHero from "../MobileScrollHero/MobileScrollHero";
 
 const featureCards = [
   { icon: Plane, name: "UAE TOURIST VISA", sub: "96 Hours to 90 Days entry" },
@@ -14,6 +17,21 @@ const featureCards = [
 ];
 
 export default function Hero() {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    handleResize(); // Check on mount
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  if (isMobile) {
+    return <MobileScrollHero />;
+  }
+
   return (
     <section className={styles.hero}>
       <div className={styles.bg}>
@@ -26,6 +44,8 @@ export default function Hero() {
         </video>
         <div className={styles.overlay} />
       </div>
+
+
 
       <div className={styles.bgWordWrap} aria-hidden>
         <span className={styles.bgWord}>AMER 24/7</span>
