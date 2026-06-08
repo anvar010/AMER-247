@@ -102,8 +102,8 @@ export default function MobileScrollHero() {
         trigger: wrapperRef.current,
         pin: true,
         start: "top top",
-        end: "+=400%", // Reverted back to 400vh for a longer, slower scroll
-        scrub: 3.0, // Increased scrub lag to 3.0 for a buttery, heavy cinematic glide
+        end: "+=400%", // Restore the original longer scroll to keep speed normal
+        scrub: 1.5, // Reduced scrub lag so it stops accurately without trailing
         anticipatePin: 1, // Prevents mobile pin jitter
       },
     });
@@ -159,18 +159,18 @@ export default function MobileScrollHero() {
     // Add a very small dead zone to let scrub lag settle before unpinning
     tl.to({}, { duration: 10 });
 
-    // Auto-scroll the site to frame 88 on load to introduce the mechanic
+    // Auto-scroll the site to frame 92 on load to introduce the mechanic
     // Total timeline duration is FRAME_COUNT + 10 frames. Pinned distance is 400vh.
     const totalDuration = FRAME_COUNT + 10;
-    const targetY = (wrapperRef.current?.offsetTop || 0) + (window.innerHeight * 4 * (88 / totalDuration));
+    const targetY = (wrapperRef.current?.offsetTop || 0) + (window.innerHeight * 4 * (92 / totalDuration));
 
     // Slight delay before auto-scrolling
     const timeoutId = setTimeout(() => {
       if ((window as any).lenis) {
         // Use Lenis native smooth scroll to prevent GSAP ScrollToPlugin conflicts
         (window as any).lenis.scrollTo(targetY, {
-          duration: 2.7,
-          easing: (t: number) => 1 - Math.pow(1 - t, 4) // easeOutQuart
+          duration: 2.0, // Shortened slightly
+          easing: (t: number) => 1 - Math.pow(1 - t, 2) // easeOutQuad - much shorter tail, stops more accurately
         });
       } else {
         // Fallback
