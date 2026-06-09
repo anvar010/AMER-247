@@ -48,39 +48,52 @@ export default function MobileScrollHero() {
     let lastDrawnFrame = -1; // PERFORMANCE FIX: Track last drawn frame
 
     const render = () => {
-      let targetFrame = Math.round(currentFrameRef.current);
-      let img = images[targetFrame];
+      const exactFrame = currentFrameRef.current;
+      const frame1Idx = Math.floor(exactFrame);
+      const frame2Idx = Math.min(Math.ceil(exactFrame), FRAME_COUNT);
+      const blend = exactFrame % 1;
 
-      // Fallback: If target frame isn't loaded, scrub backwards to the closest loaded frame!
-      while (targetFrame > 1 && (!img || !img.complete || img.naturalWidth === 0)) {
-        targetFrame--;
-        img = images[targetFrame];
+      let img1 = images[frame1Idx];
+      let img2 = images[frame2Idx];
+
+      // Fallback: If target frame isn't loaded, scrub backwards to the closest loaded frame
+      let currentIdx = frame1Idx;
+      while (currentIdx > 1 && (!img1 || !img1.complete || img1.naturalWidth === 0)) {
+        currentIdx--;
+        img1 = images[currentIdx];
       }
 
-      // PERFORMANCE FIX: If we are about to draw the exact same image we just drew, skip!
-      // This saves the CPU/GPU from processing drawImage redundantly if images are buffering.
-      if (targetFrame === lastDrawnFrame) return;
+      // If we are parked exactly on an integer frame and haven't moved, skip redundant draw
+      if (exactFrame === lastDrawnFrame) return;
 
-      if (img && img.complete && img.naturalWidth > 0) {
-        const hRatio = canvas.width / img.naturalWidth;
-        const vRatio = canvas.height / img.naturalHeight;
+      if (img1 && img1.complete && img1.naturalWidth > 0) {
+        const hRatio = canvas.width / img1.naturalWidth;
+        const vRatio = canvas.height / img1.naturalHeight;
         const ratio = Math.max(hRatio, vRatio);
-        const centerShift_x = (canvas.width - img.naturalWidth * ratio) / 2;
-        const centerShift_y = (canvas.height - img.naturalHeight * ratio) / 2;
+        const centerShift_x = (canvas.width - img1.naturalWidth * ratio) / 2;
+        const centerShift_y = (canvas.height - img1.naturalHeight * ratio) / 2;
 
+        // Draw Base Frame
+        context.globalAlpha = 1;
         context.drawImage(
-          img,
-          0,
-          0,
-          img.naturalWidth,
-          img.naturalHeight,
-          centerShift_x,
-          centerShift_y,
-          img.naturalWidth * ratio,
-          img.naturalHeight * ratio
+          img1,
+          0, 0, img1.naturalWidth, img1.naturalHeight,
+          centerShift_x, centerShift_y, img1.naturalWidth * ratio, img1.naturalHeight * ratio
         );
+
+        // Draw Next Frame on top with opacity based on decimal (Crossfade Interpolation)
+        // This adds artificial motion blur and completely eliminates stuttering on very slow scrolls!
+        if (blend > 0.02 && img2 && img2.complete && img2.naturalWidth > 0 && frame1Idx !== frame2Idx) {
+          context.globalAlpha = blend;
+          context.drawImage(
+            img2,
+            0, 0, img2.naturalWidth, img2.naturalHeight,
+            centerShift_x, centerShift_y, img2.naturalWidth * ratio, img2.naturalHeight * ratio
+          );
+          context.globalAlpha = 1; // Reset
+        }
         
-        lastDrawnFrame = targetFrame; // Update cache
+        lastDrawnFrame = exactFrame; // Update cache with exact float
       }
     };
 
@@ -215,10 +228,10 @@ export default function MobileScrollHero() {
     // Add a very small dead zone to let scrub lag settle before unpinning
     tl.to({}, { duration: 10 });
 
-    // Auto-scroll the site to frame 102 on load to introduce the mechanic
+    // Auto-scroll the site to frame 103 on load to introduce the mechanic
     // Total timeline duration is FRAME_COUNT + 10 frames. Pinned distance is 400vh.
     const totalDuration = FRAME_COUNT + 10;
-    const targetY = (wrapperRef.current?.offsetTop || 0) + (window.innerHeight * 4 * (102 / totalDuration));
+    const targetY = (wrapperRef.current?.offsetTop || 0) + (window.innerHeight * 4 * (103 / totalDuration));
 
     // Slight delay before auto-scrolling
     const timeoutId = setTimeout(() => {
