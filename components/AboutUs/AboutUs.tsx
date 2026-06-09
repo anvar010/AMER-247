@@ -25,7 +25,7 @@ export default function AboutUs() {
         <div className={styles.glassPanel}>
           <div className={styles.eyebrow}>
             <span className={styles.eyebrowGlow} aria-hidden />
-            THE AMER DIFFERENCE
+            24/7 ONLINE
           </div>
 
           <h2 className={styles.title}>

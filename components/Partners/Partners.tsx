@@ -1,5 +1,10 @@
 "use client";
+
+import React, { useEffect, useRef, useState } from "react";
+import { Outfit } from "next/font/google";
 import styles from "./Partners.module.css";
+
+const outfit = Outfit({ subsets: ["latin"], weight: ["300", "400", "500", "600", "700", "800"] });
 
 const partners = [
   { name: "Dubai Health Authority", src: "/images/DHA.svg" },
@@ -9,12 +14,35 @@ const partners = [
 ];
 
 export default function Partners() {
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const [isIntersecting, setIsIntersecting] = useState(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsIntersecting(true);
+          observer.unobserve(entry.target);
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
+
   return (
-    <section className={styles.section}>
-      {/* Subtle top right lines background could be added here if needed */}
+    <section 
+      ref={sectionRef} 
+      className={`${styles.section} ${outfit.className} ${isIntersecting ? styles.revealed : ""}`}
+    >
       <div className={styles.bgLines} />
 
-      <div className={`container ${styles.inner}`}>
+      <div className={`${styles.inner} ${styles.container}`}>
         <div className={styles.header}>
           <div className={styles.eyebrow}>
             <span className={styles.eyebrowLine} />
@@ -28,7 +56,7 @@ export default function Partners() {
         </div>
 
         <div className={styles.grid}>
-          {partners.map((p) => (
+          {partners.map((p, i) => (
             <div key={p.name} className={styles.card}>
               <div className={styles.logoWrap}>
                 <img

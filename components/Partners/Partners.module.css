@@ -1,15 +1,17 @@
 .section {
   position: relative;
-  padding: 6rem 1.5rem 10rem;
-  background-color: #fafbfe;
+  padding: 5rem 0 9rem 0;
+  background-color: #FAF6EE;
   z-index: 1;
+  overflow: hidden;
 }
 
 .inner {
   position: relative;
   z-index: 2;
-  max-width: 1200px;
+  max-width: 1440px;
   margin: 0 auto;
+  padding: 0 2rem;
 }
 
 /* Header */
@@ -18,7 +20,7 @@
   flex-direction: column;
   align-items: center;
   text-align: center;
-  margin-bottom: 4rem;
+  margin-bottom: 3.5rem;
 }
 
 .eyebrow {
@@ -32,29 +34,31 @@
   display: block;
   width: 40px;
   height: 1px;
-  background-color: var(--brand-gold, #c1a173);
+  background-color: var(--brand-gold, #C9A24B);
 }
 
 .diamond {
   width: 8px;
   height: 8px;
-  background-color: var(--brand-gold, #c1a173);
+  background-color: var(--brand-gold, #C9A24B);
   transform: rotate(45deg);
 }
 
 .title {
-  font-size: 2.75rem;
+  font-size: clamp(2.25rem, 3.5vw, 2.75rem);
   font-weight: 800;
-  color: var(--brand-navy, #0a1f44);
+  color: var(--brand-navy, #0A1128);
   margin: 0 0 1rem;
   letter-spacing: -0.02em;
 }
 
 .subtitle {
-  font-size: 1rem;
+  font-size: 1.05rem;
   color: #64748B;
   margin: 0;
   max-width: 600px;
+  line-height: 1.5;
+  font-weight: 500;
 }
 
 /* CARDS GRID */
@@ -73,28 +77,28 @@
 @media (min-width: 1024px) {
   .grid {
     grid-template-columns: repeat(4, 1fr);
-    gap: 1.25rem;
+    gap: 1.5rem;
   }
 }
 
 .card {
-  background: #fff;
-  border-radius: 12px;
-  padding: 2rem 1.25rem;
-  box-shadow: 0 8px 30px rgba(10, 31, 68, 0.05);
-  border: 1px solid rgba(0, 0, 0, 0.12);
-  /* Increased opacity to ensure it is viewable */
+  background: #ffffff;
+  border-radius: 24px;
+  padding: 2.25rem 1.5rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.02);
+  border: 1px solid rgba(0, 0, 0, 0.04);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
   height: 260px;
-  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 15px 40px rgba(10, 31, 68, 0.08);
+  transform: translateY(-6px) scale(1.02);
+  box-shadow: 0 20px 40px rgba(201, 162, 75, 0.08);
+  border-color: rgba(201, 162, 75, 0.3);
 }
 
 .logoWrap {
@@ -106,23 +110,33 @@
 }
 
 .logo {
-  max-width: 80%;
-  max-height: 110px;
+  max-width: 85%;
+  max-height: 100px;
   object-fit: contain;
+  transition: transform 0.4s ease;
+}
+
+.card:hover .logo {
+  transform: scale(1.05);
 }
 
 .cardDivider {
-  width: 24px;
+  width: 28px;
   height: 2px;
-  background: var(--brand-gold, #c1a173);
+  background: var(--brand-gold, #C9A24B);
   margin: 1.5rem 0 1rem;
   border-radius: 2px;
+  transition: width 0.4s ease;
+}
+
+.card:hover .cardDivider {
+  width: 44px;
 }
 
 .cardName {
-  font-size: 0.85rem;
-  font-weight: 600;
-  color: var(--brand-navy, #0a1f44);
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--brand-navy, #0A1128);
   text-align: center;
   line-height: 1.4;
 }
@@ -137,4 +151,50 @@
   display: block;
   pointer-events: none;
   z-index: 0;
+}
+
+/* --- REVEAL ANIMATIONS --- */
+.header,
+.card {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1), transform 1s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform, opacity;
+}
+
+.section.revealed .header {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.section.revealed .card {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Staggered card reveals */
+.section.revealed .card:nth-child(1) { transition-delay: 0.15s; }
+.section.revealed .card:nth-child(2) { transition-delay: 0.3s; }
+.section.revealed .card:nth-child(3) { transition-delay: 0.45s; }
+.section.revealed .card:nth-child(4) { transition-delay: 0.6s; }
+
+/* Mobile responsive adjustments */
+@media (max-width: 768px) {
+  .section {
+    padding: 3.5rem 0 6rem 0;
+  }
+  .inner {
+    padding: 0 1rem;
+  }
+  .header {
+    margin-bottom: 2.5rem;
+  }
+  .card {
+    height: 220px;
+    padding: 1.75rem 1.25rem;
+    border-radius: 20px;
+  }
+  .logo {
+    max-height: 80px;
+  }
 }
