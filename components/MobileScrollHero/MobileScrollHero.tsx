@@ -38,9 +38,9 @@ export default function MobileScrollHero() {
     if (!canvas || !context || !wrapperRef.current) return;
 
     // Dynamically size canvas to exact device screen
-    // PERFORMANCE FIX: Cap DPR to 2 to prevent 3x/4x mobile screens (like iPhones) from crashing the GPU 
-    // with 20+ megapixel canvas rendering 60 times a second.
-    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    // PERFORMANCE FIX: Cap DPR to 1 (or 1.25 max) on mobile devices to prevent 3x/4x mobile screens (like iPhones) 
+    // from crashing the GPU. Drawing a 1170x2532 image onto a canvas 60 times a second causes severe thermal lag.
+    const dpr = Math.min(window.devicePixelRatio || 1, 1);
     canvas.width = window.innerWidth * dpr;
     canvas.height = window.innerHeight * dpr;
 
@@ -104,7 +104,7 @@ export default function MobileScrollHero() {
         pin: true,
         start: "top top",
         end: "+=400%", // Restore the original longer scroll to keep speed normal
-        scrub: 2.5, // Restored to 2.5 for the heavy, syrupy cinematic glide!
+        scrub: 1.2, // Reduced from 2.5 to 1.2 so the video responds much faster to the physical finger swipe on mobile
         anticipatePin: 1, // Prevents mobile pin jitter
       },
     });
