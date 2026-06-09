@@ -45,7 +45,6 @@ export default function MobileScrollHero() {
     canvas.height = window.innerHeight * dpr;
 
     const images: HTMLImageElement[] = [];
-    let lastDrawnFrame = -1; // PERFORMANCE FIX: Track last drawn frame
 
     const render = () => {
       const exactFrame = currentFrameRef.current;
@@ -62,9 +61,6 @@ export default function MobileScrollHero() {
         currentIdx--;
         img1 = images[currentIdx];
       }
-
-      // If we are parked exactly on an integer frame and haven't moved, skip redundant draw
-      if (exactFrame === lastDrawnFrame) return;
 
       if (img1 && img1.complete && img1.naturalWidth > 0) {
         const hRatio = canvas.width / img1.naturalWidth;
@@ -92,8 +88,6 @@ export default function MobileScrollHero() {
           );
           context.globalAlpha = 1; // Reset
         }
-        
-        lastDrawnFrame = exactFrame; // Update cache with exact float
       }
     };
 
@@ -105,7 +99,8 @@ export default function MobileScrollHero() {
 
       // If the image loads and we are currently parked on it, render immediately
       img.onload = () => {
-        if (Math.round(currentFrameRef.current) === i) {
+        const exact = currentFrameRef.current;
+        if (Math.floor(exact) === i || Math.ceil(exact) === i) {
           render();
         }
       };
@@ -229,12 +224,15 @@ export default function MobileScrollHero() {
     tl.to({}, { duration: 10 });
 
     // Auto-scroll the site to frame 103 on load to introduce the mechanic
-    // Total timeline duration is FRAME_COUNT + 10 frames. Pinned distance is 400vh.
-    const totalDuration = FRAME_COUNT + 10;
-    const targetY = (wrapperRef.current?.offsetTop || 0) + (window.innerHeight * 4 * (103 / totalDuration));
-
-    // Slight delay before auto-scrolling
+    // Slight delay to ensure ScrollTrigger has calculated exact mobile viewport dimensions (including address bars)
     const timeoutId = setTimeout(() => {
+      const st = tl.scrollTrigger;
+      if (!st) return;
+
+      const targetTime = 103;
+      const progress = targetTime / tl.duration();
+      const targetY = st.start + (st.end - st.start) * progress;
+
       if ((window as any).lenis) {
         // Use Lenis native smooth scroll to prevent GSAP ScrollToPlugin conflicts
         (window as any).lenis.scrollTo(targetY, {
