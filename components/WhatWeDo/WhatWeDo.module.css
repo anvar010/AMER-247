@@ -1,49 +1,67 @@
 .section {
-  display: flex;
-  background: #fdfdfd;
-  min-height: 700px;
-  position: relative;
-  overflow: hidden;
+  background: #FCFCFD;
+  padding: 4rem 0;
   font-family: 'Inter', sans-serif;
-  padding: 0;
-}
-
-/* ---------- LEFT SIDEBAR ---------- */
-.leftSidebar {
   position: relative;
-  width: 32%;
-  background: var(--brand-navy, #11204A);
-  color: #fff;
-  border-radius: 0 100% 100% 0 / 0 50% 50% 0; /* Creates the big elegant D-shaped curve */
-  padding: 6rem 4rem 6rem 2rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  z-index: 2;
-  box-shadow: 10px 0 30px rgba(0,0,0,0.1);
   overflow: hidden;
 }
 
-.leftSidebar::before {
-  content: '';
+/* Removed background image to use block image */
+
+/* Subtle glowing blobs */
+.sectionBgBlob1 {
   position: absolute;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
-  background-image: url("/images/whatwedo.jpg");
-  background-size: cover;
-  background-position: left bottom;
-  background-repeat: no-repeat;
-  opacity: 0.15;
-  mix-blend-mode: luminosity;
+  width: 50vw;
+  height: 50vw;
+  background: radial-gradient(circle, rgba(17, 32, 74, 0.05) 0%, transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.sectionBgBlob2 {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 50vw;
+  height: 50vw;
+  background: radial-gradient(circle, rgba(17, 32, 74, 0.05) 0%, transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.container {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  position: relative;
   z-index: 1;
 }
 
-.sidebarContent {
+/* 6-Column Bento Grid */
+.bentoGrid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  grid-auto-rows: 280px; /* Strictly enforce exactly 280px rows to prevent ANY gaps */
+  gap: 1.5rem;
+}
+
+/* Text Block (Spans 2 columns) */
+.textBlock {
+  grid-column: span 2;
+  grid-row: 1;
+  padding: 0 1.5rem 0 0; /* Removed massive vertical padding to close gap */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  opacity: 0; /* For GSAP */
   position: relative;
-  z-index: 3;
-  margin-bottom: 8rem;
+  z-index: 10;
+  pointer-events: none; /* Let clicks pass through to image if needed */
 }
 
 .eyebrowWrap {
@@ -53,293 +71,331 @@
   margin-bottom: 1.5rem;
 }
 
-.eyebrowLine {
-  width: 30px;
-  height: 2px;
-  background: var(--brand-gold, #C9A24B);
-}
-
 .eyebrow {
-  color: var(--brand-gold, #C9A24B);
+  color: #11204A; /* Navy */
   font-size: 0.75rem;
   font-weight: 700;
-  letter-spacing: 0.15em;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
 }
 
-.title {
-  font-family: 'Playfair Display', 'Oswald', serif;
-  font-size: 4.5rem;
-  font-weight: 700;
-  line-height: 1.1;
-  margin: 0 0 1.5rem;
-  color: #fff;
-  position: relative;
-}
-
-.titleGold {
-  color: var(--brand-gold, #C9A24B);
-}
-
-.titleGlow {
-  width: 50px;
+.eyebrowLine {
+  width: 40px;
   height: 2px;
-  background: #4DB8FF;
-  box-shadow: 0 0 10px #4DB8FF, 0 0 20px #4DB8FF;
-  border-radius: 2px;
-  margin-bottom: 2rem;
+  background: #11204A;
 }
 
-.sub {
-  color: rgba(255, 255, 255, 0.7);
-  font-size: 1rem;
-  margin: 0;
+.title {
+  font-family: 'Inter', sans-serif;
+  font-size: 3.5rem;
+  font-weight: 800;
+  line-height: 1.1;
+  color: #11204A; /* Dark Navy */
+  margin: 0 0 1.5rem;
+  letter-spacing: -0.02em;
+}
+
+.titleNavy {
+  color: #11204A; /* Navy Blue */
+}
+
+.description {
+  color: #6B7280;
+  font-size: 1.05rem;
   line-height: 1.6;
+  max-width: 90%;
 }
 
-.decorativeSkyline {
+/* Image Block (Spans 2 columns) */
+.imageBlock {
+  grid-column: span 2;
+  position: relative;
+  display: flex;
+  align-items: flex-end; /* Align image to bottom */
+  justify-content: center;
+  opacity: 0; /* For GSAP */
+  
+  /* Standard height to match cards, absolutely no negative grid margins! */
+  height: 280px; 
+}
+
+.graphicImage {
   position: absolute;
   bottom: 0;
   left: 0;
   width: 100%;
-  height: 200px;
-  background: 
-    linear-gradient(to top, rgba(201, 162, 75, 0.1) 0%, transparent 100%),
-    repeating-linear-gradient(
-      90deg,
-      transparent,
-      transparent 10px,
-      rgba(201, 162, 75, 0.05) 10px,
-      rgba(201, 162, 75, 0.05) 12px
-    );
+  /* Height auto allows the bounding box to perfectly shrink-wrap the image pixels */
+  height: auto;
+  max-height: 450px;
+  max-width: 100%;
+  object-fit: contain;
+  object-position: center bottom;
+  border-radius: 0 0 20px 20px; /* Removed border-radius for the upside */
   z-index: 1;
+  /* Now the mask will flawlessly target the EXACT top edge of the image! */
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 25%);
+  mask-image: linear-gradient(to bottom, transparent 0%, black 25%);
 }
 
-/* ---------- RIGHT CONTENT ---------- */
-.rightContent {
-  width: 68%;
-  padding: 4rem 2rem 4rem 4rem;
+/* Floating "Trusted by Thousands" Card */
+.floatingCard {
+  position: absolute;
+  bottom: 24px;
+  left: -20px; /* Breaks the grid subtly for a premium overlapping look */
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-radius: 20px;
+  padding: 1.25rem 1.75rem;
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.08), 0 2px 10px rgba(0, 0, 0, 0.03);
+  z-index: 5;
+  border: 1px solid rgba(255, 255, 255, 0.8);
+}
+
+.floatingIcon {
+  width: 48px;
+  height: 48px;
+  background: linear-gradient(135deg, #E0E7FF 0%, #C7D2FE 100%);
+  color: #4F46E5; /* Vibrant Indigo */
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: inset 0 2px 4px rgba(255, 255, 255, 0.5);
+}
+
+.floatingTitle {
+  font-size: 1rem;
+  font-weight: 800;
+  color: #11204A;
+  margin-bottom: 0.15rem;
+  letter-spacing: -0.01em;
+}
+
+.floatingDesc {
+  font-size: 0.85rem;
+  color: #6B7280;
+  font-weight: 500;
+}
+
+/* Regular Service Cards (Span 1 column) */
+.serviceCard {
+  grid-column: span 1;
+  background: #FFFFFF;
+  border-radius: 20px;
+  padding: 1.5rem; /* Reduced padding */
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.03);
+  display: flex;
+  flex-direction: column;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  text-decoration: none;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(0,0,0,0.02);
+  border-bottom: 4px solid transparent;
+  height: 280px; /* Force all cards to exact same height */
+  opacity: 0; /* For GSAP */
+}
+
+/* Card Hover Effects */
+.serviceCard:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.06);
+}
+
+/* Card Bottom Borders */
+.cardNavy { border-bottom-color: #11204A; }
+
+/* Icon Circle */
+.iconWrapper {
+  width: 52px; /* Smaller icon */
+  height: 52px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.25rem; /* Reduced margin */
+  transition: transform 0.3s ease;
+}
+
+.serviceCard:hover .iconWrapper {
+  transform: scale(1.1);
+}
+
+.iconNavy { background: rgba(17, 32, 74, 0.05); color: #11204A; }
+
+.cardTitle {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #11204A;
+  margin: 0 0 1rem;
+  line-height: 1.3;
+}
+
+.cardDesc {
+  font-size: 0.85rem;
+  color: #6B7280;
+  line-height: 1.5;
+  margin: 0 0 1.5rem; /* Reduced margin */
+  flex-grow: 1;
+}
+
+.arrowButton {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  align-self: flex-end;
+  background: #F3F4F6;
+  color: #4B5563;
+  transition: all 0.3s ease;
+  margin-top: auto;
+}
+
+.serviceCard:hover .arrowButton {
+  background: var(--hover-color, #11204A);
+  color: #fff;
+  transform: translateX(4px);
+}
+
+/* Map hover colors for the arrow */
+.cardNavy { --hover-color: #11204A; }
+
+/* CTA Card (Spans 2 columns) */
+.ctaCard {
+  grid-column: span 2;
+  border-radius: 20px;
+  padding: 2rem; /* Reduced padding */
   display: flex;
   flex-direction: column;
   justify-content: center;
-  background-image: radial-gradient(circle at right center, rgba(0,0,0,0.02) 0%, transparent 50%);
+  align-items: flex-start;
+  text-decoration: none;
+  position: relative;
+  overflow: hidden;
+  background: #11204A; /* Solid Navy */
+  color: #fff;
+  box-shadow: 0 20px 40px rgba(17, 32, 74, 0.15);
+  transition: transform 0.3s ease;
+  height: 280px; /* Exact same height as other cards */
+  opacity: 0; /* For GSAP */
 }
 
-.cardsContainer {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
+.ctaCard:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 30px 60px rgba(17, 32, 74, 0.25);
+}
+
+/* Wavy Mesh Background Graphic */
+.ctaCard::before {
+  content: '';
+  position: absolute;
+  bottom: -50%;
+  right: -20%;
+  width: 150%;
+  height: 150%;
+  background-image: radial-gradient(circle at center, rgba(255,255,255,0.1) 0%, transparent 60%);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.ctaCard::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: url("data:image/svg+xml,%3Csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0,150 C150,200 300,50 450,150 C600,250 750,100 900,150 L900,300 L0,300 Z' fill='none' stroke='rgba(255,255,255,0.1)' stroke-width='2'/%3E%3Cpath d='M0,200 C150,250 300,100 450,200 C600,300 750,150 900,200 L900,300 L0,300 Z' fill='none' stroke='rgba(255,255,255,0.05)' stroke-width='2'/%3E%3C/svg%3E");
+  background-size: cover;
+  pointer-events: none;
+}
+
+.ctaTitle {
+  font-size: 1.5rem; /* Reduced font size */
+  font-weight: 700;
+  margin: 0 0 0.75rem;
   position: relative;
   z-index: 2;
 }
 
-.rowTop {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 1.5rem;
-}
-
-.rowBottom {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1.5rem;
-}
-
-/* ---------- CARDS ---------- */
-.card {
-  background: #fff;
-  border-radius: 16px;
-  padding: 1.5rem;
-  box-shadow: 0 10px 30px rgba(17, 32, 74, 0.04);
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  text-decoration: none;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+.ctaDesc {
+  font-size: 0.95rem; /* Reduced font size */
+  color: rgba(255, 255, 255, 0.9);
+  line-height: 1.5;
+  margin: 0 0 2rem;
+  max-width: 80%;
   position: relative;
-  border: 1px solid rgba(0,0,0,0.02);
-  min-height: 160px;
+  z-index: 2;
 }
 
-.card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 20px 40px rgba(17, 32, 74, 0.08);
-}
-
-.cardGold {
-  border: 1px solid rgba(201, 162, 75, 0.4);
-  background: linear-gradient(to bottom right, #fff, #fffdf8);
-}
-
-.cardBlue {
-  border: 1px solid rgba(43, 166, 255, 0.3);
-  box-shadow: 0 10px 30px rgba(43, 166, 255, 0.1);
-}
-
-.iconBox {
-  width: 50px;
-  height: 50px;
-  border-radius: 12px;
+.ctaButton {
+  background: #FFFFFF;
+  color: #11204A;
+  padding: 1rem 2rem;
+  border-radius: 50px;
+  font-weight: 600;
+  font-size: 0.95rem;
   display: flex;
   align-items: center;
-  justify-content: center;
-  margin-bottom: 1.5rem;
-  transition: transform 0.3s ease;
+  gap: 0.75rem;
+  transition: all 0.3s ease;
+  position: relative;
+  z-index: 2;
 }
 
-.card:hover .iconBox {
+.ctaCard:hover .ctaButton {
   transform: scale(1.05);
 }
 
-.iconBoxNormal {
-  background: var(--brand-navy, #11204A);
-  color: var(--brand-gold, #C9A24B);
-}
-
-.iconBoxGold {
-  background: linear-gradient(135deg, #DFBE72, #C9A24B);
-  color: #fff;
-  box-shadow: 0 5px 15px rgba(201, 162, 75, 0.3);
-}
-
-.iconBoxBlue {
-  background: linear-gradient(135deg, #4DB8FF, #2B96FF);
-  color: #fff;
-  box-shadow: 0 5px 15px rgba(43, 166, 255, 0.3);
-}
-
-.cardTitle {
-  font-size: 0.95rem;
-  font-weight: 700;
-  color: var(--brand-navy, #11204A);
-  line-height: 1.3;
-  margin: 0 0 1.5rem;
-}
-
-.cardArrow {
-  margin-top: auto;
-  color: var(--brand-gold, #C9A24B);
-  transition: transform 0.3s ease;
-}
-
-.card:hover .cardArrow {
-  transform: translateX(4px);
-}
-
-/* ---------- BADGES ---------- */
-.badge {
-  position: absolute;
-  top: -10px;
-  right: 15px;
-  font-size: 0.65rem;
-  font-weight: 800;
-  text-transform: uppercase;
-  padding: 4px 8px;
-  border-radius: 4px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-}
-
-.badgePopular {
-  background: #F8EACB;
-  color: #A37F2F;
-}
-
-.badgeEssential {
-  background: #E1F2FF;
-  color: #2B96FF;
-}
-
-/* ---------- CTA ---------- */
-.ctaWrap {
-  margin-top: 3.5rem;
-  display: flex;
-  justify-content: center;
-}
-
-.cta {
-  background: var(--brand-navy, #11204A);
-  color: #fff;
-  padding: 1.25rem 2.5rem;
-  border-radius: 50px;
-  font-weight: 600;
-  font-size: 1.05rem;
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  text-decoration: none;
-  box-shadow: 0 10px 25px rgba(17, 32, 74, 0.2);
-  transition: all 0.3s ease;
-  position: relative;
-}
-
-.cta::after {
-  content: '';
-  position: absolute;
-  bottom: -10px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 70%;
-  height: 15px;
-  background: rgba(43, 166, 255, 0.6);
-  filter: blur(15px);
-  z-index: -1;
-  opacity: 0.5;
-  transition: opacity 0.3s ease;
-}
-
-.cta:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 15px 35px rgba(17, 32, 74, 0.3);
-}
-
-.cta:hover::after {
-  opacity: 0.8;
-}
-
-.ctaLabel {
-  letter-spacing: 0.02em;
-}
-
-.ctaArrow {
-  color: var(--brand-gold, #C9A24B);
-  transition: transform 0.3s ease;
-}
-
-.cta:hover .ctaArrow {
-  transform: translateX(4px);
-}
-
 /* ---------- RESPONSIVE ---------- */
-@media (max-width: 1400px) {
-  .leftSidebar { width: 35%; padding: 4rem 2rem; }
-  .rightContent { width: 65%; padding: 4rem 2rem; }
-  .title { font-size: 3.5rem; }
-}
-
-@media (max-width: 1100px) {
-  .section { flex-direction: column; }
-  .leftSidebar { 
-    width: 100%; 
-    border-radius: 0 0 50% 50% / 0 0 50px 50px;
-    padding: 4rem 2rem;
-    align-items: center;
-    text-align: center;
-  }
-  .eyebrowWrap { justify-content: center; }
-  .titleGlow { margin: 0 auto 2rem; }
-  .rightContent { width: 100%; padding: 3rem 1.5rem; }
-  .decorativeSkyline { display: none; } /* hide on mobile for cleanliness */
+@media (max-width: 1440px) {
+  .title { font-size: 3rem; }
+  .bentoGrid { gap: 1rem; }
+  .serviceCard { padding: 1.5rem; }
 }
 
 @media (max-width: 900px) {
-  .rowTop, .rowBottom {
-    grid-template-columns: repeat(2, 1fr);
+  /* Switch to a 2 column layout for tablets */
+  .bentoGrid { 
+    grid-template-columns: repeat(2, 1fr); 
+    grid-auto-rows: auto; /* Remove strict row heights for tablet */
+  }
+  .textBlock { grid-column: span 2; padding: 2rem 0; }
+  .description { max-width: 600px; }
+  
+  .imageBlock { 
+    grid-column: span 2; 
+    height: 350px; 
+    margin-top: 0; 
+    margin-bottom: 2rem; 
+  }
+  .serviceCard { grid-column: span 1; height: auto; min-height: 240px; }
+  .ctaCard { grid-column: span 2; height: auto; min-height: 240px; }
+  
+  .floatingCard {
+    left: 1rem;
+    bottom: 1rem;
   }
 }
 
-@media (max-width: 500px) {
-  .rowTop, .rowBottom {
-    grid-template-columns: 1fr;
+@media (max-width: 600px) {
+  /* Mobile layout */
+  .bentoGrid { 
+    grid-template-columns: 1fr; 
+    grid-auto-rows: auto;
   }
-  .title { font-size: 3rem; }
+  .textBlock { padding: 1rem 0; }
+  .serviceCard { grid-column: span 1; height: auto; min-height: 240px; }
+  .imageBlock { 
+    grid-column: span 1; 
+    height: 300px;
+    margin-top: 0;
+  }
+  .ctaCard { grid-column: span 1; padding: 2rem; height: auto; min-height: 240px; }
 }

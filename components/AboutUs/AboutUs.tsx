@@ -1,48 +1,63 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowRight, Landmark, Grip } from "lucide-react";
+import { ArrowRight, Landmark } from "lucide-react";
 import styles from "./AboutUs.module.css";
 import ServiceCards from "../ServiceCards/ServiceCards";
+import { Outfit } from "next/font/google";
+
+const outfit = Outfit({ subsets: ["latin"], weight: ["300", "400", "500", "600", "700", "800"] });
 
 export default function AboutUs() {
   return (
-    <section className={styles.section}>
-      <div className={`container ${styles.grid}`}>
-        
-        {/* Left Column: Expanding Service Cards */}
-        <div style={{ flex: 1.2, minHeight: '550px', display: 'flex', alignItems: 'center' }}>
-          <ServiceCards />
-        </div>
+    <section className={`${styles.section} ${outfit.className}`}>
+      
+      {/* Dynamic Mesh Gradient Background */}
+      <div className={styles.meshBackground} aria-hidden="true">
+        <div className={`${styles.orb} ${styles.orb1}`} />
+        <div className={`${styles.orb} ${styles.orb2}`} />
+        <div className={`${styles.orb} ${styles.orb3}`} />
+        <div className={styles.noiseOverlay} />
+      </div>
 
-        {/* Right Column: Content */}
-        <div className={styles.content}>
-          <div className={styles.titleRow}>
-            <Grip size={18} className={styles.titleDots} />
-            <h2 className={styles.title}>About Us</h2>
+      <div className={styles.container}>
+        
+        {/* Left Column: Glassmorphic Content Panel */}
+        <div className={styles.glassPanel}>
+          <div className={styles.eyebrow}>
+            <span className={styles.eyebrowGlow} aria-hidden />
+            THE AMER DIFFERENCE
           </div>
-          <span className={styles.titleAccent} />
+
+          <h2 className={styles.title}>
+            About <span className={styles.titleHighlight}>Us</span>
+          </h2>
 
           <p className={styles.lead}>
-            We understand the challenges that can come with paperwork, long
-            queues, and confusing processes.
+            We understand the challenges that can come with paperwork, long queues, and confusing processes.
           </p>
 
           <div className={styles.infoBox}>
-            <span className={styles.infoIconWrap}>
-              <Landmark size={26} strokeWidth={1.6} className={styles.infoIcon} />
-            </span>
+            <div className={styles.infoIconWrap}>
+              <Landmark size={24} strokeWidth={1.5} aria-hidden="true" />
+            </div>
             <p className={styles.infoText}>
-              Amer 24/7 provides services ranging from issuing entry permits, issuing and
-              renewals of residency visas, visa cancellations and other related
-              services provided by top government institutions.
+              Provides services ranging from issuing entry permits, issuing and renewals of a residency visa, visa cancellation and other related services provided by other government institutions and departments.
             </p>
           </div>
 
-          <Link href="/about" className={styles.cta}>
-            Know more about Amer 247 <ArrowRight size={16} />
+          <Link href="/about" className={styles.ctaButton} aria-label="Know more about Amer 247">
+            Know more about Amer 24/7 <ArrowRight size={18} aria-hidden="true" className={styles.ctaIcon} />
           </Link>
         </div>
+
+        {/* Right Column: Floating Service Cards */}
+        <div className={styles.cardContainer}>
+          <div className={styles.serviceWrapper}>
+            <ServiceCards />
+          </div>
+        </div>
+
       </div>
     </section>
   );

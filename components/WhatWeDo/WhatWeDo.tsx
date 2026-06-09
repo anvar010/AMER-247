@@ -1,117 +1,196 @@
+"use client";
+
 import Link from "next/link";
+import { useRef } from "react";
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import {
   ArrowRight,
   MonitorSmartphone,
   IdCard,
   HeartPulse,
   Stamp,
+  ShieldCheck,
   ShieldPlus,
   TrendingUp,
-  Building2,
 } from "lucide-react";
 import styles from "./WhatWeDo.module.css";
 
+gsap.registerPlugin(ScrollTrigger);
+
 const services = [
-  // Top Row (4 cards)
-  { id: 1, label: "AMER Services", icon: MonitorSmartphone, style: "normal", row: 1 },
-  { id: 2, label: "Emirates Identity Authority", icon: IdCard, style: "normal", row: 1 },
-  { id: 3, label: "Medical Fitness Application", icon: HeartPulse, style: "gold", badge: "POPULAR", row: 1 },
-  { id: 4, label: "Entry Permits", icon: Stamp, style: "normal", row: 1 },
-  // Bottom Row (3 cards)
-  { id: 5, label: "Health Insurance Services", icon: ShieldPlus, style: "blue", badge: "ESSENTIAL", row: 2 },
-  { id: 6, label: "Dubai Economy Services", icon: TrendingUp, style: "normal", row: 2 },
-  { id: 7, label: "Company Establishment & Clearance", icon: Building2, style: "normal", row: 2 },
+  { id: 1, label: "AMER Services", desc: "Streamlined government services to save your time and effort.", icon: MonitorSmartphone },
+  { id: 2, label: "Emirates Identity Authority", desc: "Official Emirates ID services and related solutions.", icon: IdCard },
+  { id: 3, label: "Medical Fitness Application", desc: "Hassle-free medical fitness tests and applications.", icon: HeartPulse },
+  { id: 4, label: "Entry Permits", desc: "Apply for entry permits quickly and track your applications.", icon: Stamp },
+  { id: 5, label: "Health Insurance Services", desc: "Find the right health insurance for you and your family.", icon: ShieldPlus },
+  { id: 6, label: "Dubai Economy Services", desc: "Business and economic services to support your growth.", icon: TrendingUp },
 ];
 
 export default function WhatWeDo() {
-  const topRow = services.filter((s) => s.row === 1);
-  const bottomRow = services.filter((s) => s.row === 2);
+  const sectionRef = useRef<HTMLElement>(null);
+  const textRef = useRef<HTMLDivElement>(null);
+  const imageRef = useRef<HTMLDivElement>(null);
+  const cardsRef = useRef<HTMLAnchorElement[]>([]);
 
-  const getCardClasses = (style: string) => {
-    if (style === "gold") return `${styles.card} ${styles.cardGold}`;
-    if (style === "blue") return `${styles.card} ${styles.cardBlue}`;
-    return styles.card;
+  useGSAP(() => {
+    if (!sectionRef.current) return;
+
+    // Timeline for perfect revealing
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: sectionRef.current,
+        start: "top 75%", // Trigger when section is 75% down the viewport
+        toggleActions: "play none none reverse",
+      },
+    });
+
+    // 1. Reveal Text Block
+    tl.fromTo(
+      textRef.current,
+      { y: 50, opacity: 0 },
+      { y: 0, opacity: 1, duration: 0.8, ease: "power3.out" }
+    );
+
+    // 2. Reveal Image Block
+    tl.fromTo(
+      imageRef.current,
+      { y: 50, opacity: 0, scale: 0.95 },
+      { y: 0, opacity: 1, scale: 1, duration: 0.8, ease: "power3.out" },
+      "-=0.6"
+    );
+
+    // 3. Stagger Reveal Cards
+    tl.fromTo(
+      cardsRef.current,
+      { y: 50, opacity: 0, scale: 0.95 },
+      { 
+        y: 0, 
+        opacity: 1, 
+        scale: 1, 
+        duration: 0.6, 
+        stagger: 0.1, 
+        ease: "back.out(1.2)" 
+      },
+      "-=0.6"
+    );
+
+  }, { scope: sectionRef });
+
+  const getCardStyle = () => {
+    return `${styles.serviceCard} ${styles.cardNavy}`;
   };
 
-  const getIconBoxClasses = (style: string) => {
-    if (style === "gold") return `${styles.iconBox} ${styles.iconBoxGold}`;
-    if (style === "blue") return `${styles.iconBox} ${styles.iconBoxBlue}`;
-    return `${styles.iconBox} ${styles.iconBoxNormal}`;
-  };
-
-  const getBadgeClasses = (style: string) => {
-    if (style === "gold") return `${styles.badge} ${styles.badgePopular}`;
-    if (style === "blue") return `${styles.badge} ${styles.badgeEssential}`;
-    return styles.badge;
+  const getIconStyle = () => {
+    return `${styles.iconWrapper} ${styles.iconNavy}`;
   };
 
   return (
-    <section className={styles.section}>
-      
-      {/* Left Sidebar */}
-      <div className={styles.leftSidebar}>
-        <div className={styles.sidebarContent}>
-          <div className={styles.eyebrowWrap}>
-            <span className={styles.eyebrowLine} />
-            <span className={styles.eyebrow}>SERVICES THAT EMPOWER</span>
-          </div>
-          
-          <h2 className={styles.title}>
-            What <br />
-            <span className={styles.titleGold}>We Do</span>
-          </h2>
-          <div className={styles.titleGlow} />
+    <section ref={sectionRef} className={styles.section}>
+      {/* Background Blobs */}
+      <div className={styles.sectionBgBlob1} />
+      <div className={styles.sectionBgBlob2} />
 
-          <p className={styles.sub}>Here are the services we provide</p>
-        </div>
+      <div className={styles.container}>
         
-        {/* Decorative elements at bottom of sidebar (mimics skyline) */}
-        <div className={styles.decorativeSkyline}></div>
-      </div>
-
-      {/* Right Content */}
-      <div className={styles.rightContent}>
-        <div className={styles.cardsContainer}>
+        <div className={styles.bentoGrid}>
           
-          {/* Top Row */}
-          <div className={styles.rowTop}>
-            {topRow.map(({ id, label, icon: Icon, style, badge }) => (
-              <Link href="/services" key={id} className={getCardClasses(style)}>
-                {badge && <span className={getBadgeClasses(style)}>{badge}</span>}
-                <div className={getIconBoxClasses(style)}>
-                  <Icon size={24} strokeWidth={1.5} />
-                </div>
-                <h3 className={styles.cardTitle}>{label}</h3>
-                <ArrowRight size={18} strokeWidth={2} className={styles.cardArrow} />
-              </Link>
-            ))}
+          {/* Top Left: Text Content (Spans 2 cols) */}
+          <div ref={textRef} className={styles.textBlock}>
+            <div className={styles.eyebrowWrap}>
+              <span className={styles.eyebrow}>OUR SERVICES</span>
+              <span className={styles.eyebrowLine} />
+            </div>
+            
+            <h2 className={styles.title}>
+              How We <br />
+              Can Help <span className={styles.titleNavy}>You</span>
+            </h2>
+
+            <p className={styles.description}>
+              Explore our wide range of services designed to make your journey in the UAE simple, fast and hassle-free.
+            </p>
           </div>
 
-          {/* Bottom Row */}
-          <div className={styles.rowBottom}>
-            {bottomRow.map(({ id, label, icon: Icon, style, badge }) => (
-              <Link href="/services" key={id} className={getCardClasses(style)}>
-                {badge && <span className={getBadgeClasses(style)}>{badge}</span>}
-                <div className={getIconBoxClasses(style)}>
-                  <Icon size={24} strokeWidth={1.5} />
-                </div>
-                <h3 className={styles.cardTitle}>{label}</h3>
-                <ArrowRight size={18} strokeWidth={2} className={styles.cardArrow} />
-              </Link>
-            ))}
+          {/* Cards 1 to 4 */}
+          {services.slice(0, 4).map((service, idx) => (
+            <Link 
+              href="/services" 
+              key={service.id} 
+              className={getCardStyle()}
+              ref={(el) => {
+                if (el) cardsRef.current[idx] = el;
+              }}
+            >
+              <div className={getIconStyle()}>
+                <service.icon size={28} strokeWidth={1.5} />
+              </div>
+              <h3 className={styles.cardTitle}>{service.label}</h3>
+              <p className={styles.cardDesc}>{service.desc}</p>
+              <div className={styles.arrowButton}>
+                <ArrowRight size={18} strokeWidth={2} />
+              </div>
+            </Link>
+          ))}
+
+          {/* Bottom Left: Graphic Image (Spans 2 cols) */}
+          <div ref={imageRef} className={styles.imageBlock}>
+            <img 
+              src="/images/whatwedo.webp" 
+              alt="Dubai Services 3D Graphic" 
+              className={styles.graphicImage}
+            />
+            <div className={styles.floatingCard}>
+              <div className={styles.floatingIcon}>
+                <ShieldCheck size={22} strokeWidth={2.5} />
+              </div>
+              <div>
+                <div className={styles.floatingTitle}>Trusted by Thousands</div>
+                <div className={styles.floatingDesc}>Reliable. Secure. Efficient.</div>
+              </div>
+            </div>
           </div>
 
-        </div>
+          {/* Cards 5 and 6 */}
+          {services.slice(4, 6).map((service, idx) => (
+            <Link 
+              href="/services" 
+              key={service.id} 
+              className={getCardStyle()}
+              ref={(el) => {
+                if (el) cardsRef.current[4 + idx] = el;
+              }}
+            >
+              <div className={getIconStyle()}>
+                <service.icon size={28} strokeWidth={1.5} />
+              </div>
+              <h3 className={styles.cardTitle}>{service.label}</h3>
+              <p className={styles.cardDesc}>{service.desc}</p>
+              <div className={styles.arrowButton}>
+                <ArrowRight size={18} strokeWidth={2} />
+              </div>
+            </Link>
+          ))}
 
-        {/* See More CTA */}
-        <div className={styles.ctaWrap}>
-          <Link href="/services" className={styles.cta}>
-            <span className={styles.ctaLabel}>See More Services</span>
-            <ArrowRight size={18} strokeWidth={2} className={styles.ctaArrow} />
+          {/* Bottom Right: CTA Card (Spans 2 cols) */}
+          <Link 
+            href="/services" 
+            className={styles.ctaCard}
+            ref={(el) => {
+              if (el) cardsRef.current[6] = el;
+            }}
+          >
+            <h3 className={styles.ctaTitle}>Need something else?</h3>
+            <p className={styles.ctaDesc}>We offer many more services to support your needs.</p>
+            <div className={styles.ctaButton}>
+              Explore All Services <ArrowRight size={16} strokeWidth={2} />
+            </div>
           </Link>
-        </div>
-      </div>
 
+        </div>
+
+      </div>
     </section>
   );
 }

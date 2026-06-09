@@ -1,222 +1,260 @@
 .section {
-  background-color: #ffffff; /* White background */
-  color: #09090b; /* Dark text */
-  padding: 8rem 0;
+  background-color: #ffffff; /* Pure White Background */
+  padding: 3rem 0;
+  position: relative;
+  overflow: hidden;
 }
 
 .container {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0 2rem;
   display: flex;
   flex-direction: column;
-  gap: 3.5rem;
 }
 
-/* Header */
-.header {
+.bentoGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  gap: 1.5rem;
+  width: 100%;
+}
+
+.bentoBox {
+  background: #F8FAFC; /* Subtle off-white to stand out against pure white section */
+  border-radius: 32px;
   display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: 2rem;
+  flex-direction: column;
+  box-shadow: 0 4px 24px rgba(10, 17, 40, 0.02);
+  border: 1px solid rgba(10, 17, 40, 0.04);
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.4s ease;
+  position: relative;
+  overflow: hidden;
 }
 
-.headerLeft {
-  flex: 1;
+.bentoBox:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px rgba(10, 17, 40, 0.06);
+}
+
+/* --- Main Box --- */
+.mainBox {
+  grid-column: span 2;
+  grid-row: span 2;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 4rem;
+}
+
+/* Subtle background accent in main box */
+.mainBox::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at top right, rgba(10, 17, 40, 0.04) 0%, transparent 60%);
+  pointer-events: none;
 }
 
 .eyebrow {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  font-family: 'Montserrat', sans-serif;
   font-size: 0.85rem;
   font-weight: 700;
-  color: var(--brand-gold, #C9A24B);
+  color: #0A1128; /* Navy */
   text-transform: uppercase;
   letter-spacing: 0.1em;
-  margin-bottom: 1rem;
+  margin-bottom: 2rem;
+  background: rgba(10, 17, 40, 0.08);
+  padding: 0.5rem 1rem;
+  border-radius: 50px;
 }
 
 .title {
-  font-family: 'Oswald', sans-serif; 
-  font-size: clamp(2.5rem, 4vw, 3.5rem);
-  font-weight: 700;
-  margin: 0;
-  letter-spacing: -0.02em;
-  color: #11204A; /* brand navy */
+  font-size: clamp(3rem, 4vw, 4.5rem);
+  font-weight: 800;
+  margin: 0 0 1.5rem 0;
+  letter-spacing: -0.03em;
+  line-height: 1.05;
+  color: #0A1128;
+  text-wrap: balance;
+  position: relative;
+  z-index: 1;
+}
+
+.titleHighlight {
+  color: #0A1128;
+  border-bottom: 4px solid #0A1128;
 }
 
 .description {
-  flex: 1;
-  font-family: 'Montserrat', sans-serif;
-  font-size: 1.05rem;
-  line-height: 1.7;
-  color: #52525b; /* zinc-600 */
-  margin: 0;
-  max-width: 600px;
-}
-
-@media (max-width: 768px) {
-  .header {
-    flex-direction: column;
-    gap: 1.5rem;
-  }
-}
-
-/* Bento Grid */
-.bentoGrid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 1.25rem;
-}
-
-@media (min-width: 1024px) {
-  .bentoGrid {
-    grid-template-columns: 1.8fr 1fr; 
-  }
-}
-
-/* Base Card Styling */
-.card {
-  border-radius: 24px; 
-  overflow: hidden;
-  position: relative;
-  border: 1px solid rgba(0, 0, 0, 0.06); /* subtle border for white theme */
-}
-
-/* Main Huge Card */
-.mainCard {
-  background: #f8f9fa; /* Very light gray */
-  min-height: 500px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 2.5rem;
-}
-
-.servicesGrid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 1.5rem;
-  width: 100%;
-  height: 100%;
-}
-
-.serviceItem {
-  background: #ffffff;
-  border-radius: 16px;
-  padding: 2.5rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  gap: 1.25rem;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.03);
-  transition: transform 0.3s ease;
-  border: 1px solid rgba(0,0,0,0.02);
-}
-
-.serviceItem:hover {
-  transform: translateY(-6px);
-}
-
-.serviceIcon {
-  width: 64px;
-  height: 64px;
-  background: #11204A; /* Brand Navy */
-  color: #fff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 16px;
-}
-
-.serviceLabel {
-  font-family: 'Montserrat', sans-serif;
   font-size: 1.15rem;
+  line-height: 1.7;
+  color: #475569;
+  max-width: 500px;
+  font-weight: 400;
+  margin: 0 0 3rem 0;
+  text-wrap: pretty;
+  position: relative;
+  z-index: 1;
+}
+
+.ctaButton {
+  background: #0A1128; /* Solid Navy button */
+  color: #ffffff;
+  padding: 1.25rem 2.5rem;
+  border-radius: 50px;
+  font-size: 1rem;
+  font-weight: 600;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.4s ease;
+  outline: none;
+  position: relative;
+  z-index: 1;
+}
+
+.ctaButton:focus-visible {
+  outline: 2px solid #0A1128;
+  outline-offset: 4px;
+}
+
+.ctaButton:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 40px rgba(10, 17, 40, 0.15);
+}
+
+/* --- Service Boxes --- */
+.serviceBox {
+  grid-column: span 1;
+  grid-row: span 1;
+  padding: 2.5rem;
+  justify-content: flex-start;
+}
+
+.iconWrap {
+  width: 60px;
+  height: 60px;
+  background: rgba(10, 17, 40, 0.06); /* Navy tint */
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #0A1128; /* Navy */
+  margin-bottom: 1.5rem;
+  transition: transform 0.4s ease, background-color 0.4s ease, color 0.4s ease;
+}
+
+.serviceBox:hover .iconWrap {
+  background: #0A1128;
+  color: #ffffff;
+  transform: scale(1.1) rotate(-5deg);
+}
+
+.serviceTitle {
+  font-size: 1.25rem;
   font-weight: 700;
-  color: #09090b;
-  line-height: 1.35;
+  color: #0A1128;
+  margin: 0 0 0.75rem 0;
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+}
+
+.serviceDesc {
+  font-size: 0.95rem;
+  color: #64748B;
+  margin: 0;
+  line-height: 1.6;
+  font-weight: 400;
+  text-wrap: pretty;
 }
 
 .serviceLink {
-  margin-top: 0.5rem;
+  margin-top: auto; /* Pushes link to the bottom */
   display: inline-flex;
   align-items: center;
-  font-family: 'Montserrat', sans-serif;
-  font-size: 0.85rem;
+  gap: 0.5rem;
+  font-size: 0.9rem;
   font-weight: 700;
-  color: var(--brand-gold, #C9A24B);
+  color: #0A1128; /* Navy */
   text-decoration: none;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  transition: opacity 0.2s ease;
+  transition: gap 0.3s ease;
+  outline: none;
+  padding-top: 2rem;
 }
 
-.serviceLink:hover {
-  opacity: 0.8;
+.serviceLink:focus-visible {
+  outline: 2px solid #0A1128;
+  outline-offset: 4px;
+  border-radius: 4px;
 }
 
-@media (max-width: 640px) {
-  .servicesGrid {
-    grid-template-columns: 1fr;
+.serviceBox:hover .serviceLink {
+  gap: 0.75rem;
+}
+
+/* --- Responsive --- */
+@media (max-width: 1200px) {
+  .bentoGrid {
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: auto;
+  }
+  
+  .mainBox {
+    grid-column: span 2;
+    grid-row: span 1;
+  }
+  
+  .serviceBox {
+    grid-column: span 1;
   }
 }
 
-/* Right Column Container */
-.rightColumn {
-  display: flex;
-  flex-direction: column;
-  gap: 1.25rem;
-}
+@media (max-width: 768px) {
+  .section {
+    padding: 4rem 0; /* Compress vertical padding on mobile */
+  }
 
-/* Bottom Dark Card */
-.darkCard {
-  background: #11204A; /* Brand Navy */
-  color: #ffffff;
-  padding: 3rem;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: center;
-  flex: 1; 
-}
+  .container {
+    padding: 0 1rem; /* Compress horizontal padding on mobile */
+  }
 
-.darkCardIcon {
-  color: #C9A24B; /* Brand Gold */
-  margin-bottom: 2.5rem;
-}
+  .bentoGrid {
+    grid-template-columns: 1fr;
+    gap: 1rem; /* Tighter gap on mobile */
+  }
+  
+  .bentoBox {
+    border-radius: 24px; /* Slightly softer corners on small screens */
+  }
 
-.darkCardTitle {
-  font-family: 'Montserrat', sans-serif;
-  font-size: 1.35rem;
-  font-weight: 700;
-  line-height: 1.3;
-  margin: 0 0 1rem 0;
-  letter-spacing: -0.01em;
-}
+  .mainBox {
+    grid-column: span 1;
+    padding: 2rem 1.5rem; /* Tighter padding for mobile text */
+  }
+  
+  .serviceBox {
+    grid-column: span 1;
+    padding: 1.5rem; /* Tighter padding for mobile service cards */
+  }
+  
+  .title {
+    font-size: 2.2rem; /* Scaled down for mobile */
+  }
 
-.darkCardText {
-  font-family: 'Montserrat', sans-serif;
-  font-size: 0.95rem;
-  color: rgba(255, 255, 255, 0.8);
-  line-height: 1.6;
-  margin: 0 0 2.5rem 0;
-}
-
-.button {
-  background: #ffffff;
-  color: #11204A;
-  padding: 0.75rem 1.25rem;
-  border-radius: 10px;
-  font-family: 'Montserrat', sans-serif;
-  font-size: 0.85rem;
-  font-weight: 700;
-  text-decoration: none;
-  display: inline-flex;
-  align-items: center;
-  transition: all 0.2s ease;
-}
-
-.button:hover {
-  background: #f4f4f5; 
+  .description {
+    font-size: 1rem;
+    margin-bottom: 2rem;
+  }
+  
+  .ctaButton {
+    width: 100%; /* Full width button on mobile for easy tapping */
+    justify-content: center;
+  }
 }

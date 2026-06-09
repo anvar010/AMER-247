@@ -1,80 +1,62 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowRight, Sparkles, Building2 } from "lucide-react";
+import { Outfit } from "next/font/google"; 
+import { ArrowRight, Sparkles } from "lucide-react";
 import { FileText, IdCard, Gem, Stethoscope } from "lucide-react";
 import styles from "./WhoWeAre.module.css";
 
+const outfit = Outfit({ subsets: ["latin"], weight: ["300", "400", "500", "600", "700", "800"] });
+
 const services = [
-  { icon: FileText, title: "Immigration\nServices" },
-  { icon: Gem, title: "Golden\nVisa" },
-  { icon: IdCard, title: "Emirates Identity\nAuthority" },
-  { icon: Stethoscope, title: "Medical Test\nApplications" },
+  { icon: FileText, title: "Immigration Services", desc: "Expert handling of all immigration and residency procedures." },
+  { icon: Gem, title: "Golden Visa", desc: "Secure your long-term residency in the UAE effortlessly." },
+  { icon: IdCard, title: "Emirates Identity Authority", desc: "Fast-track processing for new and renewed Emirates IDs." },
+  { icon: Stethoscope, title: "Medical Test Applications", desc: "Hassle-free medical fitness test scheduling and results." },
 ];
 
 export default function WhoWeAre() {
   return (
-    <section id="who-we-are" className={styles.section}>
-      <div className={`container ${styles.container}`}>
+    <section id="who-we-are" className={`${styles.section} ${outfit.className}`}>
+      <div className={styles.container}>
         
-        {/* Header Row */}
-        <div className={styles.header}>
-          <div className={styles.headerLeft}>
-            <div className={styles.eyebrow}>
-              <Sparkles size={16} />
-              <span>ABOUT AMER247</span>
-            </div>
-            <h2 className={styles.title}>Who We Are</h2>
-          </div>
-          <p className={styles.description}>
-            Amer247 Center was established in 2017 in collaboration with the General Directorate of Residency and Foreigners Affairs. Our experience is a direct application of the strategy of the Federal Government advocated by His Highness Sheikh Mohammed bin Rashid Al Maktoum, Prime Minister and Ruler of Dubai.
-          </p>
-        </div>
-
-        {/* Bento Grid */}
         <div className={styles.bentoGrid}>
           
-          {/* Main Huge Card: 4 Services Grid */}
-          <div className={`${styles.card} ${styles.mainCard}`}>
-            <div className={styles.servicesGrid}>
-              {services.map((service, i) => (
-                <div key={i} className={styles.serviceItem}>
-                  <div className={styles.serviceIcon}>
-                    <service.icon size={32} strokeWidth={1.5} />
-                  </div>
-                  <span className={styles.serviceLabel}>
-                    {service.title.split("\n").map((line, j) => (
-                      <span key={j} style={{ display: 'block' }}>{line}</span>
-                    ))}
-                  </span>
-                  <Link href="#" className={styles.serviceLink}>
-                    View Service <ArrowRight size={16} style={{ marginLeft: "0.25rem" }} />
-                  </Link>
-                </div>
-              ))}
+          {/* Main Bento Box (Spans 2x2) */}
+          <div className={`${styles.bentoBox} ${styles.mainBox}`}>
+            <div className={styles.eyebrow}>
+              <Sparkles size={16} aria-hidden="true" />
+              <span>ABOUT AMER247</span>
             </div>
+            
+            <h2 className={styles.title}>
+              Who <span className={styles.titleHighlight}>We</span> Are
+            </h2>
+            
+            <p className={styles.description}>
+              Amer247 Center Was established in 2017 in collaboration with the General Directorate of Residency and Foreigners Affairs, and the experience was a direct application of the strategy of the Federal Government advocated by His Highness Sheikh Mohammed bin Rashid Al Maktoum, Prime Minister and Ruler of Dubai.
+            </p>
+
+            <Link href="/about" className={styles.ctaButton} aria-label="Discover Our Story">
+              Discover Our Story <ArrowRight size={18} aria-hidden="true" />
+            </Link>
           </div>
 
-          {/* Right Column */}
-          <div className={styles.rightColumn}>
-            
-            {/* Dark Card */}
-            <div className={`${styles.card} ${styles.darkCard}`}>
-              <div className={styles.darkCardIcon}>
-                <Building2 size={28} strokeWidth={1.5} />
+          {/* 4 Service Bento Boxes */}
+          {services.map((service, i) => (
+            <div key={i} className={`${styles.bentoBox} ${styles.serviceBox}`}>
+              <div className={styles.iconWrap}>
+                <service.icon size={28} strokeWidth={1.5} aria-hidden="true" />
               </div>
-              <h3 className={styles.darkCardTitle}>
-                Trusted Government<br />Partner
-              </h3>
-              <p className={styles.darkCardText}>
-                We streamline all government processes to ensure efficient, stress-free clearance for your business and personal needs.
-              </p>
-              <Link href="/about" className={styles.button}>
-                Learn more about us <ArrowRight size={16} style={{ marginLeft: "0.25rem" }} />
+              <h3 className={styles.serviceTitle}>{service.title}</h3>
+              <p className={styles.serviceDesc}>{service.desc}</p>
+              
+              <Link href="#" className={styles.serviceLink} aria-label={`Learn more about ${service.title}`}>
+                Learn More <ArrowRight size={16} aria-hidden="true" />
               </Link>
             </div>
+          ))}
 
-          </div>
         </div>
         
       </div>
