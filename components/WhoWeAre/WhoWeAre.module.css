@@ -1,5 +1,6 @@
 .section {
-  background-color: #ffffff; /* Pure White Background */
+  background-color: #ffffff;
+  /* Pure White Background */
   padding: 3rem 0;
   position: relative;
   overflow: hidden;
@@ -22,7 +23,8 @@
 }
 
 .bentoBox {
-  background: #F8FAFC; /* Subtle off-white to stand out against pure white section */
+  background: #F8FAFC;
+  /* Subtle off-white to stand out against pure white section */
   border-radius: 32px;
   display: flex;
   flex-direction: column;
@@ -65,7 +67,8 @@
   gap: 0.5rem;
   font-size: 0.85rem;
   font-weight: 700;
-  color: #0A1128; /* Navy */
+  color: #0A1128;
+  /* Navy */
   text-transform: uppercase;
   letter-spacing: 0.1em;
   margin-bottom: 2rem;
@@ -104,7 +107,8 @@
 }
 
 .ctaButton {
-  background: #0A1128; /* Solid Navy button */
+  background: #0A1128;
+  /* Solid Navy button */
   color: #ffffff;
   padding: 1.25rem 2.5rem;
   border-radius: 50px;
@@ -141,12 +145,14 @@
 .iconWrap {
   width: 60px;
   height: 60px;
-  background: rgba(10, 17, 40, 0.06); /* Navy tint */
+  background: rgba(10, 17, 40, 0.06);
+  /* Navy tint */
   border-radius: 16px;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #0A1128; /* Navy */
+  color: #0A1128;
+  /* Navy */
   margin-bottom: 1.5rem;
   transition: transform 0.4s ease, background-color 0.4s ease, color 0.4s ease;
 }
@@ -176,13 +182,15 @@
 }
 
 .serviceLink {
-  margin-top: auto; /* Pushes link to the bottom */
+  margin-top: auto;
+  /* Pushes link to the bottom */
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
   font-size: 0.9rem;
   font-weight: 700;
-  color: #0A1128; /* Navy */
+  color: #0A1128;
+  /* Navy */
   text-decoration: none;
   transition: gap 0.3s ease;
   outline: none;
@@ -205,12 +213,12 @@
     grid-template-columns: repeat(2, 1fr);
     grid-template-rows: auto;
   }
-  
+
   .mainBox {
     grid-column: span 2;
     grid-row: span 1;
   }
-  
+
   .serviceBox {
     grid-column: span 1;
   }
@@ -218,43 +226,51 @@
 
 @media (max-width: 768px) {
   .section {
-    padding: 4rem 0; /* Compress vertical padding on mobile */
+    padding: 4rem 0;
+    /* Compress vertical padding on mobile */
   }
 
   .container {
-    padding: 0 1rem; /* Compress horizontal padding on mobile */
+    padding: 0 1rem;
+    /* Compress horizontal padding on mobile */
   }
 
   .bentoGrid {
     grid-template-columns: 1fr;
-    gap: 1rem; /* Tighter gap on mobile */
+    gap: 1rem;
+    /* Tighter gap on mobile */
   }
-  
+
   .bentoBox {
-    border-radius: 24px; /* Slightly softer corners on small screens */
+    border-radius: 24px;
+    /* Slightly softer corners on small screens */
   }
 
   .mainBox {
     grid-column: span 1;
-    padding: 2rem 1.5rem; /* Tighter padding for mobile text */
+    padding: 2rem 1.5rem;
+    /* Tighter padding for mobile text */
   }
-  
+
   .serviceBox {
     grid-column: span 1;
-    padding: 1.5rem; /* Tighter padding for mobile service cards */
+    padding: 1.5rem;
+    /* Tighter padding for mobile service cards */
   }
-  
+
   .title {
-    font-size: 2.2rem; /* Scaled down for mobile */
+    font-size: 2.2rem;
+    /* Scaled down for mobile */
   }
 
   .description {
     font-size: 1rem;
     margin-bottom: 2rem;
   }
-  
+
   .ctaButton {
-    width: 100%; /* Full width button on mobile for easy tapping */
+    width: 100%;
+    /* Full width button on mobile for easy tapping */
     justify-content: center;
   }
 }

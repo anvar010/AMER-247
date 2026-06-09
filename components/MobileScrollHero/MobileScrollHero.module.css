@@ -145,7 +145,7 @@
 
 .scrollHint {
   position: absolute;
-  bottom: 2.5rem;
+  bottom: calc(5.5rem + env(safe-area-inset-bottom, 0px));
   left: 50%;
   transform: translateX(-50%);
   display: flex;
@@ -153,7 +153,7 @@
   align-items: center;
   gap: 0.6rem;
   color: rgba(255, 255, 255, 0.7);
-  z-index: 2;
+  z-index: 100;
 }
 
 .mouse {
@@ -215,7 +215,7 @@
 
 .skipButton {
   position: absolute;
-  bottom: 1.5rem;
+  bottom: calc(5rem + env(safe-area-inset-bottom, 0px));
   right: 1.5rem;
   background: rgba(255, 255, 255, 0.15);
   backdrop-filter: blur(8px);

@@ -1,4 +1,3 @@
-
 :root {
   --brand-navy: #1A2A5A;
   --brand-navy-dark: #11204A;
@@ -69,21 +68,31 @@ video {
   }
 }
 
-/* Mobile bottom nav disabled — no reserved space needed */
+/* Mobile bottom nav spacing */
+@media (max-width: 768px) {
+  body {
+    padding-bottom: calc(65px + env(safe-area-inset-bottom));
+  }
+}
 
 /* Lenis Smooth Scroll Recommended Base Styles */
-html.lenis, html.lenis body {
+html.lenis,
+html.lenis body {
   height: auto;
 }
+
 .lenis.lenis-smooth {
   scroll-behavior: auto !important;
 }
+
 .lenis.lenis-smooth [data-lenis-prevent] {
   overscroll-behavior: contain;
 }
+
 .lenis.lenis-stopped {
   overflow: hidden;
 }
+
 .lenis.lenis-smooth iframe {
   pointer-events: none;
 }

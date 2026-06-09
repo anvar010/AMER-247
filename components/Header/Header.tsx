@@ -12,27 +12,36 @@ export default function Header() {
 
   useEffect(() => {
     let lastY = window.scrollY;
-    const onScroll = () => {
-      const y = window.scrollY;
-      
-      // On mobile homepage, keep header transparent until scrolling past the 400vh pinned video
-      const isMobile = window.innerWidth <= 768;
-      const isHome = pathname === "/";
-      const threshold = (isHome && isMobile) ? window.innerHeight * 4.2 : 40;
-      
-      setScrolled(y > threshold);
+    let ticking = false;
 
-      // Hide bottom bar on scroll down, show on scroll up / at top.
-      const delta = y - lastY;
-      if (y < 60) {
-        setHideMobileBar(false);
-      } else if (delta > 4) {
-        setHideMobileBar(true);
-      } else if (delta < -4) {
-        setHideMobileBar(false);
+    const onScroll = () => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          const y = window.scrollY;
+          
+          // On mobile homepage, keep header transparent until scrolling past the 400vh pinned video
+          const isMobile = window.innerWidth <= 768;
+          const isHome = pathname === "/";
+          const threshold = (isHome && isMobile) ? window.innerHeight * 4.2 : 40;
+          
+          setScrolled(y > threshold);
+
+          // Hide bottom bar on scroll down, show on scroll up / at top.
+          const delta = y - lastY;
+          if (y < 60) {
+            setHideMobileBar(false);
+          } else if (delta > 4) {
+            setHideMobileBar(true);
+          } else if (delta < -4) {
+            setHideMobileBar(false);
+          }
+          lastY = y;
+          ticking = false;
+        });
+        ticking = true;
       }
-      lastY = y;
     };
+
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);

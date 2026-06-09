@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import Link from "next/link";
 import { BookUser, ClipboardPlus, IdCard, ShieldCheck, ArrowRight } from "lucide-react";
 import styles from "./ServiceCards.module.css";
@@ -37,16 +37,13 @@ const services = [
 ];
 
 export default function ServiceCards() {
-  const [hoveredCard, setHoveredCard] = useState<number | null>(null);
-
   return (
     <div className={styles.container}>
+      {/* Mobile-optimized service cards */}
       {services.map((svc) => (
         <div 
           key={svc.id} 
           className={styles.card}
-          onMouseEnter={() => setHoveredCard(svc.id)}
-          onMouseLeave={() => setHoveredCard(null)}
         >
           <div className={styles.content}>
             <div className={styles.header}>

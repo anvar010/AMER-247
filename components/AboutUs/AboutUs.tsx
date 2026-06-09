@@ -17,7 +17,6 @@ export default function AboutUs() {
         <div className={`${styles.orb} ${styles.orb1}`} />
         <div className={`${styles.orb} ${styles.orb2}`} />
         <div className={`${styles.orb} ${styles.orb3}`} />
-        <div className={styles.noiseOverlay} />
       </div>
 
       <div className={styles.container}>
@@ -46,7 +45,7 @@ export default function AboutUs() {
             </p>
           </div>
 
-          <Link href="/about" className={styles.ctaButton} aria-label="Know more about Amer 247">
+          <Link href="/about" className={`${styles.ctaButton} ${styles.desktopCta}`} aria-label="Know more about Amer 247">
             Know more about Amer 24/7 <ArrowRight size={18} aria-hidden="true" className={styles.ctaIcon} />
           </Link>
         </div>
@@ -56,6 +55,13 @@ export default function AboutUs() {
           <div className={styles.serviceWrapper}>
             <ServiceCards />
           </div>
+        </div>
+
+        {/* Mobile CTA Button - Placed below cards */}
+        <div className={styles.mobileCtaWrapper}>
+          <Link href="/about" className={`${styles.ctaButton} ${styles.mobileCta}`} aria-label="Know more about Amer 247">
+            Know more about Amer 24/7 <ArrowRight size={18} aria-hidden="true" className={styles.ctaIcon} />
+          </Link>
         </div>
 
       </div>

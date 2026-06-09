@@ -3,6 +3,7 @@ import "./globals.css";
 import Header from "@/components/Header/Header";
 import Footer from "@/components/Footer/Footer";
 import SmoothScroll from "@/components/SmoothScroll/SmoothScroll";
+import MobileBottomNav from "@/components/MobileBottomNav/MobileBottomNav";
 
 export const metadata: Metadata = {
   title: "Amer 24/7 — UAE Visa & Immigration Services",
@@ -16,8 +17,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body suppressHydrationWarning>
         <SmoothScroll>
           <Header />
-          <main>{children}</main>
+          <main className="main-content">{children}</main>
           <Footer />
+          <MobileBottomNav />
         </SmoothScroll>
       </body>
     </html>
