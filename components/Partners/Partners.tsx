@@ -66,8 +66,6 @@ export default function Partners() {
                   onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = "none"; }}
                 />
               </div>
-              <div className={styles.cardDivider} />
-              <div className={styles.cardName}>{p.name}</div>
             </div>
           ))}
         </div>
