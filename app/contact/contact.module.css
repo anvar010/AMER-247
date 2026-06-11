@@ -56,7 +56,7 @@
    ============================================================ */
 .hero {
   position: relative;
-  padding: 6rem 1.5rem 4rem;
+  padding: 6rem 0 4rem;
   background:
     radial-gradient(900px 460px at 88% 14%, rgba(201, 162, 75, 0.20), transparent 60%),
     radial-gradient(700px 460px at 12% 90%, rgba(44, 63, 118, 0.65), transparent 65%),
@@ -90,7 +90,7 @@
   -webkit-mask-image: radial-gradient(ellipse at center, #000 30%, transparent 75%);
 }
 
-.heroInner { position: relative; z-index: 1; max-width: 920px; }
+.heroInner { position: relative; z-index: 1; max-width: var(--container); }
 .eyebrow { color: var(--brand-gold); }
 .heroTitle {
   font-size: 2.5rem;
@@ -117,7 +117,7 @@
    2. Body — form + info
    ============================================================ */
 .body {
-  padding: 4.5rem 1.5rem;
+  padding: 4.5rem 0;
   background:
     radial-gradient(900px 480px at 88% -10%, rgba(201, 162, 75, 0.08), transparent 60%),
     #ffffff;
@@ -556,7 +556,7 @@ a.infoLink:hover { color: var(--brand-gold); }
    ============================================================ */
 .faq {
   position: relative;
-  padding: 5rem 1.5rem 5.5rem;
+  padding: 5rem 0 5.5rem;
   background:
     linear-gradient(180deg, #ffffff 0%, #f6f7fa 100%);
   isolation: isolate;
@@ -906,12 +906,12 @@ a.infoLink:hover { color: var(--brand-gold); }
    Tablet & Mobile — full-width content
    ============================================================ */
 @media (max-width: 1024px) {
-  .hero, .body, .faq { padding-left: 1rem; padding-right: 1rem; }
+  .hero, .body, .faq { padding-left: 0; padding-right: 0; }
 }
 @media (max-width: 768px) {
-  .hero        { padding: 4.5rem 1rem 2.75rem; }
-  .body        { padding: 3rem 1rem; }
-  .faq         { padding: 3rem 1rem 3.5rem; }
+  .hero        { padding: 4.5rem 0 2.75rem; }
+  .body        { padding: 3rem 0; }
+  .faq         { padding: 3rem 0 3.5rem; }
   .heroTitle   { font-size: 2.2rem; }
   .heroCopy    { font-size: 0.96rem; }
   .formWrap    { padding: 1.5rem 1.25rem; border-radius: 16px; }
@@ -921,7 +921,7 @@ a.infoLink:hover { color: var(--brand-gold); }
   .submit      { width: 100%; justify-content: center; }
 }
 @media (max-width: 480px) {
-  .hero, .body, .faq { padding-left: 0.85rem; padding-right: 0.85rem; }
+  .hero, .body, .faq { padding-left: 0; padding-right: 0; }
   .sectionTitle { font-size: 1.65rem; line-height: 1.15; }
   .faqAside    { position: static; }
   .faqContactCard { padding: 1.25rem 1.1rem 1.35rem; }

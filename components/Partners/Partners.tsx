@@ -55,19 +55,21 @@ export default function Partners() {
           </p>
         </div>
 
-        <div className={styles.grid}>
-          {partners.map((p, i) => (
-            <div key={p.name} className={styles.card}>
-              <div className={styles.logoWrap}>
-                <img
-                  src={p.src}
-                  alt={p.name}
-                  className={styles.logo}
-                  onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = "none"; }}
-                />
+        <div className={styles.marqueeWrap}>
+          <div className={styles.marqueeTrack}>
+            {[...partners, ...partners].map((p, i) => (
+              <div key={i} className={styles.card}>
+                <div className={styles.logoWrap}>
+                  <img
+                    src={p.src}
+                    alt={p.name}
+                    className={styles.logo}
+                    onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = "none"; }}
+                  />
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
 

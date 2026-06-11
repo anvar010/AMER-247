@@ -1,9 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import { 
+import {
   ArrowDownToLine, ArrowUpFromLine, Tag, Clock,
-  FileText, Plane, Baby, FileUp, RefreshCw, Stamp, 
+  FileText, Plane, Baby, FileUp, RefreshCw, Stamp,
   XCircle, Edit, Map, Building, ArrowRightLeft, Shield, PauseCircle, Briefcase, Users
 } from "lucide-react";
 import styles from "./online-services.module.css";
@@ -121,7 +121,7 @@ function PriceRow({ item }: { item: PriceItem }) {
   // Determine icon
   let IconComponent = FileText;
   const name = item.name.toLowerCase();
-  
+
   if (name.includes("visit")) IconComponent = Plane;
   else if (name.includes("born") || name.includes("children") || name.includes("son") || name.includes("daughter")) IconComponent = Baby;
   else if (name.includes("parent") || name.includes("spouse") || name.includes("family")) IconComponent = Users;
@@ -156,7 +156,7 @@ function PriceRow({ item }: { item: PriceItem }) {
       <div className={styles.cardBody}>
         {/* Title in Serif */}
         <h4 className={styles.priceName}>{item.name}</h4>
-        
+
         {/* Fine Divider Line */}
         <div className={styles.cardDivider} />
 
@@ -179,7 +179,7 @@ function PriceRow({ item }: { item: PriceItem }) {
         {/* Hover / Reveal Drawer */}
         <div className={styles.hoverDrawer}>
           <div className={styles.cardDivider} />
-          
+
           <div className={styles.docsArea}>
             <span className={styles.docsLabel}>DOCUMENTS NEEDED:</span>
             <div className={styles.docsText}>Original Passport, Photo, Visa Copy</div>

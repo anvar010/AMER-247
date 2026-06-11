@@ -3,17 +3,17 @@
 import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { Outfit } from "next/font/google";
-import { Clock, ArrowRight, Sparkles } from "lucide-react";
+import { Clock, ArrowRight } from "lucide-react";
 import styles from "./PickUpService.module.css";
 
 const outfit = Outfit({ subsets: ["latin"], weight: ["300", "400", "500", "600", "700", "800"] });
 
 const features = [
   "The only Government services center operating 24 hours in the UAE.",
-  "The only Government services center operating on Friday and public holidays.",
-  "There are sufficient parking space available in the area.",
-  "One stop shop (you can finish all your Government transactions at Amer 24 7)",
-  "Our customer happiness consultants are well trained to cater to all your needs."
+  "Open on Fridays and public holidays — when others are closed.",
+  "Ample parking available right across the area.",
+  "One-stop shop — finish all your transactions in a single visit.",
+  "Trained happiness consultants ready to cater to your every need."
 ];
 
 export default function PickUpService() {
@@ -43,11 +43,8 @@ export default function PickUpService() {
       ref={sectionRef} 
       className={`${styles.section} ${outfit.className} ${isIntersecting ? styles.revealed : ""}`}
     >
-      {/* Background decoration glows */}
-      <div className={`${styles.bgBlob} ${styles.blob1}`} aria-hidden="true" />
-      <div className={`${styles.bgBlob} ${styles.blob2}`} aria-hidden="true" />
-
       <div className={`${styles.container} ${styles.grid}`}>
+        
         {/* Left Column: Image with Outline and Overlays */}
         <div className={styles.leftCol}>
           <div className={styles.imageWrap}>
@@ -60,11 +57,11 @@ export default function PickUpService() {
 
             <div className={styles.overlayBox}>
               <div className={styles.clockGraphic}>
-                <Clock size={24} className={styles.clockIcon} strokeWidth={2} />
+                <Clock size={20} className={styles.clockIcon} strokeWidth={2.5} />
               </div>
-              <div>
+              <div className={styles.overlayTextWrap}>
                 <div className={styles.overlayTitle}>24/7</div>
-                <div className={styles.overlaySub}>VIP COURIER</div>
+                <div className={styles.overlaySub}>COURIER SERVICE</div>
               </div>
             </div>
           </div>
@@ -73,12 +70,12 @@ export default function PickUpService() {
         {/* Right Column: Content and List of Features */}
         <div className={styles.rightCol}>
           <div className={styles.eyebrow}>
-            <Sparkles size={14} strokeWidth={2} />
-            <span>EXCEPTIONAL ACCESSIBILITY</span>
+            <div className={styles.eyebrowLine} />
+            <span className={styles.eyebrowText}>EXCEPTIONAL ACCESSIBILITY</span>
           </div>
 
           <h2 className={styles.title}>
-            Amer 247 provides documents <span className={styles.titleHighlight}>pick up and drop off</span> service
+            Document <span className={styles.titleHighlight}>pick-up &<br />drop-off</span> service
           </h2>
 
           <ol className={styles.pointsList}>
@@ -97,6 +94,7 @@ export default function PickUpService() {
             </Link>
           </div>
         </div>
+        
       </div>
     </section>
   );

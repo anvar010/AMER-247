@@ -2,7 +2,7 @@
 
 import React from "react";
 import { Outfit } from "next/font/google";
-import { Sparkles, Quote, ShieldCheck, ArrowRight } from "lucide-react";
+import { Sparkles, Quote, ShieldCheck, ArrowRight, FileText, Gem, IdCard, Stethoscope } from "lucide-react";
 import styles from "./WhoWeAre.module.css";
 
 const outfit = Outfit({ subsets: ["latin"], weight: ["300", "400", "500", "600", "700", "800"] });
@@ -11,7 +11,7 @@ export default function WhoWeAre() {
   return (
     <section id="who-we-are" className={`${styles.section} ${outfit.className}`}>
       <div className={styles.container}>
-        
+
         {/* Section Header */}
         <div className={styles.header}>
           <div className={styles.eyebrow}>
@@ -23,22 +23,30 @@ export default function WhoWeAre() {
         </div>
 
         <div className={styles.grid}>
-          
+
           {/* Left Column: The Story */}
           <div className={styles.leftCol}>
             <p className={styles.storyLead}>
-              Established in 2017, AMER247 was built on a single, unwavering principle: <span className={styles.highlightText}>absolute convenience.</span>
+              Amer247 Center was established in 2017 in collaboration with the General Directorate of Residency and Foreigners Affairs.
             </p>
             <p className={styles.storyBody}>
-              We understand the challenges that come with paperwork, long queues, and confusing processes. Our mission is to eliminate these hurdles entirely, acting as a seamless bridge between you and UAE government entities.
+              The experience was a direct application of the strategy of the Federal Government advocated by His Highness Sheikh Mohammed bin Rashid Al Maktoum, Prime Minister and Ruler of Dubai.
             </p>
-            
+
             {/* Expertise Tags */}
             <div className={styles.tagsContainer}>
-              <span className={styles.tag}>Golden Visa</span>
-              <span className={styles.tag}>Emirates ID</span>
-              <span className={styles.tag}>Company Setup</span>
-              <span className={styles.tag}>Medical Tests</span>
+              <span className={styles.tag}>
+                <FileText className={styles.tagIcon} size={22} /> Immigration Services
+              </span>
+              <span className={styles.tag}>
+                <Gem className={styles.tagIcon} size={22} /> Golden Visa
+              </span>
+              <span className={styles.tag}>
+                <IdCard className={styles.tagIcon} size={22} /> Emirates Identity Authority
+              </span>
+              <span className={styles.tag}>
+                <Stethoscope className={styles.tagIcon} size={22} /> Medical Test Applications
+              </span>
             </div>
           </div>
 
@@ -46,13 +54,13 @@ export default function WhoWeAre() {
           <div className={styles.centerCol}>
             <div className={styles.imageCard}>
               <img
-                src="https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=2069&auto=format&fit=crop"
-                alt="Premium Office"
+                src="/images/center-office.webp"
+                alt="Amer247 Center"
                 className={styles.image}
               />
               {/* Overlay gradient */}
               <div className={styles.imageOverlay} />
-              
+
               {/* Center Badge */}
               <div className={styles.badgeContainer}>
                 <div className={styles.badgeNumber}>24/7</div>

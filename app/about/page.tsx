@@ -12,12 +12,13 @@ import {
   Quote,
 } from "lucide-react";
 import styles from "./about.module.css";
+import CountUp from "@/components/CountUp/CountUp";
 
 const stats = [
-  { value: "2017", label: "Established" },
-  { value: "24/7", label: "Availability" },
-  { value: "02", label: "Branches" },
-  { value: "100%", label: "Government Backed" },
+  { value: <CountUp to={2017} />, label: "Established" },
+  { value: <><CountUp to={24} />/<CountUp to={7} /></>, label: "Availability" },
+  { value: <CountUp to={2} prefix="0" />, label: "Branches" },
+  { value: <CountUp to={100} suffix="%" />, label: "Government Backed" },
 ];
 
 const objectives = [
@@ -101,9 +102,7 @@ export default function AboutPage() {
           </h1>
 
           <p className={styles.heroCopy}>
-            AMER 247 is a semi-government organization that allows residents to
-            complete all Visa and Residency transactions — under one roof, on
-            your schedule.
+            AMER 247 is a Semi-Government Organization which allows residents to complete all Visa and Residency Transaction. Amer 24/7 Center Was established in 2017 in collaboration with the General Directorate of Residency and Foreigners Affairs and the experience was a direct application of the strategy of the Federal Government advocated by His Highness Sheikh Mohammed bin Rashid Al Maktoum, Prime Minister and Ruler of Dubai.
           </p>
 
           <div className={styles.heroStats}>

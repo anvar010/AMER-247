@@ -107,7 +107,7 @@
   position: relative;
   z-index: 1;
   width: 100%;
-  max-width: 1180px;
+  max-width: 1440px;
 }
 
 .heroTopRow {
@@ -428,7 +428,7 @@ video.storyImg {
   overflow: hidden;
 }
 
-.provideInner { max-width: 1180px; margin: 0 auto; position: relative; z-index: 1; }
+.provideInner { max-width: 1440px; margin: 0 auto; position: relative; z-index: 1; }
 .provideTitle {
   font-size: clamp(2rem, 4.6vw, 3.4rem);
   font-weight: 800;

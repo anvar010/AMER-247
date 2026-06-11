@@ -40,7 +40,7 @@ export default function Hero() {
     handleResize(); // Check on mount
     window.addEventListener("resize", handleResize);
     window.addEventListener("scroll", handleScroll, { passive: true });
-    
+
     return () => {
       window.removeEventListener("resize", handleResize);
       window.removeEventListener("scroll", handleScroll);
@@ -68,60 +68,60 @@ export default function Hero() {
       const x0 = clientX - svgRect.left;
       const y0 = clientY - svgRect.top;
 
-    // Only get bounding client rect if cache is invalid (massively boosts performance)
-    if (!targetBoundsRef.current.isValid) {
-      const rect = targetRef.current.getBoundingClientRect();
-      targetBoundsRef.current = {
-        left: rect.left,
-        top: rect.top,
-        width: rect.width,
-        height: rect.height,
-        isValid: true
-      };
-    }
+      // Only get bounding client rect if cache is invalid (massively boosts performance)
+      if (!targetBoundsRef.current.isValid) {
+        const rect = targetRef.current.getBoundingClientRect();
+        targetBoundsRef.current = {
+          left: rect.left,
+          top: rect.top,
+          width: rect.width,
+          height: rect.height,
+          isValid: true
+        };
+      }
 
-    const targetRect = targetBoundsRef.current;
-    
-    // Calculate button center relative to SVG
-    const cx = targetRect.left - svgRect.left + targetRect.width / 2;
-    const cy = targetRect.top - svgRect.top + targetRect.height / 2;
+      const targetRect = targetBoundsRef.current;
 
-    const angleToCenter = Math.atan2(cy - y0, cx - x0);
+      // Calculate button center relative to SVG
+      const cx = targetRect.left - svgRect.left + targetRect.width / 2;
+      const cy = targetRect.top - svgRect.top + targetRect.height / 2;
 
-    // Pull the endpoint back so it stops exactly at the button's border
-    const padding = 12;
-    const x1 = cx - Math.cos(angleToCenter) * (targetRect.width / 2 + padding);
-    const y1 = cy - Math.sin(angleToCenter) * (targetRect.height / 2 + padding);
+      const angleToCenter = Math.atan2(cy - y0, cx - x0);
 
-    const dx = cx - x0;
-    const dy = cy - y0;
-    const distanceToCenter = Math.hypot(dx, dy);
+      // Pull the endpoint back so it stops exactly at the button's border
+      const padding = 12;
+      const x1 = cx - Math.cos(angleToCenter) * (targetRect.width / 2 + padding);
+      const y1 = cy - Math.sin(angleToCenter) * (targetRect.height / 2 + padding);
 
-    // Hide path if hovering directly over the button
-    if (distanceToCenter < targetRect.width / 2) {
-      pathRef.current.setAttribute("d", "");
-      return;
-    }
+      const dx = cx - x0;
+      const dy = cy - y0;
+      const distanceToCenter = Math.hypot(dx, dy);
 
-    const distance = Math.hypot(x1 - x0, y1 - y0);
+      // Hide path if hovering directly over the button
+      if (distanceToCenter < targetRect.width / 2) {
+        pathRef.current.setAttribute("d", "");
+        return;
+      }
 
-    // Curved control point
-    const controlX = (x0 + x1) / 2;
-    const controlY = (y0 + y1) / 2 + Math.min(200, distance * 0.5);
+      const distance = Math.hypot(x1 - x0, y1 - y0);
 
-    // Arrowhead calculations
-    const angle = Math.atan2(y1 - controlY, x1 - controlX);
-    const headLen = 10;
-    const ax1 = x1 - headLen * Math.cos(angle - Math.PI / 6);
-    const ay1 = y1 - headLen * Math.sin(angle - Math.PI / 6);
-    const ax2 = x1 - headLen * Math.cos(angle + Math.PI / 6);
-    const ay2 = y1 - headLen * Math.sin(angle + Math.PI / 6);
+      // Curved control point
+      const controlX = (x0 + x1) / 2;
+      const controlY = (y0 + y1) / 2 + Math.min(200, distance * 0.5);
 
-    // Draw Quadratic Curve and Arrowhead
-    const pathData = `M ${x0} ${y0} Q ${controlX} ${controlY} ${x1} ${y1} M ${x1} ${y1} L ${ax1} ${ay1} M ${x1} ${y1} L ${ax2} ${ay2}`;
-    
-    pathRef.current.setAttribute("d", pathData);
-    
+      // Arrowhead calculations
+      const angle = Math.atan2(y1 - controlY, x1 - controlX);
+      const headLen = 10;
+      const ax1 = x1 - headLen * Math.cos(angle - Math.PI / 6);
+      const ay1 = y1 - headLen * Math.sin(angle - Math.PI / 6);
+      const ax2 = x1 - headLen * Math.cos(angle + Math.PI / 6);
+      const ay2 = y1 - headLen * Math.sin(angle + Math.PI / 6);
+
+      // Draw Quadratic Curve and Arrowhead
+      const pathData = `M ${x0} ${y0} Q ${controlX} ${controlY} ${x1} ${y1} M ${x1} ${y1} L ${ax1} ${ay1} M ${x1} ${y1} L ${ax2} ${ay2}`;
+
+      pathRef.current.setAttribute("d", pathData);
+
       // Smooth opacity fading
       const opacity = Math.min(1.0, distance / 400);
       pathRef.current.style.opacity = opacity.toString();
@@ -148,7 +148,7 @@ export default function Hero() {
         </div>
       )}
 
-      <section 
+      <section
         className={styles.hero}
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}

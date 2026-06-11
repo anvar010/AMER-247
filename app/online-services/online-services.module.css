@@ -59,7 +59,7 @@
    ============================================================ */
 .hero {
   position: relative;
-  padding: 6rem 1.5rem 4rem;
+  padding: 6rem 0 4rem;
   background:
     radial-gradient(900px 460px at 88% 14%, rgba(201, 162, 75, 0.20), transparent 60%),
     radial-gradient(700px 460px at 12% 90%, rgba(44, 63, 118, 0.65), transparent 65%),
@@ -115,7 +115,7 @@
 .heroInner {
   position: relative;
   z-index: 1;
-  max-width: 920px;
+  max-width: var(--container);
 }
 
 .eyebrow {
@@ -1038,37 +1038,138 @@
     transform: none;
   }
 }
+
 /* ============================================================
    Tablet & Mobile — full-width content
    ============================================================ */
 @media (max-width: 1024px) {
-  .hero { padding-left: 1rem; padding-right: 1rem; }
-  .tabs { padding: 3rem 0 4rem; }
-  .tabsInner { padding-left: 1rem; padding-right: 1rem; }
+  .hero {
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  .tabs {
+    padding: 3rem 0 4rem;
+  }
+
+  .tabsInner {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
 }
+
 @media (max-width: 768px) {
-  .hero       { padding: 4.5rem 1rem 2.75rem; }
-  .tabs       { padding: 2.5rem 0 3.5rem; }
-  .tabsInner  { padding-left: 0.85rem; padding-right: 0.85rem; }
-  .heroTitle  { font-size: 2.2rem; }
-  .heroCopy   { font-size: 0.96rem; }
-  .tabsHead   { margin-bottom: 1.75rem; }
-  .tabBar     { gap: 0.65rem; margin-bottom: 1.75rem; }
-  .panel      { padding: 1.5rem 1.25rem; border-radius: 16px; }
-  .panelHeader { gap: 0.85rem; padding-bottom: 1rem; margin-bottom: 1rem; }
-  .panelIconWrap { width: 48px; height: 48px; }
-  .panelTitle { font-size: 1.1rem; }
-  .subBar     { padding: 0.7rem; gap: 0.4rem; border-radius: 12px; }
-  .subChip    { padding: 0.5rem 0.85rem; font-size: 0.78rem; }
-  .groupNum   { min-width: 30px; height: 24px; font-size: 0.66rem; }
-  .groupTitle { font-size: 0.95rem; white-space: normal; }
+  .hero {
+    padding: 4.5rem 0 2.75rem;
+  }
+
+  .tabs {
+    padding: 2.5rem 0 3.5rem;
+  }
+
+  .tabsInner {
+    padding-left: 0.85rem;
+    padding-right: 0.85rem;
+  }
+
+  .heroTitle {
+    font-size: 2.2rem;
+  }
+
+  .heroCopy {
+    font-size: 0.96rem;
+  }
+
+  .tabsHead {
+    margin-bottom: 1.75rem;
+  }
+
+  .tabBar {
+    gap: 0.65rem;
+    margin-bottom: 1.75rem;
+  }
+
+  .panel {
+    padding: 1.5rem 1.25rem;
+    border-radius: 16px;
+  }
+
+  .panelHeader {
+    gap: 0.85rem;
+    padding-bottom: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .panelIconWrap {
+    width: 48px;
+    height: 48px;
+  }
+
+  .panelTitle {
+    font-size: 1.1rem;
+  }
+
+  .subBar {
+    padding: 0.7rem;
+    gap: 0.4rem;
+    border-radius: 12px;
+  }
+
+  .subChip {
+    padding: 0.5rem 0.85rem;
+    font-size: 0.78rem;
+  }
+
+  .groupNum {
+    min-width: 30px;
+    height: 24px;
+    font-size: 0.66rem;
+  }
+
+  .groupTitle {
+    font-size: 0.95rem;
+    white-space: normal;
+  }
 }
+
 @media (max-width: 480px) {
-  .hero, .tabsInner { padding-left: 0.85rem; padding-right: 0.85rem; }
-  .heroTitle  { font-size: 1.85rem; }
-  .sectionTitle { font-size: 1.55rem; line-height: 1.15; }
-  .tab        { padding: 1rem 0.95rem 0.95rem; border-radius: 14px; }
-  .tabIconWrap { width: 40px; height: 40px; border-radius: 10px; }
-  .tabLabel   { font-size: 0.78rem; }
-  .tabTag     { top: 0.85rem; right: 0.95rem; font-size: 0.6rem; }
+  .hero {
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  .tabsInner {
+    padding-left: 0.85rem;
+    padding-right: 0.85rem;
+  }
+
+  .heroTitle {
+    font-size: 1.85rem;
+  }
+
+  .sectionTitle {
+    font-size: 1.55rem;
+    line-height: 1.15;
+  }
+
+  .tab {
+    padding: 1rem 0.95rem 0.95rem;
+    border-radius: 14px;
+  }
+
+  .tabIconWrap {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+  }
+
+  .tabLabel {
+    font-size: 0.78rem;
+  }
+
+  .tabTag {
+    top: 0.85rem;
+    right: 0.95rem;
+    font-size: 0.6rem;
+  }
 }
