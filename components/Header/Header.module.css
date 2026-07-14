@@ -16,15 +16,15 @@
   box-shadow: 0 8px 24px rgba(10, 31, 68, 0.06);
 }
 
-/* Sticky header on every non-splash page: same blur, much lower opacity
-   white so it reads as a translucent bar rather than a solid bar. The
-   splash route keeps the original near-opaque .scrolled treatment. */
+/* Sticky header on every non-splash page: frosted-glass bar, clearly
+   visible against any content scrolling behind it. The splash route
+   keeps the original near-opaque .scrolled treatment. */
 .scrolledLight {
-  background: rgba(255, 255, 255, 0.5);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  border-bottom-color: rgba(255, 255, 255, 0.3);
-  box-shadow: 0 8px 24px rgba(10, 31, 68, 0.05);
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(20px) saturate(1.6);
+  -webkit-backdrop-filter: blur(20px) saturate(1.6);
+  border-bottom-color: rgba(10, 31, 68, 0.08);
+  box-shadow: 0 8px 24px rgba(10, 31, 68, 0.08);
 }
 /* Shorter, more compact bar once stuck to the top — the logo itself stays
    the same size as the default header so the change reads purely as a
