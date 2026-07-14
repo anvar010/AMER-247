@@ -9,6 +9,7 @@ export default function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [hideMobileBar, setHideMobileBar] = useState(false);
   const pathname = usePathname();
+  const isSplash = pathname === "/";
 
   useEffect(() => {
     let lastY = window.scrollY;
@@ -60,10 +61,15 @@ export default function Header() {
     href === "/" ? pathname === "/" : pathname === href || pathname.startsWith(`${href}/`);
 
   return (
-    <header className={`${styles.header} ${scrolled ? styles.scrolled : ""}`}>
+    <header className={`${styles.header} ${scrolled ? (isSplash ? styles.scrolled : styles.scrolledLight) : ""}`}>
       <div className={`container ${styles.inner}`}>
         <Link href="/" className={styles.logos}>
-          <img id="global-header-logo" src="/logos/amer.webp" alt="Amer 24/7" className={styles.logoImg} />
+          <img
+            id="global-header-logo"
+            src={scrolled ? "/logos/amernew-cropped-dark.png" : "/logos/amernew-cropped.png"}
+            alt="Amer 24/7"
+            className={styles.logoImg}
+          />
         </Link>
 
         <nav className={styles.nav}>

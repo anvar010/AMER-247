@@ -1,9 +1,16 @@
 .footer {
-  background: 
+  background:
     linear-gradient(rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0.85)),
     url('/images/desert-footer.webp') bottom center / cover no-repeat;
   background-color: var(--brand-light);
   color: var(--brand-navy);
+}
+
+/* On the homepage, MobileAppFooter (app-matching) replaces this on mobile */
+@media (max-width: 768px) {
+  .hideOnMobile {
+    display: none;
+  }
 }
 
 .top {
@@ -21,7 +28,7 @@
 }
 
 .brand .logo {
-  height: 64px;
+  height: 72px;
   width: auto;
   margin-bottom: 1.25rem;
 }

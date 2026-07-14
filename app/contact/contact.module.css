@@ -927,3 +927,12 @@ a.infoLink:hover { color: var(--brand-gold); }
   .faqContactCard { padding: 1.25rem 1.1rem 1.35rem; }
   .input, .textarea { padding: 0.85rem 0.95rem; font-size: 0.92rem; }
 }
+
+/* Mobile: replaced entirely by MobileSupportScreen (matches the app's SupportScreen) */
+@media (max-width: 768px) {
+  .hero,
+  .body,
+  .faq {
+    display: none;
+  }
+}

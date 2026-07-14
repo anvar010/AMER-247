@@ -284,6 +284,60 @@
   letter-spacing: 0.05em;
 }
 
+/* Mobile: replaced by MobileAppHome (Explore Services grid) — matches the app's HomeScreen.tsx */
+@media (max-width: 768px) {
+  .section {
+    display: none;
+  }
+
+  .statusPill {
+    background-color: #FF512F;
+  }
+
+  .statusDotPing {
+    background-color: #E3C77E;
+  }
+
+  .statusDotSolid {
+    background-color: #C9A24B;
+  }
+
+  .narrativeBlock {
+    border-left-color: #FF512F;
+  }
+
+  .ctaButton {
+    background-color: #FF512F;
+    box-shadow: 0 10px 15px -3px rgba(255, 81, 47, 0.25);
+  }
+
+  .ctaButton:hover {
+    background-color: #922010;
+    box-shadow: 0 10px 15px -3px rgba(146, 32, 16, 0.3);
+  }
+
+  .ctaButton:hover .ctaIconCircle {
+    color: #922010;
+  }
+
+  .card:hover {
+    border-color: #FF512F;
+  }
+
+  .cardLine {
+    background-color: #C9A24B;
+  }
+
+  .cardIconWrap {
+    color: #FF512F;
+  }
+
+  .card:hover .cardIconWrap {
+    background-color: #FF512F;
+    color: #ffffff;
+  }
+}
+
 /* Animations */
 .active {
   opacity: 1 !important;

@@ -1,0 +1,14 @@
+.wrap {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .wrap {
+    display: block;
+    background: #EEF1F7;
+  }
+}
+
+.menu {
+  padding: 1.6rem 1.25rem 2.5rem;
+}

@@ -1,0 +1,154 @@
+.wrap {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .wrap {
+    display: block;
+    background: #EEF1F7;
+    padding: 0 1.25rem 0.5rem;
+  }
+}
+
+.sec {
+  margin-bottom: 0.9rem;
+}
+
+.h2 {
+  font-weight: 700;
+  font-size: 1.2rem;
+  color: #1A1A1A;
+  margin: 0;
+}
+
+.card {
+  border-radius: 24px;
+  overflow: hidden;
+  background: #FFFFFF;
+  box-shadow: 0 8px 14px rgba(68, 16, 16, 0.1);
+}
+
+.imgWrap {
+  position: relative;
+  height: 160px;
+}
+
+.img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.badge {
+  position: absolute;
+  left: 14px;
+  bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: 14px;
+  padding: 0.55rem 0.8rem;
+  box-shadow: 0 1px 2px rgba(68, 16, 16, 0.04), 0 8px 24px rgba(68, 16, 16, 0.07);
+}
+
+.badgeIco {
+  width: 38px;
+  height: 38px;
+  border-radius: 11px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(155deg, #E3C77E, #A6822F);
+  color: #2A1F00;
+}
+
+.badgeT {
+  display: block;
+  font-size: 1.125rem;
+  font-weight: 800;
+  color: #1A1A1A;
+  line-height: 1;
+}
+
+.badgeL {
+  display: block;
+  font-size: 0.56rem;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: #6B7687;
+  margin-top: 0.2rem;
+}
+
+.body {
+  padding: 1.1rem;
+}
+
+.title {
+  font-size: 1.125rem;
+  font-weight: 800;
+  line-height: 1.2;
+  color: #1A1A1A;
+  margin: 0;
+}
+
+.gold {
+  color: #A6822F;
+}
+
+.points {
+  list-style: none;
+  margin: 0.9rem 0 1rem;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+}
+
+.point {
+  display: flex;
+  gap: 0.7rem;
+  align-items: flex-start;
+}
+
+.pn {
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  border-radius: 8px;
+  background: #F6F8FC;
+  color: #FF512F;
+  font-weight: 700;
+  font-size: 0.69rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pt {
+  margin: 0;
+  font-size: 0.81rem;
+  color: #262626;
+  line-height: 1.4;
+}
+
+.cta {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  width: 100%;
+  padding: 0.85rem;
+  border-radius: 999px;
+  background: linear-gradient(155deg, #E24020, #922010);
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 0.9rem;
+  text-decoration: none;
+  box-shadow: 0 12px 18px -5px rgba(146, 32, 16, 0.35);
+}

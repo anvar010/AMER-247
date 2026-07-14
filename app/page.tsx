@@ -13,6 +13,12 @@ export default function HomePage() {
     <>
       <Hero />
       {/* <Hero2 /> You can uncomment to use the scroll hero */}
+
+      {/* On mobile this renders MobileScrollHero (the splash) as the sole
+          screen — Countries/WhoWeAre/AboutUs/WhatWeDo/PickUpService/Partners
+          below are desktop-only there; the splash's buttons navigate to
+          /home, the app-matching mobile "Home" page, instead of scrolling
+          into this content. */}
       <Countries />
       <WhoWeAre />
       <AboutUs />

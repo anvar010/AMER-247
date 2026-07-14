@@ -1,8 +1,22 @@
+"use client";
+
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { Facebook, Twitter, Instagram, Youtube, ArrowRight } from "lucide-react";
+import MobileAppFooter from "@/components/MobileAppFooter/MobileAppFooter";
 import styles from "./Footer.module.css";
 
 export default function Footer() {
+  const pathname = usePathname();
+  // "/" is the splash-only screen on mobile — no footer at all there.
+  // "/contact" (MobileSupportScreen) already embeds its own app-style
+  // footer card, so rendering another one would duplicate it.
+  // Every other mobile page gets the app-style footer; the classic
+  // (desert/cream) footer is desktop-only from here on.
+  const isSplash = pathname === "/";
+  const hasOwnMobileFooter = pathname === "/contact";
+  const showAppFooter = !isSplash && !hasOwnMobileFooter;
+
   const useful = [
     "Privacy Policy",
     "Refund Policy",
@@ -13,10 +27,12 @@ export default function Footer() {
   ];
 
   return (
-    <footer className={styles.footer}>
+    <>
+      {showAppFooter && <MobileAppFooter />}
+      <footer className={`${styles.footer} ${styles.hideOnMobile}`}>
       <div className={`container ${styles.top}`}>
         <div className={styles.brand}>
-          <img src="/logos/amer.webp" alt="Amer 24/7" className={styles.logo} />
+          <img src="/logos/amernew-cropped.png" alt="Amer 24/7" className={styles.logo} />
           <p className={styles.tagline}>We are open 24 hrs all days.</p>
           <p className={styles.copy}>
             We take pride in simplifying visa and immigration application
@@ -100,6 +116,7 @@ export default function Footer() {
           <div>© {new Date().getFullYear()} Amer 24/7. All rights reserved.</div>
         </div>
       </div>
-    </footer>
+      </footer>
+    </>
   );
 }

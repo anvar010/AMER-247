@@ -1,57 +1,71 @@
+/* Floating glassmorphic pill — matches the design system's .tabbar exactly
+   (project/ui_kits/amer-app/app.css), not a flat full-width bar. */
 .mobileNav {
   display: none;
   position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background: #ffffff;
-  border-top: 1px solid #e2e8f0;
-  box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.03);
+  left: 10px;
+  right: 10px;
+  bottom: 14px;
+  height: 62px;
+  border-radius: 26px;
+  align-items: center;
+  justify-content: space-around;
+  background: rgba(233, 236, 242, 0.94);
+  backdrop-filter: blur(26px) saturate(1.7);
+  -webkit-backdrop-filter: blur(26px) saturate(1.7);
+  box-shadow: 0 6px 22px rgba(68, 16, 16, 0.16), inset 0 0 0 0.5px rgba(255, 255, 255, 0.7);
+  padding: 0 8px;
   z-index: 100;
-  padding-bottom: env(safe-area-inset-bottom); /* iOS support */
 }
 
 @media (max-width: 768px) {
   .mobileNav {
     display: flex;
-    justify-content: space-around;
-    align-items: center;
+    bottom: calc(14px + env(safe-area-inset-bottom));
   }
 }
 
 .navItem {
+  flex: 1;
+  height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 0.75rem 0.2rem;
-  color: #475569;
+  gap: 3px;
+  color: #6B7687;
   text-decoration: none;
-  font-size: 0.75rem;
-  font-weight: 700;
-  gap: 0.35rem;
-  transition: color 0.2s;
-  flex: 1;
-  text-align: center;
+  transition: color 0.2s, transform 0.15s;
 }
 
-.navItem svg {
-  color: #64748b;
-  transition: color 0.2s;
+.navItem span {
+  font-size: 10.5px;
+  font-weight: 600;
 }
 
-.navItem:hover, .navItem:active {
-  color: #0A1128;
-}
-
-.navItem:hover svg, .navItem:active svg {
-  color: #0A1128;
+.navItem:active {
+  transform: scale(0.92);
 }
 
 .active {
-  color: #0A1128;
+  color: #FF512F;
 }
 
-.active svg {
-  color: #0A1128;
+.applyOuter {
+  flex: 0 0 auto;
+  width: 54px;
+  height: 54px;
+  margin-top: -22px;
+  border-radius: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(155deg, #E3C77E, #A6822F);
+  color: #2A1F00;
+  box-shadow: 0 12px 26px rgba(201, 162, 75, 0.34);
+  transition: transform 0.15s;
+}
+
+.applyOuter:active {
+  transform: scale(0.92);
 }

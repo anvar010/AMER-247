@@ -1,0 +1,62 @@
+.head {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .head {
+    display: block;
+    position: relative;
+    overflow: hidden;
+    padding: 4.9rem 1.25rem 2rem;
+    background: linear-gradient(135deg, #FF512F, #7A1508);
+  }
+}
+
+.glowGold {
+  position: absolute;
+  top: -3.4rem;
+  right: -2.8rem;
+  width: 170px;
+  height: 170px;
+  border-radius: 50%;
+  background: rgba(227, 199, 126, 0.16);
+}
+
+.glowWhite {
+  position: absolute;
+  bottom: -5rem;
+  left: -3.1rem;
+  width: 170px;
+  height: 170px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.kicker {
+  position: relative;
+  z-index: 2;
+  display: block;
+  color: #E3C77E;
+  font-size: 0.69rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  margin-top: 1.1rem;
+}
+
+.title {
+  position: relative;
+  z-index: 2;
+  font-weight: 800;
+  font-size: 1.85rem;
+  color: #ffffff;
+  margin: 0.35rem 0 0;
+}
+
+.sub {
+  position: relative;
+  z-index: 2;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.8125rem;
+  line-height: 1.45;
+  margin: 0.5rem 0 0;
+}

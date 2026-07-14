@@ -11,6 +11,7 @@ import {
 } from "lucide-react";
 import styles from "./contact.module.css";
 import { CountryCodeSelect, OptionSelect } from "./Selects";
+import MobileSupportScreen from "@/components/MobileSupportScreen/MobileSupportScreen";
 
 const reasons = ["Visa", "Career", "Suggestion", "Complaint", "Other"];
 
@@ -85,6 +86,9 @@ export const metadata = {
 export default function ContactPage() {
   return (
     <>
+      {/* Mobile only — matches the app's SupportScreen exactly */}
+      <MobileSupportScreen />
+
       {/* ===================== Hero ===================== */}
       <section className={styles.hero}>
         <div className={styles.heroBg} aria-hidden="true">

@@ -9,7 +9,7 @@ const outfit = Outfit({ subsets: ["latin"], weight: ["300", "400", "500", "600",
 
 export default function WhoWeAre() {
   return (
-    <section id="who-we-are" className={`${styles.section} ${outfit.className}`}>
+    <section className={`${styles.section} ${outfit.className}`}>
       <div className={styles.container}>
 
         {/* Section Header */}

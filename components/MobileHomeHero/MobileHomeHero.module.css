@@ -1,0 +1,105 @@
+.head {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .head {
+    display: block;
+    position: relative;
+    overflow: hidden;
+    background-color: #1A0A05;
+    padding: 4.9rem 1.25rem 2.875rem;
+  }
+}
+
+.bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.5;
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(160deg, rgba(74, 24, 8, 0.72), rgba(18, 8, 4, 0.92));
+}
+
+.greetRow {
+  position: relative;
+  z-index: 2;
+  padding-right: 3.6rem;
+}
+
+.greetHi {
+  color: rgba(255, 255, 255, 0.75);
+  font-size: 0.84rem;
+  font-weight: 500;
+}
+
+.greetName {
+  color: #ffffff;
+  font-weight: 800;
+  font-size: 1.375rem;
+  margin-top: 0.15rem;
+}
+
+/* Sits just left of the site header's hamburger button, on the same row.
+   z-index must beat Header.module.css's fixed header (z-index: 50) or its
+   (invisible but still clickable) bounding box swallows the tap target.
+   Sized and shaped to exactly match Header.module.css's .menu button
+   (42px / 8px radius, 38px at <=480px) so the two sit as a matched pair.
+   Hidden for now per request — flip display back to flex to restore. */
+.avatar {
+  display: none;
+  position: absolute;
+  z-index: 60;
+  top: 0.5rem;
+  right: 3.9rem;
+  width: 42px;
+  height: 42px;
+  border-radius: 8px;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  flex-shrink: 0;
+}
+
+.bellDot {
+  position: absolute;
+  top: 5px;
+  right: 6px;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #C9A24B;
+  border: 1.5px solid #1A0A05;
+}
+
+@media (max-width: 480px) {
+  .avatar {
+    width: 38px;
+    height: 38px;
+    right: 3.75rem;
+  }
+}
+
+.tagline {
+  position: relative;
+  z-index: 2;
+  color: rgba(255, 255, 255, 0.82);
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  margin: 1.5rem 0 0;
+  max-width: 26rem;
+}
+
+.tagline strong {
+  color: #ffffff;
+  font-weight: 700;
+  margin-right: 0.25em;
+}

@@ -682,3 +682,11 @@
     border-radius: 16px;
   }
 }
+/* Mobile: replaced entirely by MobileServicesScreen (matches the app's ServicesScreen) */
+@media (max-width: 768px) {
+  .hero,
+  .section,
+  .cta {
+    display: none;
+  }
+}

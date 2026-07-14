@@ -1,0 +1,87 @@
+.wrap {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .wrap {
+    display: block;
+    background: #EEF1F7;
+    padding: 0.4rem 0 1rem;
+  }
+}
+
+.marquee {
+  overflow: hidden;
+  mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent);
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent);
+}
+
+.track {
+  display: flex;
+  gap: 0.5rem;
+  width: max-content;
+  padding: 0.2rem 1.25rem;
+  animation: strip-scroll 48s linear infinite;
+}
+
+.marquee:active .track {
+  animation-play-state: paused;
+}
+
+@keyframes strip-scroll {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.chip {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: #FFFFFF;
+  border-radius: 999px;
+  padding: 0.44rem 0.75rem 0.44rem 0.35rem;
+  box-shadow: 0 1px 2px rgba(68, 16, 16, 0.04), 0 8px 24px rgba(68, 16, 16, 0.07);
+}
+
+.flag {
+  width: 26px;
+  height: 18px;
+  border-radius: 4px;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.name {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #1A1A1A;
+  white-space: nowrap;
+}
+
+.status {
+  flex-shrink: 0;
+  font-size: 0.59rem;
+  font-weight: 700;
+  padding: 0.13rem 0.4rem;
+  border-radius: 999px;
+  text-transform: uppercase;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+}
+
+.free {
+  background: rgba(27, 163, 156, 0.13);
+  color: #0D6B66;
+}
+
+.evisa {
+  background: rgba(255, 81, 47, 0.12);
+  color: #E24020;
+}
+
+.required {
+  background: rgba(201, 162, 75, 0.18);
+  color: #A6822F;
+}

@@ -16,6 +16,25 @@
   --container: 1440px;
 }
 
+/* Mobile-only: retint the site to the native app's brand palette
+   (amer 24/7 Expo app — src/theme.ts) without touching desktop.
+   --brand-navy is used sitewide as both heading/body text AND accent
+   backgrounds, so it maps to the app's neutral "ink" (#1A1A1A) — the
+   same color the app uses for headings — while --brand-orange (used
+   mostly for hovers/accents) becomes the app's true primary red-orange. */
+@media (max-width: 768px) {
+  :root {
+    --brand-navy: #1A1A1A;
+    --brand-navy-dark: #000000;
+    --brand-navy-light: #3A3A3A;
+    --brand-blue: #000000;
+    --brand-orange: #FF512F;
+    --brand-orange-light: #FF6B4A;
+    --brand-orange-dark: #922010;
+    --brand-light: #FDF3EF;
+  }
+}
+
 * {
   box-sizing: border-box;
 }
@@ -24,6 +43,10 @@ html,
 body {
   margin: 0;
   padding: 0;
+  /* Safety net: guarantees the page can never be dragged/scrolled
+     sideways even if a future element slips past the viewport edge. */
+  overflow-x: hidden;
+  max-width: 100%;
 }
 
 body {
@@ -68,10 +91,12 @@ video {
   }
 }
 
-/* Mobile bottom nav spacing */
+/* Mobile bottom nav spacing — only reserved when the nav is actually
+   shown (it's hidden on "/", the splash-only screen). Toggled by
+   MobileBottomNav via a class on <body>. */
 @media (max-width: 768px) {
-  body {
-    padding-bottom: calc(65px + env(safe-area-inset-bottom));
+  body.has-bottom-nav {
+    padding-bottom: calc(90px + env(safe-area-inset-bottom));
   }
 }
 

@@ -417,7 +417,9 @@
 
 /* Mobile Adjustments */
 @media (max-width: 768px) {
+  /* Replaced by MobileAppHome (Explore Services grid) — matches the app's HomeScreen.tsx */
   .section {
+    display: none;
     padding: 5rem 0;
   }
 
@@ -431,5 +433,51 @@
 
   .storyBody {
     margin-bottom: 1.5rem;
+  }
+
+  /* Retint accents to the app's amer red-orange/gold palette */
+  .eyebrow {
+    color: #FF512F;
+  }
+
+  .titleGradient {
+    background: linear-gradient(to right, #FF512F, #FF9669);
+    -webkit-background-clip: text;
+    background-clip: text;
+  }
+
+  .tagIcon {
+    color: #FF512F;
+  }
+
+  .tag:hover {
+    border-color: rgba(255, 81, 47, 0.3);
+    box-shadow: 0 10px 25px rgba(255, 81, 47, 0.05);
+  }
+
+  .tag:hover .tagIcon {
+    color: #FF6B4A;
+  }
+
+  .quoteIcon {
+    color: rgba(255, 81, 47, 0.14);
+  }
+
+  .authorBadge {
+    background-color: #FF512F;
+  }
+
+  .badgeLabel {
+    background-color: #C9A24B;
+    box-shadow: 0 10px 15px -3px rgba(201, 162, 75, 0.35);
+  }
+
+  .highlightCard:hover {
+    background-color: #FF512F;
+    box-shadow: 0 20px 25px -5px rgba(255, 81, 47, 0.25);
+  }
+
+  .highlightCard:hover .highlightArrowWrap {
+    color: #FF512F;
   }
 }

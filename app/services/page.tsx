@@ -15,6 +15,7 @@ import {
   Landmark,
   Truck,
 } from "lucide-react";
+import MobileServicesScreen from "@/components/MobileServicesScreen/MobileServicesScreen";
 import styles from "./services.module.css";
 
 const services = [
@@ -89,6 +90,9 @@ export const metadata = {
 export default function ServicesPage() {
   return (
     <>
+      {/* Mobile only — matches the app's ServicesScreen exactly */}
+      <MobileServicesScreen />
+
       {/* ================= Hero ================= */}
       <section className={styles.hero}>
         <div className={styles.heroBgWrap}>

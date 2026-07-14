@@ -1,0 +1,84 @@
+.wrap {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .wrap {
+    display: block;
+    background: #EEF1F7;
+    padding-bottom: 1.5rem;
+  }
+}
+
+.menu {
+  padding: 1.6rem 1.25rem 0;
+}
+
+.secHead {
+  padding: 0 1.25rem;
+  margin: 1.5rem 0 0.75rem;
+}
+
+.h2 {
+  font-weight: 700;
+  font-size: 1.15rem;
+  color: #1A1A1A;
+  margin: 0;
+}
+
+.faqList {
+  padding: 0 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+
+.faq {
+  background: #ffffff;
+  border-radius: 18px;
+  padding: 0.875rem;
+  box-shadow: 0 8px 14px rgba(68, 16, 16, 0.1);
+}
+
+.faqQ {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.6rem;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  text-align: left;
+  font-family: inherit;
+}
+
+.faqQTxt {
+  flex: 1;
+  font-weight: 600;
+  font-size: 0.875rem;
+  color: #1A1A1A;
+}
+
+.faqQTxtOn {
+  color: #FF512F;
+}
+
+.faqChevron {
+  color: #6B7687;
+  flex-shrink: 0;
+  transition: transform 0.2s ease;
+}
+
+.faqChevronOn {
+  color: #FF512F;
+  transform: rotate(180deg);
+}
+
+.faqA {
+  font-size: 0.78rem;
+  color: #6B7687;
+  line-height: 1.5;
+  margin: 0.6rem 0 0;
+}

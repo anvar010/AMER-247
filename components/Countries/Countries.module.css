@@ -108,3 +108,34 @@
   background: rgba(245, 158, 11, 0.1);
   color: #d97706;
 }
+
+/* Mobile: shown only on /home (the app-matching home page), not on "/" (the splash-only screen) */
+@media (max-width: 768px) {
+  .section {
+    display: none;
+  }
+
+  .statusFree {
+    background: rgba(27, 163, 156, 0.13);
+    color: #0D6B66;
+  }
+
+  .statusEvisa {
+    background: rgba(255, 81, 47, 0.12);
+    color: #E24020;
+  }
+
+  .statusReq {
+    background: rgba(201, 162, 75, 0.18);
+    color: #A6822F;
+  }
+
+  .item:hover {
+    border-color: #FF512F;
+    box-shadow: 0 6px 14px rgba(255, 81, 47, 0.1);
+  }
+
+  .name {
+    color: #1A1A1A;
+  }
+}

@@ -277,7 +277,9 @@
 
 /* Mobile responsive adjustments */
 @media (max-width: 768px) {
+  /* Shown only on /home (the app-matching home page), not on "/" (the splash-only screen) */
   .section {
+    display: none;
     padding: 4rem 0;
   }
   .leftCol {
@@ -306,9 +308,30 @@
   .title {
     font-size: 2.25rem;
     margin-bottom: 2rem;
+    color: #1A1A1A;
   }
   .cta {
     width: 100%;
     justify-content: center;
+  }
+
+  /* Retint navy accents to the app's amer red-orange/gold palette */
+  .overlayTitle {
+    color: #1A1A1A;
+  }
+
+  .pointNumber {
+    background-color: rgba(201, 162, 75, 0.14);
+    color: #A6822F;
+  }
+
+  .cta {
+    background: #FF512F;
+    box-shadow: 0 10px 20px -5px rgba(255, 81, 47, 0.35);
+  }
+
+  .cta:hover {
+    background: #922010;
+    box-shadow: 0 15px 25px -5px rgba(146, 32, 16, 0.35);
   }
 }

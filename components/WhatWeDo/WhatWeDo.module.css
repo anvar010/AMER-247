@@ -562,3 +562,60 @@
     font-size: 1.3rem;
   }
 }
+
+/* Mobile: replaced by MobileAppHome (Explore Services grid) — matches the app's HomeScreen.tsx */
+@media (max-width: 768px) {
+  .section {
+    display: none;
+  }
+
+  .eyebrow,
+  .titleNavy {
+    color: #FF512F;
+  }
+
+  .title,
+  .cardTitle {
+    color: #1A1A1A;
+  }
+
+  .eyebrowLine {
+    background: #FF512F;
+  }
+
+  .cardNavy {
+    border-bottom-color: #C9A24B;
+    --hover-color: #FF512F;
+  }
+
+  .iconNavy {
+    background: rgba(255, 81, 47, 0.08);
+    color: #FF512F;
+  }
+
+  .floatingIcon {
+    background: linear-gradient(135deg, #F6E4BE 0%, #E3C77E 100%);
+    color: #A6822F;
+  }
+
+  .floatingTitle {
+    color: #1A1A1A;
+  }
+
+  .arrowButton {
+    color: #FF512F;
+  }
+
+  .ctaCard {
+    background: #FF512F;
+    box-shadow: 0 20px 40px rgba(255, 81, 47, 0.2);
+  }
+
+  .ctaCard:hover {
+    box-shadow: 0 30px 60px rgba(255, 81, 47, 0.3);
+  }
+
+  .ctaButton {
+    color: #FF512F;
+  }
+}

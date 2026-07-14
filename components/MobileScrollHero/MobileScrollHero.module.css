@@ -93,11 +93,15 @@
 
 .finalTitle {
   font-size: 1.6rem;
-  font-weight: 700;
-  margin: 0 0 1.5rem;
+  font-weight: 800;
+  margin: 0;
   line-height: 1.35;
   color: #fff;
   text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
+}
+
+.goldText {
+  color: #E3C77E;
 }
 
 .revealContainer {
@@ -120,32 +124,103 @@
   opacity: 0;
 }
 
-.ctaContainer {
-  overflow: hidden;
-  margin-top: 1rem;
-  padding: 0.5rem 0;
+.finalReveal {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: calc(2.5rem + env(safe-area-inset-bottom, 0px));
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 0 2rem;
+  width: 100%;
 }
 
-.viewMore {
+.finalCta {
+  width: 100%;
+  margin-top: 0.875rem;
+}
+
+.finalSub {
+  color: rgba(255, 255, 255, 0.82);
+  font-size: 0.875rem;
+  line-height: 1.5;
+  margin: 0 0 1.125rem;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+}
+
+.btnRow {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6875rem;
+  width: 100%;
+}
+
+.btn {
+  height: 54px;
+  border-radius: 999px;
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 0.5rem;
-  background: #fff;
-  color: #050B22;
-  padding: 0.85rem 2.25rem;
-  border-radius: 999px;
+  padding: 0 1.375rem;
   font-weight: 600;
-  font-size: 0.95rem;
-  transform: translateY(100%);
-  /* Initial state for animation */
-  opacity: 0;
-  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.25);
+  font-size: 0.97rem;
+  letter-spacing: 0.005em;
   text-decoration: none;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  width: 100%;
+}
+
+.btnGold {
+  background: linear-gradient(135deg, #E3C77E, #A6822F);
+  color: #2A1F00;
+  box-shadow: 0 10px 20px rgba(201, 162, 75, 0.34);
+}
+
+.btnGlass {
+  background: rgba(255, 255, 255, 0.16);
+  border: 1.5px solid rgba(255, 255, 255, 0.3);
+  color: #fff;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.trustRow {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.trustItem {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.trustItem svg {
+  color: #E3C77E;
+}
+
+.trustDot {
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.4);
 }
 
 .scrollHint {
   position: absolute;
-  bottom: calc(5.5rem + env(safe-area-inset-bottom, 0px));
+  bottom: calc(2rem + env(safe-area-inset-bottom, 0px));
   left: 50%;
   transform: translateX(-50%);
   display: flex;
@@ -154,6 +229,14 @@
   gap: 0.6rem;
   color: rgba(255, 255, 255, 0.7);
   z-index: 100;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.5s ease;
+}
+
+.scrollHint.controlsVisible {
+  opacity: 1;
+  pointer-events: auto;
 }
 
 .mouse {
@@ -204,7 +287,7 @@
   position: absolute;
   top: 1rem;
   left: 1.5rem;
-  height: 64px;
+  height: 70px;
   width: auto;
   z-index: 100;
   opacity: 0;
@@ -215,7 +298,7 @@
 
 .skipButton {
   position: absolute;
-  bottom: calc(5rem + env(safe-area-inset-bottom, 0px));
+  bottom: calc(2rem + env(safe-area-inset-bottom, 0px));
   right: 1.5rem;
   background: rgba(255, 255, 255, 0.15);
   backdrop-filter: blur(8px);
@@ -230,10 +313,17 @@
   text-transform: uppercase;
   z-index: 100;
   cursor: pointer;
-  transition: all 0.2s ease;
   display: flex;
   align-items: center;
   gap: 0.4rem;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.5s ease, background 0.2s ease, border-color 0.2s ease;
+}
+
+.skipButton.controlsVisible {
+  opacity: 1;
+  pointer-events: auto;
 }
 
 .skipButton:hover {
@@ -243,7 +333,7 @@
 
 @media (max-width: 1023px) {
   .cloneLogo {
-    height: 48px;
+    height: 52px;
     top: 0.75rem;
     left: 1rem;
   }
@@ -251,7 +341,7 @@
 
 @media (max-width: 480px) {
   .cloneLogo {
-    height: 42px;
+    height: 46px;
     top: 0.6rem;
     left: 0.85rem;
   }

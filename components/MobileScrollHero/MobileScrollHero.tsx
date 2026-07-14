@@ -5,6 +5,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ScrollToPlugin } from "gsap/ScrollToPlugin";
 import { useGSAP } from "@gsap/react";
+import { ArrowRight, Clock, ShieldCheck, Award } from "lucide-react";
 import styles from "./MobileScrollHero.module.css";
 
 if (typeof window !== "undefined") {
@@ -20,7 +21,7 @@ export default function MobileScrollHero() {
   const wrapperRef = useRef<HTMLDivElement>(null);
   const titleRef = useRef<HTMLHeadingElement>(null);
 
-  const ctaRef = useRef<HTMLAnchorElement>(null);
+  const ctaRef = useRef<HTMLDivElement>(null);
   const scrollHintRef = useRef<HTMLDivElement>(null);
   const finalImageRef = useRef<HTMLImageElement>(null);
 
@@ -29,6 +30,12 @@ export default function MobileScrollHero() {
   const overlineRef = useRef<HTMLSpanElement>(null);
   const middleTextRef = useRef<HTMLHeadingElement>(null);
   const cloneLogoRef = useRef<HTMLImageElement>(null);
+
+  // Scroll/Skip hint should only appear once the auto-scroll has settled,
+  // and should disappear again as soon as the user resumes scrolling
+  // (and stay hidden through to the final reveal).
+  const [controlsVisible, setControlsVisible] = useState(false);
+  const autoScrollDoneRef = useRef(false);
 
   useGSAP(() => {
     const canvas = canvasRef.current;
@@ -114,6 +121,13 @@ export default function MobileScrollHero() {
         end: "+=400%", // Restore the original longer scroll to keep speed normal
         scrub: 1.2, // Reduced from 2.5 to 1.2 so the video responds much faster to the physical finger swipe on mobile
         anticipatePin: 1, // Prevents mobile pin jitter
+        onUpdate: () => {
+          const frame = currentFrameRef.current;
+          // Visible from the moment the auto-scroll parks (frame ~103) all the way
+          // through, only hiding right before the final title/CTA reveal starts (333).
+          const shouldShow = autoScrollDoneRef.current && frame >= 95 && frame <= 320;
+          setControlsVisible((prev) => (prev === shouldShow ? prev : shouldShow));
+        },
       },
     });
 
@@ -147,7 +161,7 @@ export default function MobileScrollHero() {
       left: "50%",
       xPercent: -50,
       yPercent: -50,
-      scale: 2.5, // Reduced from 3.5
+      scale: 1.8, // Reduced from 3.5, then 2.5
       ease: "power2.inOut",
       duration: 104,
     }, 0);
@@ -202,17 +216,6 @@ export default function MobileScrollHero() {
       333
     );
 
-    // Keep the SCROLL hint visible during the auto-scroll to frame 164, then fade it out
-    tl.to(scrollHintRef.current, { opacity: 0, y: -20, duration: 30, ease: "power2.in" }, 164);
-
-    // Fade scroll hint back IN at the end
-    tl.fromTo(
-      scrollHintRef.current,
-      { y: 50, opacity: 0 },
-      { y: 0, opacity: 1, duration: 15, ease: "power3.out", immediateRender: false },
-      343
-    );
-
     // Fade IN the static final image at the very end (frame 353).
     tl.to(
       finalImageRef.current,
@@ -233,18 +236,30 @@ export default function MobileScrollHero() {
       const progress = targetTime / tl.duration();
       const targetY = st.start + (st.end - st.start) * progress;
 
+      const markAutoScrollDone = () => {
+        autoScrollDoneRef.current = true;
+        // The scroll has already come to rest by the time this fires, so no further
+        // ScrollTrigger onUpdate will run on its own — flip the state directly.
+        const frame = currentFrameRef.current;
+        if (frame >= 95 && frame <= 320) {
+          setControlsVisible(true);
+        }
+      };
+
       if ((window as any).lenis) {
         // Use Lenis native smooth scroll to prevent GSAP ScrollToPlugin conflicts
         (window as any).lenis.scrollTo(targetY, {
           duration: 2.4, // Increased for a smoother glide
-          easing: (t: number) => 1 - Math.pow(1 - t, 3) // easeOutCubic - smoother, softer stop
+          easing: (t: number) => 1 - Math.pow(1 - t, 3), // easeOutCubic - smoother, softer stop
+          onComplete: markAutoScrollDone,
         });
       } else {
         // Fallback
         gsap.to(window, {
           scrollTo: { y: targetY, autoKill: true },
           duration: 2.7,
-          ease: "power2.out"
+          ease: "power2.out",
+          onComplete: markAutoScrollDone,
         });
       }
     }, 800);
@@ -252,17 +267,19 @@ export default function MobileScrollHero() {
     return () => clearTimeout(timeoutId);
   }, { dependencies: [], scope: wrapperRef });
 
+  // Nothing follows the splash on "/" anymore (it's a separate screen, like
+  // the app's splash), so Skip just jumps to the end of the pinned
+  // animation itself — the bottom of the document — revealing the final
+  // title/CTA without leaving the splash.
   const handleSkip = () => {
-    const target = document.getElementById("who-we-are");
-    if (target) {
-      if ((window as any).lenis) {
-        (window as any).lenis.scrollTo(target, {
-          duration: 1.5,
-          easing: (t: number) => 1 - Math.pow(1 - t, 3)
-        });
-      } else {
-        target.scrollIntoView({ behavior: "smooth" });
-      }
+    const targetY = document.documentElement.scrollHeight;
+    if ((window as any).lenis) {
+      (window as any).lenis.scrollTo(targetY, {
+        duration: 1.5,
+        easing: (t: number) => 1 - Math.pow(1 - t, 3)
+      });
+    } else {
+      window.scrollTo({ top: targetY, behavior: "smooth" });
     }
   };
 
@@ -283,14 +300,19 @@ export default function MobileScrollHero() {
         <div className={styles.overlay} />
 
         {/* Clone Logo for Yoyo Animation */}
-        <img ref={cloneLogoRef} src="/logos/amer.webp" className={styles.cloneLogo} alt="" />
+        <img ref={cloneLogoRef} src="/logos/amernew-cropped.png" className={styles.cloneLogo} alt="" />
 
         <span ref={overlineRef} className={styles.overline} style={{ zIndex: 2 }}>
           24/7 IMMIGRATION <br /> &amp; VISA SERVICES
         </span>
 
-        <button className={styles.skipButton} onClick={handleSkip} aria-label="Skip animation">
-          Skip 
+        <button
+          className={`${styles.skipButton} ${controlsVisible ? styles.controlsVisible : ""}`}
+          onClick={handleSkip}
+          aria-label="Skip animation"
+          tabIndex={controlsVisible ? 0 : -1}
+        >
+          Skip
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <polyline points="7 13 12 18 17 13"></polyline>
             <polyline points="7 6 12 11 17 6"></polyline>
@@ -298,23 +320,54 @@ export default function MobileScrollHero() {
         </button>
 
         <div className={styles.content}>
-
           <h2 ref={middleTextRef} className={styles.middleText} style={{ opacity: 0, position: 'absolute', top: '50%', transform: 'translateY(-50%)', width: '100%', padding: '0 1.5rem' }}>
             Your Trusted Partner for <br /> UAE Visa &amp; Immigration
           </h2>
+        </div>
 
+        {/* Final reveal is pinned to the bottom of the screen, independent of the
+            centered middle text above, matching the app's bottom-sheet style splash */}
+        <div className={styles.finalReveal}>
           <h1 ref={titleRef} className={styles.finalTitle} style={{ opacity: 0 }}>
-            UAE Visa &amp; <br /> Immigration Services
+            UAE Visa &amp; <span className={styles.goldText}>Immigration</span>
           </h1>
 
-          <div className={styles.ctaContainer}>
-            <Link ref={ctaRef} href="/services" className={styles.viewMore} style={{ opacity: 0 }}>
-              View More
-            </Link>
+          <div ref={ctaRef} className={styles.finalCta} style={{ opacity: 0 }}>
+            <p className={styles.finalSub}>
+              Government services, around the clock — the only AMER centre open 24 hours, every day.
+            </p>
+
+            <div className={styles.btnRow}>
+              <Link href="/services" className={`${styles.btn} ${styles.btnGold}`}>
+                Apply Online
+                <ArrowRight size={17} />
+              </Link>
+              <Link href="/home" className={`${styles.btn} ${styles.btnGlass}`}>
+                Explore Services
+              </Link>
+            </div>
+
+            <div className={styles.trustRow}>
+              <span className={styles.trustItem}>
+                <Clock size={13} /> Open 24/7
+              </span>
+              <span className={styles.trustDot} />
+              <span className={styles.trustItem}>
+                <ShieldCheck size={13} /> Govt. Backed
+              </span>
+              <span className={styles.trustDot} />
+              <span className={styles.trustItem}>
+                <Award size={13} /> Since 2017
+              </span>
+            </div>
           </div>
         </div>
 
-        <div ref={scrollHintRef} className={styles.scrollHint} aria-hidden>
+        <div
+          ref={scrollHintRef}
+          className={`${styles.scrollHint} ${controlsVisible ? styles.controlsVisible : ""}`}
+          aria-hidden
+        >
           <div className={styles.mouse}>
             <div className={styles.wheel}></div>
           </div>
