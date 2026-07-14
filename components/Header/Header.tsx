@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Menu, Home, FileText, Plane } from "lucide-react";
@@ -11,42 +11,66 @@ export default function Header() {
   const pathname = usePathname();
   const isSplash = pathname === "/";
 
+  // The scroll listener below is only ever set up once (mount), so it must
+  // read the CURRENT pathname via a ref rather than closing over the value
+  // from whatever page was active on mount — otherwise navigating (e.g. the
+  // logo back to "/") keeps using stale route logic (wrong scroll threshold),
+  // which is what caused the splash header to sometimes render opaque.
+  const pathnameRef = useRef(pathname);
+  useEffect(() => {
+    pathnameRef.current = pathname;
+  }, [pathname]);
+
   useEffect(() => {
     let lastY = window.scrollY;
     let ticking = false;
 
+    const evaluate = () => {
+      const y = window.scrollY;
+
+      // On mobile homepage, keep header transparent until scrolling past the 400vh pinned video
+      const isMobile = window.innerWidth <= 768;
+      const isHome = pathnameRef.current === "/";
+      const threshold = (isHome && isMobile) ? window.innerHeight * 4.2 : 40;
+
+      setScrolled(y > threshold);
+
+      // Hide bottom bar on scroll down, show on scroll up / at top.
+      const delta = y - lastY;
+      if (y < 60) {
+        setHideMobileBar(false);
+      } else if (delta > 4) {
+        setHideMobileBar(true);
+      } else if (delta < -4) {
+        setHideMobileBar(false);
+      }
+      lastY = y;
+    };
+
     const onScroll = () => {
       if (!ticking) {
-        window.requestAnimationFrame(() => {
-          const y = window.scrollY;
-          
-          // On mobile homepage, keep header transparent until scrolling past the 400vh pinned video
-          const isMobile = window.innerWidth <= 768;
-          const isHome = pathname === "/";
-          const threshold = (isHome && isMobile) ? window.innerHeight * 4.2 : 40;
-          
-          setScrolled(y > threshold);
-
-          // Hide bottom bar on scroll down, show on scroll up / at top.
-          const delta = y - lastY;
-          if (y < 60) {
-            setHideMobileBar(false);
-          } else if (delta > 4) {
-            setHideMobileBar(true);
-          } else if (delta < -4) {
-            setHideMobileBar(false);
-          }
-          lastY = y;
-          ticking = false;
-        });
+        window.requestAnimationFrame(() => { evaluate(); ticking = false; });
         ticking = true;
       }
     };
 
-    onScroll();
+    evaluate();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  // Re-evaluate immediately on every route change — a client-side nav (e.g.
+  // tapping the logo from a scrolled /home back to "/") may not fire a
+  // native 'scroll' event even though the scroll position resets, which
+  // otherwise left the previous page's stale "scrolled" state visible on
+  // the new page until the user scrolled again.
+  useEffect(() => {
+    const y = window.scrollY;
+    const isMobile = window.innerWidth <= 768;
+    const isHome = pathname === "/";
+    const threshold = (isHome && isMobile) ? window.innerHeight * 4.2 : 40;
+    setScrolled(y > threshold);
+  }, [pathname]);
 
   const nav = [
     { label: "Home", href: "/" },
@@ -59,6 +83,10 @@ export default function Header() {
 
   const isActive = (href: string) =>
     href === "/" ? pathname === "/" : pathname === href || pathname.startsWith(`${href}/`);
+
+  // The Apply form has its own full top bar (close button, title, back to
+  // Services) — a second persistent header on top of it was pure redundancy.
+  if (pathname === "/apply") return null;
 
   return (
     <header className={`${styles.header} ${scrolled ? (isSplash ? styles.scrolled : styles.scrolledLight) : ""}`}>

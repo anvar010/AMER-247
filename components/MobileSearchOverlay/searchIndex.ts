@@ -1,4 +1,5 @@
 import { amerSubCategories } from "@/app/online-services/AmerServicesData";
+import { buildApplyHref } from "@/lib/applyLink";
 import { OTHER_HUBS } from "./catalog";
 
 export type SearchResult = {
@@ -13,28 +14,22 @@ export type SearchResult = {
 // own name happens to contain the words. A match always opens that exact
 // service's application form — there is no "browse the category" result.
 const AMER_SERVICES: SearchResult[] = amerSubCategories.flatMap((group) =>
-  group.items.map((item) => {
-    const price = item.inside || item.outside || item.single || "";
-    return {
-      label: item.name,
-      sub: `${group.label} · Amer Services`,
-      hay: `${item.name} ${group.label} Amer Services Entry permits, residency & more`,
-      href: `/apply?service=${encodeURIComponent(item.name)}&hub=${encodeURIComponent(group.label)}&price=${encodeURIComponent(price)}`,
-    };
-  })
+  group.items.map((item) => ({
+    label: item.name,
+    sub: `${group.label} · Amer Services`,
+    hay: `${item.name} ${group.label} Amer Services Entry permits, residency & more`,
+    href: buildApplyHref(item, group.label),
+  }))
 );
 
 const OTHER_SERVICES: SearchResult[] = OTHER_HUBS.flatMap((hub) =>
   hub.groups.flatMap((group) =>
-    group.items.map((item) => {
-      const price = item.inside || item.outside || item.single || "";
-      return {
-        label: item.name,
-        sub: `${group.label} · ${hub.title}`,
-        hay: `${item.name} ${group.label} ${hub.title} ${hub.sub}`,
-        href: `/apply?service=${encodeURIComponent(item.name)}&hub=${encodeURIComponent(hub.title)}&price=${encodeURIComponent(price)}`,
-      };
-    })
+    group.items.map((item) => ({
+      label: item.name,
+      sub: `${group.label} · ${hub.title}`,
+      hay: `${item.name} ${group.label} ${hub.title} ${hub.sub}`,
+      href: buildApplyHref(item, hub.title),
+    }))
   )
 );
 

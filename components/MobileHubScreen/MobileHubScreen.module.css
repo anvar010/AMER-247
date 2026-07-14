@@ -158,6 +158,12 @@
   padding: 0 1.25rem;
 }
 
+/* A group with only one service shouldn't leave an empty half-width gap
+   next to it — let it span the full row instead. */
+.svcGrid > :only-child {
+  grid-column: 1 / -1;
+}
+
 .svcBox {
   display: flex;
   flex-direction: column;
@@ -168,6 +174,27 @@
   padding: 0.875rem;
   box-shadow: 0 8px 14px rgba(68, 16, 16, 0.1);
   min-width: 0;
+}
+
+.svcBoxGold {
+  border: 1px solid rgba(201, 162, 75, 0.18);
+}
+
+.svcIco {
+  width: 36px;
+  height: 36px;
+  border-radius: 11px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #F6F8FC;
+  color: #FF512F;
+}
+
+.svcIcoGold {
+  background: rgba(201, 162, 75, 0.18);
+  color: #A6822F;
 }
 
 .svcName {

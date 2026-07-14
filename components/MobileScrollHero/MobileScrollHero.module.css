@@ -3,7 +3,13 @@
   width: 100%;
   background: #050B22;
   color: #fff;
+  /* 100vh on mobile Safari/Chrome sizes against the LARGEST possible viewport
+     (address bar hidden). GSAP's pin-spacer gets built against that taller
+     value, but the actually-visible viewport is shorter while the address
+     bar is showing — leaving genuine blank scrollable space once you reach
+     the true end. 100dvh tracks the real, currently-visible viewport instead. */
   height: 100vh;
+  height: 100dvh;
   will-change: transform;
   z-index: 20;
 }
@@ -12,6 +18,7 @@
   position: sticky;
   top: 0;
   height: 100vh;
+  height: 100dvh;
   width: 100%;
   overflow: hidden;
   display: flex;

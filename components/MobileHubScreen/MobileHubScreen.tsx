@@ -2,12 +2,23 @@
 
 import { useMemo, useState } from "react";
 import Link from "next/link";
-import { Search, X, Layers } from "lucide-react";
+import {
+  Search, X, Layers, Stamp, Users, HeartPulse, CalendarCheck, Printer,
+  FileText, Globe, Building2, TrendingUp, Landmark, ShieldCheck, Gem,
+  IdCard, ShieldPlus, Stethoscope, type LucideIcon,
+} from "lucide-react";
 import { Outfit } from "next/font/google";
 import type { SubCategory, PriceItem } from "@/app/online-services/AmerServicesData";
+import { buildApplyHref } from "@/lib/applyLink";
 import styles from "./MobileHubScreen.module.css";
 
 const outfit = Outfit({ subsets: ["latin"], weight: ["500", "600", "700", "800"] });
+
+// Matches the real app's per-group icon names (group.icon in the catalog).
+const GROUP_ICONS: Record<string, LucideIcon> = {
+  Stamp, Users, HeartPulse, CalendarCheck, Printer, X, FileText, Globe,
+  Building2, TrendingUp, Landmark, ShieldCheck, Gem, IdCard, ShieldPlus, Stethoscope,
+};
 
 function PriceBlock({ item }: { item: PriceItem }) {
   if (item.single) {
@@ -25,9 +36,10 @@ export interface MobileHubScreenProps {
   title: string;
   blurb: string;
   subCategories: SubCategory[];
+  gold?: boolean;
 }
 
-export default function MobileHubScreen({ title, blurb, subCategories }: MobileHubScreenProps) {
+export default function MobileHubScreen({ title, blurb, subCategories, gold }: MobileHubScreenProps) {
   const [q, setQ] = useState("");
 
   const serviceCount = subCategories.reduce((a, g) => a + g.items.length, 0);
@@ -77,10 +89,13 @@ export default function MobileHubScreen({ title, blurb, subCategories }: MobileH
             </div>
             <div className={styles.svcGrid}>
               {g.items.map((it) => {
-                const priceLabel = it.single ?? it.inside ?? it.outside ?? "";
-                const href = `/apply?service=${encodeURIComponent(it.name)}&hub=${encodeURIComponent(title)}&price=${encodeURIComponent(priceLabel)}`;
+                const href = buildApplyHref(it, title);
+                const GroupIcon = GROUP_ICONS[g.icon] ?? Layers;
                 return (
-                  <Link key={it.name} href={href} className={styles.svcBox}>
+                  <Link key={it.name} href={href} className={`${styles.svcBox} ${gold ? styles.svcBoxGold : ""}`}>
+                    <span className={`${styles.svcIco} ${gold ? styles.svcIcoGold : ""}`}>
+                      <GroupIcon size={19} />
+                    </span>
                     <p className={styles.svcName}>{it.name}</p>
                     <div className={styles.svcPrice}>
                       <PriceBlock item={it} />

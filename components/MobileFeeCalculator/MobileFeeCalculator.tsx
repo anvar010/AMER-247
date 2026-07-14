@@ -5,11 +5,12 @@ import { useRouter } from "next/navigation";
 import { Outfit } from "next/font/google";
 import {
   Calculator, X, ChevronDown, Search, Check, ArrowRight,
-  Building2, IdCard, Gem, FileText, Stethoscope, ShieldPlus,
+  Building2, IdCard, Gem, FileText, Stethoscope, ShieldPlus, Plane,
 } from "lucide-react";
 import { amerSubCategories, type PriceItem } from "@/app/online-services/AmerServicesData";
 import { OTHER_HUBS } from "@/components/MobileSearchOverlay/catalog";
 import { lockBodyScroll, unlockBodyScroll } from "@/lib/useBodyScrollLock";
+import { buildApplyHref } from "@/lib/applyLink";
 import styles from "./MobileFeeCalculator.module.css";
 
 const outfit = Outfit({ subsets: ["latin"], weight: ["500", "600", "700", "800"] });
@@ -26,6 +27,7 @@ const HUBS = [
   { key: "tasheel", title: "Tas-Heel Services", icon: FileText, groups: findHub("tasheel") },
   { key: "medical", title: "Medical Test", icon: Stethoscope, groups: findHub("medical") },
   { key: "insurance", title: "Insurance", icon: ShieldPlus, groups: findHub("insurance") },
+  { key: "tourist", title: "Tourist Visa", icon: Plane, groups: findHub("tourist") },
 ] as const;
 
 type Picked = { item: PriceItem; group: string };
@@ -120,8 +122,7 @@ export default function MobileFeeCalculator({ open, onClose }: { open: boolean; 
 
   const startApplication = () => {
     if (!picked) return;
-    const href = `/apply?service=${encodeURIComponent(picked.item.name)}&hub=${encodeURIComponent(picked.group)}&price=${encodeURIComponent(priceStr ?? "")}`;
-    router.push(href);
+    router.push(buildApplyHref(picked.item, picked.group));
     onClose();
   };
 
