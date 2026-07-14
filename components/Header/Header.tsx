@@ -28,12 +28,11 @@ export default function Header() {
     const evaluate = () => {
       const y = window.scrollY;
 
-      // On mobile homepage, keep header transparent until scrolling past the 400vh pinned video
-      const isMobile = window.innerWidth <= 768;
+      // The splash stays transparent for its entire scroll range, on every
+      // device — no threshold approximation, since a viewport-relative
+      // guess could fall short (leaving an opaque header) on some devices.
       const isHome = pathnameRef.current === "/";
-      const threshold = (isHome && isMobile) ? window.innerHeight * 4.2 : 40;
-
-      setScrolled(y > threshold);
+      setScrolled(isHome ? false : y > 40);
 
       // Hide bottom bar on scroll down, show on scroll up / at top.
       const delta = y - lastY;
@@ -66,10 +65,8 @@ export default function Header() {
   // the new page until the user scrolled again.
   useEffect(() => {
     const y = window.scrollY;
-    const isMobile = window.innerWidth <= 768;
     const isHome = pathname === "/";
-    const threshold = (isHome && isMobile) ? window.innerHeight * 4.2 : 40;
-    setScrolled(y > threshold);
+    setScrolled(isHome ? false : y > 40);
   }, [pathname]);
 
   const nav = [

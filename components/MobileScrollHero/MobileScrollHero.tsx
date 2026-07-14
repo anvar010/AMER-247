@@ -31,11 +31,13 @@ export default function MobileScrollHero() {
   const middleTextRef = useRef<HTMLHeadingElement>(null);
   const cloneLogoRef = useRef<HTMLImageElement>(null);
 
-  // Scroll/Skip hint should only appear once the auto-scroll has settled,
-  // and should disappear again as soon as the user resumes scrolling
-  // (and stay hidden through to the final reveal).
+  // Scroll/Skip hint are visible for the middle stretch of the animation
+  // and hidden right before the final reveal. This is purely frame-driven
+  // (not gated on the auto-scroll's completion callback) — that callback
+  // isn't guaranteed to fire if the user starts scrolling manually before
+  // the auto-scroll settles, which previously could leave the controls
+  // stuck hidden until you scrolled all the way to the very end.
   const [controlsVisible, setControlsVisible] = useState(false);
-  const autoScrollDoneRef = useRef(false);
 
   useGSAP(() => {
     const canvas = canvasRef.current;
@@ -125,7 +127,7 @@ export default function MobileScrollHero() {
           const frame = currentFrameRef.current;
           // Visible from the moment the auto-scroll parks (frame ~103) all the way
           // through, only hiding right before the final title/CTA reveal starts (333).
-          const shouldShow = autoScrollDoneRef.current && frame >= 95 && frame <= 320;
+          const shouldShow = frame >= 95 && frame <= 320;
           setControlsVisible((prev) => (prev === shouldShow ? prev : shouldShow));
         },
       },
@@ -236,22 +238,11 @@ export default function MobileScrollHero() {
       const progress = targetTime / tl.duration();
       const targetY = st.start + (st.end - st.start) * progress;
 
-      const markAutoScrollDone = () => {
-        autoScrollDoneRef.current = true;
-        // The scroll has already come to rest by the time this fires, so no further
-        // ScrollTrigger onUpdate will run on its own — flip the state directly.
-        const frame = currentFrameRef.current;
-        if (frame >= 95 && frame <= 320) {
-          setControlsVisible(true);
-        }
-      };
-
       if ((window as any).lenis) {
         // Use Lenis native smooth scroll to prevent GSAP ScrollToPlugin conflicts
         (window as any).lenis.scrollTo(targetY, {
           duration: 2.4, // Increased for a smoother glide
           easing: (t: number) => 1 - Math.pow(1 - t, 3), // easeOutCubic - smoother, softer stop
-          onComplete: markAutoScrollDone,
         });
       } else {
         // Fallback
@@ -259,7 +250,6 @@ export default function MobileScrollHero() {
           scrollTo: { y: targetY, autoKill: true },
           duration: 2.7,
           ease: "power2.out",
-          onComplete: markAutoScrollDone,
         });
       }
     }, 800);
