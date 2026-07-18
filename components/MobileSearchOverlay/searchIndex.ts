@@ -18,18 +18,20 @@ const AMER_SERVICES: SearchResult[] = amerSubCategories.flatMap((group) =>
     label: item.name,
     sub: `${group.label} · Amer Services`,
     hay: `${item.name} ${group.label} Amer Services Entry permits, residency & more`,
-    href: buildApplyHref(item, group.label),
+    href: buildApplyHref(item, "Amer Services"),
   }))
 );
 
 const OTHER_SERVICES: SearchResult[] = OTHER_HUBS.flatMap((hub) =>
   hub.groups.flatMap((group) =>
-    group.items.map((item) => ({
-      label: item.name,
-      sub: `${group.label} · ${hub.title}`,
-      hay: `${item.name} ${group.label} ${hub.title} ${hub.sub}`,
-      href: buildApplyHref(item, hub.title),
-    }))
+    group.items
+      .filter((item) => !item.disabled)
+      .map((item) => ({
+        label: item.name,
+        sub: `${group.label} · ${hub.title}`,
+        hay: `${item.name} ${group.label} ${hub.title} ${hub.sub}`,
+        href: buildApplyHref(item, hub.title),
+      }))
   )
 );
 

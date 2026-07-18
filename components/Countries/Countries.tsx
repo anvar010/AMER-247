@@ -1,5 +1,9 @@
 import { Check, FileText, AlertCircle } from "lucide-react";
+import { Outfit } from "next/font/google";
 import styles from "./Countries.module.css";
+import mstyles from "@/components/MobileCountryStrip/MobileCountryStrip.module.css";
+
+const outfit = Outfit({ subsets: ["latin"], weight: ["600", "700"] });
 
 type Status = "free" | "evisa" | "required";
 
@@ -40,10 +44,21 @@ const statusMeta: Record<Status, { label: string; className: string; icon: React
   required: { label: "Visa Required", className: "statusReq", icon: <AlertCircle size={11} /> },
 };
 
+// Mobile's marquee shows a curated subset (drops a few lower-traffic
+// countries to keep the strip shorter on small screens) — filtered from
+// the same master list above rather than a second hardcoded array.
+const MOBILE_CODES = new Set([
+  "us", "gb", "ca", "au", "de", "fr", "jp", "sg",
+  "in", "pk", "ph", "lk", "eg", "ng", "bd",
+]);
+const mobileCountries = countries.filter((c) => MOBILE_CODES.has(c.code));
+
 export default function Countries() {
   const track = [...countries, ...countries];
+  const mobileTrack = [...mobileCountries, ...mobileCountries];
 
   return (
+    <>
     <section className={styles.section}>
       <div className={styles.marquee}>
         <div className={styles.track}>
@@ -68,5 +83,29 @@ export default function Countries() {
         </div>
       </div>
     </section>
+
+    {/* Mobile-only — same master list (filtered subset) and status labels
+        as above. Visibility is CSS-driven (mstyles.wrap). */}
+    <section className={`${mstyles.wrap} ${outfit.className}`}>
+      <div className={mstyles.marquee}>
+        <div className={mstyles.track}>
+          {mobileTrack.map((c, i) => (
+            <div key={`${c.code}-${i}`} className={mstyles.chip}>
+              <img
+                src={`https://flagcdn.com/w80/${c.code}.png`}
+                alt={c.name}
+                className={mstyles.flag}
+                loading="lazy"
+              />
+              <span className={mstyles.name}>{c.name}</span>
+              <span className={`${mstyles.status} ${mstyles[c.status]}`}>
+                {statusMeta[c.status].label}
+              </span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+    </>
   );
 }

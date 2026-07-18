@@ -5,6 +5,15 @@ import styles from "./MobileAppFooter.module.css";
 
 const outfit = Outfit({ subsets: ["latin"], weight: ["500", "600", "700", "800"] });
 
+const pageLinks = [
+  { label: "Privacy Policy", href: "/privacy-policy" },
+  { label: "Refund Policy", href: "/refund-policy" },
+  { label: "Terms & Conditions", href: "/terms-conditions" },
+  { label: "Careers", href: "/career" },
+  { label: "Covid Testing", href: "/covid-testing" },
+  { label: "Contact", href: "/contact" },
+];
+
 const socials = [
   { icon: Facebook, url: "https://www.facebook.com/Amer247service/" },
   { icon: Instagram, url: "https://www.instagram.com/amer_247/?hl=en" },
@@ -34,6 +43,12 @@ export default function MobileAppFooter() {
             <Phone size={16} className={styles.icon} />
             <span className={styles.rowTxt}>+971 4 2300500</span>
           </div>
+        </div>
+
+        <div className={styles.links}>
+          {pageLinks.map((l) => (
+            <Link key={l.href} href={l.href} className={styles.link}>{l.label}</Link>
+          ))}
         </div>
 
         <div className={styles.socials}>

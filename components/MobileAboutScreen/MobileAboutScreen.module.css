@@ -1,0 +1,374 @@
+.wrap {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .wrap {
+    display: block;
+    background: #EEF1F7;
+  }
+}
+
+/* ---------- Hero ---------- */
+.hubTop {
+  position: relative;
+  overflow: hidden;
+  padding: 4.9rem 1.25rem 1.75rem;
+  background: linear-gradient(135deg, #FF512F, #7A1508);
+}
+
+.glowGold {
+  position: absolute;
+  top: -3.4rem;
+  right: -2.8rem;
+  width: 170px;
+  height: 170px;
+  border-radius: 50%;
+  background: rgba(227, 199, 126, 0.16);
+}
+
+.glowWhite {
+  position: absolute;
+  bottom: -5rem;
+  left: -3.1rem;
+  width: 170px;
+  height: 170px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.eyebrow {
+  position: relative;
+  z-index: 2;
+  display: block;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.8);
+  margin-bottom: 0.6rem;
+}
+
+.title {
+  position: relative;
+  z-index: 2;
+  font-weight: 800;
+  font-size: 1.55rem;
+  line-height: 1.3;
+  color: #ffffff;
+  margin: 0;
+}
+
+.blurb {
+  position: relative;
+  z-index: 2;
+  color: rgba(255, 255, 255, 0.82);
+  font-size: 0.82rem;
+  line-height: 1.5;
+  margin: 0.75rem 0 0;
+}
+
+.statsGrid {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.6rem;
+  margin-top: 1.25rem;
+}
+
+.statCard {
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 14px;
+  padding: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.statValue {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: #ffffff;
+}
+
+.statLabel {
+  font-size: 0.68rem;
+  color: rgba(255, 255, 255, 0.72);
+  font-weight: 600;
+}
+
+/* ---------- Body ---------- */
+.body {
+  padding: 1.75rem 1.25rem 3rem;
+}
+
+.eyebrowRow {
+  display: block;
+  color: #FF512F;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin: 2rem 0 0.5rem;
+}
+
+.eyebrowRow:first-child {
+  margin-top: 0;
+}
+
+.sectionTitle {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: #1A1A1A;
+  line-height: 1.3;
+  margin: 0 0 0.75rem;
+  letter-spacing: -0.01em;
+}
+
+.accent {
+  color: #FF512F;
+}
+
+.paragraph {
+  font-size: 0.85rem;
+  color: #6B7687;
+  line-height: 1.55;
+  margin: 0 0 0.75rem;
+}
+
+.storyLead {
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: #1A1A1A;
+  line-height: 1.5;
+  margin: 0 0 0.6rem;
+}
+
+.storyProse {
+  font-size: 0.85rem;
+  color: #6B7687;
+  line-height: 1.55;
+  margin: 0 0 1rem;
+}
+
+/* ---------- Video/story card ---------- */
+.videoCard {
+  position: relative;
+  border-radius: 22px;
+  overflow: hidden;
+  height: 220px;
+  box-shadow: 0 8px 14px rgba(68, 16, 16, 0.1);
+}
+
+.video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.videoOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.5), transparent 60%);
+}
+
+.liveBadge {
+  position: absolute;
+  top: 0.85rem;
+  left: 0.85rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(6px);
+  border-radius: 999px;
+  padding: 0.35rem 0.7rem;
+  color: #ffffff;
+  font-size: 0.68rem;
+  font-weight: 700;
+}
+
+.liveDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: #FF512F;
+}
+
+.videoBadge {
+  position: absolute;
+  bottom: 0.85rem;
+  left: 0.85rem;
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(155deg, #E3C77E, #A6822F);
+  border-radius: 14px;
+  padding: 0.55rem 0.9rem;
+  color: #2A1F00;
+}
+
+.videoBadgeLabel {
+  font-size: 0.6rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  opacity: 0.8;
+}
+
+.videoBadgeYear {
+  font-size: 1.05rem;
+  font-weight: 800;
+  line-height: 1.1;
+}
+
+/* ---------- Quote ---------- */
+.quoteBox {
+  background: #ffffff;
+  border-radius: 18px;
+  padding: 1.1rem;
+  box-shadow: 0 8px 14px rgba(68, 16, 16, 0.1);
+  margin-top: 0.25rem;
+}
+
+.quoteIcon {
+  color: rgba(255, 81, 47, 0.18);
+  margin-bottom: 0.3rem;
+}
+
+.quoteText {
+  font-size: 0.85rem;
+  font-style: italic;
+  color: #262626;
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* ---------- Numbered list cards ---------- */
+.listStack {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.listCard {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  background: #ffffff;
+  border-radius: 18px;
+  padding: 1rem;
+  box-shadow: 0 8px 14px rgba(68, 16, 16, 0.08);
+}
+
+.listNum {
+  flex-shrink: 0;
+  font-size: 0.72rem;
+  font-weight: 800;
+  color: rgba(255, 81, 47, 0.4);
+  letter-spacing: 0.04em;
+  padding-top: 0.15rem;
+}
+
+.listIco {
+  flex-shrink: 0;
+  width: 38px;
+  height: 38px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 81, 47, 0.08);
+  color: #FF512F;
+}
+
+.listBody {
+  flex: 1;
+  min-width: 0;
+}
+
+.listTitle {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #1A1A1A;
+  margin: 0 0 0.25rem;
+  line-height: 1.35;
+}
+
+.listDesc {
+  font-size: 0.76rem;
+  color: #6B7687;
+  line-height: 1.45;
+  margin: 0;
+}
+
+/* ---------- Closing CTA card ---------- */
+.closingCard {
+  margin-top: 2rem;
+  background: linear-gradient(155deg, #E24020, #922010);
+  border-radius: 22px;
+  padding: 1.5rem;
+  box-shadow: 0 10px 20px rgba(68, 16, 16, 0.2);
+}
+
+.closingEyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: rgba(255, 255, 255, 0.75);
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 0.6rem;
+}
+
+.closingTitle {
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: #ffffff;
+  line-height: 1.35;
+  margin: 0 0 0.6rem;
+}
+
+.closingCopy {
+  font-size: 0.82rem;
+  color: rgba(255, 255, 255, 0.8);
+  line-height: 1.5;
+  margin: 0 0 1.25rem;
+}
+
+.closingBtns {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.btnGold {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background: linear-gradient(155deg, #E3C77E, #A6822F);
+  color: #2A1F00;
+  border-radius: 999px;
+  padding: 0.85rem 1.25rem;
+  font-size: 0.88rem;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.btnGhost {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background: rgba(255, 255, 255, 0.14);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: #ffffff;
+  border-radius: 999px;
+  padding: 0.85rem 1.25rem;
+  font-size: 0.88rem;
+  font-weight: 700;
+  text-decoration: none;
+}

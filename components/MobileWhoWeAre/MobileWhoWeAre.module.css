@@ -1,0 +1,223 @@
+.wrap {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .wrap {
+    display: block;
+    padding: 2.5rem 1.25rem 3rem;
+    background: #EEF1F7;
+  }
+}
+
+.eyebrowRow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: #FF512F;
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 0.6rem;
+}
+
+.title {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #1A1A1A;
+  line-height: 1.25;
+  margin: 0 0 1rem;
+  letter-spacing: -0.01em;
+}
+
+.accent {
+  color: #FF512F;
+}
+
+.storyLead {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #1A1A1A;
+  line-height: 1.5;
+  margin: 0 0 0.65rem;
+}
+
+.storyBody {
+  font-size: 0.85rem;
+  color: #6B7687;
+  line-height: 1.55;
+  margin: 0 0 1.25rem;
+}
+
+/* ---------- Expertise tags ---------- */
+.tagsGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.625rem;
+  margin-bottom: 1.5rem;
+}
+
+.tag {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: #ffffff;
+  border-radius: 14px;
+  padding: 0.75rem 0.7rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #1A1A1A;
+  box-shadow: 0 8px 14px rgba(68, 16, 16, 0.08);
+}
+
+.tagIcon {
+  flex-shrink: 0;
+  color: #FF512F;
+}
+
+/* ---------- Image card ---------- */
+.imageCard {
+  position: relative;
+  border-radius: 22px;
+  overflow: hidden;
+  height: 200px;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 8px 14px rgba(68, 16, 16, 0.1);
+}
+
+.image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.imageOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.55), transparent 55%);
+}
+
+.badge {
+  position: absolute;
+  bottom: 0.9rem;
+  left: 0.9rem;
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(155deg, #E24020, #922010);
+  border-radius: 14px;
+  padding: 0.55rem 0.9rem;
+  color: #ffffff;
+  box-shadow: 0 8px 14px rgba(68, 16, 16, 0.25);
+}
+
+.badgeNum {
+  font-size: 1.05rem;
+  font-weight: 800;
+  line-height: 1.1;
+}
+
+.badgeLbl {
+  font-size: 0.6rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  opacity: 0.85;
+}
+
+/* ---------- Quote ---------- */
+.quoteBox {
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 1.25rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 8px 14px rgba(68, 16, 16, 0.1);
+}
+
+.quoteIcon {
+  color: rgba(255, 81, 47, 0.18);
+  margin-bottom: 0.4rem;
+}
+
+.quoteText {
+  font-size: 0.85rem;
+  font-style: italic;
+  color: #262626;
+  line-height: 1.55;
+  margin: 0 0 1rem;
+}
+
+.authorRow {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+.authorBadge {
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #FF512F;
+  color: #ffffff;
+}
+
+.authorInfo {
+  display: flex;
+  flex-direction: column;
+}
+
+.authorTitle {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #1A1A1A;
+}
+
+.authorSub {
+  font-size: 0.72rem;
+  color: #6B7687;
+}
+
+/* ---------- Highlight card ---------- */
+.highlightCard {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: linear-gradient(155deg, #E24020, #922010);
+  border-radius: 20px;
+  padding: 1.1rem 1.25rem;
+  box-shadow: 0 10px 20px rgba(68, 16, 16, 0.2);
+}
+
+.highlightInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.highlightLabel {
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.75);
+  font-weight: 600;
+}
+
+.highlightValue {
+  font-size: 1.1rem;
+  color: #ffffff;
+  font-weight: 800;
+}
+
+.highlightArrow {
+  width: 38px;
+  height: 38px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.16);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}

@@ -8,9 +8,17 @@
 .container {
   max-width: 1440px;
   margin: 0 auto;
-  padding: 0 2rem;
+  padding: 0 5rem;
   position: relative;
   z-index: 1;
+}
+
+@media (max-width: 768px) {
+  .container { padding: 0 3rem; }
+}
+
+@media (max-width: 480px) {
+  .container { padding: 0 2rem; }
 }
 
 .grid {
@@ -80,7 +88,7 @@
 .clockGraphic {
   width: 48px;
   height: 48px;
-  background: #B58A44;
+  background: var(--brand-gold);
   border-radius: 12px;
   display: flex;
   align-items: center;
@@ -100,7 +108,7 @@
   font-size: 0.85rem;
   font-weight: 800;
   line-height: 1.2;
-  color: #11204A; /* Navy */
+  color: #FF512F;
   letter-spacing: 0.05em;
 }
 
@@ -131,11 +139,11 @@
 .eyebrowLine {
   width: 32px;
   height: 2px;
-  background-color: #B58A44;
+  background-color: var(--brand-gold);
 }
 
 .eyebrowText {
-  color: #B58A44;
+  color: var(--brand-gold);
   font-size: 0.75rem;
   font-weight: 700;
   letter-spacing: 0.15em;
@@ -145,14 +153,14 @@
 .title {
   font-size: clamp(2.5rem, 4vw, 3.5rem);
   font-weight: 800;
-  color: #11204A;
+  color: #1A1A1A;
   line-height: 1.1;
   margin: 0 0 2.5rem 0;
   letter-spacing: -0.025em;
 }
 
 .titleHighlight {
-  color: #B58A44; /* Gold */
+  color: var(--brand-gold); /* Gold */
 }
 
 .pointsList {
@@ -178,7 +186,7 @@
   height: 36px;
   border-radius: 50%;
   background-color: #F1F5F9;
-  color: #11204A;
+  color: #FF512F;
   font-size: 0.85rem;
   font-weight: 800;
   flex-shrink: 0;
@@ -200,21 +208,21 @@
   display: inline-flex;
   align-items: center;
   gap: 1rem;
-  background: #11204A;
+  background: #FF512F;
   color: #ffffff;
   padding: 1rem 2rem;
   border-radius: 9999px;
   font-weight: 700;
   font-size: 1rem;
   text-decoration: none;
-  box-shadow: 0 10px 20px -5px rgba(17, 32, 74, 0.2);
+  box-shadow: 0 10px 20px -5px rgba(255, 81, 47, 0.2);
   transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .cta:hover {
-  background: #0B1536;
+  background: #922010;
   transform: translateY(-2px);
-  box-shadow: 0 15px 25px -5px rgba(17, 32, 74, 0.3);
+  box-shadow: 0 15px 25px -5px rgba(146, 32, 16, 0.3);
 }
 
 .ctaArrow {

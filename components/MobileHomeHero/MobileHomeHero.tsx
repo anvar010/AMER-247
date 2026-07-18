@@ -22,7 +22,13 @@ export default function MobileHomeHero() {
 
   return (
     <section className={`${styles.head} ${outfit.className}`}>
-      <img src="/images/dubai.jpg" alt="" className={styles.bg} />
+      <video
+        className={styles.bg}
+        autoPlay muted loop playsInline
+        poster="/images/dubai.jpg"
+      >
+        <source src="/images/AMER-hero.mp4" type="video/mp4" />
+      </video>
       <div className={styles.overlay} />
 
       <Link href="/account" className={styles.avatar} aria-label="Account">

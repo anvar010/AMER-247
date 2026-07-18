@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Outfit } from "next/font/google";
 import {
   MapPin,
   Mail,
@@ -8,70 +9,24 @@ import {
   Plus,
   Stethoscope,
   Clock,
+  MessageCircle,
+  ChevronDown,
 } from "lucide-react";
 import styles from "./contact.module.css";
-import { CountryCodeSelect, OptionSelect } from "./Selects";
-import MobileSupportScreen from "@/components/MobileSupportScreen/MobileSupportScreen";
+import mstyles from "@/components/MobileSupportScreen/MobileSupportScreen.module.css";
+import MobileContactForm from "./MobileContactForm";
+import DesktopContactForm from "./DesktopContactForm";
+import { faqs } from "./faqs";
+import MobileScreenHead from "@/components/MobileScreenHead/MobileScreenHead";
+import MobileMenuRow from "@/components/MobileMenuRow/MobileMenuRow";
+import MobileAppFooter from "@/components/MobileAppFooter/MobileAppFooter";
 
-const reasons = ["Visa", "Career", "Suggestion", "Complaint", "Other"];
+const outfit = Outfit({ subsets: ["latin"], weight: ["500", "600", "700"] });
 
-const faqs: { q: string; a?: string }[] = [
-  {
-    q: "Are you open 24 hours?",
-    a: "We are open 24 hours except on Fridays from 12-02.30 PM.",
-  },
-  {
-    q: "Do we have services related to visas issued from Sharjah or other Emirates?",
-    a: "Our primary services are for Dubai visas only.",
-  },
-  {
-    q: "Labor cancelation is required for a family hold?",
-    a: "No, the cancellation from Labor (MOHRE) is not mandatory to hold Family.",
-  },
-  {
-    q: "Salary required to sponsor wife, children & parents?",
-    a: "The salary required to sponsor Spouse and Children is AED 4,000. For parents, AED 10,000.",
-  },
-  {
-    q: "Does the customer have to visit the same medical Centre or any DHA-approved medical Centres to complete the medical?",
-    a: "Customers can visit any DHA-approved medical centre.",
-  },
-  {
-    q: "Do you have services for Free zone and Domestic Worker visa?",
-    a: "We have services only for Medical and Emirates ID applications for a Dubai Free zone / Domestic Worker visa.",
-  },
-  {
-    q: "What are the different types of Tourist or visit visas available?",
-    a: "A tourist visa is available for 30 and 60 days, and a sponsored family visit visa for 30 and 90 days.",
-  },
-  {
-    q: "Is a visa stamping application required?",
-    a: "Yes, it has to be applied for the residence visa to be issued. However, no more physical stamping of a visa into a passport is to be done.",
-  },
-  {
-    q: "Can I hold my Dependents visa If the Job offered from other Emirates?",
-    a: "No. The sponsor can hold dependents' visas while changing jobs within Dubai only.",
-  },
-  {
-    q: "Are there any VIP/Express services for any application?",
-    a: "No express services, except for the medical application.",
-  },
-  {
-    q: "Should the applicants be inside the UAE to apply for a Golden Visa?",
-    a: "Yes — the applicant MUST be inside the UAE.",
-  },
-  {
-    q: "Can I travel without applying for the visa stamping application?",
-    a: "No. The applicant must complete the visa stamping application before he/she can travel.",
-  },
-  {
-    q: "Do I have to apply for the Emirates ID after getting a Golden Visa?",
-    a: "Yes, you have to apply for the Golden Emirates ID application after the issuance of your Golden Visa.",
-  },
-  {
-    q: "Do I have to apply for a family hold while applying for a Golden Visa?",
-    a: "No — it is an automatic process from the GDRFA to hold the dependent's visa while applying for a Golden Visa.",
-  },
+const mobileContacts = [
+  { icon: Phone, label: "Call us", sub: "+971 4 2300500", href: "tel:+97142300500" },
+  { icon: MessageCircle, label: "WhatsApp", sub: "Chat with a consultant", href: "https://wa.me/97142300500" },
+  { icon: Mail, label: "Email", sub: "info@amer247.com", href: "mailto:info@amer247.com" },
 ];
 
 const mapHref =
@@ -86,8 +41,51 @@ export const metadata = {
 export default function ContactPage() {
   return (
     <>
-      {/* Mobile only — matches the app's SupportScreen exactly */}
-      <MobileSupportScreen />
+      {/* Mobile-only — same data (contacts/reasons/faqs) as the desktop
+          sections below (this file is the single source of truth for
+          both), the app's own card design. Visibility is CSS-driven
+          (mstyles.wrap: display:none above 768px). The FAQ accordion and
+          reason picker use native <details> / radio inputs instead of
+          React state, so this whole page can stay a server component and
+          keep exporting `metadata`. */}
+      <div className={`${mstyles.wrap} ${outfit.className}`}>
+        <MobileScreenHead
+          kicker="WE'RE HERE, ALWAYS"
+          title="Support"
+          sub="Trained happiness consultants, ready 24/7 — call, chat or visit us."
+        />
+
+        <div className={mstyles.menu}>
+          {mobileContacts.map((c) => (
+            <MobileMenuRow key={c.label} icon={c.icon} iconBg="primary" label={c.label} sub={c.sub} href={c.href} external />
+          ))}
+        </div>
+
+        <div className={mstyles.secHead}>
+          <h2 className={mstyles.h2}>Send a message</h2>
+        </div>
+        <MobileContactForm />
+
+        <div className={mstyles.secHead}>
+          <h2 className={mstyles.h2}>Good to know</h2>
+        </div>
+        <div className={mstyles.faqList}>
+          {faqs.map((f) => (
+            <details key={f.q} className={mstyles.faq}>
+              <summary className={mstyles.faqQ}>
+                <span className={mstyles.faqQTxt}>{f.q}</span>
+                <ChevronDown size={17} className={mstyles.faqChevron} />
+              </summary>
+              <p className={mstyles.faqA}>{f.a}</p>
+            </details>
+          ))}
+        </div>
+
+        <div className={mstyles.secHead}>
+          <h2 className={mstyles.h2}>Visit us · open 24/7</h2>
+        </div>
+        <MobileAppFooter />
+      </div>
 
       {/* ===================== Hero ===================== */}
       <section className={styles.hero}>
@@ -126,68 +124,7 @@ export default function ContactPage() {
               <em className={styles.titleEm}> help.</em>
             </h2>
 
-            <form className={styles.form} action="#" method="post">
-              <div className={styles.formGrid}>
-                <label className={styles.field}>
-                  <span className={styles.fieldLabel}>Full name</span>
-                  <input
-                    className={styles.input}
-                    type="text"
-                    name="name"
-                    placeholder="Your name"
-                    required
-                  />
-                </label>
-                <label className={styles.field}>
-                  <span className={styles.fieldLabel}>Email</span>
-                  <input
-                    className={styles.input}
-                    type="email"
-                    name="email"
-                    placeholder="you@example.com"
-                    required
-                  />
-                </label>
-                <div className={styles.field}>
-                  <span className={styles.fieldLabel}>Phone</span>
-                  <div className={styles.phoneWrap}>
-                    <CountryCodeSelect />
-                    <input
-                      className={`${styles.input} ${styles.phoneInput}`}
-                      type="tel"
-                      name="phone"
-                      placeholder="50 000 0000"
-                      inputMode="tel"
-                      pattern="[0-9 ]*"
-                    />
-                  </div>
-                </div>
-                <div className={styles.field}>
-                  <span className={styles.fieldLabel}>Your Reason For Contact</span>
-                  <OptionSelect
-                    name="reason"
-                    options={reasons}
-                    placeholder="Select a reason…"
-                    required
-                  />
-                </div>
-              </div>
-
-              <label className={`${styles.field} ${styles.fieldFull}`}>
-                <span className={styles.fieldLabel}>Message</span>
-                <textarea
-                  className={styles.textarea}
-                  name="message"
-                  rows={6}
-                  placeholder="Tell us a bit more…"
-                  required
-                />
-              </label>
-
-              <button type="submit" className={styles.submit}>
-                Send Message <ArrowRight size={16} />
-              </button>
-            </form>
+            <DesktopContactForm />
           </div>
 
           {/* -------- Right: Info -------- */}

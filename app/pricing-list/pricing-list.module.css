@@ -1,5 +1,5 @@
 /* ============================================================
-   Pricing list — refined editorial, navy + gold
+   Pricing list — hero (navy + gold) + embedded fee calculator
    ============================================================ */
 
 /* ---------- Shared atoms ---------- */
@@ -25,7 +25,7 @@
 .sectionTitle {
   font-size: clamp(1.9rem, 4.4vw, 3rem);
   font-weight: 800;
-  color: var(--brand-navy);
+  color: #1A1A1A;
   margin: 0;
   letter-spacing: -0.025em;
   line-height: 1.05;
@@ -54,39 +54,25 @@
    ============================================================ */
 .hero {
   position: relative;
-  padding: 6rem 0 4rem;
-  background:
-    radial-gradient(900px 460px at 88% 14%, rgba(201, 162, 75, 0.20), transparent 60%),
-    radial-gradient(700px 460px at 12% 90%, rgba(44, 63, 118, 0.65), transparent 65%),
-    linear-gradient(160deg, #0E1A45 0%, #1A2A5A 100%);
+  padding: 8.5rem 0 3.5rem;
+  background: linear-gradient(135deg, #FF512F, #7A1508);
   color: #fff;
   isolation: isolate;
   overflow: hidden;
 }
 .heroBg { position: absolute; inset: 0; z-index: -1; pointer-events: none; }
-.heroOrbA, .heroOrbB { position: absolute; border-radius: 50%; filter: blur(60px); }
+.heroOrbA, .heroOrbB { position: absolute; border-radius: 50%; }
 .heroOrbA {
-  top: -120px; right: -120px;
-  width: 380px; height: 380px;
-  background: rgba(201, 162, 75, 0.20);
-  animation: float 14s ease-in-out infinite;
+  top: -6rem; right: -4rem;
+  width: 340px; height: 340px;
+  background: rgba(227, 199, 126, 0.14);
 }
 .heroOrbB {
-  bottom: -160px; left: -120px;
-  width: 420px; height: 420px;
-  background: rgba(27, 163, 156, 0.12);
-  animation: float 18s ease-in-out infinite reverse;
+  bottom: -8rem; left: -3rem;
+  width: 300px; height: 300px;
+  background: rgba(255, 255, 255, 0.05);
 }
-.heroGrid {
-  position: absolute;
-  inset: 0;
-  background-image:
-    linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px);
-  background-size: 60px 60px;
-  mask-image: radial-gradient(ellipse at center, #000 30%, transparent 75%);
-  -webkit-mask-image: radial-gradient(ellipse at center, #000 30%, transparent 75%);
-}
+.heroGrid { display: none; }
 
 .heroInner { position: relative; z-index: 1; max-width: var(--container); }
 .eyebrow { color: var(--brand-gold); }
@@ -102,6 +88,16 @@
 @media (min-width: 768px) { .heroTitle { font-size: 3.5rem; } }
 .heroTitle .titleEm { color: var(--brand-gold); }
 .heroTitle .titleEm::after { background: rgba(201, 162, 75, 0.32); }
+.titleAccent { color: inherit; }
+
+/* Two-column premium layout + right-side visual/CTA/feature chrome are a
+   desktop-only redesign — hidden below the desktop breakpoint so the
+   existing mobile hero (dark gradient, heading + copy only) is untouched. */
+.heroGridDesktop { display: block; }
+.heroLeft { display: block; }
+.heroRight { display: none; }
+.heroFeatureRow { display: none; }
+.heroCtaRow { display: none; }
 
 .heroCopy {
   color: rgba(255, 255, 255, 0.82);
@@ -111,235 +107,6 @@
   margin: 0;
   animation: rise 1s 0.12s cubic-bezier(0.2, 0.8, 0.2, 1) both;
 }
-
-/* ============================================================
-   2. Cards
-   ============================================================ */
-.list {
-  position: relative;
-  padding: 4.5rem 0 5.5rem;
-  background: #ffffff;
-  isolation: isolate;
-}
-.listGlow {
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  pointer-events: none;
-  background:
-    radial-gradient(800px 520px at 8% 8%, rgba(201, 162, 75, 0.08), transparent 60%),
-    radial-gradient(700px 520px at 100% 100%, rgba(26, 42, 90, 0.05), transparent 60%);
-}
-
-.listHead { margin-bottom: 2.5rem; }
-.listHead .sectionEyebrow { margin-bottom: 0.85rem; }
-
-.grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 1.5rem;
-}
-@media (min-width: 640px)  { .grid { grid-template-columns: repeat(2, 1fr); gap: 1.75rem; } }
-@media (min-width: 1024px) { .grid { grid-template-columns: repeat(3, 1fr); } }
-
-/* ---------- Modern split card ---------- */
-.card {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  border-radius: 22px;
-  background: #ffffff;
-  border: 1px solid rgba(26, 42, 90, 0.08);
-  box-shadow: 0 18px 40px -24px rgba(10, 31, 68, 0.18);
-  overflow: hidden;
-  isolation: isolate;
-  opacity: 0;
-  animation: rise 0.85s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
-  transition:
-    transform 0.55s cubic-bezier(0.2, 0.8, 0.2, 1),
-    box-shadow 0.55s ease,
-    border-color 0.55s ease;
-}
-.card:hover {
-  transform: translateY(-8px);
-  border-color: rgba(201, 162, 75, 0.55);
-  box-shadow: 0 36px 70px -28px rgba(10, 31, 68, 0.34);
-}
-
-/* Top accent area: navy gradient with gold radial glow */
-.card::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 108px;
-  background:
-    radial-gradient(360px 260px at 90% 0%, rgba(201, 162, 75, 0.28), transparent 65%),
-    linear-gradient(140deg, #14245A 0%, #0E1A45 100%);
-  z-index: 0;
-  transition: filter 0.55s ease;
-}
-.card:hover::before { filter: brightness(1.08) saturate(1.12); }
-
-/* Number — sits inside the navy header, large and tabular */
-.cardNum {
-  position: absolute;
-  top: 1.1rem;
-  right: 1.6rem;
-  z-index: 3;
-  font-size: 2.2rem;
-  font-weight: 800;
-  color: rgba(255, 255, 255, 0.16);
-  letter-spacing: -0.04em;
-  line-height: 0.9;
-  font-variant-numeric: tabular-nums;
-  transition: color 0.45s ease, transform 0.55s cubic-bezier(0.2, 0.8, 0.2, 1);
-}
-.card:hover .cardNum {
-  color: rgba(201, 162, 75, 0.85);
-  transform: translateY(-2px) scale(1.04);
-}
-
-/* Floating icon tile bridging navy header and body */
-.cardIconWrap {
-  position: relative;
-  z-index: 4;
-  width: 68px;
-  height: 68px;
-  margin: 50px 0 0 1.85rem;
-  border-radius: 18px;
-  background: linear-gradient(150deg, #FFFFFF 0%, #FDF7E8 100%);
-  border: 1px solid rgba(201, 162, 75, 0.4);
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow:
-    0 12px 28px -10px rgba(201, 162, 75, 0.45),
-    inset 0 -2px 0 rgba(201, 162, 75, 0.15);
-  transition:
-    background 0.45s ease,
-    transform 0.55s cubic-bezier(0.2, 0.8, 0.2, 1),
-    border-color 0.45s ease,
-    box-shadow 0.55s ease;
-}
-.cardIcon { color: var(--brand-gold); transition: color 0.4s ease; }
-.card:hover .cardIconWrap {
-  background: linear-gradient(150deg, var(--brand-gold) 0%, #d9b46a 100%);
-  border-color: var(--brand-gold);
-  transform: translateY(-4px) rotate(-6deg);
-  box-shadow:
-    0 18px 36px -12px rgba(201, 162, 75, 0.65),
-    inset 0 -2px 0 rgba(255, 255, 255, 0.2);
-}
-.card:hover .cardIcon { color: var(--brand-navy); }
-
-/* Content area */
-.cardBodyWrap,
-.card > h3,
-.card > p {
-  position: relative;
-  z-index: 2;
-}
-.cardTitle {
-  position: relative;
-  z-index: 2;
-  font-size: 1.2rem;
-  font-weight: 800;
-  color: var(--brand-navy);
-  margin: 1.5rem 1.85rem 0.55rem;
-  letter-spacing: -0.015em;
-  line-height: 1.3;
-}
-.cardBody {
-  position: relative;
-  z-index: 2;
-  color: #5b6477;
-  font-size: 0.93rem;
-  line-height: 1.75;
-  margin: 0 1.85rem 1.5rem;
-}
-
-/* CTA — full-width pill button at the bottom */
-.cardCta {
-  position: relative;
-  z-index: 2;
-  margin: auto 1.25rem 1.25rem;
-  display: inline-flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0.75rem;
-  padding: 0.85rem 1.15rem 0.85rem 1.35rem;
-  border-radius: 12px;
-  background: transparent;
-  border: 1px solid rgba(201, 162, 75, 0.5);
-  color: var(--brand-gold);
-  font-size: 0.78rem;
-  font-weight: 800;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  text-decoration: none;
-  transition:
-    border-color 0.4s ease,
-    color 0.4s ease,
-    transform 0.45s cubic-bezier(0.2, 0.8, 0.2, 1);
-}
-.cardCta:hover {
-  border-color: var(--brand-gold);
-  transform: translateY(-1px);
-}
-.cardCtaText { position: relative; }
-.cardCtaText::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  bottom: -3px;
-  width: 100%;
-  height: 1px;
-  background: currentColor;
-  transform-origin: left;
-  transform: scaleX(0);
-  transition: transform 0.45s cubic-bezier(0.2, 0.8, 0.2, 1);
-}
-.cardCta:hover .cardCtaText::after { transform: scaleX(1); }
-.cardCtaArrow {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
-  border: 1px solid currentColor;
-  color: var(--brand-gold);
-  transition: transform 0.45s cubic-bezier(0.2, 0.8, 0.2, 1), color 0.4s ease, background 0.3s ease;
-}
-.cardCta:hover .cardCtaArrow {
-  transform: translateX(4px);
-}
-
-/* Corner accent retained for subtle detail */
-.cardCorner {
-  position: absolute;
-  bottom: 16px;
-  right: 16px;
-  width: 22px;
-  height: 22px;
-  pointer-events: none;
-  opacity: 0;
-  transform: translate(-4px, 4px);
-  transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
-  z-index: 3;
-}
-.cardCorner::before,
-.cardCorner::after {
-  content: "";
-  position: absolute;
-  background: var(--brand-gold);
-  border-radius: 1px;
-}
-.cardCorner::before { bottom: 0; right: 0; width: 14px; height: 1.5px; }
-.cardCorner::after  { bottom: 0; right: 0; width: 1.5px; height: 14px; }
-.card:hover .cardCorner { opacity: 0; } /* hide — full CTA below handles affordance */
 
 /* ============================================================
    Keyframes
@@ -354,33 +121,543 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .heroTitle, .heroCopy, .card, .heroOrbA, .heroOrbB { animation: none; opacity: 1; transform: none; }
-  .card:hover { transform: none; }
+  .heroTitle, .heroCopy, .heroOrbA, .heroOrbB { animation: none; opacity: 1; transform: none; }
 }
 
-/* ============================================================
-   Tablet & Mobile — full-width content
-   ============================================================ */
 @media (max-width: 1024px) {
-  .hero, .list { padding-left: 0; padding-right: 0; }
+  .hero, .calcSection { padding-left: 0; padding-right: 0; }
 }
 @media (max-width: 768px) {
   .hero       { padding: 4.5rem 0 2.75rem; }
-  .list       { padding: 3rem 0 3.5rem; }
   .heroTitle  { font-size: 2.2rem; }
   .heroCopy   { font-size: 0.96rem; }
-  .listHead   { margin-bottom: 1.75rem; }
-  .grid       { gap: 1.1rem; }
 }
 @media (max-width: 480px) {
-  .hero, .list { padding-left: 0; padding-right: 0; }
-  .heroTitle   { font-size: 1.85rem; }
+  .hero, .calcSection { padding-left: 0; padding-right: 0; }
+  .heroTitle    { font-size: 1.85rem; }
   .sectionTitle { font-size: 1.6rem; line-height: 1.15; }
-  .card        { border-radius: 18px; }
-  .card::before { height: 92px; }
-  .cardIconWrap { width: 60px; height: 60px; margin: 40px 0 0 1.25rem; border-radius: 16px; }
-  .cardTitle   { margin: 1.25rem 1.25rem 0.4rem; font-size: 1.1rem; }
-  .cardBody    { margin: 0 1.25rem 1.25rem; font-size: 0.9rem; }
-  .cardCta     { margin: auto 1rem 1rem; padding: 0.8rem 1rem; }
-  .cardNum     { top: 0.9rem; right: 1.1rem; font-size: 1.8rem; }
+}
+
+@media (min-width: 769px) {
+  /* Premium white/red redesign — mirrors the amer247-services hero
+     language (white bg, red accents, floating image + stat card) while
+     the dark-gradient hero above stays exactly as before below this
+     breakpoint. */
+  .hero {
+    padding: 8rem 0 6rem;
+    background: linear-gradient(180deg, #FFFFFF 0%, #F7F8FA 100%);
+    color: #1D2433;
+    /* Orbs (the only thing base overflow:hidden was containing) are
+       hidden at this breakpoint; visible lets the stat card overlap the
+       image's bottom edge instead of getting clipped. */
+    overflow: visible;
+  }
+
+  .heroOrbA,
+  .heroOrbB {
+    display: none;
+  }
+
+  .heroGridDesktop {
+    display: grid;
+    grid-template-columns: minmax(0, 560px) 1fr;
+    gap: 3rem;
+    align-items: center;
+  }
+
+  .eyebrow {
+    color: #E31E24;
+  }
+
+  .heroTitle {
+    font-size: 3.4rem;
+    color: #1D2433;
+  }
+
+  .heroTitle .titleEm {
+    font-style: normal;
+    font-weight: 800;
+    color: #1D2433;
+  }
+  .heroTitle .titleEm::after {
+    display: none;
+  }
+
+  .titleAccent {
+    color: #E31E24;
+  }
+
+  .heroCopy {
+    color: #5B6472;
+    font-size: 1.05rem;
+  }
+
+  .heroFeatureRow {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.75rem;
+    margin: 2rem 0 0;
+  }
+
+  .heroFeatureItem {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.6rem;
+    text-align: center;
+    width: 92px;
+  }
+
+  .heroFeatureIcon {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #FDECEC;
+    border: 1px solid rgba(227, 30, 36, 0.16);
+    color: #E31E24;
+  }
+
+  .heroFeatureLabel {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #1D2433;
+    line-height: 1.3;
+  }
+
+  .heroCtaRow {
+    display: flex;
+    gap: 1rem;
+    margin-top: 2.25rem;
+  }
+
+  .heroCtaPrimary,
+  .heroCtaSecondary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.95rem 1.6rem;
+    border-radius: 999px;
+    font-size: 0.92rem;
+    font-weight: 700;
+    text-decoration: none;
+    transition: transform 0.2s ease;
+  }
+
+  .heroCtaPrimary {
+    background: #E31E24;
+    color: #ffffff;
+    box-shadow: 0 14px 28px rgba(227, 30, 36, 0.24);
+  }
+  .heroCtaPrimary:hover { transform: translateY(-2px); }
+
+  .heroCtaSecondary {
+    background: #ffffff;
+    color: #E31E24;
+    border: 1.5px solid #E31E24;
+  }
+  .heroCtaSecondary:hover { transform: translateY(-2px); }
+
+  .heroRight {
+    display: block;
+    position: relative;
+    min-height: 460px;
+    margin-bottom: 3rem;
+  }
+
+  .heroImageWrap {
+    position: absolute;
+    inset: 0;
+  }
+
+  .heroImage {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  .heroStatCard {
+    position: absolute;
+    left: 1.25rem;
+    right: 1.25rem;
+    bottom: -2.5rem;
+    display: flex;
+    justify-content: space-between;
+    background: #ffffff;
+    border-radius: 18px;
+    padding: 1.25rem 1.5rem;
+    box-shadow: 0 24px 48px rgba(29, 36, 51, 0.12);
+    border: 1px solid #ECECEC;
+  }
+
+  .heroStat {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+  }
+
+  .heroStatIcon {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #FDECEC;
+    color: #E31E24;
+    flex-shrink: 0;
+  }
+
+  .heroStatNum {
+    font-size: 1.15rem;
+    font-weight: 800;
+    color: #1D2433;
+    line-height: 1.1;
+  }
+
+  .heroStatLabel {
+    font-size: 0.72rem;
+    color: #6B7280;
+    font-weight: 600;
+  }
+}
+
+/* ============================================================
+   2. Embedded fee calculator
+   ============================================================ */
+.calcSection {
+  position: relative;
+  padding: 3rem 2rem 4rem;
+  background: #F8F9FC;
+}
+
+.calcHead {
+  max-width: 1440px;
+  margin: 0 auto 1.75rem;
+}
+
+.calcGrid {
+  max-width: 1440px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* ---------- Hub selector ---------- */
+.hubCol {
+  order: 1;
+  display: flex;
+  flex-direction: row;
+  gap: 0.5rem;
+  overflow-x: auto;
+  padding-bottom: 0.25rem;
+  scrollbar-width: none;
+}
+.hubCol::-webkit-scrollbar { display: none; }
+
+.hubBtn {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.85rem 1.15rem;
+  border-radius: 14px;
+  background: #ffffff;
+  border: none;
+  text-align: left;
+  font-family: inherit;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #6B7280;
+  box-shadow: 0 4px 10px rgba(68, 16, 16, 0.06);
+  white-space: nowrap;
+}
+.hubBtnOn {
+  background: #E31E24;
+  color: #ffffff;
+  box-shadow: 0 10px 18px rgba(227, 30, 36, 0.3);
+}
+
+/* ---------- Result panel ---------- */
+.resultCol {
+  order: 2;
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 1.5rem;
+  box-shadow: 0 8px 20px rgba(68, 16, 16, 0.06);
+}
+.resultColEmpty { display: none; }
+
+.resultEmpty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 0.75rem;
+  padding: 1.5rem 0;
+  color: #9AA4B2;
+  font-size: 0.9rem;
+}
+
+.resultSvc {
+  font-weight: 700;
+  font-size: 1.02rem;
+  color: #1A1A1A;
+  margin: 0 0 1rem;
+  line-height: 1.35;
+}
+
+.segmented {
+  display: flex;
+  background: #F1F5F9;
+  border-radius: 12px;
+  padding: 0.2rem;
+  margin-bottom: 1rem;
+}
+.segment {
+  flex: 1;
+  border: none;
+  background: none;
+  padding: 0.6rem 0.4rem;
+  border-radius: 10px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #6B7280;
+  font-family: inherit;
+}
+.segmentOn {
+  background: #ffffff;
+  color: #1A1A1A;
+  box-shadow: 0 2px 6px rgba(68, 16, 16, 0.1);
+}
+
+.resultPrice {
+  font-size: 2.1rem;
+  font-weight: 800;
+  color: #1A1A1A;
+  margin: 0;
+  line-height: 1.1;
+}
+.resultAed {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #A6822F;
+}
+.resultNote {
+  font-size: 0.8rem;
+  color: #6B7280;
+  margin: 0.4rem 0 0;
+}
+.resultTbd {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #1A1A1A;
+}
+
+.startBtn {
+  width: 100%;
+  margin-top: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background: linear-gradient(155deg, #E24020, #922010);
+  color: #ffffff;
+  border: none;
+  border-radius: 999px;
+  padding: 0.9rem 1rem;
+  font-size: 0.92rem;
+  font-weight: 700;
+  font-family: inherit;
+  box-shadow: 0 12px 24px rgba(226, 64, 32, 0.28);
+}
+
+/* ---------- Search + picker ---------- */
+.mainCol {
+  order: 3;
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 1.25rem;
+  box-shadow: 0 8px 20px rgba(68, 16, 16, 0.06);
+}
+
+.searchBar {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  background: #F1F5F9;
+  border-radius: 12px;
+  padding: 0 0.9rem;
+  height: 46px;
+}
+.searchIcon { color: #9AA4B2; flex-shrink: 0; }
+.searchInput {
+  flex: 1;
+  border: none;
+  outline: none;
+  background: none;
+  font-size: 0.9rem;
+  font-family: inherit;
+  color: #1A1A1A;
+  min-width: 0;
+}
+.searchInput::placeholder { color: #9AA4B2; }
+.clearBtn {
+  background: #E2E8F0;
+  border: none;
+  border-radius: 999px;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #6B7280;
+  flex-shrink: 0;
+}
+
+.pickerList {
+  position: relative;
+  margin-top: 0.75rem;
+  max-height: 460px;
+  overflow-y: auto;
+  padding-right: 0.4rem;
+  scrollbar-width: none;
+}
+.pickerList::-webkit-scrollbar { display: none; }
+
+.pickerFade {
+  position: sticky;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 28px;
+  margin-top: -28px;
+  background: linear-gradient(to top, #ffffff, rgba(255, 255, 255, 0));
+  pointer-events: none;
+}
+
+.suggestHead {
+  display: block;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #9AA4B2;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 0.5rem;
+}
+
+.pickerGroupBlock + .pickerGroupBlock { margin-top: 1.1rem; }
+
+.pickerGroupHead {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: #ffffff;
+  font-size: 0.72rem;
+  font-weight: 800;
+  color: #A6822F;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 0.4rem 0.2rem;
+  margin-bottom: 0.15rem;
+}
+.pickerGroupHead::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: #EEF1F7;
+}
+
+.pickerGroupRows {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.pickerRow {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.8rem 0.9rem;
+  border-radius: 12px;
+  background: none;
+  border: 1px solid transparent;
+  text-align: left;
+  font-family: inherit;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+.pickerRow:hover { background: #F8F9FC; border-color: #EEF1F7; }
+.pickerRowOn { background: rgba(227, 30, 36, 0.07); border-color: rgba(227, 30, 36, 0.18); }
+.pickerName { font-size: 0.9rem; font-weight: 600; color: #1A1A1A; }
+.pickerCheck {
+  width: 20px;
+  height: 20px;
+  border-radius: 999px;
+  background: none;
+  border: 1.5px solid #D9DEE7;
+  color: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+}
+.pickerCheckOn {
+  background: #E31E24;
+  border-color: #E31E24;
+  color: #ffffff;
+}
+.pickerEmpty { color: #6B7280; font-size: 0.88rem; padding: 1rem 0.5rem; }
+
+/* ============================================================
+   Desktop — 3-column layout (hubs | picker | result)
+   ============================================================ */
+@media (min-width: 900px) {
+  .calcSection {
+    padding: 4.5rem 5rem 6rem;
+  }
+
+  .calcHead {
+    padding: 0 0.5rem;
+  }
+
+  .calcGrid {
+    display: grid;
+    grid-template-columns: 220px 1fr 320px;
+    gap: 1.5rem;
+    align-items: start;
+  }
+
+  .hubCol {
+    order: 1;
+    flex-direction: column;
+    overflow-x: visible;
+    gap: 0.65rem;
+  }
+  .hubBtn {
+    width: 100%;
+    padding: 1rem 1.25rem;
+    font-size: 0.95rem;
+  }
+
+  .mainCol { order: 2; padding: 1.5rem; }
+
+  .resultCol {
+    order: 3;
+    position: sticky;
+    top: 6rem;
+    padding: 1.75rem;
+  }
+  .resultColEmpty { display: block; }
 }

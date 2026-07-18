@@ -7,23 +7,25 @@ import {
 
 import styles from "./Hero.module.css";
 import dynamic from "next/dynamic";
+import DesktopSearchOverlay from "@/components/DesktopSearchOverlay/DesktopSearchOverlay";
 
 // Dynamically import MobileScrollHero to completely remove it from the Desktop bundle!
 const MobileScrollHero = dynamic(() => import("../MobileScrollHero/MobileScrollHero"));
 
 const featureCards = [
-  { icon: Plane, name: "UAE TOURIST VISA", sub: "96 Hours to 90 Days entry" },
-  { icon: IdCard, name: "EMIRATES ID", sub: "New, renewal & replacement" },
-  { icon: FileText, name: "ENTRY PERMIT", sub: "Residency entry permits" },
-  { icon: Gem, name: "GOLDEN VISA", sub: "5 & 10 year long-term visa" },
-  { icon: Stethoscope, name: "MEDICAL TEST", sub: "Visa & residency medical" },
+  { icon: Plane, name: "UAE TOURIST VISA", sub: "96 Hours to 90 Days entry", href: "/uae-tourist-visa" },
+  { icon: IdCard, name: "EMIRATES ID", sub: "New, renewal & replacement", href: "/services/emirates-id" },
+  { icon: FileText, name: "IMMIGRATION SERVICES", sub: "Residency entry permits", href: "/immigrationServices" },
+  { icon: Gem, name: "GOLDEN VISA", sub: "5 & 10 year long-term visa", href: "/services/golden" },
+  { icon: Stethoscope, name: "MEDICAL TEST", sub: "Visa & residency medical", href: "/services/medical" },
 ];
 
 export default function Hero() {
   const [isMobile, setIsMobile] = useState<boolean | null>(null);
+  const [searchOpen, setSearchOpen] = useState(false);
 
   // --- Lightweight SVG Tracker Refs ---
-  const targetRef = useRef<HTMLAnchorElement>(null);
+  const targetRef = useRef<HTMLButtonElement>(null);
   const svgRef = useRef<SVGSVGElement>(null);
   const pathRef = useRef<SVGPathElement>(null);
 
@@ -159,7 +161,7 @@ export default function Hero() {
             autoPlay muted loop playsInline
             poster="/images/dubai.jpg"
           >
-            <source src="/images/31956-389724705_medium.mp4" type="video/mp4" />
+            <source src="/images/AMER-hero.mp4" type="video/mp4" />
           </video>
           <div className={styles.overlay} />
         </div>
@@ -172,14 +174,19 @@ export default function Hero() {
           <div className={styles.content}>
             <span className={styles.overline}>24/7 IMMIGRATION &amp; VISA SERVICES</span>
             <h1 className={styles.heroTitle}>
-              Your Trusted Partner for <br /> UAE Visa &amp; Immigration
+              Seamless Immigration Solutions Tailored to Your Journey
             </h1>
             <h2 className={styles.heroSubtitle}>
               &amp; RESIDENCY SERVICES
             </h2>
-            <Link ref={targetRef} href="/services" className={styles.viewMore}>
+            <button
+              ref={targetRef}
+              type="button"
+              onClick={() => setSearchOpen(true)}
+              className={styles.viewMore}
+            >
               View More
-            </Link>
+            </button>
           </div>
 
           <div className={styles.scrollHint} aria-hidden>
@@ -192,7 +199,7 @@ export default function Hero() {
 
         <div className={`container ${styles.cardsRow}`}>
           {featureCards.map((c) => (
-            <Link key={c.name} href="/services" className={styles.card}>
+            <Link key={c.name} href={c.href} className={styles.card}>
               <div className={styles.cardIcon}>
                 <c.icon size={26} strokeWidth={1.7} />
               </div>
@@ -219,6 +226,8 @@ export default function Hero() {
           </svg>
         )}
       </section>
+
+      <DesktopSearchOverlay open={searchOpen} onClose={() => setSearchOpen(false)} />
     </>
   );
 }

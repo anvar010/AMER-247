@@ -33,6 +33,7 @@
   gap: 0.55rem;
 }
 
+/* <details> element — native open/close, no JS state needed */
 .faq {
   background: #ffffff;
   border-radius: 18px;
@@ -46,13 +47,10 @@
   align-items: center;
   justify-content: space-between;
   gap: 0.6rem;
-  background: none;
-  border: none;
-  padding: 0;
   cursor: pointer;
-  text-align: left;
-  font-family: inherit;
+  list-style: none;
 }
+.faqQ::-webkit-details-marker { display: none; }
 
 .faqQTxt {
   flex: 1;
@@ -61,7 +59,7 @@
   color: #1A1A1A;
 }
 
-.faqQTxtOn {
+.faq[open] .faqQTxt {
   color: #FF512F;
 }
 
@@ -71,7 +69,7 @@
   transition: transform 0.2s ease;
 }
 
-.faqChevronOn {
+.faq[open] .faqChevron {
   color: #FF512F;
   transform: rotate(180deg);
 }
@@ -81,4 +79,101 @@
   color: #6B7687;
   line-height: 1.5;
   margin: 0.6rem 0 0;
+}
+
+/* ---------- Contact form ---------- */
+.formCard {
+  margin: 0 1.25rem;
+  background: #ffffff;
+  border-radius: 22px;
+  padding: 1.25rem;
+  box-shadow: 0 8px 14px rgba(68, 16, 16, 0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 0.875rem;
+}
+
+.field { display: flex; flex-direction: column; gap: 0.45rem; }
+
+.fieldLabel {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #1A1A1A;
+}
+
+.req {
+  color: #E4342A;
+}
+
+.input,
+.textarea {
+  width: 100%;
+  border-radius: 18px;
+  border: 1px solid #E9EDF4;
+  background: #FAFBFD;
+  padding: 0 0.875rem;
+  font-family: inherit;
+  font-size: 0.9rem;
+  color: #1A1A1A;
+}
+.input { height: 52px; }
+.textarea { min-height: 110px; padding: 0.75rem 0.875rem; resize: vertical; }
+.input::placeholder,
+.textarea::placeholder { color: #9AA4B2; }
+.input:focus,
+.textarea:focus {
+  outline: none;
+  border-color: #FF9669;
+  background: #ffffff;
+  box-shadow: 0 0 0 4px rgba(255, 81, 47, 0.12);
+}
+
+.phoneRow { display: flex; gap: 0.5rem; }
+.phoneRow .input { flex: 1; }
+.phoneCodeWrap { flex-shrink: 0; width: 128px; }
+
+/* Radio input + label styled as a pill — native :checked state, no JS */
+.reasonRow { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+.reasonInput {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+.reasonChip {
+  display: inline-flex;
+  border: 1px solid #E9EDF4;
+  background: #FAFBFD;
+  border-radius: 999px;
+  padding: 0.55rem 1rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #1A1A1A;
+  cursor: pointer;
+}
+.reasonInput:checked + .reasonChip {
+  border-color: transparent;
+  background: #FF512F;
+  color: #ffffff;
+}
+.reasonInput:focus-visible + .reasonChip {
+  outline: 2px solid #FF512F;
+  outline-offset: 2px;
+}
+
+.submit {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  height: 52px;
+  border: none;
+  border-radius: 999px;
+  background: linear-gradient(155deg, #E24020, #922010);
+  color: #ffffff;
+  font-size: 0.9rem;
+  font-weight: 700;
+  font-family: inherit;
 }

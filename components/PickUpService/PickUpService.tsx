@@ -5,10 +5,13 @@ import Link from "next/link";
 import { Outfit } from "next/font/google";
 import { Clock, ArrowRight } from "lucide-react";
 import styles from "./PickUpService.module.css";
+import mstyles from "@/components/MobilePickupCard/MobilePickupCard.module.css";
 
 const outfit = Outfit({ subsets: ["latin"], weight: ["300", "400", "500", "600", "700", "800"] });
+const mobileOutfit = Outfit({ subsets: ["latin"], weight: ["500", "600", "700", "800"] });
 
-const features = [
+// Shared with the apply-form page's "Step by Step Guide" info column.
+export const features = [
   "The only Government services center operating 24 hours in the UAE.",
   "Open on Fridays and public holidays — when others are closed.",
   "Ample parking available right across the area.",
@@ -39,8 +42,9 @@ export default function PickUpService() {
   }, []);
 
   return (
-    <section 
-      ref={sectionRef} 
+    <>
+    <section
+      ref={sectionRef}
       className={`${styles.section} ${outfit.className} ${isIntersecting ? styles.revealed : ""}`}
     >
       <div className={`${styles.container} ${styles.grid}`}>
@@ -88,14 +92,58 @@ export default function PickUpService() {
           </ol>
 
           <div className={styles.ctaWrap}>
-            <Link href="/services" className={styles.cta} aria-label="Explore all Amer 247 services">
+            <Link href="/online-services" className={styles.cta} aria-label="Explore all Amer 247 services">
               <span>Learn More</span>
               <ArrowRight size={18} strokeWidth={2.5} className={styles.ctaArrow} />
             </Link>
           </div>
         </div>
-        
+
       </div>
     </section>
+
+    {/* Mobile-only — same features list as above (5 points, including the
+        "trained happiness consultants" one previously missing on mobile).
+        Visibility is CSS-driven (mstyles.wrap). */}
+    <section className={`${mstyles.wrap} ${mobileOutfit.className}`}>
+      <div className={mstyles.sec}>
+        <h2 className={mstyles.h2}>24/7 Courier</h2>
+      </div>
+
+      <div className={mstyles.card}>
+        <div className={mstyles.imgWrap}>
+          <img src="/images/document_pickup_delivery.png" alt="Document pick-up & delivery" className={mstyles.img} />
+          <div className={mstyles.badge}>
+            <span className={mstyles.badgeIco}>
+              <Clock size={18} />
+            </span>
+            <div>
+              <b className={mstyles.badgeT}>24/7</b>
+              <span className={mstyles.badgeL}>Courier</span>
+            </div>
+          </div>
+        </div>
+
+        <div className={mstyles.body}>
+          <h3 className={mstyles.title}>
+            Document <span className={mstyles.gold}>pick-up &amp; drop-off</span>
+          </h3>
+
+          <ol className={mstyles.points}>
+            {features.map((feature, i) => (
+              <li key={i} className={mstyles.point}>
+                <span className={mstyles.pn}>{String(i + 1).padStart(2, "0")}</span>
+                <p className={mstyles.pt}>{feature}</p>
+              </li>
+            ))}
+          </ol>
+
+          <Link href="/online-services" className={mstyles.cta}>
+            Learn More <ArrowRight size={16} />
+          </Link>
+        </div>
+      </div>
+    </section>
+    </>
   );
 }

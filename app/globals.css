@@ -3,9 +3,9 @@
   --brand-navy-dark: #11204A;
   --brand-navy-light: #2C3F76;
   --brand-blue: #11204A;
-  --brand-orange: #1A2A5A;
-  --brand-orange-light: #2C3F76;
-  --brand-orange-dark: #11204A;
+  --brand-orange: #FF512F;
+  --brand-orange-light: #FF6B4A;
+  --brand-orange-dark: #922010;
   --brand-teal: #1BA39C;
   --brand-gold: #C9A24B;
   --brand-light: #F4F7FB;
@@ -43,10 +43,18 @@ html,
 body {
   margin: 0;
   padding: 0;
-  /* Safety net: guarantees the page can never be dragged/scrolled
-     sideways even if a future element slips past the viewport edge. */
-  overflow-x: hidden;
   max-width: 100%;
+}
+
+/* Safety net: guarantees the page can never be dragged/scrolled sideways
+   even if a future element slips past the viewport edge. Set on html only
+   — setting it on both html AND body makes each one independently compute
+   overflow-y: auto too (CSS's overflow-x/y fixup rule), which creates two
+   nested scroll containers and silently breaks position: sticky for
+   anything inside body, since it ends up positioned relative to whichever
+   of the two the browser doesn't actually scroll. */
+html {
+  overflow-x: hidden;
 }
 
 body {
@@ -76,18 +84,18 @@ video {
   width: 100%;
   max-width: var(--container);
   margin: 0 auto;
-  padding: 0 2rem;
+  padding: 0 5rem;
 }
 
 @media (max-width: 768px) {
   .container {
-    padding: 0 1rem;
+    padding: 0 3rem;
   }
 }
 
 @media (max-width: 480px) {
   .container {
-    padding: 0 0.85rem;
+    padding: 0 2rem;
   }
 }
 

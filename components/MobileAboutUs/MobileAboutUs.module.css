@@ -1,0 +1,143 @@
+.wrap {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .wrap {
+    display: block;
+    padding: 0.5rem 1.25rem 3rem;
+    background: #EEF1F7;
+  }
+}
+
+.statusPill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: #ffffff;
+  border-radius: 999px;
+  padding: 0.4rem 0.85rem 0.4rem 0.6rem;
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  color: #1A1A1A;
+  box-shadow: 0 4px 10px rgba(68, 16, 16, 0.08);
+  margin-bottom: 1rem;
+}
+
+.statusDotWrap {
+  position: relative;
+  width: 8px;
+  height: 8px;
+  flex-shrink: 0;
+}
+
+.statusDotPing {
+  position: absolute;
+  inset: 0;
+  border-radius: 999px;
+  background: #34C759;
+  animation: ping 1.8s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
+.statusDotSolid {
+  position: absolute;
+  inset: 0;
+  border-radius: 999px;
+  background: #34C759;
+}
+
+@keyframes ping {
+  0% { transform: scale(1); opacity: 0.7; }
+  75%, 100% { transform: scale(2.4); opacity: 0; }
+}
+
+.title {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #1A1A1A;
+  margin: 0 0 0.9rem;
+  letter-spacing: -0.01em;
+}
+
+.narrative {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #1A1A1A;
+  line-height: 1.5;
+  margin: 0 0 0.65rem;
+}
+
+.body {
+  font-size: 0.85rem;
+  color: #6B7687;
+  line-height: 1.55;
+  margin: 0 0 1.5rem;
+}
+
+.cardsGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.7rem;
+  margin-bottom: 1.5rem;
+}
+
+.card {
+  background: #ffffff;
+  border-radius: 18px;
+  padding: 1rem;
+  box-shadow: 0 8px 14px rgba(68, 16, 16, 0.08);
+}
+
+.cardIco {
+  width: 36px;
+  height: 36px;
+  border-radius: 11px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #F6F8FC;
+  color: #FF512F;
+  margin-bottom: 0.7rem;
+}
+
+.cardTitle {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #1A1A1A;
+  margin: 0 0 0.2rem;
+  line-height: 1.3;
+}
+
+.cardSub {
+  font-size: 0.72rem;
+  color: #6B7687;
+  line-height: 1.35;
+  margin: 0;
+}
+
+.ctaBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  background: linear-gradient(155deg, #E24020, #922010);
+  color: #ffffff;
+  border-radius: 999px;
+  padding: 0.9rem 1.25rem;
+  font-size: 0.88rem;
+  font-weight: 700;
+  text-decoration: none;
+  box-shadow: 0 10px 20px rgba(68, 16, 16, 0.2);
+}
+
+.ctaIco {
+  width: 26px;
+  height: 26px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.18);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}

@@ -34,3 +34,7 @@ skills-lock.json
 # TypeScript
 *.tsbuildinfo
 next-env.d.ts
+
+# Raw uncompressed hero video source (89MB) — the site serves the compressed
+# AMER-hero.mp4; keep the original out of git history.
+public/images/AMER.mp4

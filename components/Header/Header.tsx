@@ -2,13 +2,33 @@
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Menu, Home, FileText, Plane } from "lucide-react";
+import {
+  Menu, X, Home, FileText, Plane, Info, Grid3x3, Tag,
+  Newspaper, Briefcase, Phone, User,
+} from "lucide-react";
+import { lockBodyScroll, unlockBodyScroll } from "@/lib/useBodyScrollLock";
+import { needsOpaqueHeader, needsOpaqueHeaderStatic } from "@/lib/headerRoutes";
 import styles from "./Header.module.css";
 
+const menuItems = [
+  { label: "Home", href: "/", icon: Home },
+  { label: "About", href: "/about", icon: Info },
+  { label: "Services", href: "/amer247-services", icon: Grid3x3 },
+  { label: "UAE Tourist Visa", href: "/uae-tourist-visa", icon: Plane },
+  { label: "Pricing", href: "/pricing-list", icon: Tag },
+  { label: "News", href: "/news", icon: Newspaper },
+  { label: "Online Services", href: "/online-services", icon: FileText },
+  { label: "Career", href: "/contact", icon: Briefcase },
+  { label: "Contact", href: "/contact", icon: Phone },
+];
+
 export default function Header() {
-  const [scrolled, setScrolled] = useState(false);
-  const [hideMobileBar, setHideMobileBar] = useState(false);
   const pathname = usePathname();
+  // Starts opaque immediately (no transparent flash on first paint) on
+  // routes with no dark hero to justify a transparent header.
+  const [scrolled, setScrolled] = useState(() => needsOpaqueHeaderStatic(pathname));
+  const [hideMobileBar, setHideMobileBar] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
   const isSplash = pathname === "/";
 
   // The scroll listener below is only ever set up once (mount), so it must
@@ -28,11 +48,30 @@ export default function Header() {
     const evaluate = () => {
       const y = window.scrollY;
 
-      // The splash stays transparent for its entire scroll range, on every
-      // device — no threshold approximation, since a viewport-relative
-      // guess could fall short (leaving an opaque header) on some devices.
+      // The splash stays transparent for its whole scroll range, but that
+      // range ends where the "#mobile-header-opaque-start" marker sits in
+      // the DOM (right after MobileHomeHero's own dark hero image, on both
+      // mobile and desktop — hidden on desktop so it contributes no height
+      // there, same effective position as before) — reading its real
+      // position is exact on every device, unlike the previous viewport
+      // -height guess, which could fall short (opaque header mid-animation)
+      // or, if forced to never trigger, leave the header transparent for the
+      // rest of the page too. This is a distinct marker from
+      // "#mobile-home-start" (which Skip/quick-links scroll to) since that
+      // one must stay right where the pinned animation releases, not
+      // further down past the greeting section.
       const isHome = pathnameRef.current === "/";
-      setScrolled(isHome ? false : y > 40);
+      if (needsOpaqueHeader(pathnameRef.current)) {
+        // The apply form has a light background with no dark hero to
+        // contrast against, so the header needs its solid background from
+        // the very top of the page, not just after scrolling.
+        setScrolled(true);
+      } else if (isHome) {
+        const marker = document.getElementById("mobile-header-opaque-start");
+        setScrolled(marker ? marker.getBoundingClientRect().top <= 0 : y > 40);
+      } else {
+        setScrolled(y > 40);
+      }
 
       // Hide bottom bar on scroll down, show on scroll up / at top.
       const delta = y - lastY;
@@ -66,12 +105,38 @@ export default function Header() {
   useEffect(() => {
     const y = window.scrollY;
     const isHome = pathname === "/";
-    setScrolled(isHome ? false : y > 40);
+    if (needsOpaqueHeader(pathname)) {
+      setScrolled(true);
+    } else if (isHome) {
+      const marker = document.getElementById("mobile-header-opaque-start");
+      setScrolled(marker ? marker.getBoundingClientRect().top <= 0 : y > 40);
+    } else {
+      setScrolled(y > 40);
+    }
   }, [pathname]);
+
+  // Close the menu on route change and always release the scroll lock on
+  // unmount, in case navigation ever happens without the link's own onClick.
+  useEffect(() => {
+    setMenuOpen(false);
+  }, [pathname]);
+
+  const menuLockedRef = useRef(false);
+  useEffect(() => {
+    if (menuOpen) {
+      if (!menuLockedRef.current) { lockBodyScroll(); menuLockedRef.current = true; }
+    } else if (menuLockedRef.current) {
+      unlockBodyScroll();
+      menuLockedRef.current = false;
+    }
+  }, [menuOpen]);
+  useEffect(() => () => {
+    if (menuLockedRef.current) { unlockBodyScroll(); menuLockedRef.current = false; }
+  }, []);
 
   const nav = [
     { label: "Home", href: "/" },
-    { label: "Services", href: "/services" },
+    { label: "Services", href: "/amer247-services" },
     { label: "About", href: "/about" },
     { label: "Contact", href: "/contact" },
     { label: "Price", href: "/pricing-list" },
@@ -80,10 +145,6 @@ export default function Header() {
 
   const isActive = (href: string) =>
     href === "/" ? pathname === "/" : pathname === href || pathname.startsWith(`${href}/`);
-
-  // The Apply form has its own full top bar (close button, title, back to
-  // Services) — a second persistent header on top of it was pure redundancy.
-  if (pathname === "/apply") return null;
 
   return (
     <header className={`${styles.header} ${scrolled ? (isSplash ? styles.scrolled : styles.scrolledLight) : ""}`}>
@@ -111,7 +172,7 @@ export default function Header() {
         </nav>
 
         <div className={styles.actions}>
-          <Link href="/tourist-visa" className={styles.btnPrimary}>
+          <Link href="/uae-tourist-visa" className={styles.btnPrimary}>
             UAE TOURIST VISA
           </Link>
           <Link href="/online-services" className={styles.btnPrimary}>
@@ -122,10 +183,48 @@ export default function Header() {
             alt="Tasheel & Tawjeeh"
             className={styles.partnerLogo}
           />
-          <button className={styles.menu} aria-label="Open menu">
-            <Menu size={22} />
+          <Link href="/account" className={styles.accountBtn} aria-label="Account">
+            <User size={19} />
+          </Link>
+          <button
+            className={styles.menu}
+            aria-label={menuOpen ? "Close menu" : "Open menu"}
+            aria-expanded={menuOpen}
+            onClick={() => setMenuOpen((v) => !v)}
+          >
+            {menuOpen ? <X size={22} /> : <Menu size={22} />}
           </button>
         </div>
+      </div>
+
+      <div className={`${styles.menuOverlay} ${menuOpen ? styles.menuOverlayOn : ""}`} onClick={() => setMenuOpen(false)}>
+        <nav
+          className={`${styles.menuPanel} ${menuOpen ? styles.menuPanelOn : ""}`}
+          onClick={(e) => e.stopPropagation()}
+          aria-label="Main menu"
+        >
+          <div className={styles.menuPanelHead}>
+            <img src="/logos/amernew-cropped-dark.png" alt="Amer 24/7" className={styles.menuPanelLogo} />
+            <button className={styles.menuClose} onClick={() => setMenuOpen(false)} aria-label="Close menu">
+              <X size={20} />
+            </button>
+          </div>
+          <ul className={styles.menuList}>
+            {menuItems.map((m) => (
+              <li key={m.label}>
+                <Link
+                  href={m.href}
+                  aria-current={isActive(m.href) ? "page" : undefined}
+                  className={`${styles.menuLink} ${isActive(m.href) ? styles.menuLinkActive : ""}`}
+                  onClick={() => setMenuOpen(false)}
+                >
+                  <m.icon size={19} className={styles.menuLinkIcon} />
+                  {m.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </nav>
       </div>
 
       {/* Mobile bottom navigation — visible only on small screens */}
@@ -150,9 +249,9 @@ export default function Header() {
           <span>Apply Online</span>
         </Link>
         <Link
-          href="/tourist-visa"
-          className={`${styles.mobileItem} ${isActive("/tourist-visa") ? styles.mobileItemActive : ""}`}
-          aria-current={isActive("/tourist-visa") ? "page" : undefined}
+          href="/uae-tourist-visa"
+          className={`${styles.mobileItem} ${isActive("/uae-tourist-visa") ? styles.mobileItemActive : ""}`}
+          aria-current={isActive("/uae-tourist-visa") ? "page" : undefined}
         >
           <Plane size={20} strokeWidth={1.8} />
           <span>UAE Tourist Visa</span>

@@ -1,0 +1,76 @@
+.wrap {
+  min-height: 70vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 8rem 1.5rem 4rem;
+  gap: 1rem;
+}
+
+.burst {
+  width: 84px;
+  height: 84px;
+  border-radius: 999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  margin-bottom: 0.5rem;
+}
+
+.burstOk {
+  background: linear-gradient(135deg, #1ba39c, #0e6e69);
+}
+
+.burstFail {
+  background: linear-gradient(135deg, #e4342a, #922010);
+}
+
+.title {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #1a1a1a;
+  margin: 0;
+  max-width: 32rem;
+}
+
+.copy {
+  color: #64748b;
+  font-size: 0.92rem;
+  margin: 0;
+}
+
+.cta {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 1.25rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  height: 48px;
+  padding: 0 1.5rem;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #ff512f, #7a1508);
+  color: #fff;
+  font-weight: 700;
+  font-size: 0.88rem;
+}
+
+.secondary {
+  display: inline-flex;
+  align-items: center;
+  height: 48px;
+  padding: 0 1.5rem;
+  border-radius: 12px;
+  background: var(--soft);
+  color: #1a1a1a;
+  font-weight: 700;
+  font-size: 0.88rem;
+}

@@ -1,5 +1,6 @@
 import styles from "./online-services.module.css";
 import CategoryTabs from "./CategoryTabs";
+import MobileOnlineServicesScreen from "@/components/MobileOnlineServicesScreen/MobileOnlineServicesScreen";
 
 export const metadata = {
   title: "Online Services — Amer 24/7",
@@ -10,7 +11,11 @@ export const metadata = {
 export default function OnlineServicesPage() {
   return (
     <>
-      {/* ===================== Hero ===================== */}
+      {/* Mobile-only — same URL, app-matching card design instead of the
+          desktop hero + dark-image-card tabs below. */}
+      <MobileOnlineServicesScreen />
+
+      {/* ===================== Hero (desktop-only) ===================== */}
       <section className={styles.hero}>
         <div className={styles.heroBg} aria-hidden="true">
           <span className={styles.heroOrbA} />

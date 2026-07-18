@@ -46,7 +46,7 @@ export default function MobileAccountScreen() {
           </Link>
         ))}
 
-        <Link href="/services" className={styles.primaryBtn}>
+        <Link href="/online-services" className={styles.primaryBtn}>
           <MousePointerClick size={17} /> Start application
         </Link>
         <Link href="/login" className={styles.ghostBtn}>

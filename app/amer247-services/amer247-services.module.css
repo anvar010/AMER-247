@@ -1,0 +1,755 @@
+.wrap {
+  background: #EEF1F7;
+  font-family: "Inter", sans-serif;
+}
+
+/* ---------- Hero (solid gradient, no photo — matches About's editorial
+   layout: top row with eyebrow + meta, big title, accent bar, copy) ---------- */
+.hero {
+  position: relative;
+  padding: 6.5rem 0 2.5rem;
+  background: linear-gradient(135deg, #FF512F, #7A1508);
+  isolation: isolate;
+}
+
+.heroAlign {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+.glowGold {
+  position: absolute;
+  top: -3.4rem;
+  right: -2.8rem;
+  width: 220px;
+  height: 220px;
+  border-radius: 50%;
+  background: rgba(227, 199, 126, 0.16);
+  pointer-events: none;
+}
+
+.glowWhite {
+  position: absolute;
+  bottom: -5rem;
+  left: -3.1rem;
+  width: 220px;
+  height: 220px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.06);
+  pointer-events: none;
+}
+
+/* Right-side visual container is part of the desktop-only premium redesign —
+   hidden below the desktop breakpoint so the mobile hero (dark gradient,
+   single column) is untouched. */
+.heroGrid {
+  display: block;
+}
+
+.heroVisual {
+  display: none;
+}
+
+.titleAccent {
+  color: inherit;
+}
+
+.heroInner {
+  position: relative;
+  z-index: 1;
+  max-width: 620px;
+  color: #fff;
+}
+
+.heroTopRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+}
+
+.heroEyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--brand-gold, #C9A24B);
+}
+
+.heroEyebrowLine {
+  width: 32px;
+  height: 1px;
+  background: currentColor;
+  display: inline-block;
+}
+
+.heroMeta {
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.55);
+  position: relative;
+  padding-left: 1.3rem;
+}
+
+.heroMeta::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--brand-gold, #C9A24B);
+  transform: translateY(-50%);
+}
+
+.title {
+  font-weight: 800;
+  font-size: 2rem;
+  line-height: 1.15;
+  color: #ffffff;
+  margin: 0 0 1rem;
+  letter-spacing: -0.015em;
+}
+
+.heroAccent {
+  display: block;
+  width: 70px;
+  height: 3px;
+  background: var(--brand-gold, #C9A24B);
+  border-radius: 2px;
+  margin: 0 0 1.25rem;
+}
+
+.blurb {
+  color: rgba(255, 255, 255, 0.78);
+  font-size: 0.9rem;
+  line-height: 1.75;
+  margin: 0 0 1.75rem;
+  max-width: 480px;
+}
+
+.pricingBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: linear-gradient(155deg, #E3C77E, #A6822F);
+  color: #2A1F00;
+  border-radius: 999px;
+  padding: 0.85rem 1.5rem;
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-decoration: none;
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.2);
+  transition: transform 0.25s ease;
+}
+
+.pricingBtn:hover {
+  transform: translateY(-2px);
+}
+
+/* ---------- Feature strip ---------- */
+/* On mobile it sits in normal flow right under the hero copy — the
+   absolute-positioned "overlaps the hero's bottom edge" treatment (which
+   made the card tower over the viewport and shove "What We Do" off-screen)
+   only kicks in at the desktop breakpoint below. */
+.featureStripWrap {
+  position: relative;
+  margin-top: 1.75rem;
+}
+
+.featureStrip {
+  background: #fff;
+  border-radius: 14px;
+  padding: 1.25rem 1.5rem;
+  box-shadow: 0 22px 48px rgba(68, 16, 16, 0.16);
+  border: 1px solid rgba(68, 16, 16, 0.06);
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+
+.featureItem {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  padding: 0.3rem 0.25rem;
+  position: relative;
+}
+
+.featureIconWrap {
+  flex-shrink: 0;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: rgba(255, 81, 47, 0.08);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(255, 81, 47, 0.14);
+}
+
+.featureIcon {
+  color: #FF512F;
+}
+
+.featureTitle {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #1A1A1A;
+  line-height: 1.2;
+}
+
+.featureSub {
+  font-size: 0.74rem;
+  color: #7d8597;
+  margin-top: 0.2rem;
+}
+
+/* ---------- Partner logos (auto-scrolling marquee) ---------- */
+.partners {
+  padding: 2rem 0;
+  background: #ffffff;
+}
+
+.partnersInner {
+  width: 100%;
+}
+
+.partnersTrack {
+  overflow: hidden;
+  mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+}
+
+.partnersRow {
+  display: flex;
+  align-items: center;
+  width: max-content;
+  gap: 3.5rem;
+  animation: partnersScroll 22s linear infinite;
+}
+
+.partnersRow img {
+  height: 68px;
+  width: auto;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+@keyframes partnersScroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    /* Track renders the logo set twice, so -50% is exactly one full set —
+       the loop point is seamless. */
+    transform: translateX(-50%);
+  }
+}
+
+/* ---------- Body ---------- */
+.body {
+  position: relative;
+  isolation: isolate;
+  padding: 3rem 2rem 3rem;
+}
+
+.sectionGrain {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0.6;
+  background-image: radial-gradient(rgba(26, 42, 90, 0.07) 1px, transparent 1px);
+  background-size: 22px 22px;
+  mask-image: radial-gradient(ellipse at top, #000 25%, transparent 70%);
+  -webkit-mask-image: radial-gradient(ellipse at top, #000 25%, transparent 70%);
+}
+
+.sectionHead {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 2rem;
+}
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: #FF512F;
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.sectionTitle {
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: #1A1A1A;
+  margin: 0;
+  letter-spacing: -0.01em;
+}
+
+.sectionSub {
+  font-size: 0.85rem;
+  color: #6B7687;
+  line-height: 1.6;
+  max-width: 46ch;
+  margin: 0.35rem 0 0;
+}
+
+.countBadge {
+  display: flex;
+  align-items: baseline;
+  gap: 0.45rem;
+  margin-top: 0.75rem;
+}
+
+.countNum {
+  font-size: 1.9rem;
+  font-weight: 800;
+  color: #FF512F;
+  line-height: 1;
+}
+
+.countLabel {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #6B7687;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 1.5rem;
+  border: 1px solid rgba(68, 16, 16, 0.06);
+  box-shadow: 0 8px 20px rgba(68, 16, 16, 0.06);
+  text-decoration: none;
+  overflow: hidden;
+  isolation: isolate;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.card::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 3px;
+  background: linear-gradient(90deg, #FF512F, var(--brand-gold));
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.card:not(.cardStatic):hover::before {
+  transform: scaleX(1);
+}
+
+.card:not(.cardStatic):hover {
+  transform: translateY(-6px);
+  box-shadow: 0 24px 44px rgba(68, 16, 16, 0.16);
+  border-color: rgba(255, 81, 47, 0.28);
+}
+
+.cardStatic {
+  background: #F8F6F5;
+  border-style: dashed;
+}
+
+.cardIco {
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, rgba(255, 81, 47, 0.14), rgba(255, 81, 47, 0.04));
+  border: 1px solid rgba(255, 81, 47, 0.15);
+  color: #FF512F;
+  margin-bottom: 1rem;
+  flex-shrink: 0;
+  transition: background 0.3s ease, color 0.3s ease, transform 0.3s ease;
+}
+
+.card:not(.cardStatic):hover .cardIco {
+  background: #FF512F;
+  border-color: #FF512F;
+  color: #ffffff;
+  transform: scale(1.08) rotate(-4deg);
+}
+
+.cardStatic .cardIco {
+  background: rgba(107, 118, 135, 0.12);
+  border-color: rgba(107, 118, 135, 0.15);
+  color: #6B7687;
+}
+
+.cardTitle {
+  font-size: 1rem;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  color: #1A1A1A;
+  margin: 0 0 0.5rem;
+  line-height: 1.3;
+}
+
+.cardBody {
+  font-size: 0.82rem;
+  color: #6B7687;
+  line-height: 1.55;
+  margin: 0;
+  flex-grow: 1;
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.cardFoot {
+  display: block;
+  margin-top: 1.25rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(68, 16, 16, 0.06);
+}
+
+.cardCta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #FF512F;
+}
+
+.cardCta svg {
+  transition: transform 0.2s ease;
+}
+
+.card:hover .cardCta svg {
+  transform: translateX(3px);
+}
+
+.comingSoon {
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: #9AA3B2;
+}
+
+/* ---------- Desktop / wider screens ---------- */
+@media (min-width: 640px) {
+  .grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (min-width: 769px) {
+  /* Premium white/red government-portal treatment replaces the dark
+     gradient hero at desktop widths only — mobile/tablet keep the
+     original look untouched below this breakpoint. */
+  .hero {
+    /* Bottom padding is kept just large enough for the floating feature
+       card to clear the hero's edge — any more and the gradient's gray
+       tail shows as a visible band above the card. */
+    padding: 9rem 0 4rem;
+    min-height: 600px;
+    background: linear-gradient(180deg, #FFFFFF 0%, #F7F8FA 100%);
+  }
+
+  .glowGold,
+  .glowWhite {
+    display: none;
+  }
+
+  .heroAlign {
+    padding: 0 5rem;
+  }
+
+  .heroInner {
+    max-width: 700px;
+  }
+
+  .heroEyebrow {
+    font-size: 0.78rem;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #E31E24;
+    background: #FDECEC;
+    border: 1px solid rgba(227, 30, 36, 0.18);
+    border-radius: 999px;
+    padding: 0.4rem 0.95rem 0.4rem 0.7rem;
+  }
+
+  .heroEyebrowLine {
+    width: 20px;
+    background: #E31E24;
+  }
+
+  .heroMeta {
+    color: #8B93A3;
+  }
+
+  .heroMeta::before {
+    background: #E31E24;
+  }
+
+  .title {
+    font-size: 3rem;
+    color: #1D2433;
+  }
+
+  .titleAccent {
+    color: #E31E24;
+  }
+
+  .heroAccent {
+    background: #E31E24;
+  }
+
+  .blurb {
+    font-size: 1.05rem;
+    color: #5B6472;
+  }
+
+  .pricingBtn {
+    background: #E31E24;
+    color: #ffffff;
+    box-shadow: 0 14px 28px rgba(227, 30, 36, 0.24);
+  }
+
+  .pricingBtn:hover {
+    background: #C81319;
+  }
+
+  /* Restore the "overlaps the hero's bottom edge" treatment — only at
+     this width, where the strip is short enough (3 columns, not stacked)
+     that floating it doesn't crowd out the rest of the hero. */
+  .featureStripWrap {
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    margin-top: 0;
+    width: calc(100% - 2.5rem);
+    max-width: 1200px;
+    z-index: 3;
+    transform: translate(-50%, 50%);
+  }
+
+  .featureStrip {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.75rem;
+    padding: 1.5rem 1.75rem;
+    border-color: #ECECEC;
+    box-shadow: 0 24px 48px rgba(29, 36, 51, 0.08);
+  }
+
+  .featureIconWrap {
+    background: transparent;
+    border: 1.5px solid #E31E24;
+  }
+
+  .featureIcon {
+    color: #E31E24;
+  }
+
+  .featureTitle {
+    color: #1D2433;
+  }
+
+  .featureItem + .featureItem::before {
+    content: "";
+    position: absolute;
+    left: -0.25rem;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 1px;
+    height: 42px;
+    background: #ECECEC;
+  }
+
+  .heroGrid {
+    display: grid;
+    grid-template-columns: minmax(0, 560px) 1fr;
+    gap: 3rem;
+    align-items: center;
+  }
+
+  .heroVisual {
+    display: block;
+    position: relative;
+    min-height: 400px;
+  }
+
+  .heroVisualDots {
+    position: absolute;
+    top: -1.5rem;
+    right: 1rem;
+    width: 110px;
+    height: 110px;
+    background-image: radial-gradient(rgba(29, 36, 51, 0.14) 1.5px, transparent 1.5px);
+    background-size: 14px 14px;
+    pointer-events: none;
+  }
+
+  .heroVisualBlob {
+    position: absolute;
+    inset: 1rem 0.5rem 2.5rem 0;
+    border-radius: 20px;
+    background: linear-gradient(150deg, #FAFBFC, #F2F3F6);
+    border: 1px solid #ECECEC;
+    box-shadow: 0 30px 60px rgba(29, 36, 51, 0.06);
+    overflow: hidden;
+  }
+
+  .heroVisualImg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .heroVisualRing {
+    position: absolute;
+    top: 1.5rem;
+    right: -1rem;
+    width: 210px;
+    height: 210px;
+    border-radius: 50%;
+    border: 1.5px solid rgba(227, 30, 36, 0.35);
+    pointer-events: none;
+  }
+
+  .heroBadge {
+    position: absolute;
+    left: -0.5rem;
+    bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    background: linear-gradient(155deg, #FF4B4F, #C81319);
+    color: #ffffff;
+    padding: 0.9rem 1.35rem;
+    border-radius: 999px;
+    box-shadow: 0 18px 32px rgba(200, 19, 25, 0.32);
+  }
+
+  .heroBadgeIcon {
+    flex-shrink: 0;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.2);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .heroBadgeText {
+    font-size: 0.78rem;
+    font-weight: 700;
+    line-height: 1.3;
+    white-space: nowrap;
+  }
+
+  /* The feature strip overlaps the hero's bottom edge on desktop (see
+     .featureStripWrap above), so the section right after it needs enough
+     top padding to clear the floating card instead of running under it.
+     Padding stays on .partners itself (vertical only) so its white
+     background remains full-bleed — the horizontal constraint lives on
+     .partnersInner instead. */
+  .partners {
+    padding: 6.5rem 0 1rem;
+  }
+
+  .partnersInner {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 0 5rem;
+  }
+
+  .partnersRow {
+    gap: 5rem;
+  }
+
+  .partnersRow img {
+    height: 92px;
+  }
+
+  .body {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 3rem 5rem 5rem;
+  }
+
+  .sectionHead {
+    flex-direction: row;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 1.5rem;
+  }
+
+  .countBadge {
+    margin-top: 0;
+    flex-shrink: 0;
+  }
+
+  .sectionTitle {
+    font-size: 1.8rem;
+  }
+
+  .grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.25rem;
+  }
+
+  .card {
+    padding: 1.75rem;
+    border-radius: 22px;
+  }
+
+  .cardIco {
+    width: 52px;
+    height: 52px;
+  }
+
+  .cardTitle {
+    font-size: 1.05rem;
+  }
+
+  .cardBody {
+    font-size: 0.85rem;
+  }
+}
+
+@media (min-width: 1200px) {
+  .grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}

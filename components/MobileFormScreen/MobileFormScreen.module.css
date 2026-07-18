@@ -1,18 +1,27 @@
+/* Same form on every screen size — no separate desktop redesign. Below
+   768px it's edge-to-edge like the app; above it, the same markup is just
+   centered in a comfortable column instead of stretching full-width. */
 .wrap {
-  display: none;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background: #EEF1F7;
+  /* Clears the site's fixed Header (now shown on this route too). */
+  padding-top: 4.5rem;
 }
 
-@media (max-width: 768px) {
+@media (min-width: 769px) {
   .wrap {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-    background: #EEF1F7;
+    padding-top: 6rem;
+    padding-bottom: 5rem;
   }
 }
 
 .top {
   flex-shrink: 0;
+  width: 100%;
+  max-width: 640px;
+  margin: 0 auto;
   background: #ffffff;
   padding: 1.4rem 1.15rem 1rem;
   box-shadow: 0 4px 18px rgba(40, 15, 8, 0.05);
@@ -22,6 +31,104 @@
   .top {
     padding-top: calc(1.4rem + env(safe-area-inset-top, 0px));
   }
+}
+
+@media (min-width: 769px) {
+  .top {
+    max-width: 100%;
+    margin-top: 2rem;
+    border-radius: 20px 20px 0 0;
+  }
+}
+
+/* ---------- Layout: single column on mobile, two columns (required docs +
+   step guide | form) on desktop ---------- */
+.gridLayout {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.formCol {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.infoCol {
+  display: none;
+}
+
+@media (min-width: 769px) {
+  .gridLayout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    align-items: start;
+    max-width: 1440px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 0 5rem;
+  }
+
+  .infoCol {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    margin-top: 2rem;
+    position: sticky;
+    /* Some browsers need this set explicitly on the sticky item itself,
+       not just inherited from the grid container's align-items, or sticky
+       silently does nothing inside a grid. */
+    align-self: start;
+    /* Clears the site's fixed header so the sticky block settles just
+       below it instead of sliding underneath. */
+    top: 6rem;
+  }
+}
+
+.infoBlock {
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 1.75rem 1.75rem 1.85rem;
+  box-shadow: 0 8px 20px rgba(68, 16, 16, 0.06);
+  border-top: 3px solid #FF512F;
+}
+
+.infoTitle {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: #1A1A1A;
+  line-height: 1.3;
+  margin: 0 0 1.25rem;
+}
+
+.infoList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+
+.infoItem {
+  position: relative;
+  padding-left: 1.5rem;
+  font-size: 0.88rem;
+  color: #4B5563;
+  line-height: 1.55;
+}
+
+.infoItem::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.5rem;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #FF512F;
 }
 
 .nav {
@@ -59,7 +166,21 @@
 
 .body {
   flex: 1;
+  width: 100%;
+  max-width: 640px;
+  margin: 0 auto;
   padding: 1.25rem 1.25rem 1.5rem;
+}
+
+@media (min-width: 769px) {
+  .body {
+    max-width: 100%;
+    background: #ffffff;
+    border-radius: 0 0 20px 20px;
+    padding: 1.75rem 2rem 2.25rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 4px 18px rgba(40, 15, 8, 0.05);
+  }
 }
 
 .svcCard {
@@ -84,6 +205,26 @@
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+}
+
+.svcEye {
+  width: 32px;
+  height: 32px;
+  border-radius: 999px;
+  border: none;
+  background: rgba(255, 255, 255, 0.16);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+/* Desktop shows the required-documents list inline in .infoCol instead. */
+@media (min-width: 769px) {
+  .svcEye {
+    display: none;
+  }
 }
 
 .svcBody {
@@ -211,33 +352,38 @@
   box-shadow: 0 0 0 4px rgba(255, 81, 47, 0.1);
 }
 
+.inputError {
+  border-color: #E4342A;
+  background: rgba(228, 52, 42, 0.04);
+}
+
+.inputError:focus {
+  border-color: #E4342A;
+  box-shadow: 0 0 0 4px rgba(228, 52, 42, 0.12);
+}
+
+.fieldError {
+  display: block;
+  margin-top: 0.4rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #E4342A;
+}
+
+/* Same shape as .fieldError but muted — used when some files were skipped
+   for being oversized while others still uploaded fine, so the note reads
+   as informational rather than a failure (the button itself stays green). */
+.fieldNotice {
+  display: block;
+  margin-top: 0.4rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #B45309;
+}
+
 .phoneRow {
   display: flex;
   gap: 0.5rem;
-}
-
-.phoneCode {
-  flex-shrink: 0;
-  height: 52px;
-  display: flex;
-  align-items: center;
-  gap: 0.4rem;
-  padding: 0 0.75rem;
-  border-radius: 18px;
-  border: 1px solid #E9EDF4;
-  background: #ffffff;
-  font-size: 0.9rem;
-  font-weight: 600;
-  color: #1A1A1A;
-  box-shadow: 0 8px 14px rgba(68, 16, 16, 0.1);
-}
-
-.flagIcon {
-  width: 22px;
-  height: 15px;
-  object-fit: cover;
-  border-radius: 3px;
-  box-shadow: 0 0 0 1px rgba(10, 31, 68, 0.08);
 }
 
 .phoneRow .input {
@@ -308,6 +454,15 @@
   margin-bottom: 0.625rem;
 }
 
+.fileInput {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
 .upload {
   display: flex;
   align-items: center;
@@ -325,6 +480,12 @@
   border-style: solid;
   border-color: #1BA39C;
   background: rgba(27, 163, 156, 0.05);
+}
+
+.uploadError {
+  border-style: solid;
+  border-color: #E4342A;
+  background: rgba(228, 52, 42, 0.04);
 }
 
 .upIco {
@@ -409,20 +570,15 @@
 
 /* ---------- Success ---------- */
 .doneWrap {
-  display: none;
-}
-
-@media (max-width: 768px) {
-  .doneWrap {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    min-height: 100vh;
-    padding: 2.5rem 1.9rem 3.5rem;
-    background: #EEF1F7;
-  }
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  min-height: 100vh;
+  /* Clears the site's fixed Header (now shown on this route too). */
+  padding: 6.5rem 1.9rem 3.5rem;
+  background: #EEF1F7;
 }
 
 .doneBurst {

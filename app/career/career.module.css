@@ -1,0 +1,58 @@
+.body {
+  max-width: var(--container);
+  padding-top: 3rem;
+  padding-bottom: 4rem;
+  display: grid;
+  gap: 2.5rem;
+  grid-template-columns: 1fr;
+  align-items: start;
+}
+
+@media (min-width: 900px) {
+  .body {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.left {
+  position: relative;
+  background: #ffffff;
+  border-radius: 20px;
+  box-shadow: 0 16px 40px rgba(68, 16, 16, 0.1);
+  padding: 2rem 1.5rem;
+  border-top: 3px solid var(--brand-orange);
+}
+
+@media (min-width: 768px) {
+  .left {
+    padding: 2.5rem;
+  }
+}
+
+@media (min-width: 900px) {
+  .left {
+    position: sticky;
+    top: 7rem;
+  }
+}
+
+.leftTitle {
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: #1a1a1a;
+  margin: 0 0 1.25rem;
+  line-height: 1.15;
+}
+
+@media (min-width: 768px) {
+  .leftTitle {
+    font-size: 2.1rem;
+  }
+}
+
+.leftCopy {
+  font-size: 0.92rem;
+  line-height: 1.8;
+  color: #475569;
+  margin: 0;
+}

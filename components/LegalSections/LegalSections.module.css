@@ -1,0 +1,46 @@
+.card {
+  max-width: var(--container);
+  margin: -3rem auto 0;
+  background: #ffffff;
+  border-radius: 20px;
+  box-shadow: 0 16px 40px rgba(68, 16, 16, 0.1);
+  padding: 2.5rem 2rem 3rem;
+  position: relative;
+  z-index: 2;
+}
+
+@media (min-width: 768px) {
+  .card {
+    padding: 3rem 5rem 3.5rem;
+  }
+}
+
+.updated {
+  text-align: center;
+  color: #64748b;
+  font-size: 0.85rem;
+  margin: 0 0 2rem;
+}
+
+.section {
+  margin-bottom: 1.75rem;
+}
+
+.section:last-child {
+  margin-bottom: 0;
+}
+
+.sectionTitle {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: #1a1a1a;
+  margin: 0 0 0.6rem;
+}
+
+.sectionBody {
+  font-size: 0.92rem;
+  line-height: 1.75;
+  color: #475569;
+  margin: 0;
+  white-space: pre-line;
+}

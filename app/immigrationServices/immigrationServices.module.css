@@ -1,0 +1,432 @@
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: var(--brand-orange);
+  margin-bottom: 1rem;
+}
+
+.eyebrowLine {
+  width: 30px;
+  height: 1px;
+  background: currentColor;
+  display: inline-block;
+}
+
+.h2 {
+  font-size: clamp(1.5rem, 2.6vw, 2rem);
+  font-weight: 800;
+  color: #1a1a1a;
+  letter-spacing: -0.02em;
+  margin: 0 0 1rem;
+}
+
+.h3 {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin: 1.75rem 0 0.9rem;
+}
+
+.copy {
+  font-size: 0.94rem;
+  line-height: 1.8;
+  color: #475569;
+  margin: 0 0 0.5rem;
+}
+
+/* ---------- Mission ---------- */
+.mission {
+  padding: 4.5rem 0;
+  background: var(--brand-light);
+}
+
+.missionInner {
+  text-align: left;
+}
+
+.missionGrid {
+  display: grid;
+  gap: 1.5rem;
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 768px) {
+  .missionGrid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.missionCard {
+  position: relative;
+  background: #fff;
+  border-radius: 20px;
+  padding: 2rem;
+  border: 1px solid rgba(68, 16, 16, 0.06);
+  box-shadow: 0 8px 20px rgba(68, 16, 16, 0.06);
+  overflow: hidden;
+  isolation: isolate;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease;
+}
+
+.missionCard::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--brand-orange), var(--brand-gold));
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.missionCard:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 24px 44px rgba(68, 16, 16, 0.14);
+}
+
+.missionCard:hover::before {
+  transform: scaleX(1);
+}
+
+.missionIco {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, rgba(255, 81, 47, 0.14), rgba(255, 81, 47, 0.04));
+  border: 1px solid rgba(255, 81, 47, 0.15);
+  color: var(--brand-orange);
+  margin-bottom: 1.25rem;
+  transition: background 0.3s ease, color 0.3s ease, transform 0.3s ease;
+}
+
+.missionCard:hover .missionIco {
+  background: var(--brand-orange);
+  border-color: var(--brand-orange);
+  color: #fff;
+  transform: scale(1.08) rotate(-4deg);
+}
+
+.missionHeading {
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: #1a1a1a;
+  margin: 0 0 0.6rem;
+}
+
+.missionText {
+  font-size: 0.88rem;
+  line-height: 1.7;
+  color: #475569;
+  margin: 0;
+}
+
+/* ---------- One Stop Shop ---------- */
+.needs {
+  padding: 4.5rem 0;
+}
+
+.needsInner {
+  display: grid;
+  gap: 2.5rem;
+  grid-template-columns: 1fr;
+  align-items: start;
+}
+
+@media (min-width: 768px) {
+  .needsInner {
+    grid-template-columns: 1.3fr 1fr;
+  }
+}
+
+.countryChips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+.countryChip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: #fff;
+  border: 1px solid rgba(68, 16, 16, 0.08);
+  border-radius: 999px;
+  padding: 0.55rem 1rem 0.55rem 0.75rem;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  box-shadow: 0 4px 12px rgba(68, 16, 16, 0.05);
+  transition: border-color 0.25s ease, transform 0.25s ease;
+}
+
+.countryChip:hover {
+  border-color: rgba(255, 81, 47, 0.35);
+  transform: translateY(-2px);
+}
+
+.checkIco {
+  flex-shrink: 0;
+  color: var(--brand-orange);
+}
+
+.badgeCard {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  background: linear-gradient(135deg, #FF512F, #7A1508);
+  color: #fff;
+  border-radius: 24px;
+  padding: 2.5rem 2rem;
+  overflow: hidden;
+  isolation: isolate;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 20px 45px rgba(122, 21, 8, 0.35);
+}
+
+.badgeGlow {
+  position: absolute;
+  top: -35%;
+  right: -15%;
+  width: 260px;
+  height: 260px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.22), transparent 70%);
+  z-index: -1;
+  pointer-events: none;
+}
+
+.badgeIcoWrap {
+  position: relative;
+  width: 68px;
+  height: 68px;
+  margin-bottom: 0.25rem;
+}
+
+.badgeIcoRing {
+  position: absolute;
+  inset: -6px;
+  border-radius: 50%;
+  border: 1.5px dashed rgba(255, 255, 255, 0.4);
+}
+
+.badgeIco {
+  position: relative;
+  width: 68px;
+  height: 68px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: #1A1A1A;
+  color: #fff;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.35);
+}
+
+.badgeEyebrow {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--brand-gold);
+}
+
+.badgeText {
+  font-weight: 800;
+  font-size: 1.25rem;
+  line-height: 1.4;
+  margin: 0;
+  letter-spacing: -0.01em;
+}
+
+.badgeDivider {
+  width: 100%;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.22);
+  margin: 0.15rem 0;
+}
+
+.badgeSub {
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.75);
+  margin: 0;
+}
+
+/* ---------- Why Choose Us ---------- */
+.why {
+  padding: 4.5rem 0;
+  background: var(--brand-light);
+}
+
+.whyInner {
+  display: grid;
+  gap: 2rem;
+  grid-template-columns: 1fr;
+  align-items: center;
+}
+
+@media (min-width: 768px) {
+  .whyInner {
+    grid-template-columns: 0.85fr 1.15fr;
+    gap: 3rem;
+  }
+}
+
+.whyImage {
+  width: 100%;
+  height: auto;
+  max-width: 13rem;
+  margin: 0 auto;
+  display: block;
+}
+
+@media (min-width: 768px) {
+  .whyImage {
+    max-width: 100%;
+  }
+}
+
+.whyLede {
+  font-size: 1.15rem;
+  font-weight: 700;
+  line-height: 1.6;
+  color: #1a1a1a;
+  margin: 0 0 1.1rem;
+  padding-left: 1.1rem;
+  border-left: 3px solid var(--brand-orange);
+}
+
+.whyHighlight {
+  color: var(--brand-orange);
+}
+
+.whyText {
+  font-size: 0.92rem;
+  line-height: 1.8;
+  color: #475569;
+  margin: 0;
+}
+
+/* ---------- Help With ---------- */
+.helpWith {
+  padding: 4.5rem 0;
+}
+
+.helpGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.85rem;
+}
+
+@media (min-width: 640px) {
+  .helpGrid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (min-width: 1024px) {
+  .helpGrid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.helpChip {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: #ffffff;
+  border: 1px solid rgba(68, 16, 16, 0.06);
+  border-radius: 14px;
+  padding: 1rem 1.15rem;
+  box-shadow: 0 6px 16px rgba(68, 16, 16, 0.06);
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  transition: border-color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.helpChip:hover {
+  border-color: rgba(255, 81, 47, 0.28);
+  transform: translateY(-3px);
+  box-shadow: 0 14px 28px rgba(68, 16, 16, 0.1);
+}
+
+.helpChipIco {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 999px;
+  background: rgba(255, 81, 47, 0.1);
+  color: var(--brand-orange);
+}
+
+/* ---------- Contact ---------- */
+.contact {
+  padding: 4.5rem 0 5rem;
+  background: var(--brand-light);
+}
+
+.contactGrid {
+  display: grid;
+  gap: 1.5rem;
+  grid-template-columns: 1fr;
+  margin-top: 1.75rem;
+}
+
+@media (min-width: 768px) {
+  .contactGrid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.contactCard {
+  background: #fff;
+  border-radius: 20px;
+  padding: 2rem;
+  border: 1px solid rgba(68, 16, 16, 0.06);
+  box-shadow: 0 8px 20px rgba(68, 16, 16, 0.06);
+}
+
+.contactIco {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, rgba(255, 81, 47, 0.14), rgba(255, 81, 47, 0.04));
+  border: 1px solid rgba(255, 81, 47, 0.15);
+  color: var(--brand-orange);
+  margin-bottom: 1rem;
+}
+
+.contactHeading {
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: #1a1a1a;
+  margin: 0 0 0.75rem;
+}
+
+.contactCopy {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.92rem;
+  line-height: 1.75;
+  color: #475569;
+  margin: 0 0 0.4rem;
+}

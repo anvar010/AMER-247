@@ -1,0 +1,33 @@
+.body {
+  max-width: var(--container);
+  padding-top: 3rem;
+  padding-bottom: 4rem;
+}
+
+.success {
+  color: #1ba39c;
+  font-weight: 700;
+  font-size: 1.05rem;
+}
+
+.failure {
+  color: #e4342a;
+  font-weight: 700;
+  font-size: 1.05rem;
+}
+
+.neutral {
+  color: #64748b;
+  font-weight: 600;
+}
+
+.list {
+  margin: 1.5rem 0 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+  color: #475569;
+}

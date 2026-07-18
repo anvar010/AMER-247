@@ -14,13 +14,13 @@
 
 @media (min-width: 640px) {
   .container {
-    padding: 0 2rem;
+    padding: 0 3rem;
   }
 }
 
 @media (min-width: 1024px) {
   .container {
-    padding: 0 2rem;
+    padding: 0 5rem;
   }
 }
 
@@ -36,7 +36,7 @@
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  color: #E11D48;
+  color: var(--brand-orange);
   /* Brand Red */
   font-weight: 700;
   font-size: 0.875rem;
@@ -53,7 +53,7 @@
 .title {
   font-size: clamp(2.25rem, 5vw, 3.75rem);
   font-weight: 800;
-  color: #0F172A;
+  color: #1A1A1A;
   /* Slate 900 */
   line-height: 1.15;
   letter-spacing: -0.025em;
@@ -61,7 +61,7 @@
 }
 
 .titleGradient {
-  background: linear-gradient(to right, #E11D48, #FB7185);
+  background: linear-gradient(to right, var(--brand-orange), var(--brand-orange-light));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -99,14 +99,14 @@
 
 .storyLead {
   font-size: clamp(1.25rem, 2vw, 1.5rem);
-  color: #0F172A;
+  color: #1A1A1A;
   font-weight: 700;
   margin: 0 0 1.5rem 0;
   line-height: 1.35;
 }
 
 .highlightText {
-  color: #E11D48;
+  color: var(--brand-orange);
 }
 
 .storyBody {
@@ -134,7 +134,7 @@
   border: 1px solid #E2E8F0;
   font-size: 0.95rem;
   font-weight: 700;
-  color: #0F172A;
+  color: #1A1A1A;
   background-color: #F8FAFC;
   transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   cursor: default;
@@ -142,7 +142,7 @@
 }
 
 .tagIcon {
-  color: #E11D48;
+  color: var(--brand-orange);
   /* Red brand accent color */
   margin-bottom: 0.75rem;
   flex-shrink: 0;
@@ -157,7 +157,7 @@
 }
 
 .tag:hover .tagIcon {
-  color: #FB7185;
+  color: var(--brand-orange-light);
   transform: scale(1.08);
 }
 
@@ -260,7 +260,7 @@
   color: #ffffff;
   text-transform: uppercase;
   letter-spacing: 0.15em;
-  background-color: #E11D48;
+  background-color: var(--brand-orange);
   padding: 0.375rem 1.25rem;
   border-radius: 9999px;
   box-shadow: 0 10px 15px -3px rgba(225, 29, 72, 0.3);
@@ -302,7 +302,7 @@
 }
 
 .quoteText {
-  color: #0F172A;
+  color: #1A1A1A;
   font-weight: 500;
   font-style: italic;
   position: relative;
@@ -324,7 +324,7 @@
   width: 3rem;
   height: 3rem;
   border-radius: 9999px;
-  background-color: #E11D48;
+  background-color: var(--brand-orange);
   color: #ffffff;
   display: flex;
   align-items: center;
@@ -345,7 +345,7 @@
 .authorTitle {
   font-size: 0.875rem;
   font-weight: 700;
-  color: #0F172A;
+  color: #1A1A1A;
   line-height: 1.2;
 }
 
@@ -358,7 +358,7 @@
 
 /* Highlight Card */
 .highlightCard {
-  background-color: #0F172A;
+  background: linear-gradient(155deg, #E24020, #922010);
   color: #ffffff;
   padding: 2rem;
   border-radius: 2rem;
@@ -371,9 +371,9 @@
 }
 
 .highlightCard:hover {
-  background-color: #E11D48;
+  background: linear-gradient(155deg, #FF512F, #7A1508);
   transform: translateY(-4px);
-  box-shadow: 0 20px 25px -5px rgba(225, 29, 72, 0.25);
+  box-shadow: 0 20px 25px -5px rgba(226, 64, 32, 0.3);
 }
 
 .highlightInfo {
@@ -411,7 +411,7 @@
 
 .highlightCard:hover .highlightArrowWrap {
   background-color: #ffffff;
-  color: #E11D48;
+  color: #922010;
   transform: translateX(4px);
 }
 

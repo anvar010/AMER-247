@@ -5,11 +5,12 @@ import Link from "next/link";
 import {
   Search, X, Layers, Stamp, Users, HeartPulse, CalendarCheck, Printer,
   FileText, Globe, Building2, TrendingUp, Landmark, ShieldCheck, Gem,
-  IdCard, ShieldPlus, Stethoscope, type LucideIcon,
+  IdCard, ShieldPlus, Stethoscope, Eye, type LucideIcon,
 } from "lucide-react";
 import { Outfit } from "next/font/google";
 import type { SubCategory, PriceItem } from "@/app/online-services/AmerServicesData";
 import { buildApplyHref } from "@/lib/applyLink";
+import RequiredDocumentsModal from "@/components/RequiredDocumentsModal/RequiredDocumentsModal";
 import styles from "./MobileHubScreen.module.css";
 
 const outfit = Outfit({ subsets: ["latin"], weight: ["500", "600", "700", "800"] });
@@ -32,18 +33,79 @@ function PriceBlock({ item }: { item: PriceItem }) {
   );
 }
 
+// Full-width card for items carrying processing/stay/validity/entry detail
+// (currently just Tourist Visa) — too much content for the compact 2-up grid.
+function DetailCard({
+  item, href, icon: Icon, gold, onViewDocs, hideEye,
+}: {
+  item: PriceItem; href: string; icon: LucideIcon; gold?: boolean; onViewDocs: () => void; hideEye?: boolean;
+}) {
+  const meta = [
+    item.proc ? { label: "Processing", value: item.proc } : null,
+    item.stay ? { label: "Stay period", value: item.stay } : null,
+    item.validity ? { label: "Validity", value: item.validity } : null,
+    item.entry ? { label: "Entry", value: item.entry } : null,
+  ].filter(Boolean) as { label: string; value: string }[];
+
+  return (
+    <Link href={href} className={`${styles.detailCard} ${gold ? styles.svcBoxGold : ""}`}>
+      <div className={styles.detailHead}>
+        <span className={`${styles.svcIco} ${gold ? styles.svcIcoGold : ""}`}>
+          <Icon size={19} />
+        </span>
+        <div className={styles.detailHeadBody}>
+          <p className={styles.svcName}>{item.name}</p>
+          {item.badge && <span className={styles.detailBadge}>{item.badge}</span>}
+        </div>
+        {!hideEye && (
+          <button
+            type="button"
+            className={styles.detailEye}
+            aria-label={`View required documents for ${item.name}`}
+            onClick={(e) => { e.preventDefault(); e.stopPropagation(); onViewDocs(); }}
+          >
+            <Eye size={14} />
+          </button>
+        )}
+      </div>
+
+      {meta.length > 0 && (
+        <div className={styles.detailMeta}>
+          {meta.map((m) => (
+            <div key={m.label} className={styles.detailMetaItem}>
+              <span className={styles.detailMetaLabel}>{m.label}</span>
+              <span className={styles.detailMetaValue}>{m.value}</span>
+            </div>
+          ))}
+        </div>
+      )}
+
+      <div className={styles.detailFoot}>
+        <PriceBlock item={item} />
+      </div>
+    </Link>
+  );
+}
+
 export interface MobileHubScreenProps {
   title: string;
   blurb: string;
   subCategories: SubCategory[];
   gold?: boolean;
+  // Optional override for the big H1 shown in the hero — `title` itself
+  // still drives the search placeholder and the apply form's hub label, so
+  // a page can show a longer marketing headline without that leaking there.
+  heroTitle?: string;
 }
 
-export default function MobileHubScreen({ title, blurb, subCategories, gold }: MobileHubScreenProps) {
+export default function MobileHubScreen({ title, blurb, subCategories, gold, heroTitle }: MobileHubScreenProps) {
   const [q, setQ] = useState("");
+  const [docsFor, setDocsFor] = useState<{ name: string; slug?: string } | null>(null);
 
   const serviceCount = subCategories.reduce((a, g) => a + g.items.length, 0);
   const hasDual = subCategories.some((g) => g.items.some((it) => it.inside != null || it.outside != null));
+  // Real site has no required-documents concept for Tourist Visa.
+  const hideDocsEye = title === "Tourist Visa";
 
   const groups = useMemo(() => {
     const query = q.trim().toLowerCase();
@@ -57,7 +119,7 @@ export default function MobileHubScreen({ title, blurb, subCategories, gold }: M
       <div className={styles.hubTop}>
         <span className={styles.glowGold} aria-hidden />
         <span className={styles.glowWhite} aria-hidden />
-        <h1 className={styles.title}>{title}</h1>
+        <h1 className={styles.title}>{heroTitle ?? title}</h1>
         <p className={styles.blurb}>{blurb}</p>
         <span className={styles.countChip}>
           <Layers size={12} />
@@ -81,31 +143,75 @@ export default function MobileHubScreen({ title, blurb, subCategories, gold }: M
           )}
         </div>
 
-        {groups.map((g) => (
-          <div key={g.key} className={styles.group}>
-            <div className={styles.catLabel}>
-              <span className={styles.catTxt}>{g.label}</span>
-              <span className={styles.catCount}>{g.items.length}</span>
+        {groups.map((g) => {
+          const isDetailed = g.items.some((it) => it.proc);
+          const GroupIcon = GROUP_ICONS[g.icon] ?? Layers;
+          return (
+            <div key={g.key} className={styles.group}>
+              <div className={styles.catLabel}>
+                <span className={styles.catTxt}>{g.heading ?? g.label}</span>
+                <span className={styles.catCount}>{g.items.length}</span>
+              </div>
+              {g.subheading && <p className={styles.catSubheading}>{g.subheading}</p>}
+
+              {isDetailed ? (
+                <div className={styles.detailStack}>
+                  {g.items.map((it) => (
+                    <DetailCard
+                      key={it.name}
+                      item={it}
+                      href={buildApplyHref(it, title)}
+                      icon={GroupIcon}
+                      gold={gold}
+                      onViewDocs={() => setDocsFor(it)}
+                      hideEye={hideDocsEye}
+                    />
+                  ))}
+                </div>
+              ) : (
+                <div className={styles.svcGrid}>
+                  {g.items.map((it) => {
+                    if (it.disabled) {
+                      return (
+                        <div key={it.name} className={`${styles.svcBox} ${styles.svcBoxDisabled}`} aria-disabled="true">
+                          <span className={styles.svcIco}>
+                            <GroupIcon size={19} />
+                          </span>
+                          <p className={styles.svcName}>{it.name}</p>
+                          <div className={styles.svcPrice}>
+                            <PriceBlock item={it} />
+                          </div>
+                        </div>
+                      );
+                    }
+                    const href = buildApplyHref(it, title);
+                    return (
+                      <Link key={it.name} href={href} className={`${styles.svcBox} ${gold ? styles.svcBoxGold : ""}`}>
+                        {!hideDocsEye && (
+                          <button
+                            type="button"
+                            className={styles.svcEye}
+                            aria-label={`View required documents for ${it.name}`}
+                            onClick={(e) => { e.preventDefault(); e.stopPropagation(); setDocsFor(it); }}
+                          >
+                            <Eye size={14} />
+                          </button>
+                        )}
+                        <span className={`${styles.svcIco} ${gold ? styles.svcIcoGold : ""}`}>
+                          <GroupIcon size={19} />
+                        </span>
+                        <p className={styles.svcName}>{it.name}</p>
+                        <div className={styles.svcPrice}>
+                          <PriceBlock item={it} />
+                        </div>
+                      </Link>
+                    );
+                  })}
+                </div>
+              )}
             </div>
-            <div className={styles.svcGrid}>
-              {g.items.map((it) => {
-                const href = buildApplyHref(it, title);
-                const GroupIcon = GROUP_ICONS[g.icon] ?? Layers;
-                return (
-                  <Link key={it.name} href={href} className={`${styles.svcBox} ${gold ? styles.svcBoxGold : ""}`}>
-                    <span className={`${styles.svcIco} ${gold ? styles.svcIcoGold : ""}`}>
-                      <GroupIcon size={19} />
-                    </span>
-                    <p className={styles.svcName}>{it.name}</p>
-                    <div className={styles.svcPrice}>
-                      <PriceBlock item={it} />
-                    </div>
-                  </Link>
-                );
-              })}
-            </div>
-          </div>
-        ))}
+          );
+        })}
 
         {!groups.length && <p className={styles.empty}>No services match &ldquo;{q}&rdquo;.</p>}
 
@@ -116,6 +222,13 @@ export default function MobileHubScreen({ title, blurb, subCategories, gold }: M
           </div>
         )}
       </div>
+
+      <RequiredDocumentsModal
+        open={!!docsFor}
+        onClose={() => setDocsFor(null)}
+        serviceName={docsFor?.name ?? ""}
+        slug={docsFor?.slug}
+      />
     </div>
   );
 }

@@ -76,7 +76,7 @@ export default function MobileFeeCalculator({ open, onClose }: { open: boolean; 
   const hasLoc = !!picked && picked.item.inside != null && picked.item.outside != null;
 
   const allSvcs = useMemo(
-    () => hub.groups.flatMap((g) => g.items.map((it) => ({ it, group: g.label }))),
+    () => hub.groups.flatMap((g) => g.items.filter((it) => !it.disabled).map((it) => ({ it, group: g.label }))),
     [hub]
   );
 

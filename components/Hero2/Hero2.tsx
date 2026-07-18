@@ -85,7 +85,7 @@ export default function Hero2() {
               Experience the new standard of immigration. Seamless, prestigious, and meticulously handled. Your gateway to the UAE starts here.
             </p>
             <div className={styles.actionGroup}>
-              <Link href="/services" className={styles.ctaPrimary}>
+              <Link href="/online-services" className={styles.ctaPrimary}>
                 Begin Your Journey <ArrowRight size={20} />
               </Link>
               <Link href="/contact" className={styles.ctaSecondary}>

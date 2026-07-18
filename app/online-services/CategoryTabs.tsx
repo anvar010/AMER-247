@@ -10,8 +10,14 @@ import {
   InsuranceIcon,
 } from "./CategoryIcons";
 import AmerServicesPanel from "./AmerServicesPanel";
+import { DesktopServiceGrid } from "@/components/DesktopHubScreen/DesktopHubScreen";
+import { amerSubCategories } from "./AmerServicesData";
+import { OTHER_HUBS } from "@/components/MobileSearchOverlay/catalog";
 import styles from "./online-services.module.css";
 
+// Mirrors the real app's Services tab exactly (see MobileServicesScreen) —
+// same 6 categories. Tourist Visa is a separate entry point (the header's
+// "UAE TOURIST VISA" button → /uae-tourist-visa), not nested in here.
 export type CategoryKey =
   | "amer"
   | "emirates-id"
@@ -35,6 +41,17 @@ const categories: {
   { key: "medical",      label: "Medical Test",             icon: MedicalIcon,     tag: "05" },
   { key: "insurance",    label: "Insurance",                icon: InsuranceIcon,   tag: "06" },
 ];
+
+// Maps this page's CategoryKey to the real catalog hub key (they differ for
+// "golden-visa" vs "golden") so each non-AMER tab can render its real,
+// itemized pricing instead of a "coming soon" placeholder.
+const CATALOG_HUB_KEY: Partial<Record<CategoryKey, string>> = {
+  "emirates-id": "emirates-id",
+  "golden-visa": "golden",
+  tasheel: "tasheel",
+  medical: "medical",
+  insurance: "insurance",
+};
 
 export default function CategoryTabs() {
   const [active, setActive] = useState<CategoryKey>("amer");
@@ -93,14 +110,40 @@ export default function CategoryTabs() {
               <h3 className={styles.panelTitle}>{activeCategory.label}</h3>
             </div>
           </div>
-          {active === "amer" ? (
-            <AmerServicesPanel />
-          ) : (
-            <p className={styles.panelEmpty}>
-              Pricing details for <strong>{activeCategory.label}</strong> will
-              appear here.
-            </p>
-          )}
+          {(() => {
+            const active_hub = active === "amer"
+              ? { groups: amerSubCategories, title: "AMER Services", gold: false }
+              : (() => {
+                  const h = OTHER_HUBS.find((h) => h.key === CATALOG_HUB_KEY[active]);
+                  return h ? { groups: h.groups, title: h.title, gold: !!h.gold } : null;
+                })();
+
+            if (!active_hub) {
+              return (
+                <p className={styles.panelEmpty}>
+                  Pricing details for <strong>{activeCategory.label}</strong> will
+                  appear here.
+                </p>
+              );
+            }
+
+            return (
+              <>
+                {/* Mobile keeps the original dark image-card design (unchanged). */}
+                <div className={styles.mobilePanelOnly}>
+                  <AmerServicesPanel groups={active_hub.groups} hubTitle={active_hub.title} />
+                </div>
+                {/* Desktop matches the mobile APP's own icon-chip card design. */}
+                <div className={styles.desktopPanelOnly}>
+                  <DesktopServiceGrid
+                    subCategories={active_hub.groups}
+                    hubTitle={active_hub.title}
+                    gold={active_hub.gold}
+                  />
+                </div>
+              </>
+            );
+          })()}
         </div>
       </div>
     </section>

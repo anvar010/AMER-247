@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Outfit } from "next/font/google";
 import {
   Clock,
   Heart,
@@ -9,66 +10,70 @@ import {
   Zap,
   CalendarCheck,
   ArrowRight,
-  Quote,
+  Layers,
+  ShieldCheck,
 } from "lucide-react";
 import styles from "./about.module.css";
+import mstyles from "@/components/MobileAboutScreen/MobileAboutScreen.module.css";
 import CountUp from "@/components/CountUp/CountUp";
 
+const outfit = Outfit({ subsets: ["latin"], weight: ["500", "600", "700", "800"] });
+
 const stats = [
-  { value: <CountUp to={2017} />, label: "Established" },
-  { value: <><CountUp to={24} />/<CountUp to={7} /></>, label: "Availability" },
-  { value: <CountUp to={2} prefix="0" />, label: "Branches" },
-  { value: <CountUp to={100} suffix="%" />, label: "Government Backed" },
+  { value: <CountUp to={2017} />, label: "Established", icon: CalendarCheck },
+  { value: <><CountUp to={24} />/<CountUp to={7} /></>, label: "Availability", icon: MapPin },
+  { value: <CountUp to={2} prefix="0" />, label: "Branches", icon: Building2 },
+  { value: <CountUp to={100} suffix="%" />, label: "Government Backed", icon: ShieldCheck },
 ];
 
 const objectives = [
   {
     icon: Clock,
-    title: "We Value Your Time",
-    body: "Every minute matters — our workflows are built to keep yours protected.",
+    title: "We care about your valuable time",
+    body: "",
   },
   {
     icon: Heart,
-    title: "We Care About Satisfaction",
-    body: "Outcomes that earn your trust, not just transactions that close.",
+    title: "We care about your satisfaction",
+    body: "",
   },
   {
     icon: Sparkles,
-    title: "Effort & Experience",
-    body: "Years of expertise channelled into a single, frictionless service.",
+    title: "We put all our effort and experience to give you satisfaction",
+    body: "",
   },
 ];
 
 const differences = [
   {
     icon: Clock,
-    title: "First & only 24/7 center",
-    body: "Around the clock — the first of our kind to assist you any hour, any day.",
+    title: "Amer 24/7 is the first and only center available 24/7 to assist you with our services",
+    body: "",
   },
   {
     icon: MapPin,
-    title: "Two prime locations",
-    body: "Deira (behind Abu Baker Al Siddique Metro Station) and JLT (One JLT Building).",
+    title: "We have two branches: Deira (behind Abu Baker Al Siddique Metro Station), JLT (One JLT Building)",
+    body: "",
   },
   {
     icon: Truck,
-    title: "Same-day collection & delivery",
-    body: "Transactions are picked up and delivered within the same business day.",
+    title: "Collection and delivery of the transactions within the same day.",
+    body: "",
   },
   {
     icon: CalendarCheck,
-    title: "Earliest possible turnaround",
-    body: "We complete approvals at the soonest possible moment — subject to authority.",
+    title: "Complete the transactions at the earliest possible time; subject to approval.",
+    body: "",
   },
   {
     icon: Zap,
-    title: "Fast delivery, every time",
-    body: "Quick, dependable turnaround you can plan your day around.",
+    title: "Fast turn around and delivery time.",
+    body: "",
   },
 ];
 
 export const metadata = {
-  title: "About — Amer 24/7",
+  title: "About | Amer 24/7",
   description:
     "Amer 24/7 is a semi-government organization helping residents complete Visa and Residency transactions, established in 2017 in collaboration with the GDRFA.",
 };
@@ -76,13 +81,136 @@ export const metadata = {
 export default function AboutPage() {
   return (
     <>
-      {/* ===================== Hero — cinematic ===================== */}
-      <section className={styles.hero}>
-        <div className={styles.heroBg} aria-hidden="true">
-          <img src="/images/flag.jpg" alt="" className={styles.heroImg} />
-          <span className={styles.heroOverlay} />
-          <span className={styles.heroNoise} />
+      {/* Mobile-only — same content/data as the desktop sections below (this
+          file is the single source of truth for both), the app's own card
+          design instead of the desktop's cinematic dark-image sections.
+          Visibility is CSS-driven (mstyles.wrap: display:none above 768px). */}
+      <div className={`${mstyles.wrap} ${outfit.className}`}>
+        <div className={mstyles.hubTop}>
+          <span className={mstyles.glowGold} aria-hidden />
+          <span className={mstyles.glowWhite} aria-hidden />
+          <span className={mstyles.eyebrow}>About Amer 24/7</span>
+          <h1 className={mstyles.title}>
+            AMER 247 is a Semi-Government Organization which allows residents to complete all Visa and Residency Transaction
+          </h1>
+          <p className={mstyles.blurb}>
+            Amer 24/7 Center Was established in 2017 in collaboration with the General Directorate of Residency and Foreigners Affairs and the experience was a direct application of the strategy of the Federal Government advocated by His Highness Sheikh Mohammed bin Rashid Al Maktoum, Prime Minister and Ruler of Dubai.
+          </p>
+          <div className={mstyles.statsGrid}>
+            {stats.map(({ value, label }) => (
+              <div key={label} className={mstyles.statCard}>
+                <span className={mstyles.statValue}>{value}</span>
+                <span className={mstyles.statLabel}>{label}</span>
+              </div>
+            ))}
+          </div>
         </div>
+
+        <div className={mstyles.body}>
+          <div className={mstyles.videoCard}>
+            <video
+              className={mstyles.video}
+              src="/images/Amerwebvideo.mp4"
+              autoPlay loop muted playsInline preload="metadata"
+              poster="/images/dubai.jpg"
+              aria-label="Amer 24/7 brand video"
+            />
+            <div className={mstyles.videoOverlay} />
+            <span className={mstyles.liveBadge}>
+              <span className={mstyles.liveDot} />
+              Live
+            </span>
+            <div className={mstyles.videoBadge}>
+              <span className={mstyles.videoBadgeLabel}>Established</span>
+              <span className={mstyles.videoBadgeYear}>2017</span>
+            </div>
+          </div>
+
+          <span className={mstyles.eyebrowRow}>What We Do</span>
+          <h2 className={mstyles.sectionTitle}>Amer 24/7 Provides Services</h2>
+          <p className={mstyles.storyLead}>
+            Provides services ranging from issuing entry permits, issuing and renewals of a
+            residency visa, visa cancellation and other related services provided by other
+            Government institutions and departments. The introduction of the private sector as a
+            strategic partner of the various Government ministries and sectors to provide
+            Government and federal services and raise the level of customer satisfaction.
+          </p>
+          <p className={mstyles.storyProse}>
+            It catered to the idea of establishing service centers of specialized services, in
+            cooperation with the private sector to accomplish all Government department and federal
+            transactions.
+          </p>
+
+          <span className={mstyles.eyebrowRow}>Our Objective</span>
+          <h2 className={mstyles.sectionTitle}>
+            Making your life <span className={mstyles.accent}>easy</span> — so you can focus on your business.
+          </h2>
+
+          <div className={mstyles.listStack}>
+            {objectives.map(({ icon: Icon, title, body }, i) => (
+              <div key={title} className={mstyles.listCard}>
+                <span className={mstyles.listNum}>{String(i + 1).padStart(2, "0")}</span>
+                <span className={mstyles.listIco}>
+                  <Icon size={19} strokeWidth={1.8} />
+                </span>
+                <div className={mstyles.listBody}>
+                  <p className={mstyles.listTitle}>{title}</p>
+                  {body && <p className={mstyles.listDesc}>{body}</p>}
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <span className={mstyles.eyebrowRow}>How We Are Different</span>
+          <h2 className={mstyles.sectionTitle}>
+            Built different — <span className={mstyles.accent}>on purpose.</span>
+          </h2>
+          <p className={mstyles.paragraph}>
+            Five things that set Amer 24/7 apart from any other service center in Dubai.
+          </p>
+
+          <div className={mstyles.listStack}>
+            {differences.map(({ icon: Icon, title, body }, i) => (
+              <div key={title} className={mstyles.listCard}>
+                <span className={mstyles.listNum}>{String(i + 1).padStart(2, "0")}</span>
+                <span className={mstyles.listIco}>
+                  <Icon size={19} strokeWidth={1.8} />
+                </span>
+                <div className={mstyles.listBody}>
+                  <p className={mstyles.listTitle}>{title}</p>
+                  {body && <p className={mstyles.listDesc}>{body}</p>}
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div className={mstyles.closingCard}>
+            <span className={mstyles.closingEyebrow}>
+              <Layers size={12} />
+              What We Majorly Deal With
+            </span>
+            <h2 className={mstyles.closingTitle}>
+              Entry permits, residency visas, cancellations &amp; everything in between.
+            </h2>
+            <p className={mstyles.closingCopy}>
+              Provides services ranging from issuing entry permits, issuing and renewals of a
+              residency visa, visa cancellation and other related services.
+            </p>
+            <div className={mstyles.closingBtns}>
+              <Link href="/online-services" className={mstyles.btnGold}>
+                Explore Services <ArrowRight size={16} />
+              </Link>
+              <Link href="/contact" className={mstyles.btnGhost}>
+                <Building2 size={16} /> Visit a Branch
+              </Link>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* ===================== Hero — premium white/maroon+gold ===================== */}
+      <section className={styles.hero}>
+        <span className={styles.heroDotsPattern} aria-hidden="true" />
 
         <div className={`container ${styles.heroInner}`}>
           <div className={styles.heroTopRow}>
@@ -90,39 +218,64 @@ export default function AboutPage() {
               <span className={styles.eyebrowLine} />
               About Amer 24/7
             </span>
-            <span className={styles.heroMeta}>Dubai · United Arab Emirates</span>
+            <span className={styles.heroMeta}>
+              <MapPin size={13} /> Dubai · United Arab Emirates
+            </span>
           </div>
 
-          <h1 className={styles.heroTitle}>
-            A semi-government partner
-            <br />
-            for every<em className={styles.titleEm}> Visa &amp; Residency</em>
-            <br />
-            milestone in Dubai.
-          </h1>
+          <div className={styles.heroGrid}>
+            <div className={styles.heroLeft}>
+              <h1 className={styles.heroTitle}>
+                AMER 24/7 is a
+                <br />
+                <span className={styles.titleMaroon}>Semi-Government</span>
+                <br />
+                <span className={styles.titleGold}>Organization</span>
+              </h1>
+              <p className={styles.heroTagline}>
+                which allows residents to complete all Visa and Residency Transaction
+              </p>
 
-          <p className={styles.heroCopy}>
-            AMER 247 is a Semi-Government Organization which allows residents to complete all Visa and Residency Transaction. Amer 24/7 Center Was established in 2017 in collaboration with the General Directorate of Residency and Foreigners Affairs and the experience was a direct application of the strategy of the Federal Government advocated by His Highness Sheikh Mohammed bin Rashid Al Maktoum, Prime Minister and Ruler of Dubai.
-          </p>
+              <p className={styles.heroCopy}>
+                Amer 24/7 Center Was established in 2017 in collaboration with the General Directorate of Residency and Foreigners Affairs and the experience was a direct application of the strategy of the Federal Government advocated by His Highness Sheikh Mohammed bin Rashid Al Maktoum, Prime Minister and Ruler of Dubai.
+              </p>
+
+              <a href="#story" className={styles.heroLearnMore}>
+                Learn More <ArrowRight size={16} />
+              </a>
+            </div>
+
+            <div className={styles.heroRight} aria-hidden="true">
+              <span className={styles.heroRingGold} />
+              <span className={styles.heroRingMaroon} />
+              <div className={styles.heroLogoCircle}>
+                <img
+                  src="/logos/amernew-cropped-dark.png"
+                  alt="Amer 24/7"
+                  className={styles.heroLogoImg}
+                />
+              </div>
+            </div>
+          </div>
 
           <div className={styles.heroStats}>
-            {stats.map(({ value, label }) => (
+            {stats.map(({ value, label, icon: Icon }) => (
               <div key={label} className={styles.statItem}>
-                <span className={styles.statValue}>{value}</span>
-                <span className={styles.statLabel}>{label}</span>
+                <span className={styles.statIconWrap}>
+                  <Icon size={20} strokeWidth={1.8} />
+                </span>
+                <div>
+                  <span className={styles.statValue}>{value}</span>
+                  <span className={styles.statLabel}>{label}</span>
+                </div>
               </div>
             ))}
           </div>
         </div>
-
-        <div className={styles.heroScroll} aria-hidden="true">
-          <span>Scroll</span>
-          <span className={styles.heroScrollLine} />
-        </div>
       </section>
 
       {/* ===================== Story — split with image ===================== */}
-      <section className={styles.story}>
+      <section id="story" className={styles.story}>
         <div className={`container ${styles.storyInner}`}>
           <div className={styles.storyMedia}>
             <div className={styles.storyImgWrap}>
@@ -154,46 +307,10 @@ export default function AboutPage() {
           <div className={styles.storyText}>
             <span className={styles.sectionEyebrow}>
               <span className={styles.eyebrowLine} />
-              Our Story
+              What We Do
             </span>
-            <h2 className={styles.sectionTitle}>
-              A direct application of the
-              <em className={styles.titleEm}> Federal Government&apos;s</em> strategy.
-            </h2>
+            <h2 className={styles.sectionTitle}>Amer 24/7 Provides Services</h2>
             <p className={styles.storyLead}>
-              Amer 24/7 Center was established in 2017 in collaboration with
-              the General Directorate of Residency and Foreigners Affairs.
-            </p>
-            <p className={styles.storyProse}>
-              The experience was a direct application of the strategy of the
-              Federal Government advocated by His Highness Sheikh Mohammed bin
-              Rashid Al Maktoum, Prime Minister and Ruler of Dubai.
-            </p>
-            <div className={styles.storyQuote}>
-              <Quote className={styles.storyQuoteIcon} size={22} />
-              <span>
-                Specialized service centers, in cooperation with the private
-                sector, to accomplish all Government department and federal
-                transactions.
-              </span>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ===================== Services intro ===================== */}
-      <section className={styles.provide}>
-        <div className={`container ${styles.provideInner}`}>
-          <span className={styles.sectionEyebrow}>
-            <span className={styles.eyebrowLine} />
-            Amer 24/7 Provides Services
-          </span>
-          <h2 className={styles.provideTitle}>
-            Government services,
-            <em className={styles.titleEm}> reimagined</em> for the private sector.
-          </h2>
-          <div className={styles.provideGrid}>
-            <p>
               Provides services ranging from issuing entry permits, issuing and
               renewals of a residency visa, visa cancellation and other related
               services provided by other Government institutions and
@@ -202,7 +319,7 @@ export default function AboutPage() {
               sectors to provide Government and federal services and raise the
               level of customer satisfaction.
             </p>
-            <p>
+            <p className={styles.storyProse}>
               It catered to the idea of establishing service centers of
               specialized services, in cooperation with the private sector to
               accomplish all Government department and federal transactions.
@@ -248,7 +365,7 @@ export default function AboutPage() {
                     </span>
                     <h3 className={styles.objRowTitle}>{title}</h3>
                   </div>
-                  <p className={styles.objRowBody}>{body}</p>
+                  {body && <p className={styles.objRowBody}>{body}</p>}
                 </div>
                 <span className={styles.objRowArrow} aria-hidden="true">
                   <ArrowRight size={18} />
@@ -294,7 +411,7 @@ export default function AboutPage() {
                 </span>
                 <div className={styles.diffText}>
                   <h3 className={styles.diffTitle}>{title}</h3>
-                  <p className={styles.diffBody}>{body}</p>
+                  {body && <p className={styles.diffBody}>{body}</p>}
                 </div>
                 <span className={styles.diffArrow} aria-hidden="true">
                   <ArrowRight size={18} />
@@ -329,7 +446,7 @@ export default function AboutPage() {
             </p>
           </div>
           <div className={styles.closingCta}>
-            <Link href="/services" className={styles.btnGold}>
+            <Link href="/online-services" className={styles.btnGold}>
               Explore Services <ArrowRight size={16} />
             </Link>
             <Link href="/contact" className={styles.btnGhost}>

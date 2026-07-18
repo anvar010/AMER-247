@@ -1,0 +1,238 @@
+.wrap {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 7rem 1rem 3rem;
+  background: var(--brand-light);
+}
+
+.card {
+  width: 100%;
+  max-width: 26rem;
+  background: #ffffff;
+  border-radius: 24px;
+  box-shadow: 0 20px 50px rgba(68, 16, 16, 0.12);
+  overflow: hidden;
+  min-height: 70vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.headTitle {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: #1a1a1a;
+  margin: 0;
+}
+
+.headSpacer {
+  width: 28px;
+}
+
+.back {
+  width: 32px;
+  height: 32px;
+  border: none;
+  border-radius: 999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #1a1a1a;
+  background: var(--soft);
+}
+
+.home {
+  padding: 1.75rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  flex: 1;
+}
+
+.bigBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  height: 56px;
+  border: none;
+  border-radius: 16px;
+  color: #fff;
+  font-weight: 700;
+  font-size: 0.92rem;
+}
+
+.btnGreen {
+  background: linear-gradient(135deg, #1ba39c, #0e6e69);
+}
+
+.btnBlue {
+  background: linear-gradient(135deg, var(--brand-navy), var(--brand-navy-dark));
+}
+
+.btnAmber {
+  background: linear-gradient(135deg, var(--brand-gold), #a6822f);
+}
+
+.reviews {
+  margin-top: 1rem;
+  background: var(--soft);
+  border-radius: 16px;
+  padding: 1.25rem;
+}
+
+.reviewsTitle {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin: 0 0 0.6rem;
+}
+
+.reviewsScore {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.reviewsScore > span:first-child {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: #1a1a1a;
+}
+
+.stars {
+  display: flex;
+  gap: 2px;
+  color: var(--brand-gold);
+}
+
+.reviewsSub {
+  font-size: 0.8rem;
+  color: #64748b;
+  margin: 0.3rem 0 0.9rem;
+}
+
+.reviewsBtn {
+  display: block;
+  text-align: center;
+  padding: 0.7rem;
+  border-radius: 10px;
+  background: rgba(255, 81, 47, 0.08);
+  color: var(--brand-orange);
+  font-weight: 700;
+  font-size: 0.85rem;
+}
+
+.list {
+  padding: 1.5rem;
+  overflow-y: auto;
+  flex: 1;
+  max-height: 65vh;
+}
+
+.listTitle {
+  text-align: center;
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: #1a1a1a;
+  margin: 0 0 1.25rem;
+}
+
+.group {
+  margin-bottom: 1.5rem;
+}
+
+.groupHeading {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #64748b;
+  margin: 0 0 0.6rem;
+  position: sticky;
+  top: 0;
+  background: #fff;
+  padding: 0.3rem 0;
+}
+
+.svcRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.6rem 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.85rem;
+  color: #1a1a1a;
+}
+
+.svcRow b {
+  color: var(--brand-orange);
+  white-space: nowrap;
+}
+
+.docCard {
+  background: var(--soft);
+  border-radius: 12px;
+  margin-bottom: 0.6rem;
+  overflow: hidden;
+}
+
+.docQ {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.8rem 1rem;
+  border: none;
+  background: transparent;
+  font-family: inherit;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #1a1a1a;
+  text-align: left;
+}
+
+.docPlus {
+  flex-shrink: 0;
+  font-size: 1.1rem;
+  color: #64748b;
+  transition: transform 0.2s ease;
+}
+
+.docPlusOpen {
+  transform: rotate(45deg);
+}
+
+.docList {
+  margin: 0;
+  padding: 0 1rem 0.9rem 1.6rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  font-size: 0.8rem;
+  color: #475569;
+  line-height: 1.5;
+}
+
+.exit {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  padding: 1rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #64748b;
+  border-top: 1px solid var(--border);
+}

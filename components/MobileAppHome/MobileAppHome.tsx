@@ -5,11 +5,11 @@ import Link from "next/link";
 import { Outfit } from "next/font/google";
 import {
   Search, Mic, MousePointerClick, FileText, Calculator, Headset,
-  Gem, Plane, IdCard, Stethoscope, ShieldPlus, TrendingUp, Stamp,
   ArrowRight, Sparkles,
 } from "lucide-react";
 import MobileSearchOverlay from "@/components/MobileSearchOverlay/MobileSearchOverlay";
 import MobileFeeCalculator from "@/components/MobileFeeCalculator/MobileFeeCalculator";
+import { services as EXPLORE } from "@/components/WhatWeDo/WhatWeDo";
 import styles from "./MobileAppHome.module.css";
 
 const outfit = Outfit({ subsets: ["latin"], weight: ["400", "500", "600", "700", "800"] });
@@ -17,25 +17,11 @@ const outfit = Outfit({ subsets: ["latin"], weight: ["400", "500", "600", "700",
 type Cat = "Visa" | "ID" | "Medical" | "Business";
 const CATS: readonly ("All" | Cat)[] = ["All", "Visa", "ID", "Medical", "Business"];
 
-// Matches the real app's Home EXPLORE array exactly, including which hub
-// each card opens (residency & amer-business both live under our
-// consolidated "Amer Services" hub, since we don't duplicate that data).
-const EXPLORE: { t: string; d: string; cat: Cat; icon: typeof Gem; href: string }[] = [
-  { t: "Golden Visa", d: "Long-term UAE residency.", cat: "Visa", icon: Gem, href: "/services/golden" },
-  { t: "Tourist Visa", d: "Fast entry permits.", cat: "Visa", icon: Plane, href: "/services/tourist" },
-  { t: "Emirates ID", d: "New & renewals.", cat: "ID", icon: IdCard, href: "/services/emirates-id" },
-  { t: "Residency", d: "Stamping & status.", cat: "Visa", icon: FileText, href: "/services/immigration" },
-  { t: "Medical Test", d: "Fitness scheduling.", cat: "Medical", icon: Stethoscope, href: "/services/medical" },
-  { t: "Health Insurance", d: "Plans for family.", cat: "Medical", icon: ShieldPlus, href: "/services/insurance" },
-  { t: "Business Setup", d: "Dubai Economy.", cat: "Business", icon: TrendingUp, href: "/services/immigration" },
-  { t: "Entry Permits", d: "Apply & track.", cat: "Visa", icon: Stamp, href: "/services/immigration" },
-];
-
 // Matches the app's quick-action row exactly (Apply/Track/Fees/Support —
 // the 3rd slot is "Fees", opening the Fee Calculator, not "Book").
 // In the real app, Track requires being signed in — same here.
 const QUICK = [
-  { icon: MousePointerClick, label: "Apply", tone: "gold" as const, href: "/services" },
+  { icon: MousePointerClick, label: "Apply", tone: "gold" as const, href: "/online-services" },
   { icon: FileText, label: "Track", tone: "primary" as const, href: "/login" },
   { icon: Calculator, label: "Fees", tone: "default" as const, href: null },
   { icon: Headset, label: "Support", tone: "default" as const, href: "/contact" },
@@ -98,10 +84,10 @@ export default function MobileAppHome() {
         <ArrowRight size={18} className={styles.trackerArrow} />
       </Link>
 
-      {/* Explore services */}
+      {/* Our services */}
       <div className={styles.secHead}>
-        <h2 className={styles.h2}>Explore Services</h2>
-        <Link href="/services" className={styles.more}>
+        <h2 className={styles.h2}>Our Services</h2>
+        <Link href="/online-services" className={styles.more}>
           See all <ArrowRight size={13} />
         </Link>
       </div>
@@ -120,18 +106,18 @@ export default function MobileAppHome() {
 
       <div className={styles.hubGrid}>
         {filtered.map((e) => (
-          <Link key={e.t} href={e.href} className={styles.hubCard}>
+          <Link key={e.label} href={e.href} className={styles.hubCard}>
             <span className={styles.hubIco}>
               <e.icon size={24} strokeWidth={1.8} />
             </span>
-            <span className={styles.hubT}>{e.t}</span>
-            <span className={styles.hubD}>{e.d}</span>
+            <span className={styles.hubT}>{e.label}</span>
+            <span className={styles.hubD}>{e.desc}</span>
           </Link>
         ))}
       </div>
 
       {/* Promo */}
-      <Link href="/services" className={styles.promo}>
+      <Link href="/online-services" className={styles.promo}>
         <h3 className={styles.promoH}>
           Apply online in <span className={styles.promoGold}>minutes</span>
         </h3>

@@ -1,0 +1,358 @@
+.wrap {
+  background: #EEF1F7;
+  font-family: "Inter", sans-serif;
+  min-height: 60vh;
+}
+
+/* ============================================================
+   Mobile hero + featured card — hidden on desktop
+   ============================================================ */
+@media (min-width: 769px) {
+  .hero, .body {
+    display: none;
+  }
+}
+
+.hero {
+  position: relative;
+  overflow: hidden;
+  padding: 4.9rem 1.25rem 3rem;
+  background: linear-gradient(135deg, #FF512F, #7A1508);
+}
+
+.glowGold {
+  position: absolute;
+  top: -3.4rem;
+  right: -2.8rem;
+  width: 170px;
+  height: 170px;
+  border-radius: 50%;
+  background: rgba(227, 199, 126, 0.16);
+}
+
+.glowWhite {
+  position: absolute;
+  bottom: -5rem;
+  left: -3.1rem;
+  width: 170px;
+  height: 170px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.heroInner {
+  position: relative;
+  z-index: 2;
+  max-width: 720px;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  background: linear-gradient(155deg, #E3C77E, #A6822F);
+  color: #2A1F00;
+  border-radius: 999px;
+  padding: 0.4rem 0.8rem;
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-bottom: 0.9rem;
+}
+
+.title {
+  font-weight: 800;
+  font-size: 1.55rem;
+  line-height: 1.32;
+  color: #ffffff;
+  margin: 0;
+  letter-spacing: -0.01em;
+}
+
+.body {
+  padding: 1.5rem 1.25rem 0.5rem;
+}
+
+.featuredCard {
+  padding: 0.25rem 0.5rem;
+}
+
+.featuredTag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  background: rgba(255, 81, 47, 0.08);
+  color: #FF512F;
+  border-radius: 999px;
+  padding: 0.35rem 0.75rem;
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.03em;
+  margin-bottom: 0.9rem;
+}
+
+.featuredTitle {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: #1A1A1A;
+  line-height: 1.4;
+  margin: 0 0 0.75rem;
+  letter-spacing: -0.01em;
+}
+
+.featuredDesc {
+  font-size: 0.88rem;
+  color: #6B7687;
+  line-height: 1.6;
+  margin: 0;
+  white-space: pre-line;
+}
+
+/* ============================================================
+   Desktop hero — split editorial layout, hidden on mobile
+   ============================================================ */
+.desktopHero {
+  display: none;
+}
+
+@media (min-width: 769px) {
+  .desktopHero {
+    display: flex;
+    min-height: 680px;
+    position: relative;
+  }
+}
+
+.heroLight {
+  position: relative;
+  width: 34%;
+  min-width: 380px;
+  flex-shrink: 0;
+  background: #ffffff;
+  /* Clears the site's fixed header — this page's header is opaque from the
+     top (see lib/headerRoutes.ts), so anything short of its real height
+     gets visibly clipped instead of just overlapping a transparent bar. */
+  padding: 8rem 3rem 3rem;
+}
+
+.featuredLabel {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.95rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  color: #11204A;
+  margin-bottom: 1.75rem;
+}
+
+.featuredBar {
+  width: 5px;
+  height: 20px;
+  background: #11204A;
+  border-radius: 1px;
+}
+
+.featuredImageWrap {
+  position: relative;
+  width: 130%;
+  height: 400px;
+  z-index: 3;
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.3);
+}
+
+.featuredImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.imageCaption {
+  max-width: 340px;
+  margin: 1.75rem 0 0;
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: #1A1A1A;
+  line-height: 1.4;
+  letter-spacing: -0.01em;
+}
+
+.heroDark {
+  position: relative;
+  flex: 1;
+  background: linear-gradient(135deg, #ff512f, #7a1508);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 3rem 5rem 3rem 8rem;
+}
+
+.watermark {
+  position: absolute;
+  top: 7rem;
+  right: 3rem;
+  font-size: 9rem;
+  font-weight: 800;
+  color: rgba(255, 255, 255, 0.06);
+  letter-spacing: 0.02em;
+  line-height: 1;
+  white-space: nowrap;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.darkContent {
+  position: relative;
+  z-index: 2;
+  max-width: 560px;
+}
+
+.categoryTag {
+  display: block;
+  font-size: 0.95rem;
+  color: rgba(255, 255, 255, 0.7);
+  margin-bottom: 1.25rem;
+}
+
+.letterU { color: #00843D; font-weight: 800; }
+.letterA { color: #C9A24B; font-weight: 800; }
+.letterE { color: #FFFFFF; font-weight: 800; }
+
+.darkTitle {
+  font-size: 1.9rem;
+  font-weight: 800;
+  color: #ffffff;
+  line-height: 1.35;
+  margin: 0 0 1.25rem;
+  letter-spacing: -0.01em;
+}
+
+.darkDesc {
+  font-size: 1.02rem;
+  color: rgba(255, 255, 255, 0.72);
+  line-height: 1.7;
+  margin: 0;
+  white-space: pre-line;
+}
+
+.scrollIndicator {
+  position: absolute;
+  right: 1.75rem;
+  bottom: 3rem;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.85rem;
+}
+
+.scrollLine {
+  width: 1px;
+  height: 60px;
+  background: rgba(255, 255, 255, 0.25);
+}
+
+.scrollText {
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  color: rgba(255, 255, 255, 0.45);
+  text-transform: uppercase;
+}
+
+@media (max-width: 1200px) {
+  .watermark {
+    font-size: 7rem;
+  }
+
+  .heroDark {
+    padding-left: 5rem;
+  }
+
+  .darkTitle {
+    font-size: 1.6rem;
+  }
+}
+
+/* ===================== Article grid ===================== */
+.grid {
+  display: grid;
+  gap: 1.25rem;
+  grid-template-columns: 1fr;
+  padding: 1.25rem 2rem 5rem;
+}
+
+@media (min-width: 769px) {
+  .grid {
+    padding-top: 3rem;
+  }
+}
+
+@media (min-width: 640px) {
+  .grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (min-width: 1024px) {
+  .grid {
+    grid-template-columns: repeat(3, 1fr);
+    padding-left: 5rem;
+    padding-right: 5rem;
+  }
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  background: #ffffff;
+  border-radius: 18px;
+  padding: 1.5rem;
+  box-shadow: 0 8px 20px rgba(68, 16, 16, 0.06);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 32px rgba(68, 16, 16, 0.12);
+}
+
+.cardDate {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #64748b;
+}
+
+.cardTitle {
+  font-size: 1rem;
+  font-weight: 800;
+  color: #1a1a1a;
+  line-height: 1.4;
+  margin: 0;
+}
+
+.cardExcerpt {
+  font-size: 0.85rem;
+  line-height: 1.6;
+  color: #475569;
+  margin: 0;
+  flex: 1;
+}
+
+.cardRead {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--brand-orange);
+}

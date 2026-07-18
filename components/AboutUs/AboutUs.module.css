@@ -28,8 +28,8 @@
   position: relative;
   z-index: 10;
 }
-@media (min-width: 640px) { .container { padding: 0 2rem; } }
-@media (min-width: 1024px) { .container { padding: 0 2rem; } }
+@media (min-width: 640px) { .container { padding: 0 3rem; } }
+@media (min-width: 1024px) { .container { padding: 0 5rem; } }
 
 /* grid */
 .grid {
@@ -116,7 +116,7 @@
 .narrativeBlock {
   position: relative;
   padding-left: 1.5rem;
-  border-left: 4px solid #000000;
+  border-left: 4px solid #FF512F;
   margin-bottom: 2rem;
 }
 
@@ -140,7 +140,7 @@
   display: inline-flex;
   align-items: center;
   gap: 1rem;
-  background-color: #000000;
+  background-color: #FF512F;
   color: #ffffff;
   padding: 1rem 2rem;
   border-radius: 9999px;
@@ -150,8 +150,8 @@
   width: max-content;
 }
 .ctaButton:hover {
-  background-color: #e11d48; /* brand-red */
-  box-shadow: 0 10px 15px -3px rgba(225, 29, 72, 0.2);
+  background-color: #922010;
+  box-shadow: 0 10px 15px -3px rgba(146, 32, 16, 0.3);
   transform: translateY(-2px);
 }
 
@@ -173,7 +173,7 @@
 }
 .ctaButton:hover .ctaIconCircle {
   background-color: #ffffff;
-  color: #e11d48;
+  color: #922010;
 }
 .ctaButton:hover .ctaIcon {
   transform: translateX(2px);
@@ -222,7 +222,7 @@
 }
 
 .card:hover {
-  border-color: #000000;
+  border-color: #FF512F;
   box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
 }
 
@@ -232,7 +232,7 @@
   left: 0;
   right: 0;
   height: 4px;
-  background-color: #000000;
+  background-color: #C9A24B;
   transform: scaleX(0);
   transform-origin: left;
   transition: transform 0.5s ease;
@@ -249,12 +249,12 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #000000;
+  color: #FF512F;
   border: 1px solid #f3f4f6; /* gray-100 */
   transition: all 0.3s ease;
 }
 .card:hover .cardIconWrap {
-  background-color: #000000;
+  background-color: #FF512F;
   color: #ffffff;
 }
 

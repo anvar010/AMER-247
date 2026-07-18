@@ -19,13 +19,16 @@ import styles from "./WhatWeDo.module.css";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const services = [
-  { id: 1, label: "AMER Services", desc: "Streamlined government services to save your time and effort.", icon: MonitorSmartphone },
-  { id: 2, label: "Emirates Identity Authority", desc: "Official Emirates ID services and related solutions.", icon: IdCard },
-  { id: 3, label: "Medical Fitness Application", desc: "Hassle-free medical fitness tests and applications.", icon: HeartPulse },
-  { id: 4, label: "Entry Permits", desc: "Apply for entry permits quickly and track your applications.", icon: Stamp },
-  { id: 5, label: "Health Insurance Services", desc: "Find the right health insurance for you and your family.", icon: ShieldPlus },
-  { id: 6, label: "Dubai Economy Services", desc: "Business and economic services to support your growth.", icon: TrendingUp },
+// Shared with MobileAppHome (its "Our Services" grid uses this exact same
+// data, just filtered by `cat` for its category chips) — single source so
+// a service added here also shows up there.
+export const services = [
+  { id: 1, label: "AMER Services", desc: "Streamlined government services to save your time and effort.", cat: "Business" as const, icon: MonitorSmartphone, href: "/online-services" },
+  { id: 2, label: "Emirates Identity Authority", desc: "Official Emirates ID services and related solutions.", cat: "ID" as const, icon: IdCard, href: "/services/emirates-id" },
+  { id: 3, label: "Medical Fitness Application", desc: "Hassle-free medical fitness tests and applications.", cat: "Medical" as const, icon: HeartPulse, href: "/services/medical" },
+  { id: 4, label: "Entry Permits", desc: "Apply for entry permits quickly and track your applications.", cat: "Visa" as const, icon: Stamp, href: "/services/immigration" },
+  { id: 5, label: "Health Insurance Services", desc: "Find the right health insurance for you and your family.", cat: "Medical" as const, icon: ShieldPlus, href: "/services/insurance" },
+  { id: 6, label: "Dubai Economy Services", desc: "Business and economic services to support your growth.", cat: "Business" as const, icon: TrendingUp, href: "/services/immigration" },
 ];
 
 export default function WhatWeDo() {
@@ -115,9 +118,9 @@ export default function WhatWeDo() {
 
           {/* Cards 1 to 4 */}
           {services.slice(0, 4).map((service, idx) => (
-            <Link 
-              href="/services" 
-              key={service.id} 
+            <Link
+              href={service.href}
+              key={service.id}
               className={getCardStyle()}
               ref={(el) => {
                 if (el) cardsRef.current[idx] = el;
@@ -154,9 +157,9 @@ export default function WhatWeDo() {
 
           {/* Cards 5 and 6 */}
           {services.slice(4, 6).map((service, idx) => (
-            <Link 
-              href="/services" 
-              key={service.id} 
+            <Link
+              href={service.href}
+              key={service.id}
               className={getCardStyle()}
               ref={(el) => {
                 if (el) cardsRef.current[4 + idx] = el;
@@ -174,8 +177,8 @@ export default function WhatWeDo() {
           ))}
 
           {/* Bottom Right: CTA Card (Spans 2 cols) */}
-          <Link 
-            href="/services" 
+          <Link
+            href="/online-services"
             className={styles.ctaCard}
             ref={(el) => {
               if (el) cardsRef.current[6] = el;

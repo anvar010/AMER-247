@@ -1,24 +1,37 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import {
   ArrowDownToLine, ArrowUpFromLine, Tag, Clock,
   FileText, Plane, Baby, FileUp, RefreshCw, Stamp,
-  XCircle, Edit, Map, Building, ArrowRightLeft, Shield, PauseCircle, Briefcase, Users
+  XCircle, Edit, Map, Building, ArrowRightLeft, Shield, PauseCircle, Briefcase, Users, Eye
 } from "lucide-react";
 import styles from "./online-services.module.css";
-import { amerSubCategories, type PriceItem } from "./AmerServicesData";
+import { amerSubCategories, type PriceItem, type SubCategory } from "./AmerServicesData";
+import { buildApplyHref } from "@/lib/applyLink";
+import RequiredDocumentsModal from "@/components/RequiredDocumentsModal/RequiredDocumentsModal";
 
-export default function AmerServicesPanel() {
+// Reused for every category tab in CategoryTabs (AMER Services, Emirates ID,
+// Golden Visa, Tas-heel, Medical Test, Insurance, Tourist Visa) — groups/
+// hubTitle default to the original AMER Services data so the existing
+// `<AmerServicesPanel />` call keeps working unchanged.
+export default function AmerServicesPanel({
+  groups = amerSubCategories,
+  hubTitle = "AMER Services",
+}: {
+  groups?: SubCategory[];
+  hubTitle?: string;
+}) {
   const [activeKey, setActiveKey] = useState<string>("all");
 
   const visible =
     activeKey === "all"
-      ? amerSubCategories
-      : amerSubCategories.filter((s) => s.key === activeKey);
+      ? groups
+      : groups.filter((s) => s.key === activeKey);
 
   return (
-    <div className={styles.amer}>
+    <div className={styles.amer} key={hubTitle}>
       {/* Sub-category chip filter */}
       <div className={styles.subBarHead}>
         <span className={styles.subBarHint}>See All or Choose options below</span>
@@ -26,7 +39,7 @@ export default function AmerServicesPanel() {
       <div
         className={styles.subBar}
         role="tablist"
-        aria-label="AMER service sub-categories"
+        aria-label={`${hubTitle} sub-categories`}
       >
         <button
           type="button"
@@ -37,7 +50,7 @@ export default function AmerServicesPanel() {
         >
           All
         </button>
-        {amerSubCategories.map((s) => (
+        {groups.map((s) => (
           <button
             key={s.key}
             type="button"
@@ -67,7 +80,7 @@ export default function AmerServicesPanel() {
 
             <ul className={styles.priceList}>
               {group.items.map((item, i) => (
-                <PriceRow key={`${group.key}-${i}`} item={item} />
+                <PriceRow key={`${group.key}-${i}`} item={item} hubTitle={hubTitle} />
               ))}
             </ul>
           </section>
@@ -77,7 +90,8 @@ export default function AmerServicesPanel() {
   );
 }
 
-function PriceRow({ item }: { item: PriceItem }) {
+function PriceRow({ item, hubTitle }: { item: PriceItem; hubTitle: string }) {
+  const [docsOpen, setDocsOpen] = useState(false);
   const bgImage = "/images/musueam-night.jpg";
 
   // Determine pricing columns
@@ -152,6 +166,15 @@ function PriceRow({ item }: { item: PriceItem }) {
         </div>
       </div>
 
+      <button
+        type="button"
+        className={styles.cardEye}
+        aria-label={`View required documents for ${item.name}`}
+        onClick={() => setDocsOpen(true)}
+      >
+        <Eye size={15} />
+      </button>
+
       {/* Card Content Area */}
       <div className={styles.cardBody}>
         {/* Title in Serif */}
@@ -185,11 +208,18 @@ function PriceRow({ item }: { item: PriceItem }) {
             <div className={styles.docsText}>Original Passport, Photo, Visa Copy</div>
           </div>
 
-          <button className={styles.applyBtnPrimary} type="button">
+          <Link href={buildApplyHref(item, hubTitle)} className={styles.applyBtnPrimary}>
             Apply Now
-          </button>
+          </Link>
         </div>
       </div>
+
+      <RequiredDocumentsModal
+        open={docsOpen}
+        onClose={() => setDocsOpen(false)}
+        serviceName={item.name}
+        slug={item.slug}
+      />
     </li>
   );
 }

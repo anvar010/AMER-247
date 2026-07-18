@@ -3,14 +3,16 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Outfit } from "next/font/google";
 import styles from "./Partners.module.css";
+import mstyles from "@/components/MobilePartnersStrip/MobilePartnersStrip.module.css";
 
 const outfit = Outfit({ subsets: ["latin"], weight: ["300", "400", "500", "600", "700", "800"] });
+const mobileOutfit = Outfit({ subsets: ["latin"], weight: ["700"] });
 
 const partners = [
-  { name: "Dubai Health Authority", src: "/images/DHA.svg" },
-  { name: "Dubai Economy", src: "/images/DubaiEconomy.webp" },
-  { name: "Federal Authority for Identity & Citizenship", src: "/images/fauCopy.webp" },
-  { name: "General Directorate of Residency and Foreigners Affairs - Dubai", src: "/images/GRDRFA.webp" },
+  { name: "Dubai Health Authority", shortName: "Dubai Health Authority", src: "/images/DHA.svg" },
+  { name: "Dubai Economy", shortName: "Dubai Economy", src: "/images/DubaiEconomy.webp" },
+  { name: "Federal Authority for Identity & Citizenship", shortName: "Federal Authority for Identity & Citizenship", src: "/images/fauCopy.webp" },
+  { name: "General Directorate of Residency and Foreigners Affairs - Dubai", shortName: "GDRFA Dubai", src: "/images/GRDRFA.webp" },
 ];
 
 export default function Partners() {
@@ -36,8 +38,9 @@ export default function Partners() {
   }, []);
 
   return (
-    <section 
-      ref={sectionRef} 
+    <>
+    <section
+      ref={sectionRef}
       className={`${styles.section} ${outfit.className} ${isIntersecting ? styles.revealed : ""}`}
     >
       <div className={styles.bgLines} />
@@ -72,10 +75,30 @@ export default function Partners() {
           </div>
         </div>
       </div>
-
-      <svg className={styles.bottomCurve} viewBox="0 0 1440 100" preserveAspectRatio="none">
-        <path fill="var(--brand-navy, #0a1f44)" d="M0,100 L1440,100 L1440,30 Q720,100 0,30 Z" />
-      </svg>
     </section>
+
+    {/* Mobile-only — same partners list as above. Visibility is CSS-driven
+        (mstyles.wrap). */}
+    <section className={`${mstyles.wrap} ${mobileOutfit.className}`}>
+      <div className={mstyles.sec}>
+        <h2 className={mstyles.h2}>Our Partners</h2>
+      </div>
+
+      <div className={mstyles.marquee}>
+        <div className={mstyles.track}>
+          {[...partners, ...partners].map((p, i) => (
+            <div key={i} className={mstyles.chip}>
+              <img
+                src={p.src}
+                alt={p.shortName}
+                className={mstyles.logo}
+                onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = "none"; }}
+              />
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+    </>
   );
 }

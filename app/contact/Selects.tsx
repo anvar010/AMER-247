@@ -55,9 +55,11 @@ function flagSrcSet(iso: string) {
 export function CountryCodeSelect({
   name = "countryCode",
   defaultIso = "ae",
+  className = "",
 }: {
   name?: string;
   defaultIso?: string;
+  className?: string;
 }) {
   const initial = countries.find((c) => c.iso === defaultIso) ?? countries[0];
   const [open, setOpen] = useState(false);
@@ -80,7 +82,7 @@ export function CountryCodeSelect({
   }, []);
 
   return (
-    <div ref={ref} className={`${styles.cs} ${open ? styles.csOpen : ""}`}>
+    <div ref={ref} className={`${styles.cs} ${open ? styles.csOpen : ""} ${className}`}>
       <button
         type="button"
         className={styles.csBtn}
@@ -103,7 +105,7 @@ export function CountryCodeSelect({
       <input type="hidden" name={name} value={selected.code} />
 
       {open && (
-        <ul className={styles.csPanel} role="listbox">
+        <ul className={styles.csPanel} role="listbox" data-lenis-prevent>
           {countries.map((c) => (
             <li key={`${c.iso}-${c.code}`}>
               <button
@@ -190,7 +192,7 @@ export function OptionSelect({
       <input type="hidden" name={name} value={selected} required={required} />
 
       {open && (
-        <ul className={`${styles.csPanel} ${styles.csPanelWide}`} role="listbox">
+        <ul className={`${styles.csPanel} ${styles.csPanelWide}`} role="listbox" data-lenis-prevent>
           {options.map((opt) => (
             <li key={opt}>
               <button

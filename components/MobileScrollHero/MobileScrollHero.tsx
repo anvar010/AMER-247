@@ -5,7 +5,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ScrollToPlugin } from "gsap/ScrollToPlugin";
 import { useGSAP } from "@gsap/react";
-import { ArrowRight, Clock, ShieldCheck, Award } from "lucide-react";
+import { ArrowRight, Clock, ShieldCheck, Award, Tag, Grid3x3, Plane } from "lucide-react";
 import styles from "./MobileScrollHero.module.css";
 
 if (typeof window !== "undefined") {
@@ -41,13 +41,13 @@ export default function MobileScrollHero() {
 
   useGSAP(() => {
     const canvas = canvasRef.current;
-    // PERFORMANCE FIX: { alpha: false, desynchronized: true } provides a massive GPU boost 
+    // PERFORMANCE FIX: { alpha: false, desynchronized: true } provides a massive GPU boost
     // by bypassing the browser compositor, reducing input lag and tearing on mobile!
     const context = canvas?.getContext("2d", { alpha: false, desynchronized: true });
     if (!canvas || !context || !wrapperRef.current) return;
 
     // Dynamically size canvas to exact device screen
-    // PERFORMANCE FIX: Cap DPR to 1 (or 1.25 max) on mobile devices to prevent 3x/4x mobile screens (like iPhones) 
+    // PERFORMANCE FIX: Cap DPR to 1 (or 1.25 max) on mobile devices to prevent 3x/4x mobile screens (like iPhones)
     // from crashing the GPU. Drawing a 1170x2532 image onto a canvas 60 times a second causes severe thermal lag.
     const dpr = Math.min(window.devicePixelRatio || 1, 1);
     canvas.width = window.innerWidth * dpr;
@@ -141,7 +141,7 @@ export default function MobileScrollHero() {
     }, 0);
 
     const headerLogo = document.getElementById("global-header-logo");
-    
+
     let endTop = "1rem";
     let endLeft = "1.5rem";
     if (window.innerWidth <= 1023) {
@@ -262,7 +262,14 @@ export default function MobileScrollHero() {
   // animation itself — the bottom of the document — revealing the final
   // title/CTA without leaving the splash.
   const handleSkip = () => {
-    const targetY = document.documentElement.scrollHeight;
+    // Land exactly where the pinned animation releases (the final reveal,
+    // fully visible) — not the bottom of the whole page. That point is
+    // right at the #mobile-home-start marker, the same target the splash's
+    // own "Services" quick link scrolls to.
+    const marker = document.getElementById("mobile-home-start");
+    const targetY = marker
+      ? marker.getBoundingClientRect().top + window.scrollY
+      : document.documentElement.scrollHeight;
     if ((window as any).lenis) {
       (window as any).lenis.scrollTo(targetY, {
         duration: 1.5,
@@ -271,6 +278,13 @@ export default function MobileScrollHero() {
     } else {
       window.scrollTo({ top: targetY, behavior: "smooth" });
     }
+  };
+
+  const scrollToServices = () => {
+    const lenis = (window as any).lenis;
+    const marker = document.getElementById("mobile-home-start");
+    if (lenis) lenis.scrollTo("#mobile-home-start", { duration: 1.4 });
+    else marker?.scrollIntoView({ behavior: "smooth" });
   };
 
   return (
@@ -319,7 +333,7 @@ export default function MobileScrollHero() {
             centered middle text above, matching the app's bottom-sheet style splash */}
         <div className={styles.finalReveal}>
           <h1 ref={titleRef} className={styles.finalTitle} style={{ opacity: 0 }}>
-            UAE Visa &amp; <span className={styles.goldText}>Immigration</span>
+            Seamless Immigration Solutions Tailored to Your <span className={styles.goldText}>Journey</span>
           </h1>
 
           <div ref={ctaRef} className={styles.finalCta} style={{ opacity: 0 }}>
@@ -328,12 +342,24 @@ export default function MobileScrollHero() {
             </p>
 
             <div className={styles.btnRow}>
-              <Link href="/services" className={`${styles.btn} ${styles.btnGold}`}>
+              <Link href="/online-services" className={`${styles.btn} ${styles.btnGold}`}>
                 Apply Online
                 <ArrowRight size={17} />
               </Link>
-              <Link href="/home" className={`${styles.btn} ${styles.btnGlass}`}>
-                Explore Services
+            </div>
+
+            <div className={styles.quickLinksRow}>
+              <Link href="/pricing-list" className={styles.quickLink}>
+                <Tag size={15} />
+                Pricing
+              </Link>
+              <button type="button" className={styles.quickLink} onClick={scrollToServices}>
+                <Grid3x3 size={15} />
+                Services
+              </button>
+              <Link href="/uae-tourist-visa" className={styles.quickLink}>
+                <Plane size={15} />
+                Visit Visa
               </Link>
             </div>
 

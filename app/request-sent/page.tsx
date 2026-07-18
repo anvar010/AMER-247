@@ -1,0 +1,16 @@
+import { Suspense } from "react";
+import RequestSentView from "./RequestSentView";
+
+export const metadata = {
+  title: "AMER247 - Immigration Services | Dubai Visa Applications/Renewal",
+  description:
+    "Amer247 is a Semi Government Organization operating 24 hrs, allowing residents to complete all Visa and Residency transactions. Apply Online!",
+};
+
+export default function RequestSentPage() {
+  return (
+    <Suspense fallback={null}>
+      <RequestSentView />
+    </Suspense>
+  );
+}
