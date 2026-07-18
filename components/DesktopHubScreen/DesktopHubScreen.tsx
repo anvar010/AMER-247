@@ -224,29 +224,37 @@ export interface DesktopHubScreenProps {
   // still drives the search placeholder and the apply form's hub label, so
   // a page can show a longer marketing headline without that leaking there.
   heroTitle?: string;
+  // Skip the built-in dark hero — for pages that render their own custom
+  // hero above this (e.g. /uae-tourist-visa's boarding-pass hero) while
+  // still reusing the search + grid + legend below it.
+  hideHero?: boolean;
 }
 
 // The full page: hero (title/blurb/count chip) + the grid above. Used on
 // the standalone /services/[hub] pages.
-export default function DesktopHubScreen({ title, blurb, subCategories, gold, heroTitle }: DesktopHubScreenProps) {
+export default function DesktopHubScreen({ title, blurb, subCategories, gold, heroTitle, hideHero }: DesktopHubScreenProps) {
   const serviceCount = subCategories.reduce((a, g) => a + g.items.length, 0);
 
   return (
     <div className={styles.wrap}>
-      <div className={styles.hubTop}>
-        <span className={styles.glowGold} aria-hidden />
-        <span className={styles.glowWhite} aria-hidden />
-        <div className={styles.hubTopInner}>
-          <h1 className={styles.title}>{heroTitle ?? title}</h1>
-          <p className={styles.blurb}>{blurb}</p>
-          <span className={styles.countChip}>
-            <Layers size={13} />
-            {serviceCount} services
-          </span>
+      {!hideHero && (
+        <div className={styles.hubTop}>
+          <span className={styles.glowGold} aria-hidden />
+          <span className={styles.glowWhite} aria-hidden />
+          <div className={styles.hubTopInner}>
+            <h1 className={styles.title}>{heroTitle ?? title}</h1>
+            <p className={styles.blurb}>{blurb}</p>
+            <span className={styles.countChip}>
+              <Layers size={13} />
+              {serviceCount} services
+            </span>
+          </div>
         </div>
-      </div>
+      )}
 
-      <div className={styles.container}>
+      {/* Anchor target for a custom hero's "browse" CTA (only relevant when
+          hideHero pages scroll down to the listing). */}
+      <div className={styles.container} id={hideHero ? "tourist-visa-list" : undefined}>
         <DesktopServiceGrid subCategories={subCategories} hubTitle={title} gold={gold} />
       </div>
     </div>

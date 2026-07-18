@@ -54,16 +54,26 @@
   z-index: -1;
 }
 
+
 /* ============================================================
    1. Hero
    ============================================================ */
 .hero {
   position: relative;
-  padding: 8.5rem 0 3.5rem;
-  background: linear-gradient(135deg, #FF512F, #7A1508);
-  color: #fff;
-  isolation: isolate;
+  min-height: 85vh;
+  display: flex;
+  align-items: center;
+  background: #ffffff;
+  padding: 6rem 0 4rem;
   overflow: hidden;
+  isolation: isolate;
+}
+
+@media (min-width: 900px) {
+  .hero {
+    min-height: 600px;
+    padding: 8rem 0 6rem;
+  }
 }
 
 .heroBg {
@@ -71,76 +81,502 @@
   inset: 0;
   z-index: -1;
   pointer-events: none;
+  background: #ffffff;
 }
 
-.heroOrbA,
-.heroOrbB {
+.glowBlob {
   position: absolute;
+  top: -20%;
+  right: -10%;
+  width: 60vw;
+  height: 60vw;
+  background: radial-gradient(circle, rgba(201, 162, 75, 0.08) 0%, rgba(201, 162, 75, 0) 70%);
   border-radius: 50%;
-}
-
-.heroOrbA {
-  top: -6rem;
-  right: -4rem;
-  width: 340px;
-  height: 340px;
-  background: rgba(227, 199, 126, 0.14);
-}
-
-.heroOrbB {
-  bottom: -8rem;
-  left: -3rem;
-  width: 300px;
-  height: 300px;
-  background: rgba(255, 255, 255, 0.05);
-}
-
-.heroGrid {
-  display: none;
+  filter: blur(80px);
 }
 
 .heroInner {
   position: relative;
   z-index: 1;
-  max-width: var(--container);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 4rem;
+  align-items: center;
 }
 
-.eyebrow {
-  color: var(--brand-gold);
-}
-
-.heroTitle {
-  font-size: 2.5rem;
-  font-weight: 800;
-  color: #fff;
-  margin: 0 0 1.25rem;
-  line-height: 1.1;
-  letter-spacing: -0.015em;
-  animation: rise 0.9s cubic-bezier(0.2, 0.8, 0.2, 1) both;
-}
-
-@media (min-width: 768px) {
-  .heroTitle {
-    font-size: 3.5rem;
+@media (min-width: 900px) {
+  .heroInner {
+    grid-template-columns: 1fr 1fr;
   }
 }
 
-.heroTitle .titleEm {
-  color: var(--brand-gold);
+.heroTextSide {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  max-width: 500px;
 }
 
-.heroTitle .titleEm::after {
-  background: rgba(201, 162, 75, 0.32);
+.pillBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #f1f5f9;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  padding: 6px 14px;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: #475569;
+  text-transform: uppercase;
+  margin-bottom: 2rem;
+  animation: fadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.heroCopy {
-  color: rgba(255, 255, 255, 0.82);
-  font-size: 1.05rem;
-  line-height: 1.85;
-  max-width: 720px;
-  margin: 0;
-  animation: rise 1s 0.12s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+.pillDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--brand-gold, #c9a24b);
+  box-shadow: 0 0 8px var(--brand-gold, #c9a24b);
 }
+
+.heroTitle {
+  font-size: clamp(2.5rem, 4vw, 3.5rem);
+  font-weight: 800;
+  color: #0f172a;
+  line-height: 1.1;
+  margin: 0 0 1.5rem;
+  letter-spacing: -0.02em;
+  animation: fadeUp 1s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.heroHighlight {
+  position: relative;
+  display: inline-block;
+  color: #0f172a;
+}
+
+.heroHighlight::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 8px;
+  width: 100%;
+  height: 8px;
+  background: var(--brand-gold, #c9a24b);
+  opacity: 0.3;
+  transform: skewX(-15deg);
+  z-index: -1;
+}
+
+.heroSubtitle {
+  font-size: 1.1rem;
+  color: #64748b;
+  line-height: 1.6;
+  margin: 0 0 2.5rem;
+  font-weight: 400;
+  animation: fadeUp 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.heroActions {
+  display: flex;
+  gap: 1rem;
+  animation: fadeUp 1.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.btnModernPrimary {
+  background: #111827;
+  color: #ffffff;
+  border: none;
+  padding: 0.875rem 2rem;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.1);
+}
+
+.btnModernPrimary:hover {
+  background: #1f2937;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+
+.btnModernSecondary {
+  background: #ffffff;
+  color: #111827;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  padding: 0.875rem 2rem;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+}
+
+.btnModernSecondary:hover {
+  background: #f9fafb;
+  border-color: rgba(0, 0, 0, 0.2);
+  transform: translateY(-2px);
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* --------- Clean Modern Visual --------- */
+.cleanVisual {
+  position: relative;
+  width: 100%;
+  height: 440px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  perspective: 1000px;
+}
+
+/* 1. Dashboard Widget */
+.dashWidget {
+  position: absolute;
+  top: 10%;
+  left: 5%;
+  width: 320px;
+  background: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  border-radius: 20px;
+  padding: 1.5rem;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.06);
+  z-index: 1;
+  animation: floatSlow 8s ease-in-out infinite alternate;
+}
+
+.dashHeader {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.dashIconWrap {
+  width: 40px;
+  height: 40px;
+  background: #f1f5f9;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #3b82f6;
+}
+
+.dashHeaderText {
+  display: flex;
+  flex-direction: column;
+}
+
+.dashTitle {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.dashSub {
+  font-size: 0.75rem;
+  color: #64748b;
+  font-weight: 500;
+}
+
+.stepper {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.stepItem {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.stepCircle {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.stepDone {
+  background: #10b981;
+  color: white;
+}
+
+.stepActive {
+  border: 2px solid #3b82f6;
+  background: white;
+}
+
+.stepDot {
+  width: 8px;
+  height: 8px;
+  background: #3b82f6;
+  border-radius: 50%;
+}
+
+.stepCirclePending {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 2px solid #e2e8f0;
+  background: white;
+}
+
+.stepLine {
+  width: 2px;
+  height: 24px;
+  background: #10b981;
+  margin-left: 11px;
+}
+
+.stepLinePending {
+  width: 2px;
+  height: 24px;
+  background: #e2e8f0;
+  margin-left: 11px;
+}
+
+.stepLineAnimated {
+  width: 2px;
+  height: 24px;
+  background: linear-gradient(to bottom, #10b981 50%, #e2e8f0 50%);
+  background-size: 100% 200%;
+  margin-left: 11px;
+  animation: lineFill 3s linear forwards;
+}
+
+@keyframes lineFill {
+  0% {
+    background-position: 0 100%;
+  }
+
+  100% {
+    background-position: 0 0%;
+  }
+}
+
+.stepText {
+  font-size: 0.85rem;
+  color: #64748b;
+  font-weight: 600;
+}
+
+.stepTextActive {
+  color: #0f172a;
+  font-weight: 700;
+}
+
+.stepTextPending {
+  font-size: 0.85rem;
+  color: #94a3b8;
+  font-weight: 500;
+}
+
+/* 2. Overlapping Visa Card */
+.visaCard {
+  position: absolute;
+  bottom: 10%;
+  right: 5%;
+  width: 280px;
+  height: 180px;
+  background: linear-gradient(135deg, #111827, #1e293b);
+  border-radius: 16px;
+  padding: 1.5rem;
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15), inset 0 1px 1px rgba(255, 255, 255, 0.1);
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  color: white;
+  animation: floatSlowRev 9s ease-in-out infinite alternate-reverse;
+}
+
+.visaCardTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+}
+
+.visaCountry {
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.15em;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.visaGoldChip {
+  width: 32px;
+  height: 24px;
+  border-radius: 4px;
+  background: linear-gradient(135deg, #fbbf24, #d97706);
+}
+
+.visaCardBody {
+  flex: 1;
+}
+
+.visaName {
+  font-family: "Playfair Display", serif;
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin: 0 0 0.25rem;
+  color: #fff;
+}
+
+.visaDuration {
+  font-size: 0.8rem;
+  color: var(--brand-gold, #c9a24b);
+  font-weight: 600;
+}
+
+.visaCardBottom {
+  margin-top: auto;
+}
+
+.visaBarcode {
+  display: flex;
+  gap: 4px;
+  height: 20px;
+  align-items: center;
+  opacity: 0.4;
+}
+
+.bar1 {
+  width: 4px;
+  height: 100%;
+  background: #fff;
+}
+
+.bar2 {
+  width: 2px;
+  height: 100%;
+  background: #fff;
+}
+
+.bar3 {
+  width: 6px;
+  height: 100%;
+  background: #fff;
+}
+
+.bar4 {
+  width: 3px;
+  height: 100%;
+  background: #fff;
+}
+
+.bar5 {
+  width: 8px;
+  height: 100%;
+  background: #fff;
+}
+
+.bar6 {
+  width: 2px;
+  height: 100%;
+  background: #fff;
+}
+
+/* 3. Small Floating Notification */
+.successFloat {
+  position: absolute;
+  top: 50%;
+  right: -5%;
+  background: white;
+  border-radius: 999px;
+  padding: 0.6rem 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  z-index: 3;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #0f172a;
+  animation: floatFast 6s ease-in-out infinite alternate;
+}
+
+.successIconPulse {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: #10b981;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4);
+  animation: pulseGreen 2s infinite;
+}
+
+@keyframes floatSlow {
+  0% {
+    transform: translateY(0) rotateX(0) rotateY(0);
+  }
+
+  100% {
+    transform: translateY(-15px) rotateX(2deg) rotateY(-2deg);
+  }
+}
+
+@keyframes floatSlowRev {
+  0% {
+    transform: translateY(0) rotateX(0) rotateY(0);
+  }
+
+  100% {
+    transform: translateY(15px) rotateX(-2deg) rotateY(2deg);
+  }
+}
+
+@keyframes floatFast {
+  0% {
+    transform: translateY(0);
+  }
+
+  100% {
+    transform: translateY(-20px);
+  }
+}
+
+@keyframes pulseGreen {
+  0% {
+    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4);
+  }
+
+  70% {
+    box-shadow: 0 0 0 10px rgba(16, 185, 129, 0);
+  }
+
+  100% {
+    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
+  }
+}
+
+
 
 /* ============================================================
    2. Category Tabs
@@ -211,7 +647,7 @@
   gap: 0.75rem;
   padding: 1.25rem 1.15rem 1.1rem;
   background: #ffffff;
-  border: 1px solid rgba(226, 64, 32, 0.12);
+  border: 1px solid rgba(201, 162, 75, 0.3);
   border-radius: 16px;
   cursor: pointer;
   text-align: left;
@@ -710,6 +1146,7 @@
   backdrop-filter: blur(4px);
   -webkit-backdrop-filter: blur(4px);
 }
+
 .cardEye:hover {
   background: var(--brand-gold, #C9A24B);
   color: #1A1A1A;
@@ -1216,3 +1653,5 @@
     font-size: 0.6rem;
   }
 }
+
+

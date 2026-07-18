@@ -1,0 +1,403 @@
+/* Desktop-only hero — mobile keeps MobileHubScreen's own dark hero. */
+.hero {
+  display: none;
+}
+
+@media (min-width: 769px) {
+  .hero {
+    display: block;
+    position: relative;
+    overflow: hidden;
+    padding: 8.5rem 0 4.5rem;
+    background: linear-gradient(180deg, #FFFFFF 0%, #F9F7F4 100%);
+    isolation: isolate;
+  }
+}
+
+.dots {
+  position: absolute;
+  top: 6rem;
+  right: 5rem;
+  width: 140px;
+  height: 140px;
+  background-image: radial-gradient(rgba(227, 30, 36, 0.18) 1.5px, transparent 1.5px);
+  background-size: 15px 15px;
+  pointer-events: none;
+}
+
+.blob {
+  position: absolute;
+  top: 50%;
+  right: -8rem;
+  transform: translateY(-50%);
+  width: 560px;
+  height: 560px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, rgba(227, 30, 36, 0.07), rgba(201, 162, 75, 0.05) 55%, transparent 75%);
+  pointer-events: none;
+}
+
+.inner {
+  position: relative;
+  z-index: 1;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0 5rem;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 460px;
+  gap: 4rem;
+  align-items: center;
+}
+
+/* ---------- Left: editorial column ---------- */
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #E31E24;
+  background: #FDECEC;
+  border: 1px solid rgba(227, 30, 36, 0.18);
+  border-radius: 999px;
+  padding: 0.45rem 1rem;
+}
+
+.title {
+  font-size: 2.9rem;
+  font-weight: 800;
+  line-height: 1.12;
+  letter-spacing: -0.02em;
+  color: #1D2433;
+  margin: 1.25rem 0 0;
+  max-width: 15ch;
+}
+
+.accentBar {
+  display: block;
+  width: 72px;
+  height: 4px;
+  border-radius: 2px;
+  margin: 1.25rem 0;
+  background: linear-gradient(90deg, #E31E24, #C9A24B);
+}
+
+.blurb {
+  font-size: 1.02rem;
+  line-height: 1.8;
+  color: #5B6472;
+  margin: 0;
+  max-width: 54ch;
+}
+
+.durations {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1.5rem;
+}
+
+.durationChip {
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #1D2433;
+  background: #ffffff;
+  border: 1px solid #ECECEC;
+  border-radius: 999px;
+  padding: 0.45rem 0.9rem;
+  box-shadow: 0 2px 8px rgba(29, 36, 51, 0.05);
+}
+
+.ctaRow {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  margin-top: 2rem;
+}
+
+.ctaPrimary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: #E31E24;
+  color: #ffffff;
+  font-size: 0.9rem;
+  font-weight: 700;
+  border-radius: 999px;
+  padding: 0.9rem 1.6rem;
+  text-decoration: none;
+  box-shadow: 0 14px 28px rgba(227, 30, 36, 0.24);
+  transition: transform 0.2s ease;
+}
+
+.ctaPrimary:hover {
+  transform: translateY(-2px);
+}
+
+.trustRow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.8rem;
+  flex-wrap: wrap;
+}
+
+.trustItem {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #5B6472;
+}
+
+.trustItem svg {
+  color: #E31E24;
+}
+
+.trustDot {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: #D8DBE2;
+}
+
+/* ---------- Right: boarding-pass ticket ---------- */
+.right {
+  position: relative;
+  justify-self: end;
+  width: 100%;
+}
+
+.ticket {
+  position: relative;
+  background: #ffffff;
+  border: 1px solid #ECECEC;
+  border-radius: 22px;
+  box-shadow: 0 30px 60px rgba(29, 36, 51, 0.12);
+  transform: rotate(2.5deg);
+  padding: 1.6rem 1.75rem 1.5rem;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.ticket:hover {
+  transform: rotate(0.5deg) translateY(-4px);
+}
+
+.ticketTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.4rem;
+}
+
+.ticketBrandName {
+  display: block;
+  font-size: 0.95rem;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  color: #1D2433;
+}
+
+.ticketBrandSub {
+  display: block;
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: #9AA3B2;
+  margin-top: 0.1rem;
+}
+
+.ticketClass {
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #E31E24;
+  border: 1.5px solid rgba(227, 30, 36, 0.35);
+  border-radius: 6px;
+  padding: 0.3rem 0.55rem;
+}
+
+.route {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.routeEnd {
+  flex-shrink: 0;
+}
+
+.routeEnd:last-child {
+  text-align: right;
+}
+
+.routeCode {
+  display: block;
+  font-size: 1.9rem;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  color: #1D2433;
+  line-height: 1;
+}
+
+.routeCity {
+  display: block;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: #9AA3B2;
+  margin-top: 0.3rem;
+}
+
+.routeLine {
+  position: relative;
+  flex: 1;
+  height: 0;
+  border-top: 2px dashed #D8DBE2;
+}
+
+.routePlane {
+  position: absolute;
+  top: 50%;
+  background: #FDECEC;
+  color: #E31E24;
+  border: 1px solid rgba(227, 30, 36, 0.2);
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: flyPlane 6s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+@keyframes flyPlane {
+  0% { left: 0%; transform: translate(-50%, -50%) rotate(45deg); opacity: 0; }
+  15% { opacity: 1; }
+  85% { opacity: 1; }
+  100% { left: 100%; transform: translate(-50%, -50%) rotate(45deg); opacity: 0; }
+}
+
+/* Perforated tear line with punched side notches */
+.perforation {
+  position: relative;
+  height: 0;
+  border-top: 2px dashed #E4E7EC;
+  margin: 0 -1.75rem 1.4rem;
+}
+
+.perforation::before,
+.perforation::after {
+  content: "";
+  position: absolute;
+  top: -13px;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: #F9F7F4;
+  border: 1px solid #ECECEC;
+}
+
+.perforation::before { left: -14px; }
+.perforation::after { right: -14px; }
+
+.ticketFields {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.75rem;
+  margin-bottom: 1.4rem;
+}
+
+.fieldLabel {
+  display: block;
+  font-size: 0.64rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #9AA3B2;
+}
+
+.fieldValue {
+  display: block;
+  font-size: 0.9rem;
+  font-weight: 800;
+  color: #1D2433;
+  margin-top: 0.25rem;
+  white-space: nowrap;
+}
+
+.fieldPrice {
+  color: #E31E24;
+}
+
+.barcode {
+  height: 34px;
+  border-radius: 4px;
+  background: repeating-linear-gradient(
+    90deg,
+    #1D2433 0px,
+    #1D2433 2px,
+    transparent 2px,
+    transparent 5px,
+    #1D2433 5px,
+    #1D2433 6px,
+    transparent 6px,
+    transparent 11px
+  );
+  opacity: 0.85;
+}
+
+/* Rubber-stamp ring overlapping the ticket corner */
+.stamp {
+  position: absolute;
+  right: -1.25rem;
+  top: -2.25rem;
+  width: 108px;
+  height: 108px;
+  border-radius: 50%;
+  border: 3px double rgba(227, 30, 36, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: rotate(-14deg);
+  background: rgba(253, 236, 236, 0.6);
+  backdrop-filter: blur(2px);
+}
+
+.stampInner {
+  text-align: center;
+  font-size: 0.82rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(227, 30, 36, 0.75);
+  line-height: 1.25;
+}
+
+.stampInner em {
+  display: block;
+  font-style: normal;
+  font-size: 0.5rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: rgba(227, 30, 36, 0.55);
+  margin-top: 0.2rem;
+}
+
+/* Tuck the ticket column in on narrower desktops so the grid never crushes
+   the editorial column. */
+@media (min-width: 769px) and (max-width: 1100px) {
+  .inner {
+    grid-template-columns: 1fr;
+  }
+
+  .right {
+    justify-self: start;
+    max-width: 460px;
+  }
+}

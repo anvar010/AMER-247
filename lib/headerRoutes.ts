@@ -9,7 +9,7 @@ const OPAQUE_FROM_TOP_PREFIXES = ["/news/", "/center", "/request-sent", "/error"
 // These routes only have a light hero at the desktop breakpoint — mobile
 // keeps its own dark hero, where the transparent white-on-dark header is
 // still correct, so the opaque override only applies from that width up.
-const OPAQUE_FROM_TOP_DESKTOP_ONLY_PREFIXES = ["/pricing-list", "/amer247-services", "/news", "/about"];
+const OPAQUE_FROM_TOP_DESKTOP_ONLY_PREFIXES = ["/pricing-list", "/amer247-services", "/news", "/about", "/online-services", "/uae-tourist-visa"];
 const DESKTOP_BREAKPOINT = 769;
 
 // Pathname-only, deterministic between server and client — safe to use in
