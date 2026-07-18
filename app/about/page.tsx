@@ -184,27 +184,7 @@ export default function AboutPage() {
             ))}
           </div>
 
-          <div className={mstyles.closingCard}>
-            <span className={mstyles.closingEyebrow}>
-              <Layers size={12} />
-              What We Majorly Deal With
-            </span>
-            <h2 className={mstyles.closingTitle}>
-              Entry permits, residency visas, cancellations &amp; everything in between.
-            </h2>
-            <p className={mstyles.closingCopy}>
-              Provides services ranging from issuing entry permits, issuing and renewals of a
-              residency visa, visa cancellation and other related services.
-            </p>
-            <div className={mstyles.closingBtns}>
-              <Link href="/online-services" className={mstyles.btnGold}>
-                Explore Services <ArrowRight size={16} />
-              </Link>
-              <Link href="/contact" className={mstyles.btnGhost}>
-                <Building2 size={16} /> Visit a Branch
-              </Link>
-            </div>
-          </div>
+
         </div>
       </div>
 
@@ -419,40 +399,6 @@ export default function AboutPage() {
               </li>
             ))}
           </ol>
-        </div>
-      </section>
-
-      {/* ===================== Closing ===================== */}
-      <section className={styles.closing}>
-        <div className={styles.closingBg} aria-hidden="true">
-          <img src="/images/dubai.jpg" alt="" className={styles.closingImg} />
-          <span className={styles.closingOverlay} />
-        </div>
-        <div className={`container ${styles.closingInner}`}>
-          <div className={styles.closingText}>
-            <span className={styles.sectionEyebrowOnDark}>
-              <span className={styles.eyebrowLine} />
-              What We Majorly Deal With
-            </span>
-            <h2 className={styles.closingTitle}>
-              Entry permits, residency visas, cancellations
-              <em className={styles.titleEm}> &amp; everything in between.</em>
-            </h2>
-            <p className={styles.closingCopy}>
-              Provides services ranging from issuing entry permits, issuing and
-              renewals of a residency visa, visa cancellation and other related
-              services provided by other Government institutions and
-              departments.
-            </p>
-          </div>
-          <div className={styles.closingCta}>
-            <Link href="/online-services" className={styles.btnGold}>
-              Explore Services <ArrowRight size={16} />
-            </Link>
-            <Link href="/contact" className={styles.btnGhost}>
-              <Building2 size={16} /> Visit a Branch
-            </Link>
-          </div>
         </div>
       </section>
     </>
