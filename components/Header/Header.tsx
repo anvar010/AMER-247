@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
   Menu, X, Home, FileText, Plane, Info, Grid3x3, Tag,
-  Newspaper, Briefcase, Phone, User,
+  Newspaper, Briefcase, Phone, User, BookOpen
 } from "lucide-react";
 import { lockBodyScroll, unlockBodyScroll } from "@/lib/useBodyScrollLock";
 import { needsOpaqueHeader, needsOpaqueHeaderStatic } from "@/lib/headerRoutes";
@@ -17,6 +17,7 @@ const menuItems = [
   { label: "UAE Tourist Visa", href: "/uae-tourist-visa", icon: Plane },
   { label: "Pricing", href: "/pricing-list", icon: Tag },
   { label: "News", href: "/news", icon: Newspaper },
+  { label: "Blogs", href: "/blogs", icon: BookOpen },
   { label: "Online Services", href: "/online-services", icon: FileText },
   { label: "Career", href: "/contact", icon: Briefcase },
   { label: "Contact", href: "/contact", icon: Phone },
@@ -183,9 +184,9 @@ export default function Header() {
             alt="Tasheel & Tawjeeh"
             className={styles.partnerLogo}
           />
-          <Link href="/account" className={styles.accountBtn} aria-label="Account">
+          <button onClick={() => alert("This feature will be available soon")} className={styles.accountBtn} aria-label="Account">
             <User size={19} />
-          </Link>
+          </button>
           <button
             className={styles.menu}
             aria-label={menuOpen ? "Close menu" : "Open menu"}

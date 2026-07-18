@@ -56,7 +56,10 @@ export default function DesktopSearchOverlay({ open, onClose }: { open: boolean;
   const { results, isFallback } = q.trim().length < 2 ? { results: [], isFallback: false } : searchMatches(q);
 
   return (
-    <div className={`${styles.backdrop} ${visible ? styles.backdropOn : ""}`} onClick={onClose}>
+    <>
+      {visible && (
+        <div className={styles.backdrop} onClick={onClose} />
+      )}
       <div
         className={`${styles.dialog} ${visible ? styles.dialogOn : ""}`}
         onClick={(e) => e.stopPropagation()}
@@ -75,7 +78,9 @@ export default function DesktopSearchOverlay({ open, onClose }: { open: boolean;
               <X size={16} />
             </button>
           )}
-          <button className={styles.closeBtn} onClick={onClose} aria-label="Close">Esc</button>
+          <button className={styles.closeBtn} onClick={onClose} aria-label="Close">
+            <X size={20} />
+          </button>
         </div>
 
         <div className={styles.scrollArea}>
@@ -113,6 +118,6 @@ export default function DesktopSearchOverlay({ open, onClose }: { open: boolean;
           )}
         </div>
       </div>
-    </div>
+    </>
   );
 }
