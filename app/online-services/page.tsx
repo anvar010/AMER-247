@@ -3,6 +3,7 @@ import styles from "./online-services.module.css";
 import ApplicationTracker from './ApplicationTracker';
 import CategoryTabs from "./CategoryTabs";
 import MobileOnlineServicesScreen from "@/components/MobileOnlineServicesScreen/MobileOnlineServicesScreen";
+import HeroActions from "./HeroActions";
 
 export const metadata = {
   title: "Online Services — Amer 24/7",
@@ -39,10 +40,7 @@ export default function OnlineServicesPage() {
               Stay updated with the latest application fees and requirements. Experience effortless digital processing for all your governmental needs in the UAE.
             </p>
             
-            <div className={styles.heroActions}>
-              <button className={styles.btnModernPrimary}>Explore Services</button>
-              <button className={styles.btnModernSecondary}>View Pricing</button>
-            </div>
+            <HeroActions />
           </div>
 
           <div className={styles.heroVisualSide}>

@@ -188,22 +188,23 @@
 }
 
 .btnModernPrimary {
-  background: #111827;
-  color: #ffffff;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: linear-gradient(155deg, #E3C77E, #A6822F);
+  color: #2A1F00;
   border: none;
-  padding: 0.875rem 2rem;
-  border-radius: 8px;
-  font-size: 0.95rem;
-  font-weight: 600;
+  padding: 0.85rem 2rem;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 700;
   cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.1);
+  transition: transform 0.25s ease;
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.2);
 }
 
 .btnModernPrimary:hover {
-  background: #1f2937;
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
 }
 
 .btnModernSecondary {

@@ -76,7 +76,7 @@ export default function CategoryTabs() {
   const activeCategory = categories.find((c) => c.key === active) ?? categories[0];
 
   return (
-    <section ref={sectionRef} className={styles.tabs}>
+    <section id="pricing-tabs" ref={sectionRef} className={styles.tabs}>
       <span className={styles.tabsGlow} aria-hidden="true" />
       <div className={`container ${styles.tabsInner}`}>
         <header className={styles.tabsHead}>
