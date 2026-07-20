@@ -335,6 +335,12 @@
   background: #F8F9FC;
 }
 
+@media (max-width: 768px) {
+  .calcSection {
+    padding: 2rem 0.75rem 3rem;
+  }
+}
+
 .calcHead {
   max-width: 1440px;
   margin: 0 auto 1.75rem;
@@ -390,6 +396,11 @@
   border-radius: 20px;
   padding: 1.5rem;
   box-shadow: 0 8px 20px rgba(68, 16, 16, 0.06);
+}
+@media (max-width: 768px) {
+  .resultCol {
+    padding: 1.15rem;
+  }
 }
 .resultColEmpty { display: none; }
 
@@ -485,6 +496,11 @@
   border-radius: 20px;
   padding: 1.25rem;
   box-shadow: 0 8px 20px rgba(68, 16, 16, 0.06);
+}
+@media (max-width: 768px) {
+  .mainCol {
+    padding: 1.15rem;
+  }
 }
 
 .searchBar {
