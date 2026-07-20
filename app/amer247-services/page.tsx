@@ -36,25 +36,21 @@ const SERVICES = [
     icon: BookUser,
     title: "AMER Services",
     body: "General Directorate of Residency and Foreigners Affairs — entry permits for company, employment & family (inside & outside the country), residencies (company, employment & family) new/renewal/cancellation, family visit visa, newborn baby visa processing, sponsorship transfer, company & family change of status, visit visa extension for on-arrival & GCC residents, new/renewal of establishment card & PRO card.",
-    href: "/online-services",
   },
   {
     icon: IdCard,
     title: "Emirates ID",
     body: "Federal Authority for Identity & Citizenship — Emirates ID card applications for all categories: citizens, residents & companies, local & GCC, new registration, 1/2/3-year renewals, and replacement.",
-    href: "/services/emirates-id",
   },
   {
     icon: HeartPulse,
     title: "Medical Fitness Application",
     body: "Dubai Health Authority occupational health card — medical fitness for companies & families (Normal · 48 hrs, VIP · 24 hrs). We also assist with health insurance.",
-    href: "/services/medical",
   },
   {
     icon: ShieldPlus,
     title: "Health Insurance Services",
     body: "Amer247 provides many varieties of health insurance, mandatory to apply for or renew employment and residence visas. Available daytime hours.",
-    href: "/services/insurance",
   },
   {
     icon: GraduationCap,
@@ -75,13 +71,11 @@ const SERVICES = [
     icon: Stamp,
     title: "Entry Permits",
     body: "Provides services ranging from issuing entry permits, issuing and renewals of a residency visa.",
-    href: "/services/immigration",
   },
   {
     icon: TrendingUp,
     title: "Dubai Economy Services",
     body: "Provides services ranging from issuing entry permits, issuing and renewals of a residency visa.",
-    href: "/services/immigration",
   },
   {
     icon: Scale,
