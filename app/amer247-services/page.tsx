@@ -35,52 +35,52 @@ const SERVICES = [
   {
     icon: BookUser,
     title: "AMER Services",
-    body: "General Directorate of Residency and Foreigners Affairs — entry permits for company, employment & family (inside & outside the country), residencies (company, employment & family) new/renewal/cancellation, family visit visa, newborn baby visa processing, sponsorship transfer, company & family change of status, visit visa extension for on-arrival & GCC residents, new/renewal of establishment card & PRO card.",
+    body: "General directorate of residency and foreigners affairs) entry permit for (company employment & family) – inside & outside the country residencies (company employment & family) - new/renewal/cancellation family visit visa newborn baby visa processing sponsorship transfer company & family change status company & family visit visa extension for on arrival & gcc residents new/renewal of establishment card pro card",
   },
   {
     icon: IdCard,
     title: "Emirates ID",
-    body: "Federal Authority for Identity & Citizenship — Emirates ID card applications for all categories: citizens, residents & companies, local & GCC, new registration, 1/2/3-year renewals, and replacement.",
+    body: "(Federal authority for identity & citizenship) all emirates identity card application for all categories – citizens, residents & companies emirates id for local emirates id for gcc emirates id new, renewal for 1 year emirates id new, renewal for 2 years emirates id new, renewal for 3 years emirates id replacement",
   },
   {
     icon: HeartPulse,
     title: "Medical Fitness Application",
-    body: "Dubai Health Authority occupational health card — medical fitness for companies & families (Normal · 48 hrs, VIP · 24 hrs). We also assist with health insurance.",
+    body: "Dubai health authority occupational health card medical for companies & families (normal – 48 hours – 24 hours – vip) we assist for health insurance",
   },
   {
     icon: ShieldPlus,
     title: "Health Insurance Services",
-    body: "Amer247 provides many varieties of health insurance, mandatory to apply for or renew employment and residence visas. Available daytime hours.",
+    body: "Amer247 services provides many varieties of health insurance services which mandatory to apply and renew the employment or residence visa. This service is available during the day.",
   },
   {
     icon: GraduationCap,
     title: "Ministry of Education",
-    body: "Provides services ranging from issuing entry permits, issuing and renewals of a residency visa.",
+    body: "Provides services ranging from issuing entry permits, issuing and renewals of a residency visa,",
   },
   {
     icon: Receipt,
     title: "VAT Services",
-    body: "Provides services ranging from issuing entry permits, issuing and renewals of a residency visa.",
+    body: "Provides services ranging from issuing entry permits, issuing and renewals of a residency visa,",
   },
   {
     icon: PiggyBank,
     title: "Pension Services",
-    body: "Provides services ranging from issuing entry permits, issuing and renewals of a residency visa.",
+    body: "Provides services ranging from issuing entry permits, issuing and renewals of a residency visa,",
   },
   {
     icon: Stamp,
     title: "Entry Permits",
-    body: "Provides services ranging from issuing entry permits, issuing and renewals of a residency visa.",
+    body: "Provides services ranging from issuing entry permits, issuing and renewals of a residency visa,",
   },
   {
     icon: TrendingUp,
     title: "Dubai Economy Services",
-    body: "Provides services ranging from issuing entry permits, issuing and renewals of a residency visa.",
+    body: "Provides services ranging from issuing entry permits, issuing and renewals of a residency visa,",
   },
   {
     icon: Scale,
     title: "Dubai Court",
-    body: "Provides services ranging from issuing entry permits, issuing and renewals of a residency visa.",
+    body: "Provides services ranging from issuing entry permits, issuing and renewals of a residency visa,",
   },
 ] as const;
 
