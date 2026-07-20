@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, type ComponentType } from "react";
+import { useState, useEffect, type ComponentType } from "react";
 import {
   AmerIcon,
   EmiratesIdIcon,
@@ -55,6 +55,15 @@ const CATALOG_HUB_KEY: Partial<Record<CategoryKey, string>> = {
 
 export default function CategoryTabs() {
   const [active, setActive] = useState<CategoryKey>("amer");
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const tabParam = params.get("tab");
+    if (tabParam && categories.some((c) => c.key === tabParam)) {
+      setActive(tabParam as CategoryKey);
+    }
+  }, []);
+
   const activeCategory = categories.find((c) => c.key === active) ?? categories[0];
 
   return (

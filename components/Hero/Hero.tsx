@@ -11,10 +11,10 @@ const MobileScrollHero = dynamic(() => import("../MobileScrollHero/MobileScrollH
 
 const featureCards = [
   { icon: Plane, name: "UAE TOURIST VISA", sub: "96 Hours to 90 Days entry", href: "/uae-tourist-visa" },
-  { icon: IdCard, name: "EMIRATES ID", sub: "New, renewal & replacement", href: "/services/emirates-id" },
-  { icon: FileText, name: "IMMIGRATION SERVICES", sub: "Residency entry permits", href: "/immigrationServices" },
-  { icon: Gem, name: "GOLDEN VISA", sub: "5 & 10 year long-term visa", href: "/services/golden" },
-  { icon: Stethoscope, name: "MEDICAL TEST", sub: "Visa & residency medical", href: "/services/medical" },
+  { icon: IdCard, name: "EMIRATES ID", sub: "New, renewal & replacement", href: "/online-services?tab=emirates-id" },
+  { icon: FileText, name: "IMMIGRATION SERVICES", sub: "Residency entry permits", href: "/online-services?tab=amer" },
+  { icon: Gem, name: "GOLDEN VISA", sub: "5 & 10 year long-term visa", href: "/online-services?tab=golden-visa" },
+  { icon: Stethoscope, name: "MEDICAL TEST", sub: "Visa & residency medical", href: "/online-services?tab=medical" },
 ];
 
 export default function Hero() {

@@ -23,12 +23,12 @@ gsap.registerPlugin(ScrollTrigger);
 // data, just filtered by `cat` for its category chips) — single source so
 // a service added here also shows up there.
 export const services = [
-  { id: 1, label: "AMER Services", desc: "Streamlined government services to save your time and effort.", cat: "Business" as const, icon: MonitorSmartphone, href: "/online-services" },
-  { id: 2, label: "Emirates Identity Authority", desc: "Official Emirates ID services and related solutions.", cat: "ID" as const, icon: IdCard, href: "/services/emirates-id" },
-  { id: 3, label: "Medical Fitness Application", desc: "Hassle-free medical fitness tests and applications.", cat: "Medical" as const, icon: HeartPulse, href: "/services/medical" },
-  { id: 4, label: "Entry Permits", desc: "Apply for entry permits quickly and track your applications.", cat: "Visa" as const, icon: Stamp, href: "/services/immigration" },
-  { id: 5, label: "Health Insurance Services", desc: "Find the right health insurance for you and your family.", cat: "Medical" as const, icon: ShieldPlus, href: "/services/insurance" },
-  { id: 6, label: "Dubai Economy Services", desc: "Business and economic services to support your growth.", cat: "Business" as const, icon: TrendingUp, href: "/services/immigration" },
+  { id: 1, label: "AMER Services", desc: "Streamlined government services to save your time and effort.", cat: "Business" as const, icon: MonitorSmartphone, href: "/online-services?tab=amer" },
+  { id: 2, label: "Emirates Identity Authority", desc: "Official Emirates ID services and related solutions.", cat: "ID" as const, icon: IdCard, href: "/online-services?tab=emirates-id" },
+  { id: 3, label: "Medical Fitness Application", desc: "Hassle-free medical fitness tests and applications.", cat: "Medical" as const, icon: HeartPulse, href: "/online-services?tab=medical" },
+  { id: 4, label: "Entry Permits", desc: "Apply for entry permits quickly and track your applications.", cat: "Visa" as const, icon: Stamp, href: "/online-services?tab=amer" },
+  { id: 5, label: "Health Insurance Services", desc: "Find the right health insurance for you and your family.", cat: "Medical" as const, icon: ShieldPlus, href: "/online-services?tab=insurance" },
+  { id: 6, label: "Dubai Economy Services", desc: "Business and economic services to support your growth.", cat: "Business" as const, icon: TrendingUp, href: "/amer247-services" },
 ];
 
 export default function WhatWeDo() {

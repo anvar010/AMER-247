@@ -16,12 +16,12 @@ const hubByKey = (key: string) => OTHER_HUBS.find((h) => h.key === key)!;
 // own priced drill-down screen — counts are computed from that same data
 // so they can never drift out of sync with what the hub screen shows.
 const categories = [
-  { icon: Building2, title: "Amer Services", sub: "Entry permits, residency & more", count: countOf(amerSubCategories), href: "/services/immigration" },
-  { icon: IdCard, title: "Emirates ID", sub: "ID applications", count: countOf(hubByKey("emirates-id").groups), href: "/services/emirates-id" },
-  { icon: Gem, title: "Golden Visa", sub: "5 & 10-year residency", count: countOf(hubByKey("golden").groups), href: "/services/golden", gold: true },
-  { icon: FileText, title: "Tas-Heel Services", sub: "MOL online services", count: countOf(hubByKey("tasheel").groups), href: "/services/tasheel" },
-  { icon: Stethoscope, title: "Medical Test", sub: "Medical fitness test", count: countOf(hubByKey("medical").groups), href: "/services/medical" },
-  { icon: ShieldPlus, title: "Insurance", sub: "Health insurance plans", count: countOf(hubByKey("insurance").groups), href: "/services/insurance" },
+  { icon: Building2, title: "Amer Services", sub: "Entry permits, residency & more", count: countOf(amerSubCategories), href: "/online-services?tab=amer" },
+  { icon: IdCard, title: "Emirates ID", sub: "ID applications", count: countOf(hubByKey("emirates-id").groups), href: "/online-services?tab=emirates-id" },
+  { icon: Gem, title: "Golden Visa", sub: "5 & 10-year residency", count: countOf(hubByKey("golden").groups), href: "/online-services?tab=golden-visa", gold: true },
+  { icon: FileText, title: "Tas-Heel Services", sub: "MOL online services", count: countOf(hubByKey("tasheel").groups), href: "/online-services?tab=tasheel" },
+  { icon: Stethoscope, title: "Medical Test", sub: "Medical fitness test", count: countOf(hubByKey("medical").groups), href: "/online-services?tab=medical" },
+  { icon: ShieldPlus, title: "Insurance", sub: "Health insurance plans", count: countOf(hubByKey("insurance").groups), href: "/online-services?tab=insurance" },
 ];
 
 export default function MobileServicesScreen() {
