@@ -35,7 +35,24 @@ const OTHER_SERVICES: SearchResult[] = OTHER_HUBS.flatMap((hub) =>
   )
 );
 
-const INDEXED = [...AMER_SERVICES, ...OTHER_SERVICES] as (SearchResult & { hay: string })[];
+const CORPORATE_SERVICES: SearchResult[] = [
+  "Ministry of Education",
+  "VAT Services",
+  "Pension Services",
+  "Dubai Economy Services",
+  "Dubai Court",
+  "Corporate AMER Services",
+  "Corporate Emirates ID",
+  "Corporate Medical Fitness",
+  "Corporate Health Insurance",
+].map((name) => ({
+  label: name,
+  sub: "Corporate Services · Amer 24/7",
+  hay: `${name} Corporate Services Amer 24/7`,
+  href: "/amer247-services",
+}));
+
+const INDEXED = [...AMER_SERVICES, ...OTHER_SERVICES, ...CORPORATE_SERVICES] as (SearchResult & { hay: string })[];
 
 // Verbatim from the real app's HomeScreen SearchModal (SUGGESTIONS).
 export const POPULAR_SEARCHES = [
