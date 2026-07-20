@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import styles from "./online-services.module.css";
 
 export default function HeroActions() {
@@ -16,9 +17,9 @@ export default function HeroActions() {
       <button className={styles.btnModernPrimary} onClick={scrollToPricing}>
         Explore Services
       </button>
-      <button className={styles.btnModernSecondary} onClick={scrollToPricing}>
+      <Link href="/pricing-list" className={styles.btnModernSecondary}>
         View Pricing
-      </button>
+      </Link>
     </div>
   );
 }
