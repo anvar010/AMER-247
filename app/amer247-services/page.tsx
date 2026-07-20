@@ -199,8 +199,9 @@ export default function Amer247ServicesPage() {
         <div className={styles.grid}>
           {SERVICES.map((s) => {
             const Icon = s.icon;
+            const isLong = s.body.length > 100;
             return (
-              <div key={s.title} className={styles.card}>
+              <div key={s.title} className={`${styles.card} ${isLong ? styles.cardSpan2 : ""}`}>
                 <span className={styles.cardIco}>
                   <Icon size={22} strokeWidth={1.8} />
                 </span>

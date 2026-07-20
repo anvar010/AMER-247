@@ -421,10 +421,6 @@
   line-height: 1.55;
   margin: 0;
   flex-grow: 1;
-  display: -webkit-box;
-  -webkit-line-clamp: 4;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
 }
 
 .cardFoot {
@@ -751,5 +747,14 @@
 @media (min-width: 1200px) {
   .grid {
     grid-template-columns: repeat(4, 1fr);
+  }
+  .cardSpan2 {
+    grid-column: span 2;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1199px) {
+  .cardSpan2 {
+    grid-column: span 2;
   }
 }
