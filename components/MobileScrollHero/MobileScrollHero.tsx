@@ -23,7 +23,15 @@ export default function MobileScrollHero() {
 
   const ctaRef = useRef<HTMLDivElement>(null);
   const scrollHintRef = useRef<HTMLDivElement>(null);
-  const finalImageRef = useRef<HTMLImageElement>(null);
+  const finalVideoRef = useRef<HTMLVideoElement>(null);
+  // Frames only cover the first 21s of FNL.mp4 (frame_001..363 sampled evenly
+  // across that range) — past the last frame, this trimmed clip (21s to the
+  // video's end) takes over so the finale is real playback, not a frozen
+  // frame. Guards against calling .play()/.pause() every scrub tick.
+  const videoStartedRef = useRef(false);
+  // So handleSkip (outside the useGSAP scope) can target the exact scroll
+  // position for a given frame, the same way the auto-scroll-on-load does.
+  const tlRef = useRef<gsap.core.Timeline | null>(null);
 
   // We store the current scroll target frame
   const currentFrameRef = useRef(1);
@@ -125,13 +133,33 @@ export default function MobileScrollHero() {
         anticipatePin: 1, // Prevents mobile pin jitter
         onUpdate: () => {
           const frame = currentFrameRef.current;
-          // Visible from the moment the auto-scroll parks (frame ~103) all the way
+          // Visible from the moment the auto-scroll parks (frame ~63) all the way
           // through, only hiding right before the final title/CTA reveal starts (333).
-          const shouldShow = frame >= 95 && frame <= 320;
+          const shouldShow = frame >= 55 && frame <= 320;
           setControlsVisible((prev) => (prev === shouldShow ? prev : shouldShow));
+
+          // Starts the real video for the finale once the final-reveal fade-in
+          // begins (frame 353, same label as the opacity tween below) — not a
+          // stricter frame >= FRAME_COUNT check, because the scroll position
+          // Skip computes settles a handful of frames short of the exact end
+          // (measured ~358/363) due to minor geometry drift between when that
+          // target is computed and when the scroll actually settles. Pausing
+          // only once scrolled meaningfully back (below 320, past the wide
+          // gap here) keeps sub-pixel jitter right at the boundary from
+          // re-triggering pause immediately after play.
+          const video = finalVideoRef.current;
+          if (video && frame >= 353 && !videoStartedRef.current) {
+            videoStartedRef.current = true;
+            video.currentTime = 0;
+            video.play().catch(() => {});
+          } else if (video && frame < 320 && videoStartedRef.current) {
+            videoStartedRef.current = false;
+            video.pause();
+          }
         },
       },
     });
+    tlRef.current = tl;
 
     tl.to(currentFrameRef, {
       current: FRAME_COUNT,
@@ -157,7 +185,10 @@ export default function MobileScrollHero() {
     tl.to(headerLogo, { opacity: 0, duration: 0.1 }, 0);
     tl.to(cloneLogoRef.current, { opacity: 1, duration: 0.1 }, 0);
 
-    // Frame 1 to 104: Animate clone logo from top-left to center
+    // Frame 1 to 64: Animate clone logo from top-left to center — finishes
+    // right as the auto-scroll parks at frame 63, so it reads as settled
+    // rather than mid-motion. Stays centered (holding) until the frame-104
+    // back-to-header tween below picks it back up.
     tl.to(cloneLogoRef.current, {
       top: "40%",
       left: "50%",
@@ -165,15 +196,15 @@ export default function MobileScrollHero() {
       yPercent: -50,
       scale: 1.8, // Reduced from 3.5, then 2.5
       ease: "power2.inOut",
-      duration: 104,
+      duration: 64,
     }, 0);
 
-    // Fade IN overline text as logo arrives
+    // Fade IN overline text so it arrives together with the logo at 64
     tl.fromTo(overlineRef.current, {
       y: 20, opacity: 0
     }, {
-      y: 0, opacity: 1, duration: 40, ease: "power2.out"
-    }, 64);
+      y: 0, opacity: 1, duration: 25, ease: "power2.out"
+    }, 39);
 
     // Frame 104 to 149: Animate back to header
     tl.to(cloneLogoRef.current, {
@@ -218,9 +249,11 @@ export default function MobileScrollHero() {
       333
     );
 
-    // Fade IN the static final image at the very end (frame 353).
+    // Fade IN the end video at the very end (frame 353) — it's already
+    // started playing by frame 363 (see onUpdate above), so it's a few
+    // frames into motion by the time it's fully visible, not a hard cut.
     tl.to(
-      finalImageRef.current,
+      finalVideoRef.current,
       { opacity: 1, duration: 10, ease: "power2.inOut" },
       353
     );
@@ -228,13 +261,13 @@ export default function MobileScrollHero() {
     // Add a very small dead zone to let scrub lag settle before unpinning
     tl.to({}, { duration: 10 });
 
-    // Auto-scroll the site to frame 103 on load to introduce the mechanic
+    // Auto-scroll the site to frame 63 on load to introduce the mechanic
     // Slight delay to ensure ScrollTrigger has calculated exact mobile viewport dimensions (including address bars)
     const timeoutId = setTimeout(() => {
       const st = tl.scrollTrigger;
       if (!st) return;
 
-      const targetTime = 103;
+      const targetTime = 63;
       const progress = targetTime / tl.duration();
       const targetY = st.start + (st.end - st.start) * progress;
 
@@ -257,19 +290,18 @@ export default function MobileScrollHero() {
     return () => clearTimeout(timeoutId);
   }, { dependencies: [], scope: wrapperRef });
 
-  // Nothing follows the splash on "/" anymore (it's a separate screen, like
-  // the app's splash), so Skip just jumps to the end of the pinned
-  // animation itself — the bottom of the document — revealing the final
-  // title/CTA without leaving the splash.
+  // Land exactly on frame 363 — the last scrubbed frame, video's 00:21 mark —
+  // not further down into the pin's dead zone or past it. Same start/end +
+  // progress math as the auto-scroll-on-load effect above. Landing there lets
+  // the scrub catch up to FRAME_COUNT and the onUpdate handler above starts
+  // the end video itself, same as reaching it by scrolling normally.
   const handleSkip = () => {
-    // Land exactly where the pinned animation releases (the final reveal,
-    // fully visible) — not the bottom of the whole page. That point is
-    // right at the #mobile-home-start marker, the same target the splash's
-    // own "Services" quick link scrolls to.
-    const marker = document.getElementById("mobile-home-start");
-    const targetY = marker
-      ? marker.getBoundingClientRect().top + window.scrollY
-      : document.documentElement.scrollHeight;
+    const st = tlRef.current?.scrollTrigger;
+    if (!st) return;
+
+    const progress = FRAME_COUNT / tlRef.current!.duration();
+    const targetY = st.start + (st.end - st.start) * progress;
+
     if ((window as any).lenis) {
       (window as any).lenis.scrollTo(targetY, {
         duration: 1.5,
@@ -292,11 +324,17 @@ export default function MobileScrollHero() {
       <div className={styles.stickyContainer}>
         <canvas ref={canvasRef} className={styles.canvas} />
 
-        {/* Static final frame image to guarantee smooth scrolling on exit */}
-        <img
-          ref={finalImageRef}
-          src={`/hero-bg-fr/frame_${FRAME_COUNT}.webp`}
-          alt=""
+        {/* Real video for the finale (frame data only covers 0:00-0:20) —
+            poster is the last scrubbed frame so there's no gap between the
+            canvas handing off and the video's own first frame painting. */}
+        <video
+          ref={finalVideoRef}
+          src="/images/FNL-web.mp4"
+          poster={`/hero-bg-fr/frame_${FRAME_COUNT}.webp`}
+          muted
+          playsInline
+          loop
+          preload="auto"
           className={styles.finalImage}
           style={{ opacity: 0 }}
         />

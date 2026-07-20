@@ -38,3 +38,12 @@ next-env.d.ts
 # Raw uncompressed hero video source (89MB) — the site serves the compressed
 # AMER-hero.mp4; keep the original out of git history.
 public/images/AMER.mp4
+
+# Raw uncompressed splash hero video source (128MB) — over GitHub's 100MB
+# push limit anyway. The site serves the compressed public/images/FNL-web.mp4
+# and the extracted public/hero-bg-fr/ frames; keep the original out of git.
+public/images/FNL.mp4
+
+# Backup of the previous hero-bg-fr frame set, kept locally only — not
+# referenced by any code.
+public/hero-bg-fr-2/
