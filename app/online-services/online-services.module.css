@@ -190,21 +190,24 @@
 .btnModernPrimary {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 0.5rem;
-  background: linear-gradient(155deg, #E3C77E, #A6822F);
-  color: #2A1F00;
+  background: #E31E24;
+  color: #ffffff;
   border: none;
-  padding: 0.85rem 2rem;
-  border-radius: 999px;
-  font-size: 0.85rem;
-  font-weight: 700;
+  padding: 0.875rem 2rem;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-weight: 600;
   cursor: pointer;
-  transition: transform 0.25s ease;
-  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 14px rgba(227, 30, 36, 0.24);
 }
 
 .btnModernPrimary:hover {
+  background: #C81319;
   transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(227, 30, 36, 0.3);
 }
 
 .btnModernSecondary {
