@@ -213,15 +213,11 @@ export default function Amer247ServicesPage() {
                 </span>
                 <h3 className={styles.cardTitle}>{s.title}</h3>
                 <p className={styles.cardBody}>{s.body}</p>
-                <span className={styles.cardFoot}>
-                  {hasHref ? (
-                    <span className={styles.cardCta}>
-                      Learn more <ArrowRight size={14} />
-                    </span>
-                  ) : (
+                {!hasHref && (
+                  <span className={styles.cardFoot}>
                     <span className={styles.comingSoon}>Info only</span>
-                  )}
-                </span>
+                  </span>
+                )}
               </>
             );
             return "href" in s ? (
