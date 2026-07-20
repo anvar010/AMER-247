@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, type ComponentType } from "react";
+import { useState, useEffect, useRef, type ComponentType } from "react";
 import {
   AmerIcon,
   EmiratesIdIcon,
@@ -55,19 +55,28 @@ const CATALOG_HUB_KEY: Partial<Record<CategoryKey, string>> = {
 
 export default function CategoryTabs() {
   const [active, setActive] = useState<CategoryKey>("amer");
+  const sectionRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const tabParam = params.get("tab");
     if (tabParam && categories.some((c) => c.key === tabParam)) {
       setActive(tabParam as CategoryKey);
+      
+      // Delay slightly to ensure layout is ready before scrolling
+      setTimeout(() => {
+        if (sectionRef.current) {
+          const y = sectionRef.current.getBoundingClientRect().top + window.scrollY - 100;
+          window.scrollTo({ top: y, behavior: 'smooth' });
+        }
+      }, 100);
     }
   }, []);
 
   const activeCategory = categories.find((c) => c.key === active) ?? categories[0];
 
   return (
-    <section className={styles.tabs}>
+    <section ref={sectionRef} className={styles.tabs}>
       <span className={styles.tabsGlow} aria-hidden="true" />
       <div className={`container ${styles.tabsInner}`}>
         <header className={styles.tabsHead}>
