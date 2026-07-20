@@ -199,28 +199,16 @@ export default function Amer247ServicesPage() {
         <div className={styles.grid}>
           {SERVICES.map((s) => {
             const Icon = s.icon;
-            const hasHref = "href" in s;
-            const content = (
-              <>
+            return (
+              <div key={s.title} className={`${styles.card} ${styles.cardStatic}`}>
                 <span className={styles.cardIco}>
                   <Icon size={22} strokeWidth={1.8} />
                 </span>
                 <h3 className={styles.cardTitle}>{s.title}</h3>
                 <p className={styles.cardBody}>{s.body}</p>
-                {!hasHref && (
-                  <span className={styles.cardFoot}>
-                    <span className={styles.comingSoon}>Info only</span>
-                  </span>
-                )}
-              </>
-            );
-            return "href" in s ? (
-              <Link key={s.title} href={s.href} className={styles.card}>
-                {content}
-              </Link>
-            ) : (
-              <div key={s.title} className={`${styles.card} ${styles.cardStatic}`}>
-                {content}
+                <span className={styles.cardFoot}>
+                  <span className={styles.comingSoon}>Info only</span>
+                </span>
               </div>
             );
           })}
