@@ -315,48 +315,6 @@ export default function MobileScrollHero() {
 
   const handleSkip = jumpToEnd;
 
-  // Right after the hero releases, a small scroll can leave the page resting
-  // partway into the greeting/services content below — mid-card, with the
-  // floating bottom nav overlapping whatever happens to be at the bottom of
-  // the viewport. The first small (not big/deliberate) forward scroll that
-  // lands less than one viewport past #mobile-home-start instead snaps
-  // forward to that marker, so it comes to rest on the clean top of the
-  // greeting section rather than an arbitrary halfway point.
-  //
-  // Only fires ONCE per approach (snappedPastHeroRef latch): ordinary
-  // scrolling is a continuous stream of small deltas, not one big flick, so
-  // without this latch every single tick while still inside the zone would
-  // re-trigger the snap and fight the user right back to the marker forever,
-  // never letting them scroll past it at all. The latch re-arms once they
-  // either back out below the marker or successfully clear the zone.
-  const snappedPastHeroRef = useRef(false);
-  const maybeSnapPastHero = (deltaY: number, isBigGesture: boolean) => {
-    if (tlRef.current?.scrollTrigger?.isActive) {
-      snappedPastHeroRef.current = false;
-      return false; // still in the hero itself
-    }
-
-    const marker = document.getElementById("mobile-home-start");
-    if (!marker) return false;
-    const markerTop = marker.getBoundingClientRect().top + window.scrollY;
-    const y = window.scrollY;
-
-    if (y <= markerTop || y >= markerTop + window.innerHeight) {
-      snappedPastHeroRef.current = false; // outside the zone either side — re-arm
-      return false;
-    }
-    if (isBigGesture || snappedPastHeroRef.current || deltaY <= 0) return false;
-
-    snappedPastHeroRef.current = true;
-    const lenis = (window as any).lenis;
-    if (lenis) {
-      lenis.scrollTo(markerTop, { duration: 0.8, easing: (t: number) => 1 - Math.pow(1 - t, 3) });
-    } else {
-      window.scrollTo({ top: markerTop, behavior: "smooth" });
-    }
-    return true;
-  };
-
   // A big/fast swipe (or wheel flick) anywhere while still inside the pinned
   // animation jumps straight to the end and plays the video, same as tapping
   // Skip — a large deliberate gesture reads as "get me to the end", not a
@@ -378,26 +336,18 @@ export default function MobileScrollHero() {
     };
 
     const onTouchEnd = (e: TouchEvent) => {
+      if (!canJump()) return;
       const endY = e.changedTouches[0]?.clientY ?? touchStartY;
       const deltaY = touchStartY - endY;
       const elapsed = Math.max(Date.now() - touchStartTime, 1);
       const velocity = Math.abs(deltaY) / elapsed; // px/ms
       // A sizeable, fast upward swipe (scrolling forward through the hero).
-      const isBig = deltaY > 60 && velocity > 0.9;
-      if (canJump()) {
-        if (isBig) jumpToEnd();
-        return;
-      }
-      maybeSnapPastHero(deltaY, isBig);
+      if (deltaY > 60 && velocity > 0.9) jumpToEnd();
     };
 
     const onWheel = (e: WheelEvent) => {
-      const isBig = e.deltaY > 150;
-      if (canJump()) {
-        if (isBig) jumpToEnd();
-        return;
-      }
-      maybeSnapPastHero(e.deltaY, isBig);
+      if (!canJump()) return;
+      if (e.deltaY > 150) jumpToEnd();
     };
 
     window.addEventListener("touchstart", onTouchStart, { passive: true });
