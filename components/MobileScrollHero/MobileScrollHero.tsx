@@ -1,5 +1,5 @@
 "use client";
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import Link from "next/link";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -133,9 +133,9 @@ export default function MobileScrollHero() {
         anticipatePin: 1, // Prevents mobile pin jitter
         onUpdate: () => {
           const frame = currentFrameRef.current;
-          // Visible from the moment the auto-scroll parks (frame ~63) all the way
+          // Visible from the moment the auto-scroll parks (frame ~59) all the way
           // through, only hiding right before the final title/CTA reveal starts (333).
-          const shouldShow = frame >= 55 && frame <= 320;
+          const shouldShow = frame >= 51 && frame <= 320;
           setControlsVisible((prev) => (prev === shouldShow ? prev : shouldShow));
 
           // Starts the real video for the finale once the final-reveal fade-in
@@ -185,8 +185,8 @@ export default function MobileScrollHero() {
     tl.to(headerLogo, { opacity: 0, duration: 0.1 }, 0);
     tl.to(cloneLogoRef.current, { opacity: 1, duration: 0.1 }, 0);
 
-    // Frame 1 to 64: Animate clone logo from top-left to center — finishes
-    // right as the auto-scroll parks at frame 63, so it reads as settled
+    // Frame 1 to 60: Animate clone logo from top-left to center — finishes
+    // right as the auto-scroll parks at frame 59, so it reads as settled
     // rather than mid-motion. Stays centered (holding) until the frame-104
     // back-to-header tween below picks it back up.
     tl.to(cloneLogoRef.current, {
@@ -196,15 +196,15 @@ export default function MobileScrollHero() {
       yPercent: -50,
       scale: 1.8, // Reduced from 3.5, then 2.5
       ease: "power2.inOut",
-      duration: 64,
+      duration: 60,
     }, 0);
 
-    // Fade IN overline text so it arrives together with the logo at 64
+    // Fade IN overline text so it arrives together with the logo at 60
     tl.fromTo(overlineRef.current, {
       y: 20, opacity: 0
     }, {
-      y: 0, opacity: 1, duration: 25, ease: "power2.out"
-    }, 39);
+      y: 0, opacity: 1, duration: 23, ease: "power2.out"
+    }, 37);
 
     // Frame 104 to 149: Animate back to header
     tl.to(cloneLogoRef.current, {
@@ -261,13 +261,13 @@ export default function MobileScrollHero() {
     // Add a very small dead zone to let scrub lag settle before unpinning
     tl.to({}, { duration: 10 });
 
-    // Auto-scroll the site to frame 63 on load to introduce the mechanic
+    // Auto-scroll the site to frame 59 on load to introduce the mechanic
     // Slight delay to ensure ScrollTrigger has calculated exact mobile viewport dimensions (including address bars)
     const timeoutId = setTimeout(() => {
       const st = tl.scrollTrigger;
       if (!st) return;
 
-      const targetTime = 63;
+      const targetTime = 59;
       const progress = targetTime / tl.duration();
       const targetY = st.start + (st.end - st.start) * progress;
 
@@ -294,8 +294,9 @@ export default function MobileScrollHero() {
   // not further down into the pin's dead zone or past it. Same start/end +
   // progress math as the auto-scroll-on-load effect above. Landing there lets
   // the scrub catch up to FRAME_COUNT and the onUpdate handler above starts
-  // the end video itself, same as reaching it by scrolling normally.
-  const handleSkip = () => {
+  // the end video itself, same as reaching it by scrolling normally. Used by
+  // both the Skip button and the big-scroll gesture below.
+  const jumpToEnd = () => {
     const st = tlRef.current?.scrollTrigger;
     if (!st) return;
 
@@ -311,6 +312,103 @@ export default function MobileScrollHero() {
       window.scrollTo({ top: targetY, behavior: "smooth" });
     }
   };
+
+  const handleSkip = jumpToEnd;
+
+  // Right after the hero releases, a small scroll can leave the page resting
+  // partway into the greeting/services content below — mid-card, with the
+  // floating bottom nav overlapping whatever happens to be at the bottom of
+  // the viewport. The first small (not big/deliberate) forward scroll that
+  // lands less than one viewport past #mobile-home-start instead snaps
+  // forward to that marker, so it comes to rest on the clean top of the
+  // greeting section rather than an arbitrary halfway point.
+  //
+  // Only fires ONCE per approach (snappedPastHeroRef latch): ordinary
+  // scrolling is a continuous stream of small deltas, not one big flick, so
+  // without this latch every single tick while still inside the zone would
+  // re-trigger the snap and fight the user right back to the marker forever,
+  // never letting them scroll past it at all. The latch re-arms once they
+  // either back out below the marker or successfully clear the zone.
+  const snappedPastHeroRef = useRef(false);
+  const maybeSnapPastHero = (deltaY: number, isBigGesture: boolean) => {
+    if (tlRef.current?.scrollTrigger?.isActive) {
+      snappedPastHeroRef.current = false;
+      return false; // still in the hero itself
+    }
+
+    const marker = document.getElementById("mobile-home-start");
+    if (!marker) return false;
+    const markerTop = marker.getBoundingClientRect().top + window.scrollY;
+    const y = window.scrollY;
+
+    if (y <= markerTop || y >= markerTop + window.innerHeight) {
+      snappedPastHeroRef.current = false; // outside the zone either side — re-arm
+      return false;
+    }
+    if (isBigGesture || snappedPastHeroRef.current || deltaY <= 0) return false;
+
+    snappedPastHeroRef.current = true;
+    const lenis = (window as any).lenis;
+    if (lenis) {
+      lenis.scrollTo(markerTop, { duration: 0.8, easing: (t: number) => 1 - Math.pow(1 - t, 3) });
+    } else {
+      window.scrollTo({ top: markerTop, behavior: "smooth" });
+    }
+    return true;
+  };
+
+  // A big/fast swipe (or wheel flick) anywhere while still inside the pinned
+  // animation jumps straight to the end and plays the video, same as tapping
+  // Skip — a large deliberate gesture reads as "get me to the end", not a
+  // request to scrub through it frame by frame. Only fires while the pin is
+  // still active (isActive) and not already basically at the end, so it
+  // can't fire on ordinary scrolling further down the homepage afterward.
+  useEffect(() => {
+    let touchStartY = 0;
+    let touchStartTime = 0;
+
+    const canJump = () => {
+      const st = tlRef.current?.scrollTrigger;
+      return !!st?.isActive && currentFrameRef.current < FRAME_COUNT - 3;
+    };
+
+    const onTouchStart = (e: TouchEvent) => {
+      touchStartY = e.touches[0]?.clientY ?? 0;
+      touchStartTime = Date.now();
+    };
+
+    const onTouchEnd = (e: TouchEvent) => {
+      const endY = e.changedTouches[0]?.clientY ?? touchStartY;
+      const deltaY = touchStartY - endY;
+      const elapsed = Math.max(Date.now() - touchStartTime, 1);
+      const velocity = Math.abs(deltaY) / elapsed; // px/ms
+      // A sizeable, fast upward swipe (scrolling forward through the hero).
+      const isBig = deltaY > 60 && velocity > 0.9;
+      if (canJump()) {
+        if (isBig) jumpToEnd();
+        return;
+      }
+      maybeSnapPastHero(deltaY, isBig);
+    };
+
+    const onWheel = (e: WheelEvent) => {
+      const isBig = e.deltaY > 150;
+      if (canJump()) {
+        if (isBig) jumpToEnd();
+        return;
+      }
+      maybeSnapPastHero(e.deltaY, isBig);
+    };
+
+    window.addEventListener("touchstart", onTouchStart, { passive: true });
+    window.addEventListener("touchend", onTouchEnd, { passive: true });
+    window.addEventListener("wheel", onWheel, { passive: true });
+    return () => {
+      window.removeEventListener("touchstart", onTouchStart);
+      window.removeEventListener("touchend", onTouchEnd);
+      window.removeEventListener("wheel", onWheel);
+    };
+  }, []);
 
   const scrollToServices = () => {
     const lenis = (window as any).lenis;
