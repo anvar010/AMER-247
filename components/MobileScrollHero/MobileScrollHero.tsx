@@ -6,6 +6,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ScrollToPlugin } from "gsap/ScrollToPlugin";
 import { useGSAP } from "@gsap/react";
 import { ArrowRight, Clock, ShieldCheck, Award, Tag, Grid3x3, Plane } from "lucide-react";
+import { isBodyScrollLocked } from "@/lib/useBodyScrollLock";
 import styles from "./MobileScrollHero.module.css";
 
 if (typeof window !== "undefined") {
@@ -326,6 +327,12 @@ export default function MobileScrollHero() {
     let touchStartTime = 0;
 
     const canJump = () => {
+      // The hamburger menu (and other overlays) lock body scroll but these
+      // listeners are on window, so a swipe/wheel gesture inside an open
+      // overlay - scrolling its nav list, or the swipe used to close it -
+      // would otherwise still read as "a big scroll" and skip the hero to
+      // the end.
+      if (isBodyScrollLocked()) return false;
       const st = tlRef.current?.scrollTrigger;
       return !!st?.isActive && currentFrameRef.current < FRAME_COUNT - 3;
     };
