@@ -113,11 +113,15 @@ export default function MobileScrollHero() {
       202
     );
 
-    // Fade IN final text at the very end
+    // Fade IN final text at the very end. ctaRef holds real links (Apply
+    // Online, Pricing, Visit Visa) - opacity 0 alone doesn't stop clicks, so
+    // without the pointerEvents pair here they're invisible but still fully
+    // clickable the entire time before this reveal (that's what was letting
+    // a tap anywhere near there land on "Visit Visa" instead of Skip).
     tl.fromTo(
       [titleRef.current, ctaRef.current],
-      { y: 50, opacity: 0 },
-      { y: 0, opacity: 1, duration: 15, stagger: 5, ease: "power3.out" },
+      { y: 50, opacity: 0, pointerEvents: "none" },
+      { y: 0, opacity: 1, duration: 15, stagger: 5, ease: "power3.out", pointerEvents: "auto" },
       333
     );
 
@@ -137,9 +141,6 @@ export default function MobileScrollHero() {
       video.playbackRate = 1; // in case Skip had sped it up
       finalVideo.currentTime = 0;
       finalVideo.play().catch(() => {});
-      // Lets MobileBottomNav (and anything else) know the intro is done
-      // without guessing from scroll position or layout timing.
-      window.dispatchEvent(new Event("splash-intro-done"));
     };
 
     const sync = () => {
@@ -253,11 +254,11 @@ export default function MobileScrollHero() {
         {/* Final reveal is pinned to the bottom of the screen, independent of the
             centered middle text above, matching the app's bottom-sheet style splash */}
         <div className={styles.finalReveal}>
-          <h1 ref={titleRef} className={styles.finalTitle} style={{ opacity: 0 }}>
+          <h1 ref={titleRef} className={styles.finalTitle} style={{ opacity: 0, pointerEvents: "none" }}>
             Seamless Immigration Solutions Tailored to Your <span className={styles.goldText}>Journey</span>
           </h1>
 
-          <div ref={ctaRef} className={styles.finalCta} style={{ opacity: 0 }}>
+          <div ref={ctaRef} className={styles.finalCta} style={{ opacity: 0, pointerEvents: "none" }}>
             <p className={styles.finalSub}>
               Government services, around the clock — the only AMER centre open 24 hours, every day.
             </p>

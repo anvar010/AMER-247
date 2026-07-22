@@ -184,9 +184,11 @@ export default function Header() {
             alt="Tasheel & Tawjeeh"
             className={styles.partnerLogo}
           />
+          {/* No accounts page yet - button disabled for now.
           <button onClick={() => alert("This feature will be available soon")} className={styles.accountBtn} aria-label="Account">
             <User size={19} />
           </button>
+          */}
           <button
             className={styles.menu}
             aria-label={menuOpen ? "Close menu" : "Open menu"}
