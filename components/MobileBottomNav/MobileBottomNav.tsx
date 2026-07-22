@@ -14,10 +14,12 @@ export default function MobileBottomNav() {
   const pathname = usePathname();
   const isSplash = pathname === "/";
 
-  // On "/", the splash's pinned scroll animation takes over the full screen
-  // first — the tab bar only appears once scrolled past it into the merged
-  // home content below (#mobile-home-start). Everywhere else it's just
-  // hidden on the sub-flow screens (login/apply), same as before.
+  // On "/", the splash's intro video takes over the full screen first — the
+  // tab bar only appears once it hands off to the finale or Skip is used
+  // (MobileScrollHero announces this directly, since it autoplays
+  // independently of scroll now and there's no reliable scroll position or
+  // layout state to infer it from). Everywhere else it's just hidden on the
+  // sub-flow screens (login/apply), same as before.
   const [pastSplash, setPastSplash] = useState(false);
   const showNav = isSplash ? pastSplash : pathname !== "/login" && !isApplyFormRoute(pathname);
 
@@ -26,22 +28,9 @@ export default function MobileBottomNav() {
       setPastSplash(false);
       return;
     }
-    let ticking = false;
-    const evaluate = () => {
-      const marker = document.getElementById("mobile-home-start");
-      if (!marker) return;
-      const markerTop = marker.getBoundingClientRect().top + window.scrollY;
-      setPastSplash(window.scrollY >= markerTop);
-    };
-    const onScroll = () => {
-      if (!ticking) {
-        window.requestAnimationFrame(() => { evaluate(); ticking = false; });
-        ticking = true;
-      }
-    };
-    evaluate();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
+    const onIntroDone = () => setPastSplash(true);
+    window.addEventListener("splash-intro-done", onIntroDone);
+    return () => window.removeEventListener("splash-intro-done", onIntroDone);
   }, [isSplash]);
 
   useEffect(() => {

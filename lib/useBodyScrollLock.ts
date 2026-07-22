@@ -9,14 +9,6 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 let lockCount = 0;
 let savedScrollY = 0;
 
-// Lets other scroll-driven code (e.g. MobileScrollHero's big-swipe skip
-// gesture) check whether some overlay currently owns the scroll, so it can
-// ignore touch/wheel gestures that are actually happening inside that
-// overlay rather than on the page underneath it.
-export function isBodyScrollLocked() {
-  return lockCount > 0;
-}
-
 export function lockBodyScroll() {
   if (lockCount === 0) {
     savedScrollY = window.scrollY;
