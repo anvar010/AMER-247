@@ -143,15 +143,24 @@ export default function MobileScrollHero() {
       finalVideo.play().catch(() => {});
     };
 
-    const sync = () => {
-      const duration = video.duration || 21;
-      const frame = Math.min((video.currentTime / duration) * FRAME_COUNT, FRAME_COUNT);
-      tl.seek(frame);
+    let lastSyncTime = 0;
+    const sync = (now: number) => {
+      // Recomputing the whole timeline + writing logo/text styles on every
+      // display frame (~60/s) competes with the browser's own video decode
+      // and paint for the main thread, which is what read as laggy playback
+      // - throttling to ~30/s halves that work and is still plenty smooth
+      // for these slow, multi-second tweens.
+      if (now - lastSyncTime >= 32) {
+        lastSyncTime = now;
+        const duration = video.duration || 21;
+        const frame = Math.min((video.currentTime / duration) * FRAME_COUNT, FRAME_COUNT);
+        tl.seek(frame);
 
-      const shouldShow = frame >= 51 && frame <= 320;
-      setControlsVisible((prev) => (prev === shouldShow ? prev : shouldShow));
+        const shouldShow = frame >= 51 && frame <= 320;
+        setControlsVisible((prev) => (prev === shouldShow ? prev : shouldShow));
 
-      if (frame >= 353) startFinale();
+        if (frame >= 353) startFinale();
+      }
 
       if (!video.ended) {
         rafIdRef.current = requestAnimationFrame(sync);

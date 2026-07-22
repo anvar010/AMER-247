@@ -11,7 +11,17 @@
   height: 100vh;
   height: 100dvh;
   will-change: transform;
-  z-index: 20;
+  /* Must beat MobileBottomNav's z-index (100) - it's a sibling stacking
+     context, not a descendant, so no z-index inside this wrapper (however
+     high) can out-rank it; only this wrapper's own z-index can. Whenever
+     the two spatially overlap (the hero's Skip button and quick-links both
+     sit near the bottom of the screen, same place the nav does), the nav
+     was always winning every click no matter which one was visually on
+     top - this is what let taps meant for Skip/Visit Visa/Services land on
+     the nav's real links instead. Below the app's genuine full-screen
+     overlays (200+: search, fee calculator, modals), which should still
+     cover the hero as intended. */
+  z-index: 150;
 }
 
 .stickyContainer {
