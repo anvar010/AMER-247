@@ -24,9 +24,6 @@ export default function MobileScrollHero() {
   // takes over so the finale is real playback, not a frozen frame. Guards
   // against calling .play()/.pause() more than once.
   const videoStartedRef = useRef(false);
-  // So handleSkip (outside the effect scope) can jump the choreography
-  // timeline straight to its end.
-  const tlRef = useRef<gsap.core.Timeline | null>(null);
   const rafIdRef = useRef<number | null>(null);
 
   const overlineRef = useRef<HTMLSpanElement>(null);
@@ -55,7 +52,6 @@ export default function MobileScrollHero() {
     }
 
     const tl = gsap.timeline({ paused: true });
-    tlRef.current = tl;
 
     // Hide global header logo, show clone logo during animation
     tl.to(headerLogo, { opacity: 0, duration: 0.1 }, 0);
@@ -138,6 +134,7 @@ export default function MobileScrollHero() {
       const finalVideo = finalVideoRef.current;
       if (!finalVideo || videoStartedRef.current) return;
       videoStartedRef.current = true;
+      video.playbackRate = 1; // in case Skip had sped it up
       finalVideo.currentTime = 0;
       finalVideo.play().catch(() => {});
       // Lets MobileBottomNav (and anything else) know the intro is done
@@ -176,16 +173,15 @@ export default function MobileScrollHero() {
     };
   }, { scope: wrapperRef });
 
+  // Fast-forwards the intro instead of hard-cutting to the end - the existing
+  // sync loop (see useGSAP above) keeps tracking currentTime and hands off to
+  // the finale itself once it reaches the same threshold normal playback
+  // would, just compressed into a couple seconds.
   const handleSkip = () => {
-    startVideoRef.current?.pause();
-    const finalVideo = finalVideoRef.current;
-    if (finalVideo && !videoStartedRef.current) {
-      videoStartedRef.current = true;
-      finalVideo.currentTime = 0;
-      finalVideo.play().catch(() => {});
-      window.dispatchEvent(new Event("splash-intro-done"));
+    const video = startVideoRef.current;
+    if (video && !video.ended) {
+      video.playbackRate = 8;
     }
-    tlRef.current?.progress(1);
   };
 
   const scrollToServices = () => {
