@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { Outfit } from "next/font/google";
 import {
@@ -64,6 +64,21 @@ export default function TouristVisaForm({
   const [submitting, setSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState("");
   const refNum = useRef(genRef());
+
+  // The site's global Lenis smooth-scroll never resets on navigation (it's
+  // set up once for the app's whole lifetime), so arriving here already
+  // scrolled far down a previous page - or submitting while scrolled near
+  // the bottom of this form - left the viewport parked at that same scroll
+  // position. Since the success screen is much shorter, that position
+  // landed past it, in the global Footer. Runs on mount (form opening) and
+  // again when `submitted` flips true (after submit). Goes through Lenis's
+  // own scrollTo, not a raw window.scrollTo, so its internal scroll state
+  // stays in sync instead of fighting back.
+  useEffect(() => {
+    const lenis = (window as any).lenis;
+    if (lenis) lenis.scrollTo(0, { immediate: true });
+    else window.scrollTo(0, 0);
+  }, [submitted]);
 
   // Step 1 — General Details
   const [applicant, setApplicant] = useState("");
@@ -146,18 +161,9 @@ export default function TouristVisaForm({
 
     try {
       const res = await fetch("/api/apply", { method: "POST", body: fd });
-      if (!res.ok) {
-        // Temporary: log the real cause so it's visible in the browser
-        // console instead of just the generic message shown below - remove
-        // once the actual failure is identified and this error is
-        // reworded into a proper user-facing message.
-        const body = await res.text();
-        console.error("[apply] submit failed", { status: res.status, statusText: res.statusText, body });
-        throw new Error(`Submit failed: ${res.status}`);
-      }
+      if (!res.ok) throw new Error("Submit failed");
       setSubmitted(true);
-    } catch (err) {
-      console.error("[apply] submit error", err);
+    } catch {
       setSubmitError("Couldn't submit your application. Please check your connection and try again.");
     } finally {
       setSubmitting(false);
