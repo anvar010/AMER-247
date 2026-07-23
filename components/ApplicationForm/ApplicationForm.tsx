@@ -218,9 +218,18 @@ export default function ApplicationForm({
 
     try {
       const res = await fetch("/api/apply", { method: "POST", body: fd });
-      if (!res.ok) throw new Error("Submit failed");
+      if (!res.ok) {
+        // Temporary: log the real cause so it's visible in the browser
+        // console instead of just the generic message shown below - remove
+        // once the actual failure is identified and this error is
+        // reworded into a proper user-facing message.
+        const body = await res.text();
+        console.error("[apply] submit failed", { status: res.status, statusText: res.statusText, body });
+        throw new Error(`Submit failed: ${res.status}`);
+      }
       setSubmitted(true);
-    } catch {
+    } catch (err) {
+      console.error("[apply] submit error", err);
       setSubmitError("Couldn't submit your application. Please check your connection and try again.");
     } finally {
       setSubmitting(false);
