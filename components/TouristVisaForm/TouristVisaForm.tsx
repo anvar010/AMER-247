@@ -175,7 +175,9 @@ export default function TouristVisaForm({
           <Clock size={15} /> Estimated processing: <b>2–4 days</b>
         </div>
         <div className={styles.doneCta}>
+          {/* Track application hidden for now.
           <Link href="/login" className={styles.donePrimary}>Track application <ArrowRight size={17} /></Link>
+          */}
           <Link href="/" className={styles.doneLight}>Back to home</Link>
         </div>
       </div>
