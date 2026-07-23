@@ -29,24 +29,24 @@ export default function PaymentMethod() {
 
       <form className={styles.form} onSubmit={handleSubmit} style={{ boxShadow: "none", padding: 0 }}>
         <div className={styles.field}>
-          <label>Card Number (*)</label>
-          <input className={styles.input} type="text" inputMode="numeric" placeholder="**** **** **** ****" required />
+          <label htmlFor="pay-card-number">Card Number (*)</label>
+          <input id="pay-card-number" className={styles.input} type="text" inputMode="numeric" placeholder="**** **** **** ****" required />
         </div>
         <div className={styles.grid2}>
           <div className={styles.field}>
-            <label>CVV/CVC/CID (*)</label>
-            <input className={styles.input} type="text" inputMode="numeric" placeholder="123" required maxLength={4} />
+            <label htmlFor="pay-cvv">CVV/CVC/CID (*)</label>
+            <input id="pay-cvv" className={styles.input} type="text" inputMode="numeric" placeholder="123" required maxLength={4} />
           </div>
           <div className={styles.field}>
-            <label>Expiry Month (*)</label>
-            <select className={styles.select} required defaultValue="">
+            <label htmlFor="pay-exp-month">Expiry Month (*)</label>
+            <select id="pay-exp-month" className={styles.select} required defaultValue="">
               <option value="" disabled>Select month…</option>
               {MONTHS.map((m) => <option key={m} value={m}>{m}</option>)}
             </select>
           </div>
           <div className={styles.field}>
-            <label>Expiry Year (*)</label>
-            <select className={styles.select} required defaultValue="">
+            <label htmlFor="pay-exp-year">Expiry Year (*)</label>
+            <select id="pay-exp-year" className={styles.select} required defaultValue="">
               <option value="" disabled>Select year…</option>
               {YEARS.map((y) => <option key={y} value={y}>{y}</option>)}
             </select>

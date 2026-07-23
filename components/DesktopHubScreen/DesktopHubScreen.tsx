@@ -115,6 +115,7 @@ export function DesktopServiceGrid({ subCategories, hubTitle, gold }: DesktopSer
         <Search size={18} className={styles.searchIcon} />
         <input
           className={styles.searchInput}
+          aria-label={`Search ${hubTitle.toLowerCase()}`}
           placeholder={`Search ${hubTitle.toLowerCase()}…`}
           value={q}
           onChange={(e) => setQ(e.target.value)}
@@ -139,9 +140,9 @@ export function DesktopServiceGrid({ subCategories, hubTitle, gold }: DesktopSer
 
             {isDetailed ? (
               <div className={styles.detailStack}>
-                {g.items.map((it) => (
+                {g.items.map((it, i) => (
                   <DetailCard
-                    key={it.name}
+                    key={`${it.slug ?? it.name}-${i}`}
                     item={it}
                     href={buildApplyHref(it, hubTitle)}
                     icon={GroupIcon}
@@ -153,10 +154,11 @@ export function DesktopServiceGrid({ subCategories, hubTitle, gold }: DesktopSer
               </div>
             ) : (
               <div className={styles.svcGrid}>
-                {g.items.map((it) => {
+                {g.items.map((it, i) => {
+                  const itemKey = `${it.slug ?? it.name}-${i}`;
                   if (it.disabled) {
                     return (
-                      <div key={it.name} className={`${styles.svcBox} ${styles.svcBoxDisabled}`} aria-disabled="true">
+                      <div key={itemKey} className={`${styles.svcBox} ${styles.svcBoxDisabled}`} aria-disabled="true">
                         <span className={styles.svcIco}>
                           <GroupIcon size={20} />
                         </span>
@@ -169,7 +171,7 @@ export function DesktopServiceGrid({ subCategories, hubTitle, gold }: DesktopSer
                   }
                   const href = buildApplyHref(it, hubTitle);
                   return (
-                    <Link key={it.name} href={href} className={`${styles.svcBox} ${gold ? styles.svcBoxGold : ""}`}>
+                    <Link key={itemKey} href={href} className={`${styles.svcBox} ${gold ? styles.svcBoxGold : ""}`}>
                       {!hideDocsEye && (
                         <button
                           type="button"

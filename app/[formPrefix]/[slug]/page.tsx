@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import { findByFormPath } from "@/lib/applyLookup";
-import MobileFormScreen from "@/components/MobileFormScreen/MobileFormScreen";
-import TouristVisaFormScreen from "@/components/TouristVisaFormScreen/TouristVisaFormScreen";
+import ApplicationForm from "@/components/ApplicationForm/ApplicationForm";
+import TouristVisaForm from "@/components/TouristVisaForm/TouristVisaForm";
 
 type Params = Promise<{ formPrefix: string; slug: string }>;
 
@@ -31,7 +31,7 @@ export default async function ApplyFormPage({ params }: { params: Params }) {
   // than a mode of the generic form used by the other 5 hubs.
   if (hub === "Tourist Visa") {
     return (
-      <TouristVisaFormScreen
+      <TouristVisaForm
         service={item.name}
         price={item.single ?? item.inside ?? item.outside}
       />
@@ -39,7 +39,7 @@ export default async function ApplyFormPage({ params }: { params: Params }) {
   }
 
   return (
-    <MobileFormScreen
+    <ApplicationForm
       service={item.name}
       slug={item.slug ?? slug}
       hub={hub}

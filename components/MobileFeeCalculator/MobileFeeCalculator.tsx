@@ -222,6 +222,7 @@ export default function MobileFeeCalculator({ open, onClose }: { open: boolean; 
             <input
               ref={searchRef}
               className={styles.pickerSearchInput}
+              aria-label="Search services"
               placeholder="Search services…"
               value={q}
               onChange={(e) => setQ(e.target.value)}

@@ -7,7 +7,7 @@ const BUCKET = "submission-files";
 // settings) — kept here too so a rejected file never even reaches the
 // network call, and so we can log/skip it with a clear reason instead of
 // surfacing a raw storage error.
-const MAX_FILE_BYTES = 1.5 * 1024 * 1024; // 1.5MB
+const MAX_FILE_BYTES = 5 * 1024 * 1024; // 5MB
 const ALLOWED_MIME_TYPES = new Set([
   "application/pdf",
   "image/jpeg",
@@ -81,7 +81,7 @@ export async function saveSubmission({
     for (const [index, file] of files.entries()) {
       if (!(file instanceof File) || file.size === 0) continue;
       if (file.size > MAX_FILE_BYTES) {
-        console.error(`Skipped file "${file.name}": exceeds 1.5MB limit (${file.size} bytes).`);
+        console.error(`Skipped file "${file.name}": exceeds 5MB limit (${file.size} bytes).`);
         continue;
       }
       if (!isAllowedType(file)) {

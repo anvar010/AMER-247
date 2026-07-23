@@ -69,6 +69,7 @@ export default function DesktopSearchOverlay({ open, onClose }: { open: boolean;
           <input
             ref={inputRef}
             className={styles.input}
+            aria-label="Search services"
             placeholder='Search "Golden Visa", "Emirates ID"…'
             value={q}
             onChange={(e) => setQ(e.target.value)}

@@ -194,7 +194,7 @@
   font-size: 0.75rem;
 }
 
-.legalRow span:not(.legalDot) {
+.legalRow a {
   text-decoration: underline;
 }
 

@@ -69,16 +69,16 @@ export default function MobileAppHome() {
         )}
       </div>
 
-      {/* Your activity */}
+      {/* Get started */}
       <div className={styles.secHead}>
-        <h2 className={styles.h2}>Your activity</h2>
+        <h2 className={styles.h2}>Get started</h2>
       </div>
       <Link href="/login" className={styles.tracker}>
         <span className={styles.trackerIco}>
           <Sparkles size={19} />
         </span>
         <span className={styles.trackerBody}>
-          <span className={styles.trackerT}>Start your first application</span>
+          <span className={styles.trackerT}>Start your application</span>
           <span className={styles.trackerD}>Sign in to track every step here — live, 24/7.</span>
         </span>
         <ArrowRight size={18} className={styles.trackerArrow} />

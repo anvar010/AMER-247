@@ -28,7 +28,6 @@ export default function Header() {
   // Starts opaque immediately (no transparent flash on first paint) on
   // routes with no dark hero to justify a transparent header.
   const [scrolled, setScrolled] = useState(() => needsOpaqueHeaderStatic(pathname));
-  const [hideMobileBar, setHideMobileBar] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const isSplash = pathname === "/";
 
@@ -43,7 +42,6 @@ export default function Header() {
   }, [pathname]);
 
   useEffect(() => {
-    let lastY = window.scrollY;
     let ticking = false;
 
     const evaluate = () => {
@@ -73,17 +71,6 @@ export default function Header() {
       } else {
         setScrolled(y > 40);
       }
-
-      // Hide bottom bar on scroll down, show on scroll up / at top.
-      const delta = y - lastY;
-      if (y < 60) {
-        setHideMobileBar(false);
-      } else if (delta > 4) {
-        setHideMobileBar(true);
-      } else if (delta < -4) {
-        setHideMobileBar(false);
-      }
-      lastY = y;
     };
 
     const onScroll = () => {
@@ -229,37 +216,6 @@ export default function Header() {
           </ul>
         </nav>
       </div>
-
-      {/* Mobile bottom navigation — visible only on small screens */}
-      <nav
-        className={`${styles.mobileBar} ${hideMobileBar ? styles.mobileBarHidden : ""}`}
-        aria-label="Quick actions"
-      >
-        <Link
-          href="/"
-          className={`${styles.mobileItem} ${isActive("/") ? styles.mobileItemActive : ""}`}
-          aria-current={isActive("/") ? "page" : undefined}
-        >
-          <Home size={20} strokeWidth={1.8} />
-          <span>Home</span>
-        </Link>
-        <Link
-          href="/online-services"
-          className={`${styles.mobileItem} ${isActive("/online-services") ? styles.mobileItemActive : ""}`}
-          aria-current={isActive("/online-services") ? "page" : undefined}
-        >
-          <FileText size={20} strokeWidth={1.8} />
-          <span>Apply Online</span>
-        </Link>
-        <Link
-          href="/uae-tourist-visa"
-          className={`${styles.mobileItem} ${isActive("/uae-tourist-visa") ? styles.mobileItemActive : ""}`}
-          aria-current={isActive("/uae-tourist-visa") ? "page" : undefined}
-        >
-          <Plane size={20} strokeWidth={1.8} />
-          <span>UAE Tourist Visa</span>
-        </Link>
-      </nav>
     </header>
   );
 }

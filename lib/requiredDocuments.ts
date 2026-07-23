@@ -775,7 +775,7 @@ export const REQUIRED_DOCUMENTS: Record<string, string[]> = {
 
 function TOURIST_VISA_DOCS(): string[] {
   return [
-    "Passport copies of all passengers (JPG/JPEG only, 1.5MB max)",
+    "Passport copies of all passengers (JPG/JPEG only, 5MB max)",
     "Photos with white background of all passengers",
     "Kindly verify with us on WhatsApp before proceeding if you hold Pakistan, Bangladesh, Uganda, Sudan, Nigeria, Lebanon, Libya, Mozambique, Ghana, Afghanistan, Ethiopia, or Cameroon nationality",
     "Travelers are required to submit a copy of their hotel reservation and ticket copy along with the application",

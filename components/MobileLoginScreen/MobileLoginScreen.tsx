@@ -87,10 +87,10 @@ export default function MobileLoginScreen() {
             <form onSubmit={submit}>
               {tab === "register" && (
                 <div className={styles.field}>
-                  <label>Full name</label>
+                  <label htmlFor="login-name">Full name</label>
                   <div className={styles.iw}>
                     <User size={18} className={styles.lead} />
-                    <input className={styles.inputHasIcon} type="text" placeholder="Your full name" value={name} onChange={(e) => setName(e.target.value)} required />
+                    <input id="login-name" className={styles.inputHasIcon} type="text" placeholder="Your full name" value={name} onChange={(e) => setName(e.target.value)} required />
                   </div>
                 </div>
               )}
@@ -102,26 +102,26 @@ export default function MobileLoginScreen() {
 
               {method === "phone" ? (
                 <div className={styles.field}>
-                  <label>Mobile number</label>
+                  <label htmlFor="login-phone">Mobile number</label>
                   <div className={styles.phoneRow}>
                     <span className={styles.phoneCode}>+971</span>
-                    <input className={styles.input} type="tel" inputMode="tel" placeholder="50 000 0000" value={phone} onChange={(e) => setPhone(e.target.value)} required />
+                    <input id="login-phone" className={styles.input} type="tel" inputMode="tel" placeholder="50 000 0000" value={phone} onChange={(e) => setPhone(e.target.value)} required />
                   </div>
                 </div>
               ) : (
                 <>
                   <div className={styles.field}>
-                    <label>Email address</label>
+                    <label htmlFor="login-email">Email address</label>
                     <div className={styles.iw}>
                       <Mail size={18} className={styles.lead} />
-                      <input className={styles.inputHasIcon} type="email" placeholder="you@example.com" required />
+                      <input id="login-email" className={styles.inputHasIcon} type="email" placeholder="you@example.com" required />
                     </div>
                   </div>
                   <div className={styles.field}>
-                    <label>Password</label>
+                    <label htmlFor="login-password">Password</label>
                     <div className={styles.iw}>
                       <Lock size={18} className={styles.lead} />
-                      <input className={styles.inputHasIcon} type={showPw ? "text" : "password"} placeholder="••••••••" required />
+                      <input id="login-password" className={styles.inputHasIcon} type={showPw ? "text" : "password"} placeholder="••••••••" required />
                       <button type="button" className={styles.eye} onClick={() => setShowPw(!showPw)} aria-label="Toggle password visibility">
                         {showPw ? <EyeOff size={18} /> : <Eye size={18} />}
                       </button>

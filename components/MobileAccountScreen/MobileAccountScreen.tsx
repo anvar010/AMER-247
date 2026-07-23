@@ -54,9 +54,9 @@ export default function MobileAccountScreen() {
         </Link>
 
         <div className={styles.legalRow}>
-          <span>Privacy Policy</span>
+          <Link href="/privacy-policy">Privacy Policy</Link>
           <span className={styles.legalDot}>·</span>
-          <span>Terms &amp; Conditions</span>
+          <Link href="/terms-conditions">Terms &amp; Conditions</Link>
         </div>
       </div>
     </div>

@@ -68,6 +68,7 @@ export default function MobileSearchOverlay({ open, onClose }: { open: boolean; 
             <input
               ref={inputRef}
               className={styles.srchInput}
+              aria-label="Search services"
               placeholder='Search "Golden Visa", "Emirates ID"…'
               value={q}
               onChange={(e) => setQ(e.target.value)}

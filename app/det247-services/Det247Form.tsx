@@ -68,42 +68,43 @@ export default function Det247Form() {
     <form className={styles.form} onSubmit={handleSubmit}>
       <div className={styles.grid2}>
         <div className={styles.field}>
-          <label>Full Name <span className={styles.req}>*</span></label>
-          <input className={styles.input} type="text" name="fullName" placeholder="Enter your full name" required />
+          <label htmlFor="det-fullName">Full Name <span className={styles.req}>*</span></label>
+          <input id="det-fullName" className={styles.input} type="text" name="fullName" placeholder="Enter your full name" required />
         </div>
         <div className={styles.field}>
-          <label>Mobile Number (with country code) <span className={styles.req}>*</span></label>
-          <input className={styles.input} type="tel" name="mobile" placeholder="+971 50 123 4567" required />
+          <label htmlFor="det-mobile">Mobile Number (with country code) <span className={styles.req}>*</span></label>
+          <input id="det-mobile" className={styles.input} type="tel" name="mobile" placeholder="+971 50 123 4567" required />
         </div>
         <div className={styles.field}>
-          <label>Email Address <span className={styles.req}>*</span></label>
-          <input className={styles.input} type="email" name="email" placeholder="you@example.com" required />
+          <label htmlFor="det-email">Email Address <span className={styles.req}>*</span></label>
+          <input id="det-email" className={styles.input} type="email" name="email" placeholder="you@example.com" required />
         </div>
         <div className={styles.field}>
-          <label>Nationality <span className={styles.req}>*</span></label>
-          <select className={styles.select} name="nationality" required defaultValue="">
+          <label htmlFor="det-nationality">Nationality <span className={styles.req}>*</span></label>
+          <select id="det-nationality" className={styles.select} name="nationality" required defaultValue="">
             <option value="" disabled>Select nationality…</option>
             {countries.map((c) => <option key={c.iso} value={c.name}>{c.name}</option>)}
           </select>
         </div>
         <div className={styles.field}>
-          <label>Current Location</label>
-          <select className={styles.select} name="location" defaultValue="UAE">
+          <label htmlFor="det-location">Current Location</label>
+          <select id="det-location" className={styles.select} name="location" defaultValue="UAE">
             <option value="UAE">UAE</option>
             <option value="Outside UAE">Outside UAE</option>
           </select>
         </div>
         <div className={styles.field}>
-          <label>Preferred Contact Method</label>
-          <select className={styles.select} name="preferredContact" defaultValue="Call">
+          <label htmlFor="det-contact-method">Preferred Contact Method</label>
+          <select id="det-contact-method" className={styles.select} name="preferredContact" defaultValue="Call">
             <option value="Call">Call</option>
             <option value="WhatsApp">WhatsApp</option>
             <option value="Email">Email</option>
           </select>
         </div>
         <div className={styles.field} style={{ gridColumn: "1 / -1" }}>
-          <label>Service Required <span className={styles.req}>*</span></label>
+          <label htmlFor="det-service">Service Required <span className={styles.req}>*</span></label>
           <select
+            id="det-service"
             className={styles.select}
             required
             value={serviceRequired}
@@ -115,19 +116,20 @@ export default function Det247Form() {
         </div>
         {serviceRequired === "Other" && (
           <div className={styles.field} style={{ gridColumn: "1 / -1" }}>
-            <label>Other (please specify) <span className={styles.req}>*</span></label>
-            <input className={styles.input} type="text" name="otherService" placeholder="Type your required service" required />
+            <label htmlFor="det-other-service">Other (please specify) <span className={styles.req}>*</span></label>
+            <input id="det-other-service" className={styles.input} type="text" name="otherService" placeholder="Type your required service" required />
           </div>
         )}
       </div>
 
       <div className={styles.field}>
-        <label>Captcha <span className={styles.req}>*</span></label>
+        <label htmlFor="det-captcha">Captcha <span className={styles.req}>*</span></label>
         <div className={styles.captchaRow}>
           <span className={styles.captchaBox}>{captchaNum1} + {captchaNum2} = ?</span>
           <button type="button" className={styles.captchaRefresh} onClick={generateCaptcha}>Refresh</button>
         </div>
         <input
+          id="det-captcha"
           className={styles.input}
           type="text"
           placeholder="Enter answer"

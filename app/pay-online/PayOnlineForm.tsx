@@ -37,39 +37,40 @@ export default function PayOnlineForm() {
   return (
     <form className={styles.form} onSubmit={handleSubmit}>
       <div className={styles.field}>
-        <label>Full Name</label>
-        <input className={styles.input} type="text" placeholder="Your name" required />
+        <label htmlFor="payonline-name">Full Name</label>
+        <input id="payonline-name" className={styles.input} type="text" placeholder="Your name" required />
       </div>
       <div className={styles.grid2}>
         <div className={styles.field}>
-          <label>Email</label>
-          <input className={styles.input} type="email" placeholder="you@example.com" required />
+          <label htmlFor="payonline-email">Email</label>
+          <input id="payonline-email" className={styles.input} type="email" placeholder="you@example.com" required />
         </div>
         <div className={styles.field}>
-          <label>Mobile</label>
-          <input className={styles.input} type="tel" placeholder="+971 50 000 0000" required />
+          <label htmlFor="payonline-mobile">Mobile</label>
+          <input id="payonline-mobile" className={styles.input} type="tel" placeholder="+971 50 000 0000" required />
         </div>
         <div className={styles.field}>
-          <label>Reference</label>
-          <input className={styles.input} type="text" placeholder="Application reference" required />
+          <label htmlFor="payonline-reference">Reference</label>
+          <input id="payonline-reference" className={styles.input} type="text" placeholder="Application reference" required />
         </div>
         <div className={styles.field}>
-          <label>Amount (AED)</label>
-          <input className={styles.input} type="number" placeholder="0.00" required />
+          <label htmlFor="payonline-amount">Amount (AED)</label>
+          <input id="payonline-amount" className={styles.input} type="number" placeholder="0.00" required />
         </div>
       </div>
       <div className={styles.field}>
-        <label>Comments</label>
-        <textarea className={styles.textarea} placeholder="Any specific requirements (optional)" />
+        <label htmlFor="payonline-comments">Comments</label>
+        <textarea id="payonline-comments" className={styles.textarea} placeholder="Any specific requirements (optional)" />
       </div>
 
       <div className={styles.field}>
-        <label>Captcha</label>
+        <label htmlFor="payonline-captcha">Captcha</label>
         <div className={styles.captchaRow}>
           <span className={styles.captchaBox}>{captchaA} + {captchaB} = ?</span>
           <button type="button" className={styles.captchaRefresh} onClick={regenerateCaptcha}>Refresh</button>
         </div>
         <input
+          id="payonline-captcha"
           className={styles.input}
           type="text"
           placeholder="Enter answer"

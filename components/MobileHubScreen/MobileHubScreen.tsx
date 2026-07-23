@@ -132,6 +132,7 @@ export default function MobileHubScreen({ title, blurb, subCategories, gold, her
           <Search size={17} className={styles.searchIcon} />
           <input
             className={styles.searchInput}
+            aria-label={`Search ${title.toLowerCase()}`}
             placeholder={`Search ${title.toLowerCase()}…`}
             value={q}
             onChange={(e) => setQ(e.target.value)}
@@ -156,9 +157,9 @@ export default function MobileHubScreen({ title, blurb, subCategories, gold, her
 
               {isDetailed ? (
                 <div className={styles.detailStack}>
-                  {g.items.map((it) => (
+                  {g.items.map((it, i) => (
                     <DetailCard
-                      key={it.name}
+                      key={`${it.slug ?? it.name}-${i}`}
                       item={it}
                       href={buildApplyHref(it, title)}
                       icon={GroupIcon}
@@ -170,10 +171,11 @@ export default function MobileHubScreen({ title, blurb, subCategories, gold, her
                 </div>
               ) : (
                 <div className={styles.svcGrid}>
-                  {g.items.map((it) => {
+                  {g.items.map((it, i) => {
+                    const itemKey = `${it.slug ?? it.name}-${i}`;
                     if (it.disabled) {
                       return (
-                        <div key={it.name} className={`${styles.svcBox} ${styles.svcBoxDisabled}`} aria-disabled="true">
+                        <div key={itemKey} className={`${styles.svcBox} ${styles.svcBoxDisabled}`} aria-disabled="true">
                           <span className={styles.svcIco}>
                             <GroupIcon size={19} />
                           </span>
@@ -186,7 +188,7 @@ export default function MobileHubScreen({ title, blurb, subCategories, gold, her
                     }
                     const href = buildApplyHref(it, title);
                     return (
-                      <Link key={it.name} href={href} className={`${styles.svcBox} ${gold ? styles.svcBoxGold : ""}`}>
+                      <Link key={itemKey} href={href} className={`${styles.svcBox} ${gold ? styles.svcBoxGold : ""}`}>
                         {!hideDocsEye && (
                           <button
                             type="button"

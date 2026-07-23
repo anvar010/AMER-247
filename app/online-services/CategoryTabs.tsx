@@ -15,9 +15,9 @@ import { amerSubCategories } from "./AmerServicesData";
 import { OTHER_HUBS } from "@/components/MobileSearchOverlay/catalog";
 import styles from "./online-services.module.css";
 
-// Mirrors the real app's Services tab exactly (see MobileServicesScreen) —
-// same 6 categories. Tourist Visa is a separate entry point (the header's
-// "UAE TOURIST VISA" button → /uae-tourist-visa), not nested in here.
+// Mirrors the real app's Services tab exactly — same 6 categories. Tourist
+// Visa is a separate entry point (the header's "UAE TOURIST VISA" button →
+// /uae-tourist-visa), not nested in here.
 export type CategoryKey =
   | "amer"
   | "emirates-id"

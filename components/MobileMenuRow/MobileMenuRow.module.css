@@ -1,5 +1,9 @@
 .row {
-  display: flex;
+  /* Mobile-only by design (matches every other Mobile* component's own
+     gating) - its current sole call site happens to sit inside a
+     desktop-hidden parent already, but that shouldn't be the only thing
+     stopping it from showing up on desktop if reused elsewhere later. */
+  display: none;
   align-items: center;
   gap: 0.8rem;
   background: #ffffff;
@@ -8,6 +12,12 @@
   margin-bottom: 0.625rem;
   box-shadow: 0 8px 14px rgba(68, 16, 16, 0.1);
   text-decoration: none;
+}
+
+@media (max-width: 768px) {
+  .row {
+    display: flex;
+  }
 }
 
 .icoWrap {

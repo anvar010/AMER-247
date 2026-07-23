@@ -1,5 +1,4 @@
 import Hero from "@/components/Hero/Hero";
-import Hero2 from "@/components/Hero2/Hero2";
 import MobileHomeHero from "@/components/MobileHomeHero/MobileHomeHero";
 import MobileAppHome from "@/components/MobileAppHome/MobileAppHome";
 import Countries from "@/components/Countries/Countries";
@@ -14,7 +13,6 @@ export default function HomePage() {
   return (
     <>
       <Hero />
-      {/* <Hero2 /> You can uncomment to use the scroll hero */}
 
       {/* On mobile, Hero renders MobileScrollHero (the pinned splash
           animation) — everything below is mobile-only content that used to

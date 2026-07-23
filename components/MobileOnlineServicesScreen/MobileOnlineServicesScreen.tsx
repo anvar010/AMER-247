@@ -50,7 +50,7 @@ function PriceBlock({ item }: { item: PriceItem }) {
 export default function MobileOnlineServicesScreen() {
   const [activeKey, setActiveKey] = useState<string>("amer");
   const [q, setQ] = useState("");
-  const [docsFor, setDocsFor] = useState<string | null>(null);
+  const [docsFor, setDocsFor] = useState<{ name: string; slug?: string } | null>(null);
 
   const active = CATEGORIES.find((c) => c.key === activeKey) ?? CATEGORIES[0];
   const totalCount = useMemo(
@@ -120,11 +120,12 @@ export default function MobileOnlineServicesScreen() {
               <span className={styles.catCount}>{g.items.length}</span>
             </div>
             <div className={styles.svcGrid}>
-              {g.items.map((it) => {
+              {g.items.map((it, i) => {
                 const GroupIcon = GROUP_ICONS[g.icon] ?? Layers;
+                const itemKey = `${it.slug ?? it.name}-${i}`;
                 if (it.disabled) {
                   return (
-                    <div key={it.name} className={`${styles.svcBox} ${styles.svcBoxDisabled}`} aria-disabled="true">
+                    <div key={itemKey} className={`${styles.svcBox} ${styles.svcBoxDisabled}`} aria-disabled="true">
                       <span className={styles.svcIco}>
                         <GroupIcon size={19} />
                       </span>
@@ -137,12 +138,12 @@ export default function MobileOnlineServicesScreen() {
                 }
                 const href = buildApplyHref(it, active.label);
                 return (
-                  <Link key={it.name} href={href} className={`${styles.svcBox} ${active.gold ? styles.svcBoxGold : ""}`}>
+                  <Link key={itemKey} href={href} className={`${styles.svcBox} ${active.gold ? styles.svcBoxGold : ""}`}>
                     <button
                       type="button"
                       className={styles.svcEye}
                       aria-label={`View required documents for ${it.name}`}
-                      onClick={(e) => { e.preventDefault(); e.stopPropagation(); setDocsFor(it.name); }}
+                      onClick={(e) => { e.preventDefault(); e.stopPropagation(); setDocsFor(it); }}
                     >
                       <Eye size={14} />
                     </button>
@@ -173,7 +174,8 @@ export default function MobileOnlineServicesScreen() {
       <RequiredDocumentsModal
         open={!!docsFor}
         onClose={() => setDocsFor(null)}
-        serviceName={docsFor ?? ""}
+        serviceName={docsFor?.name ?? ""}
+        slug={docsFor?.slug}
       />
     </div>
   );
