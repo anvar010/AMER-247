@@ -125,7 +125,20 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json({ success: true, referenceID }, { status: 200 });
   } catch (error) {
-    console.error("API /apply error:", error);
+    // Logged as a plain object (not just the Error instance) because
+    // console.error(Error) can render as an opaque "[object Object]" or get
+    // truncated in some log viewers (e.g. Vercel's) - this guarantees the
+    // message/stack/SMTP-specific fields (code, responseCode, response,
+    // command - all common on nodemailer failures) show up as readable text.
+    const err = error as { message?: string; stack?: string; code?: string; responseCode?: number; response?: string; command?: string };
+    console.error("API /apply error:", JSON.stringify({
+      message: err?.message,
+      stack: err?.stack,
+      code: err?.code,
+      responseCode: err?.responseCode,
+      response: err?.response,
+      command: err?.command,
+    }));
     return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
   }
 }
