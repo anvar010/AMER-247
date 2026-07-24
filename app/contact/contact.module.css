@@ -56,7 +56,7 @@
    ============================================================ */
 .hero {
   position: relative;
-  padding: 6rem 0 4rem;
+  padding: 8rem 0 4rem;
   background:
     radial-gradient(900px 460px at 88% 14%, rgba(201, 162, 75, 0.20), transparent 60%),
     radial-gradient(700px 460px at 12% 90%, rgba(122, 21, 8, 0.55), transparent 65%),

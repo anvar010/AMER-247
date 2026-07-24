@@ -21,6 +21,16 @@ const GROUP_ICONS: Record<string, LucideIcon> = {
   Building2, TrendingUp, Landmark, ShieldCheck, Gem, IdCard, ShieldPlus, Stethoscope,
 };
 
+// Display-only, mobile-only shortening ("14 Days Tourist Visa" -> "14 Days").
+// Also drops " (Express)"/" (Popular)" specifically - both always pair with
+// a matching item.badge shown separately on the card, so keeping them in
+// the title too is redundant. " (Multiple Entry)" has no badge counterpart,
+// so it stays in the name as the only visible way to distinguish it. The
+// underlying item.name is untouched so DesktopHubScreen, search matching,
+// and the required-documents modal's aria-label all keep the full name.
+const shortName = (name: string) =>
+  name.replace(" Tourist Visa", "").replace(" (Express)", "").replace(" (Popular)", "");
+
 function PriceBlock({ item }: { item: PriceItem }) {
   if (item.single) {
     return <span className={styles.priceSingle}>{item.single}</span>;
@@ -33,6 +43,15 @@ function PriceBlock({ item }: { item: PriceItem }) {
   );
 }
 
+// Display-only, mobile-only shortening of the "Processing" value for one
+// specific item (identified by slug, never altered) - DesktopHubScreen
+// keeps showing the full item.proc text unchanged.
+const MOBILE_PROC_OVERRIDES: Record<string, string> = {
+  "96_hours_tourist_visa": "2-4 days",
+};
+const mobileProc = (item: PriceItem) =>
+  (item.slug && MOBILE_PROC_OVERRIDES[item.slug]) || item.proc;
+
 // Full-width card for items carrying processing/stay/validity/entry detail
 // (currently just Tourist Visa) — too much content for the compact 2-up grid.
 function DetailCard({
@@ -41,7 +60,7 @@ function DetailCard({
   item: PriceItem; href: string; icon: LucideIcon; gold?: boolean; onViewDocs: () => void; hideEye?: boolean;
 }) {
   const meta = [
-    item.proc ? { label: "Processing", value: item.proc } : null,
+    item.proc ? { label: "Processing", value: mobileProc(item) } : null,
     item.stay ? { label: "Stay period", value: item.stay } : null,
     item.validity ? { label: "Validity", value: item.validity } : null,
     item.entry ? { label: "Entry", value: item.entry } : null,
@@ -54,7 +73,7 @@ function DetailCard({
           <Icon size={19} />
         </span>
         <div className={styles.detailHeadBody}>
-          <p className={styles.svcName}>{item.name}</p>
+          <p className={styles.svcName}>{shortName(item.name)}</p>
           {item.badge && <span className={styles.detailBadge}>{item.badge}</span>}
         </div>
         {!hideEye && (
@@ -179,7 +198,7 @@ export default function MobileHubScreen({ title, blurb, subCategories, gold, her
                           <span className={styles.svcIco}>
                             <GroupIcon size={19} />
                           </span>
-                          <p className={styles.svcName}>{it.name}</p>
+                          <p className={styles.svcName}>{shortName(it.name)}</p>
                           <div className={styles.svcPrice}>
                             <PriceBlock item={it} />
                           </div>
@@ -202,7 +221,7 @@ export default function MobileHubScreen({ title, blurb, subCategories, gold, her
                         <span className={`${styles.svcIco} ${gold ? styles.svcIcoGold : ""}`}>
                           <GroupIcon size={19} />
                         </span>
-                        <p className={styles.svcName}>{it.name}</p>
+                        <p className={styles.svcName}>{shortName(it.name)}</p>
                         <div className={styles.svcPrice}>
                           <PriceBlock item={it} />
                         </div>

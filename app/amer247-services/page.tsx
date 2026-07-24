@@ -142,6 +142,12 @@ export default function Amer247ServicesPage() {
         </div>
         </div>
 
+      </section>
+
+      {/* Sits outside .hero on purpose - .hero has overflow:hidden (for its
+          glow decorations), which was clipping this card's bottom half
+          where it straddles the hero/partners boundary at desktop widths. */}
+      <div className={styles.featureStripAnchor}>
         <div className={styles.featureStripWrap}>
           <div className={styles.featureStrip}>
             {features.map(({ icon: Icon, title, sub }) => (
@@ -157,7 +163,7 @@ export default function Amer247ServicesPage() {
             ))}
           </div>
         </div>
-      </section>
+      </div>
 
       {/* Partner logos */}
       <section className={styles.partners}>

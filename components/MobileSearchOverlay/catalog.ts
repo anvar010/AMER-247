@@ -186,7 +186,8 @@ export const OTHER_HUBS: CatalogHub[] = [
           // so this one gets its own working slug here instead.
           { name: "60 Days Tourist Visa", slug: "60_days_tourist_visa_standard", single: aed(850), proc: "Upto 2-4 days", stay: "60 days" },
           { name: "60 Days Multiple Entry", slug: "60_days_multiple_entry", single: aed(1100), proc: "Upto 2-4 days", stay: "60 days" },
-          { name: "90 Days Single Entry", slug: "90_days_single_entry", single: aed(1900), proc: "Upto 2-4 days", stay: "90 days" },
+          // 90 Days Tourist Visa hidden for now.
+          // { name: "90 Days Single Entry", slug: "90_days_single_entry", single: aed(1900), proc: "Upto 2-4 days", stay: "90 days" },
         ],
       },
       // No "Sponsored Visit Visa" section here — confirmed against the live

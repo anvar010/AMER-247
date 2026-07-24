@@ -770,7 +770,7 @@ export const REQUIRED_DOCUMENTS: Record<string, string[]> = {
   "60_days_tourist_visa": TOURIST_VISA_DOCS(),
   "60_days_tourist_visa_standard": TOURIST_VISA_DOCS(),
   "60_days_multiple_entry": TOURIST_VISA_DOCS(),
-  "90_days_single_entry": TOURIST_VISA_DOCS(),
+  // "90_days_single_entry": TOURIST_VISA_DOCS(), // hidden alongside the catalog entry
 };
 
 function TOURIST_VISA_DOCS(): string[] {

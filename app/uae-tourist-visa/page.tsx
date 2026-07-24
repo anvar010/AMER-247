@@ -7,7 +7,7 @@ const hub = OTHER_HUBS.find((h) => h.key === "tourist")!;
 
 const HERO_TITLE = "AMER 247 Apply UAE Tourist Visa Online";
 const HERO_BLURB =
-  "The online UAE Visit Visa Process simplifies the procedures & permits the user getting the permit quickly. 24/7 Support. Fast Confirmation. Choose from 96-hours, 14-days, 30-days, & 90-days UAE Visit Visas.";
+  "The online UAE Visit Visa Process simplifies the procedures & permits the user getting the permit quickly. 24/7 Support. Fast Confirmation. Choose from 96-hours, 14-days, & 30-days UAE Visit Visas.";
 
 export const metadata = {
   title: `${HERO_TITLE} — Amer 24/7`,

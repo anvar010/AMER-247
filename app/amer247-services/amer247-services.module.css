@@ -162,6 +162,13 @@
    absolute-positioned "overlaps the hero's bottom edge" treatment (which
    made the card tower over the viewport and shove "What We Do" off-screen)
    only kicks in at the desktop breakpoint below. */
+.featureStripAnchor {
+  /* Plain wrapper on mobile - .featureStripWrap handles its own normal-flow
+     spacing there. At desktop this becomes the positioned, zero-height
+     anchor that .featureStripWrap's bottom:0 resolves against, since it
+     now lives outside .hero's overflow:hidden (see amer247-services/page.tsx). */
+}
+
 .featureStripWrap {
   position: relative;
   margin-top: 1.75rem;
@@ -547,6 +554,11 @@
   /* Restore the "overlaps the hero's bottom edge" treatment — only at
      this width, where the strip is short enough (3 columns, not stacked)
      that floating it doesn't crowd out the rest of the hero. */
+  .featureStripAnchor {
+    position: relative;
+    height: 0;
+  }
+
   .featureStripWrap {
     position: absolute;
     left: 50%;
