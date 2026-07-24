@@ -65,6 +65,7 @@
   width: 100%;
   height: 500px;
   object-fit: cover;
+  object-position: left;
   border-radius: 32px;
   box-shadow: 0 25px 50px -12px rgba(17, 32, 74, 0.15);
   display: block;
@@ -73,7 +74,7 @@
 /* The floating VIP Courier badge */
 .overlayBox {
   position: absolute;
-  bottom: 24px;
+  bottom: 10px;
   left: -24px;
   background: #F8FAFC;
   padding: 1.25rem;

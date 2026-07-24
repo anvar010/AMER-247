@@ -53,10 +53,10 @@ export default function PickUpService() {
         <div className={styles.leftCol}>
           <div className={styles.imageWrap}>
             <div className={styles.imageOutline} />
-            <img 
-              src="/images/document_pickup_delivery.png" 
-              alt="Amer 24 7 provides documents pick up and drop off service" 
-              className={styles.mainImage} 
+            <img
+              src="/images/IMG_0897.jpg"
+              alt="Amer 24 7 provides documents pick up and drop off service"
+              className={styles.mainImage}
             />
 
             <div className={styles.overlayBox}>
@@ -112,7 +112,7 @@ export default function PickUpService() {
 
       <div className={mstyles.card}>
         <div className={mstyles.imgWrap}>
-          <img src="/images/document_pickup_delivery.png" alt="Document pick-up & delivery" className={mstyles.img} />
+          <img src="/images/IMG_0897.jpg" alt="Amer 24/7 courier service" className={mstyles.img} />
           <div className={mstyles.badge}>
             <span className={mstyles.badgeIco}>
               <Clock size={18} />

@@ -59,9 +59,13 @@ export default function WhoWeAre() {
           {/* Center Column: Visual Anchor */}
           <div className={styles.centerCol}>
             <div className={styles.imageCard}>
-              <img
-                src="/images/center-office.webp"
-                alt="Amer247 Center"
+              <video
+                src="/images/FNL-web.mp4"
+                poster="/images/center-office.webp"
+                autoPlay
+                muted
+                loop
+                playsInline
                 className={styles.image}
               />
               {/* Overlay gradient */}
@@ -132,7 +136,7 @@ export default function WhoWeAre() {
       </div>
 
       <div className={mstyles.imageCard}>
-        <img src="/images/center-office.webp" alt="Amer247 Center" className={mstyles.image} />
+        <img src="/images/IMG_0898.jpg" alt="Amer247 Center" className={mstyles.image} />
         <div className={mstyles.imageOverlay} />
         <div className={mstyles.badge}>
           <span className={mstyles.badgeNum}>24/7</span>
