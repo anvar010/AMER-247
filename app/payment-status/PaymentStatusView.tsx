@@ -1,18 +1,31 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import { useSearchParams } from "next/navigation";
+import { Check, X, ArrowRight } from "lucide-react";
 import PageHero from "@/components/PageHero/PageHero";
 import styles from "./payment-status.module.css";
 
+// Mettpay's own redirect appears to HTML-entity-encode the return URL
+// somewhere on their end without decoding it back before the actual
+// browser redirect — the query string arrives as "...&amp;orderid=..."
+// instead of "...&orderid=...", which the browser's own parser then reads
+// as a param literally named "amp;orderid". Falling back to the "amp;"
+// prefixed key keeps every field working regardless of which form Mettpay
+// sends.
+function param(searchParams: URLSearchParams, key: string): string | null {
+  return searchParams.get(key) ?? searchParams.get(`amp;${key}`);
+}
+
 export default function PaymentStatusView() {
   const searchParams = useSearchParams();
-  const st = searchParams.get("st");
-  const orderid = searchParams.get("orderid");
-  const name = searchParams.get("name");
-  const email = searchParams.get("email");
-  const mobile = searchParams.get("mobile");
-  const amount = searchParams.get("amount");
+  const st = param(searchParams, "st");
+  const orderid = param(searchParams, "orderid");
+  const name = param(searchParams, "name");
+  const email = param(searchParams, "email");
+  const mobile = param(searchParams, "mobile");
+  const amount = param(searchParams, "amount");
   const [emailSent, setEmailSent] = useState(false);
   const [retrying, setRetrying] = useState(false);
   const [retryError, setRetryError] = useState("");
@@ -56,35 +69,72 @@ export default function PaymentStatusView() {
     }).catch((error) => console.error("send-application-email failed:", error));
   }, [st, orderid, emailSent]);
 
-  const entries = Array.from(searchParams.entries()).filter(([key]) => key !== "comments" && key !== "st");
+  const details: [string, string][] = [
+    ["Reference", orderid ?? ""],
+    ["Name", name ?? ""],
+    ["Email", email ?? ""],
+    ["Mobile", mobile ?? ""],
+    ["Amount", amount ? `AED ${amount}` : ""],
+  ].filter(([, v]) => v) as [string, string][];
 
   return (
     <>
       <PageHero title="Transaction Details" />
       <div className={`container ${styles.body}`}>
-        {st === "1" ? (
-          <p className={styles.success}>Transaction Successful. A confirmation email has been sent to you.</p>
-        ) : st === "2" ? (
-          <>
-            <p className={styles.failure}>Transaction Failed. Please try again or contact support.</p>
-            {orderid && name && email && mobile && amount && (
-              <button type="button" className={styles.retryBtn} onClick={retryPayment} disabled={retrying}>
-                {retrying ? "Starting payment…" : "Retry Payment"}
-              </button>
-            )}
-            {retryError && <p className={styles.failure}>{retryError}</p>}
-          </>
-        ) : (
-          <p className={styles.neutral}>No transaction reference was provided.</p>
-        )}
+        <div className={styles.wrap}>
+          {st === "1" ? (
+            <>
+              <span className={`${styles.burst} ${styles.burstOk}`}><Check size={34} /></span>
+              <h1 className={styles.title}>Payment Successful</h1>
+              <p className={styles.copy}>Your payment has been confirmed. A confirmation email has been sent to you.</p>
+            </>
+          ) : st === "2" ? (
+            <>
+              <span className={`${styles.burst} ${styles.burstFail}`}><X size={34} /></span>
+              <h1 className={styles.title}>Payment Failed</h1>
+              <p className={styles.copy}>Please try again or contact support.</p>
+            </>
+          ) : (
+            <>
+              <h1 className={styles.title}>No Transaction Found</h1>
+              <p className={styles.copy}>No transaction reference was provided.</p>
+            </>
+          )}
 
-        {entries.length > 0 && (
-          <ul className={styles.list}>
-            {entries.map(([key, val]) => (
-              <li key={key}><b>{key}:</b> {val}</li>
-            ))}
-          </ul>
-        )}
+          {details.length > 0 && (
+            <div className={styles.card}>
+              {details.map(([label, value]) => (
+                <div key={label} className={styles.row}>
+                  <span className={styles.rowLabel}>{label}</span>
+                  <span className={styles.rowValue}>{value}</span>
+                </div>
+              ))}
+            </div>
+          )}
+
+          {st === "2" && (
+            <div className={styles.actions}>
+              {orderid && name && email && mobile && amount && (
+                <button type="button" className={styles.primary} onClick={retryPayment} disabled={retrying}>
+                  {retrying ? "Starting payment…" : "Retry Payment"}
+                </button>
+              )}
+              <Link href="/" className={styles.secondary}>Back to home</Link>
+            </div>
+          )}
+          {retryError && <p className={styles.retryError}>{retryError}</p>}
+
+          {st === "1" && (
+            <div className={styles.actions}>
+              <Link href="/" className={styles.primary}>Back to home <ArrowRight size={16} /></Link>
+            </div>
+          )}
+          {!st && (
+            <div className={styles.actions}>
+              <Link href="/" className={styles.secondary}>Back to home</Link>
+            </div>
+          )}
+        </div>
       </div>
     </>
   );
