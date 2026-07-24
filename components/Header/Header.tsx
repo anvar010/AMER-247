@@ -19,7 +19,7 @@ const menuItems = [
   { label: "News", href: "/news", icon: Newspaper },
   { label: "Blogs", href: "/blogs", icon: BookOpen },
   { label: "Online Services", href: "/online-services", icon: FileText },
-  { label: "Career", href: "/contact", icon: Briefcase },
+  { label: "Career", href: "/career", icon: Briefcase },
   { label: "Contact", href: "/contact", icon: Phone },
 ];
 

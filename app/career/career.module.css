@@ -8,6 +8,17 @@
   align-items: start;
 }
 
+/* The shared .container utility's mobile padding (0 3rem, i.e. 48px each
+   side) is a lot narrower than the ~1.25rem the app's mobile screens
+   (contact, account, etc.) actually use - overriding just here rather than
+   touching .container globally, since other pages rely on its wider gutter. */
+@media (max-width: 768px) {
+  .body {
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
+  }
+}
+
 @media (min-width: 900px) {
   .body {
     grid-template-columns: 1fr 1fr;
