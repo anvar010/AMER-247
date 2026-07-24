@@ -66,8 +66,8 @@ export function renderBrandedEmail({
 <body style="margin:0; padding:0; background-color:#EEF1F7;">
   <div style="width:100%; background-color:#EEF1F7; padding:32px 16px;">
     <div style="max-width:600px; margin:0 auto; background-color:#FFFFFF; border-radius:18px; overflow:hidden; box-shadow:0 8px 40px rgba(68,16,16,0.10);">
-      <div style="background-color:#2A1008; background-image:url('${EMAIL_ASSETS}/dubai.jpg'); background-position:center center; background-repeat:no-repeat; background-size:cover;">
-        <div class="hero-overlay" style="background:linear-gradient(180deg,rgba(26,10,5,0.82) 0%,rgba(74,24,8,0.90) 50%,rgba(18,8,4,0.95) 100%); padding:32px 40px 28px; text-align:center;">
+      <div style="background:linear-gradient(160deg,#4a1808 0%,#1a0a05 100%);">
+        <div class="hero-overlay" style="padding:32px 40px 28px; text-align:center;">
           <img src="${EMAIL_ASSETS}/amer247.png" alt="Amer 24/7" style="width:160px; height:auto; margin-bottom:10px;">
           <div style="width:48px; height:48px; border-radius:50%; background:rgba(27,163,156,0.20); border:2px solid rgba(27,163,156,0.40); margin:0 auto 10px; line-height:48px; text-align:center;"><span style="font-size:22px;">${heroEmoji}</span></div>
           <h1 class="hero-title" style="font-family:'Outfit',Arial,sans-serif; font-size:26px; font-weight:700; color:#FFFFFF !important; line-height:1.3; margin-bottom:6px;">${escapeHtml(title)}</h1>
