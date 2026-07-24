@@ -1,4 +1,5 @@
 import { Plane, Clock, ShieldCheck, Zap, ArrowDown } from "lucide-react";
+import { PRICES } from "@/lib/prices";
 import styles from "./TouristVisaHero.module.css";
 
 // Desktop-only hero for /uae-tourist-visa (hidden below 769px — mobile keeps
@@ -6,6 +7,11 @@ import styles from "./TouristVisaHero.module.css";
 // white/red language: left editorial column, right a CSS-built "boarding
 // pass" ticket standing in for the usual hero imagery.
 const DURATIONS = ["96 Hours", "14 Days", "30 Days", "60 Days", "90 Days"];
+
+// The illustrative "boarding pass" card below represents the 30 Days
+// (Popular) item — pulling its price from lib/prices.ts instead of a second
+// hardcoded value keeps this in sync if that price ever changes.
+const TICKET_PRICE = PRICES["30_days_tourist_visa_popular"]?.single ?? "650.00 AED";
 
 export default function TouristVisaHero({
   title,
@@ -92,7 +98,7 @@ export default function TouristVisaHero({
               </div>
               <div className={styles.ticketField}>
                 <span className={styles.fieldLabel}>From</span>
-                <span className={`${styles.fieldValue} ${styles.fieldPrice}`}>650 AED</span>
+                <span className={`${styles.fieldValue} ${styles.fieldPrice}`}>{TICKET_PRICE}</span>
               </div>
             </div>
 
