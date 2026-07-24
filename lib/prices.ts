@@ -21,7 +21,7 @@ export const PRICES: Record<string, PriceValue> = {
   sponsored_visit_visa_90_days: { inside: "1534 AED", outside: "864 AED" },
 
   // --- New Born Residence Visa ---
-  new_born_residence_visa: { inside: "623.90 AED" },
+  new_born_residence_visa: { inside: "1.00 AED" },
 
   // --- Visa Extension ---
   visit_visa_extend: { single: "1009.90 AED" },
