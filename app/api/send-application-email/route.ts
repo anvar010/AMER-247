@@ -53,6 +53,16 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Submission has no email." }, { status: 400 });
     }
 
+    // Mark the payment itself confirmed BEFORE attempting to email — this is
+    // ground truth from Mettpay's own redirect (st=1), and must never stay
+    // stuck at "pending" just because a mail-provider hiccup throws below.
+    // `emailSent` stays false until the sends actually succeed, so a retry
+    // of this same call will still attempt (and can still send) the emails.
+    await supabase
+      .from("submissions")
+      .update({ data: { ...(row.data ?? {}), transactionStatus: "success" } })
+      .eq("id", row.id);
+
     assertMailConfigured();
 
     const { subject, adminHtml, customerHtml } = buildApplicationEmail({
