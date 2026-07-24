@@ -18,6 +18,16 @@ function genRef() {
   return "AMR-" + Math.floor(40000 + Math.random() * 9999);
 }
 
+// Same parsing as the fee calculators (PricingCalculator.tsx /
+// MobileFeeCalculator.tsx) — strips everything but digits/decimal so a
+// missing/non-numeric price correctly falls through to `null` instead of
+// being sent to Mettpay as a bogus amount.
+function parseAed(v?: string | null): number | null {
+  if (!v) return null;
+  const n = parseFloat(v.replace(/[^\d.]/g, ""));
+  return Number.isFinite(n) && n > 0 ? n : null;
+}
+
 // Matches the "5MB max per file" label on the passport/photo uploaders —
 // enforced here since the accept="" attribute only filters file *type* in
 // the picker, not size.
@@ -64,6 +74,15 @@ export default function TouristVisaForm({
   const [submitting, setSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState("");
   const refNum = useRef(genRef());
+  // True once /api/apply has saved this submission — a retry click after a
+  // failed payment-start (same mounted form, same refNum) must not call
+  // /api/apply again, since that would insert a second row under the same
+  // reference. Deliberately NOT "fixed" by upserting in saveSubmission
+  // itself: reference IDs aren't unique across different applicants (see
+  // its own comment), so upserting there could overwrite a stranger's
+  // submission on a coincidental collision. Gating here avoids that risk
+  // entirely instead of trading it for a different one.
+  const appliedRef = useRef(false);
 
   // The site's global Lenis smooth-scroll never resets on navigation (it's
   // set up once for the app's whole lifetime), so arriving here already
@@ -135,6 +154,11 @@ export default function TouristVisaForm({
     setSubmitting(true);
     setSubmitError("");
 
+    // A priced item defers the notification emails until Mettpay confirms
+    // payment (see `deferEmail` in /api/apply) instead of sending them right
+    // away for an application that might never get paid for.
+    const amount = parseAed(price);
+
     const fd = new FormData();
     fd.set("hub", "Tourist Visa");
     fd.set("service", service);
@@ -156,15 +180,57 @@ export default function TouristVisaForm({
     // children as real queryable arrays instead of a display string.
     fd.set("adults", JSON.stringify(adults));
     fd.set("children", JSON.stringify(children));
+    if (amount) fd.set("deferEmail", "1");
     for (const f of passportFiles) fd.append("files", f, `Passport - ${f.name}`);
     for (const f of photoFiles) fd.append("files", f, `Photo - ${f.name}`);
 
+    let applySucceeded = appliedRef.current;
     try {
-      const res = await fetch("/api/apply", { method: "POST", body: fd });
-      if (!res.ok) throw new Error("Submit failed");
+      // Skipped on a retry (payment failed to start last time, same mounted
+      // form) — the application is already saved under this refNum, so
+      // resubmitting here would just insert a second row under the same
+      // reference. Go straight to retrying the payment instead.
+      if (!appliedRef.current) {
+        const res = await fetch("/api/apply", { method: "POST", body: fd });
+        if (!res.ok) throw new Error("Submit failed");
+        applySucceeded = true;
+        appliedRef.current = true;
+      }
+
+      // Application is saved either way at this point — payment is a
+      // follow-on step, not a gate on the submission itself. A priced item
+      // sends the applicant to Mettpay's hosted checkout; anything without
+      // a real numeric price just shows the normal success screen directly
+      // (emails for that case were already sent by /api/apply above, since
+      // deferEmail was never set).
+      if (amount) {
+        const payRes = await fetch("/api/create-payment", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            name: applicant,
+            email,
+            mobile: `${findCountry(mobileCountry)?.dial ?? ""} ${mobile}`,
+            amount: String(amount),
+            comments: service,
+            referenceId: refNum.current,
+            returnUrl: window.location.href,
+          }),
+        });
+        const payJson = await payRes.json();
+        if (!payRes.ok || !payJson.paymentUrl) {
+          throw new Error(payJson.error || "Payment could not be started.");
+        }
+        window.location.href = payJson.paymentUrl;
+        return;
+      }
       setSubmitted(true);
     } catch {
-      setSubmitError("Couldn't submit your application. Please check your connection and try again.");
+      setSubmitError(
+        applySucceeded
+          ? "Something went wrong starting the payment. Please try again later."
+          : "Couldn't submit your application. Please check your connection and try again."
+      );
     } finally {
       setSubmitting(false);
     }

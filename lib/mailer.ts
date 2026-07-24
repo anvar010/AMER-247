@@ -39,6 +39,7 @@ export const HUB_ADMIN_RECIPIENTS: Record<string, string[]> = {
   "Medical Test": [TEST_RECIPIENT],
   "Insurance": [TEST_RECIPIENT],
   "Tourist Visa": [TEST_RECIPIENT],
+  "Pay Online": [TEST_RECIPIENT],
 };
 
 export const CONTACT_ADMIN_RECIPIENTS = [TEST_RECIPIENT];
