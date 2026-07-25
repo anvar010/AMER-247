@@ -4,8 +4,8 @@ import { saveSubmission } from "@/lib/saveSubmission";
 
 export const runtime = "nodejs";
 
-// TEMP TEST OVERRIDE — redirected to a single test inbox, see lib/mailer.ts.
-const DET247_ADMIN_RECIPIENTS = ["anvarshaknavas588@gmail.com"];
+// Matches master's contactform route (the DET247 service-request form).
+const DET247_ADMIN_RECIPIENTS = ["hansraj.akki@gmail.com", "info@mettded.ae"];
 
 export async function POST(req: NextRequest) {
   try {
