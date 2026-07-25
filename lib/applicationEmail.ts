@@ -44,12 +44,10 @@ export function buildApplicationEmail(
   const data = row.data ?? {};
 
   // Only one status line (whatever the current stage is) plus a timestamp
-  // per stage actually reached so far — a "pending" email only shows
-  // Initiated/Pending, a "success" email shows all three.
+  // per stage actually reached so far.
   const paymentRows: [string, string][] = payment
     ? ([
         ["Payment Status", payment.stage.toUpperCase()],
-        ["Initiated", formatTimestamp(payment.initiatedAt)],
         payment.pendingAt ? ["Pending", formatTimestamp(payment.pendingAt)] : null,
         payment.successAt ? ["Success", formatTimestamp(payment.successAt)] : null,
       ].filter((r): r is [string, string] => r !== null))
