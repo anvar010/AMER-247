@@ -5,8 +5,9 @@ import Link from "next/link";
 import {
   Search, X, Layers, Stamp, Users, HeartPulse, CalendarCheck, Printer,
   FileText, Globe, Building2, TrendingUp, Landmark, ShieldCheck, Gem,
-  IdCard, ShieldPlus, Stethoscope, Eye, type LucideIcon,
+  IdCard, ShieldPlus, Stethoscope, Eye, Phone, type LucideIcon,
 } from "lucide-react";
+import WhatsAppIcon from "@/components/icons/WhatsAppIcon";
 import { Outfit } from "next/font/google";
 import type { SubCategory, PriceItem } from "@/app/online-services/AmerServicesData";
 import { buildApplyHref } from "@/lib/applyLink";
@@ -140,10 +141,23 @@ export default function MobileHubScreen({ title, blurb, subCategories, gold, her
         <span className={styles.glowWhite} aria-hidden />
         <h1 className={styles.title}>{heroTitle ?? title}</h1>
         <p className={styles.blurb}>{blurb}</p>
-        <span className={styles.countChip}>
-          <Layers size={12} />
-          {serviceCount} services
-        </span>
+        <div className={styles.heroTopRow}>
+          <span className={styles.countChip}>
+            <Layers size={12} />
+            {serviceCount} services
+          </span>
+          {/* Tourist Visa only — quick WhatsApp/Call for visa inquiries. */}
+          {title === "Tourist Visa" && (
+            <span className={styles.heroContactIcons}>
+              <a href="https://wa.me/971547800500" className={styles.heroIconBtn} aria-label="Chat on WhatsApp">
+                <WhatsAppIcon size={16} />
+              </a>
+              <a href="tel:+971527276699" className={styles.heroIconBtn} aria-label="Call us">
+                <Phone size={16} />
+              </a>
+            </span>
+          )}
+        </div>
       </div>
 
       <div className={styles.body}>

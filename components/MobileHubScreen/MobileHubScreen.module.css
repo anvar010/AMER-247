@@ -54,19 +54,44 @@
   margin: 0.5rem 0 0;
 }
 
+.heroTopRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 0.75rem;
+}
+
 .countChip {
   position: relative;
   z-index: 2;
   display: inline-flex;
   align-items: center;
   gap: 0.375rem;
-  margin-top: 0.75rem;
   background: rgba(255, 255, 255, 0.14);
   border-radius: 999px;
   padding: 0.375rem 0.75rem;
   color: #ffffff;
   font-size: 0.75rem;
   font-weight: 600;
+}
+
+.heroContactIcons {
+  position: relative;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.heroIconBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.14);
+  color: #ffffff;
 }
 
 .body {

@@ -211,6 +211,25 @@
   flex-shrink: 0;
 }
 
+.svcContactIcons {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  flex-shrink: 0;
+}
+
+.svcIconBtn {
+  width: 32px;
+  height: 32px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.16);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
 .svcBody {
   flex: 1;
   min-width: 0;

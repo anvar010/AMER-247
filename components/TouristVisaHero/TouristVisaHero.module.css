@@ -139,6 +139,30 @@
   transform: translateY(-2px);
 }
 
+.heroContactIcons {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.heroIconBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #ffffff;
+  border: 1px solid #EDE7E0;
+  color: #E31E24;
+  box-shadow: 0 4px 10px rgba(17, 32, 74, 0.06);
+  transition: transform 0.2s ease;
+}
+
+.heroIconBtn:hover {
+  transform: translateY(-2px);
+}
+
 .trustRow {
   display: inline-flex;
   align-items: center;

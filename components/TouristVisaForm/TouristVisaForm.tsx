@@ -4,8 +4,9 @@ import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { Outfit } from "next/font/google";
 import {
-  X, ArrowRight, ArrowLeft, Check, Clock, Upload, Plus, Minus, Lock,
+  X, ArrowRight, ArrowLeft, Check, Clock, Upload, Plus, Minus, Lock, Phone,
 } from "lucide-react";
+import WhatsAppIcon from "@/components/icons/WhatsAppIcon";
 import { countries } from "@/app/contact/Selects";
 import CountryCodeSelect from "@/components/CountryCodeSelect/CountryCodeSelect";
 import { findCountry } from "@/lib/countryCodes";
@@ -308,6 +309,14 @@ export default function TouristVisaForm({
                 <span>Fee quoted after review</span>
               )}
             </div>
+          </div>
+          <div className={styles.svcContactIcons}>
+            <a href="https://wa.me/971547800500" className={styles.svcIconBtn} aria-label="Chat on WhatsApp">
+              <WhatsAppIcon size={15} />
+            </a>
+            <a href="tel:+971527276699" className={styles.svcIconBtn} aria-label="Call us">
+              <Phone size={15} />
+            </a>
           </div>
         </div>
 

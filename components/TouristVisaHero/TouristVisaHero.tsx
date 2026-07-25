@@ -1,4 +1,5 @@
-import { Plane, Clock, ShieldCheck, Zap, ArrowDown } from "lucide-react";
+import { Plane, Clock, ShieldCheck, Zap, ArrowDown, Phone } from "lucide-react";
+import WhatsAppIcon from "@/components/icons/WhatsAppIcon";
 import { PRICES } from "@/lib/prices";
 import styles from "./TouristVisaHero.module.css";
 
@@ -46,6 +47,14 @@ export default function TouristVisaHero({
             <a href="#tourist-visa-list" className={styles.ctaPrimary}>
               Browse Visas <ArrowDown size={15} />
             </a>
+            <span className={styles.heroContactIcons}>
+              <a href="https://wa.me/971547800500" className={styles.heroIconBtn} aria-label="Chat on WhatsApp">
+                <WhatsAppIcon size={17} />
+              </a>
+              <a href="tel:+971527276699" className={styles.heroIconBtn} aria-label="Call us">
+                <Phone size={17} />
+              </a>
+            </span>
             <div className={styles.trustRow}>
               <span className={styles.trustItem}><Clock size={14} /> 24/7 Support</span>
               <span className={styles.trustDot} aria-hidden />
