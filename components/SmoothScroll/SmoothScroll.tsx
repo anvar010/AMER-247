@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
+import { usePathname } from "next/navigation";
 import Lenis from "lenis";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -10,6 +11,19 @@ if (typeof window !== "undefined") {
 }
 
 export default function SmoothScroll({ children }: { children: React.ReactNode }) {
+  const pathname = usePathname();
+
+  // Lenis is a single instance for the app's whole lifetime (below) — Next's
+  // client-side route changes swap {children} without a real page load, so
+  // without this the new page inherits whatever scroll position the
+  // previous page was left at. Landing scrolled-down on a shorter page can
+  // put the viewport straight into the global Footer instead of the top.
+  // Runs on every pathname change; same-page "#anchor" clicks don't change
+  // `pathname` at all, so this can't fight those.
+  useEffect(() => {
+    (window as any).lenis?.scrollTo(0, { immediate: true });
+  }, [pathname]);
+
   useEffect(() => {
     const lenis = new Lenis({
       duration: 1.2,
