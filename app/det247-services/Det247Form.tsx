@@ -66,19 +66,19 @@ export default function Det247Form() {
 
   return (
     <form className={styles.form} onSubmit={handleSubmit}>
+      <div className={styles.field}>
+        <label htmlFor="det-fullName">Full Name <span className={styles.req}>*</span></label>
+        <input id="det-fullName" className={styles.input} type="text" name="fullName" placeholder="Enter your full name" required />
+      </div>
+      <div className={styles.field}>
+        <label htmlFor="det-mobile">Mobile Number (with country code) <span className={styles.req}>*</span></label>
+        <input id="det-mobile" className={styles.input} type="tel" name="mobile" placeholder="+971 50 123 4567" required />
+      </div>
+      <div className={styles.field}>
+        <label htmlFor="det-email">Email Address <span className={styles.req}>*</span></label>
+        <input id="det-email" className={styles.input} type="email" name="email" placeholder="you@example.com" required />
+      </div>
       <div className={styles.grid2}>
-        <div className={styles.field}>
-          <label htmlFor="det-fullName">Full Name <span className={styles.req}>*</span></label>
-          <input id="det-fullName" className={styles.input} type="text" name="fullName" placeholder="Enter your full name" required />
-        </div>
-        <div className={styles.field}>
-          <label htmlFor="det-mobile">Mobile Number (with country code) <span className={styles.req}>*</span></label>
-          <input id="det-mobile" className={styles.input} type="tel" name="mobile" placeholder="+971 50 123 4567" required />
-        </div>
-        <div className={styles.field}>
-          <label htmlFor="det-email">Email Address <span className={styles.req}>*</span></label>
-          <input id="det-email" className={styles.input} type="email" name="email" placeholder="you@example.com" required />
-        </div>
         <div className={styles.field}>
           <label htmlFor="det-nationality">Nationality <span className={styles.req}>*</span></label>
           <select id="det-nationality" className={styles.select} name="nationality" required defaultValue="">
@@ -93,6 +93,8 @@ export default function Det247Form() {
             <option value="Outside UAE">Outside UAE</option>
           </select>
         </div>
+      </div>
+      <div className={styles.grid2}>
         <div className={styles.field}>
           <label htmlFor="det-contact-method">Preferred Contact Method</label>
           <select id="det-contact-method" className={styles.select} name="preferredContact" defaultValue="Call">
@@ -101,7 +103,7 @@ export default function Det247Form() {
             <option value="Email">Email</option>
           </select>
         </div>
-        <div className={styles.field} style={{ gridColumn: "1 / -1" }}>
+        <div className={styles.field}>
           <label htmlFor="det-service">Service Required <span className={styles.req}>*</span></label>
           <select
             id="det-service"
@@ -114,13 +116,13 @@ export default function Det247Form() {
             {DET_SERVICE_OPTIONS.map((o) => <option key={o} value={o}>{o}</option>)}
           </select>
         </div>
-        {serviceRequired === "Other" && (
-          <div className={styles.field} style={{ gridColumn: "1 / -1" }}>
-            <label htmlFor="det-other-service">Other (please specify) <span className={styles.req}>*</span></label>
-            <input id="det-other-service" className={styles.input} type="text" name="otherService" placeholder="Type your required service" required />
-          </div>
-        )}
       </div>
+      {serviceRequired === "Other" && (
+        <div className={styles.field}>
+          <label htmlFor="det-other-service">Other (please specify) <span className={styles.req}>*</span></label>
+          <input id="det-other-service" className={styles.input} type="text" name="otherService" placeholder="Type your required service" required />
+        </div>
+      )}
 
       <div className={styles.field}>
         <label htmlFor="det-captcha">Captcha <span className={styles.req}>*</span></label>

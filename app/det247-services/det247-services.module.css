@@ -99,34 +99,24 @@
   margin: 0 0 2rem;
 }
 
+/* Matches amer247-services hero's .pricingBtn exactly. */
 .heroCta {
   display: inline-flex;
   align-items: center;
-  gap: 0.65rem;
-  height: 50px;
-  padding: 0 1.75rem;
-  border-radius: 9999px;
-  background: #1a1a1a;
-  color: #fff;
+  gap: 0.5rem;
+  background: linear-gradient(155deg, #E3C77E, #A6822F);
+  color: #2A1F00;
+  border-radius: 999px;
+  padding: 0.85rem 1.5rem;
+  font-size: 0.85rem;
   font-weight: 700;
-  font-size: 0.9rem;
-  box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.3);
-  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease, background 0.3s ease;
-}
-
-.heroCta svg {
-  transition: transform 0.3s ease;
+  text-decoration: none;
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.2);
+  transition: transform 0.25s ease;
 }
 
 .heroCta:hover {
-  background: #fff;
-  color: #1a1a1a;
   transform: translateY(-2px);
-  box-shadow: 0 15px 25px -5px rgba(0, 0, 0, 0.25);
-}
-
-.heroCta:hover svg {
-  transform: translateX(3px);
 }
 
 .featureStripWrap {
