@@ -2,12 +2,6 @@ import Link from "next/link";
 import { AlertTriangle, ArrowRight } from "lucide-react";
 import styles from "./error.module.css";
 
-export const metadata = {
-  title: "AMER247 - Immigration Services | Dubai Visa Applications/Renewal",
-  description:
-    "Amer247 is a Semi Government Organization operating 24 hrs, allowing residents to complete all Visa and Residency transactions. Apply Online!",
-};
-
 export default function ErrorPage() {
   return (
     <div className={styles.wrap}>

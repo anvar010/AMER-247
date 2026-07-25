@@ -7,12 +7,6 @@ import { DET_WHAT_WE_DO, DET_PRICING } from "@/lib/det247Content";
 import Det247Form from "./Det247Form";
 import styles from "./det247-services.module.css";
 
-export const metadata = {
-  title: "AMER247 - Immigration Services | Dubai Visa Applications/Renewal",
-  description:
-    "Amer247 is a Semi Government Organization operating 24 hrs, allowing residents to complete all Visa and Residency transactions. Apply Online!",
-};
-
 // One icon per DET_WHAT_WE_DO category, same order as lib/det247Content.ts —
 // index-matched rather than keyed by heading text so a copy tweak there
 // can't silently break the icon (there's no icon field on that data yet).

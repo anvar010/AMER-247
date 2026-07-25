@@ -6,9 +6,12 @@ import MobileOnlineServicesScreen from "@/components/MobileOnlineServicesScreen/
 import HeroActions from "./HeroActions";
 
 export const metadata = {
-  title: "Online Services — Amer 24/7",
-  description:
-    "AMER 24/7's online services. Apply online for AMER services, Emirates ID, Golden Visa, Tas-heel services, medical tests, and insurance.",
+  title: "Amer Online Services - Amer247",
+  openGraph: {
+    title: "Amer Online Services - Amer247",
+    description:
+      "Explore a range of convenient online services for immigration, visas, and citizenship at Amer247.com. Streamline your application process with expert guidance and 24/7 support.",
+  },
 };
 
 export default function OnlineServicesPage() {

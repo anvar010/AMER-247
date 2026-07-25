@@ -10,8 +10,12 @@ const HERO_BLURB =
   "The online UAE Visit Visa Process simplifies the procedures & permits the user getting the permit quickly. 24/7 Support. Fast Confirmation. Choose from 96-hours, 14-days, & 30-days UAE Visit Visas.";
 
 export const metadata = {
-  title: `${HERO_TITLE} — Amer 24/7`,
-  description: HERO_BLURB,
+  title: "UAE Tourist Visa | Apply Online with Amer247.com",
+  openGraph: {
+    title: "UAE Tourist Visa | Apply Online with Amer247.com",
+    description:
+      "Apply for your UAE tourist visa hassle-free with Amer247.com. Fast and reliable visa processing services. Expert guidance and assistance. Start your journey to the UAE today!",
+  },
 };
 
 export default function UaeTouristVisaPage() {

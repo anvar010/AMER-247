@@ -73,9 +73,12 @@ const differences = [
 ];
 
 export const metadata = {
-  title: "About | Amer 24/7",
-  description:
-    "Amer 24/7 is a semi-government organization helping residents complete Visa and Residency transactions, established in 2017 in collaboration with the GDRFA.",
+  title: "Visa and Residency Services Dubai - Amer247",
+  openGraph: {
+    title: "Visa and Residency Services Dubai - Amer247",
+    description:
+      "Amer247 operates 24/7 and provides Entry permits, Issuing & Renewals of a Residency Visa, Visa Cancellation and other related services.",
+  },
 };
 
 export default function AboutPage() {

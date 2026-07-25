@@ -33,9 +33,12 @@ const mapHref =
   "https://www.google.com/maps/search/?api=1&query=24+Seven+Government+Transaction+Center+LLC+Al+Khabaisi+Deira+Dubai";
 
 export const metadata = {
-  title: "Contact — Amer 24/7",
-  description:
-    "Get in touch with Amer 24/7. Visit our Deira branch, call us, or send a message — we are available 24/7 for your visa and residency transactions.",
+  title: "Amer Center Dubai | Amer247",
+  openGraph: {
+    title: "Amer Center Dubai | Amer247",
+    description:
+      "We are the only Amer Center in Dubai which opens 24 hrs all days. Our services are available online by clicking on. APPLY ONLINE.",
+  },
 };
 
 export default function ContactPage() {

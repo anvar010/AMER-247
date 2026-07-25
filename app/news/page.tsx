@@ -9,9 +9,12 @@ const FEATURED_DESC =
   "Stay connected to expert advice, success stories, and breaking news that can make your journey smoother and more informed. Your path to a new chapter begins here!\"";
 
 export const metadata = {
-  title: "News & Blogs — Amer 24/7",
-  description:
-    "Stay informed with the latest news and blogs for a seamless journey — expert advice, success stories, and breaking UAE immigration updates.",
+  title: "UAE Visa and Residency News Update - Amer 247",
+  openGraph: {
+    title: "UAE Visa and Residency News Update - Amer 247",
+    description:
+      "We are open 24 hrs all days. Our services are available online by clicking on. APPLY ONLINE. ADDRESS. 24 Seven Government Transaction Center LLC",
+  },
 };
 
 export default function NewsPage() {

@@ -6,9 +6,14 @@ import SmoothScroll from "@/components/SmoothScroll/SmoothScroll";
 import MobileBottomNav from "@/components/MobileBottomNav/MobileBottomNav";
 
 export const metadata: Metadata = {
-  title: "Amer 24/7 — UAE Visa & Immigration Services",
+  title: "AMER247 - Immigration Services | Dubai Visa Applications/Renewal",
   description:
-    "Amer 24/7 operates 24 hours a day, 7 days a week to make your visa and immigration journey simple, fast and hassle-free.",
+    "Amer247 is a Semi Government Organization operating 24 hrs, allowing residents to complete all Visa and Residency transactions. Apply Online!",
+  openGraph: {
+    title: "AMER247 - Immigration Services | Dubai Visa Applications/Renewal",
+    description:
+      "Amer247 is a Semi Government Organization operating 24 hrs, allowing residents to complete all Visa and Residency transactions. Apply Online!",
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

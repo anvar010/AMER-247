@@ -4,8 +4,6 @@ import styles from "./career.module.css";
 
 export const metadata = {
   title: "Career- Amer 247 Our Performance-oriented Culture",
-  description:
-    "We are hiring. At amer247 hiring, our performance-oriented culture and responsible approach are the foundations of our success.",
   openGraph: {
     title: "Career- Amer 247 Our Performance-oriented Culture",
     description:

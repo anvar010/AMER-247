@@ -3,12 +3,6 @@ import PageHero from "@/components/PageHero/PageHero";
 import { MISSION_CARDS, COUNTRIES_WE_SERVE, WE_HELP_WITH, WHY_GLOBAL_AXIS_COPY } from "@/lib/immigrationContent";
 import styles from "./immigrationServices.module.css";
 
-export const metadata = {
-  title: "AMER247 - Immigration Services | Dubai Visa Applications/Renewal",
-  description:
-    "Amer247 is a Semi Government Organization operating 24 hrs, allowing residents to complete all Visa and Residency transactions. Apply Online!",
-};
-
 const MISSION_ICONS = [Target, HeartHandshake, Eye];
 
 // Split the source paragraph into an editorial lede (first sentence, with

@@ -4,12 +4,6 @@ import FaqAccordion from "@/components/FaqAccordion/FaqAccordion";
 import { PCR_TERMS, PCR_FAQS } from "@/lib/legalContent";
 import styles from "./covid-testing.module.css";
 
-export const metadata = {
-  title: "AMER247 - Immigration Services | Dubai Visa Applications/Renewal",
-  description:
-    "Amer247 is a Semi Government Organization operating 24 hrs, allowing residents to complete all Visa and Residency transactions. Apply Online!",
-};
-
 export default function CovidTestingPage() {
   return (
     <>
