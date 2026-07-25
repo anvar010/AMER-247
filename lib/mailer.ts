@@ -72,9 +72,7 @@ export const HUB_ADMIN_RECIPIENTS: Record<string, string[]> = {
   ],
 };
 
-// Matches master's sendMail route (the general Amer contact form), plus
-// the tracking recipient.
+
 export const CONTACT_ADMIN_RECIPIENTS = ["info@amer247.com", TRACKING_RECIPIENT];
-// Master's CareerForm has no admin email at all to match — this list exists
-// solely for the tracking recipient, per explicit request.
-export const CAREER_ADMIN_RECIPIENTS = [TRACKING_RECIPIENT];
+
+export const CAREER_ADMIN_RECIPIENTS = ["info@amer247.com", TRACKING_RECIPIENT];
