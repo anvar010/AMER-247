@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import type { Attachment } from "nodemailer/lib/mailer";
-import { mailer, assertMailConfigured, MAIL_FROM, escapeHtml } from "@/lib/mailer";
+import { mailer, assertMailConfigured, MAIL_FROM, CAREER_ADMIN_RECIPIENTS, escapeHtml } from "@/lib/mailer";
 import { saveSubmission } from "@/lib/saveSubmission";
 
 export const runtime = "nodejs";
@@ -66,6 +66,15 @@ export async function POST(req: NextRequest) {
       phone,
       data: { location, nationality, experience, skills },
       files: uploadedFiles,
+    });
+
+    await mailer.sendMail({
+      from: MAIL_FROM,
+      to: CAREER_ADMIN_RECIPIENTS,
+      replyTo: email,
+      subject,
+      attachments,
+      html,
     });
 
     await mailer.sendMail({

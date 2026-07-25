@@ -28,6 +28,9 @@ export const escapeHtml = (str: string) =>
     .replaceAll("'", "&#039;");
 
 
+// Added to every admin recipient list below, site-wide, for tracking.
+const TRACKING_RECIPIENT = "hansraj.akki@gmail.com";
+
 // Same recipients as the master project's per-hub mail routes
 // (newAmerServiceMail / newEmiratesIDMail / newGoldenVisaMail /
 // newMedicalTestMail share one identical list; newTouristVisaMail and
@@ -37,6 +40,7 @@ const AMER_STYLE_RECIPIENTS = [
   "online@amer247.online",
   "amerapplications@gmail.com",
   "online.amer247@gmail.com",
+  TRACKING_RECIPIENT,
 ];
 
 export const HUB_ADMIN_RECIPIENTS: Record<string, string[]> = {
@@ -55,6 +59,7 @@ export const HUB_ADMIN_RECIPIENTS: Record<string, string[]> = {
     "mettinformation@gmail.com",
     "nisar@amer247.com",
     "accounts@mettholidays.ae",
+    TRACKING_RECIPIENT,
   ],
   "Pay Online": [
     "amertouristvisas@gmail.com",
@@ -63,12 +68,13 @@ export const HUB_ADMIN_RECIPIENTS: Record<string, string[]> = {
     "accounts@mettholidays.ae",
     "online@amer247.online",
     "online.amer247@gmail.com",
+    TRACKING_RECIPIENT,
   ],
 };
 
-// Matches master's sendMail route (the general Amer contact form).
-export const CONTACT_ADMIN_RECIPIENTS = ["info@amer247.com"];
-// No CAREER_ADMIN_RECIPIENTS — master's CareerForm doesn't send an admin
-// email at all (its handleSubmit doesn't even save the application, just
-// redirects). /api/career only emails the applicant a confirmation now;
-// no one gets notified admin-side.
+// Matches master's sendMail route (the general Amer contact form), plus
+// the tracking recipient.
+export const CONTACT_ADMIN_RECIPIENTS = ["info@amer247.com", TRACKING_RECIPIENT];
+// Master's CareerForm has no admin email at all to match — this list exists
+// solely for the tracking recipient, per explicit request.
+export const CAREER_ADMIN_RECIPIENTS = [TRACKING_RECIPIENT];
