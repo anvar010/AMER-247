@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { mailer, assertMailConfigured, MAIL_FROM, escapeHtml } from "@/lib/mailer";
-import { saveSubmission } from "@/lib/saveSubmission";
+import { saveDet247Request } from "@/lib/db";
 
 export const runtime = "nodejs";
 
@@ -49,14 +49,17 @@ export async function POST(req: NextRequest) {
       ${serviceRequired === "Other" ? `<b>Other Service:</b> ${safe.otherService}<br/><br/>` : ""}
     `;
 
-    // Persist FIRST — saveSubmission never throws, so a mail-provider outage
-    // can't lose the submission entirely.
-    await saveSubmission({
-      formType: "det247",
-      applicantName: fullName,
+    // Persist FIRST — never throws, so a mail-provider outage can't lose the
+    // submission entirely.
+    await saveDet247Request({
+      fullName,
+      mobile,
       email,
-      phone: mobile,
-      data: { nationality, location, preferredContact, serviceRequired, otherService },
+      nationality,
+      location,
+      preferredContact,
+      serviceRequired,
+      otherService,
     });
 
     await mailer.sendMail({

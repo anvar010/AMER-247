@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getSupabaseAdmin } from "@/lib/supabase";
+import { findPayableSubmission, updatePayableSubmission } from "@/lib/db";
 
 export const runtime = "nodejs";
 
@@ -17,33 +17,12 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Missing required fields." }, { status: 400 });
     }
 
-    const supabase = getSupabaseAdmin();
-    // reference_id isn't guaranteed unique (see lib/saveSubmission.ts — it's
-    // client-generated with a small random range, so two different
-    // applicants can coincidentally collide) — .limit(1) + newest-first
-    // instead of .single() means a rare collision degrades to "updates the
-    // most recent match" instead of throwing and dropping the webhook.
-    const { data: matches, error: fetchError } = await supabase
-      .from("submissions")
-      .select("id, data")
-      .eq("reference_id", orderNo)
-      .order("created_at", { ascending: false })
-      .limit(1);
-
-    const existing = matches?.[0];
-    if (fetchError || !existing) {
+    const existing = await findPayableSubmission(orderNo);
+    if (!existing) {
       return NextResponse.json({ error: "Order not found." }, { status: 404 });
     }
 
-    const { error: updateError } = await supabase
-      .from("submissions")
-      .update({ data: { ...(existing.data ?? {}), transactionStatus } })
-      .eq("id", existing.id);
-
-    if (updateError) {
-      console.error("paymentCallBack update error:", updateError.message);
-      return NextResponse.json({ error: "Failed to update transaction status." }, { status: 500 });
-    }
+    await updatePayableSubmission(existing, { transaction_status: transactionStatus });
 
     return NextResponse.json({ status: "Success" }, { status: 200 });
   } catch (error) {

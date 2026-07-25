@@ -78,11 +78,11 @@ export default function TouristVisaForm({
   // True once /api/apply has saved this submission — a retry click after a
   // failed payment-start (same mounted form, same refNum) must not call
   // /api/apply again, since that would insert a second row under the same
-  // reference. Deliberately NOT "fixed" by upserting in saveSubmission
-  // itself: reference IDs aren't unique across different applicants (see
-  // its own comment), so upserting there could overwrite a stranger's
-  // submission on a coincidental collision. Gating here avoids that risk
-  // entirely instead of trading it for a different one.
+  // reference. Deliberately NOT "fixed" by upserting in lib/db.ts's save
+  // functions themselves: reference IDs aren't unique across different
+  // applicants (see their own comment), so upserting there could overwrite
+  // a stranger's submission on a coincidental collision. Gating here avoids
+  // that risk entirely instead of trading it for a different one.
   const appliedRef = useRef(false);
 
   // The site's global Lenis smooth-scroll never resets on navigation (it's
@@ -175,8 +175,8 @@ export default function TouristVisaForm({
       ...children.map((c, i) => `Child ${i + 1}: ${c.name} (DOB ${c.dob})`),
     ].join(" | ");
     fd.set("passengers", passengers);
-    // Structured versions of the same data, for saveSubmission's jsonb `data`
-    // column — `passengers` above stays flattened since that's what the
+    // Structured versions of the same data, for the DB row's adults/children
+    // columns — `passengers` above stays flattened since that's what the
     // email HTML template expects, but the DB copy should keep adults/
     // children as real queryable arrays instead of a display string.
     fd.set("adults", JSON.stringify(adults));

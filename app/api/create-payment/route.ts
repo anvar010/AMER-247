@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createMettpayOrder } from "@/lib/mettpay";
-import { saveSubmission } from "@/lib/saveSubmission";
+import { savePayOnlineOrder } from "@/lib/db";
 
 export const runtime = "nodejs";
 
@@ -60,17 +60,18 @@ export async function POST(req: NextRequest) {
 
     if (!existingReferenceId) {
       // Persist as "pending" before calling out to Mettpay — mirrors
-      // saveSubmission's own "save before the risky external call" pattern in
-      // app/api/apply/route.ts, so a Mettpay outage never loses the record of
-      // someone attempting to pay.
-      await saveSubmission({
-        formType: "apply",
-        hub: "Pay Online",
+      // /api/apply's own "save before the risky external call" pattern, so
+      // a Mettpay outage never loses the record of someone attempting to
+      // pay.
+      await savePayOnlineOrder({
         referenceId,
-        applicantName: name,
+        name,
         email,
-        phone: mobile,
-        data: { amount, comments, applicationReference, transactionStatus: "pending" },
+        mobile,
+        amount,
+        comments,
+        applicationReference,
+        transactionStatus: "pending",
       });
     }
 

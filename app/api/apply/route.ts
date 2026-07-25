@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import type { Attachment } from "nodemailer/lib/mailer";
 import { mailer, assertMailConfigured, MAIL_FROM, HUB_ADMIN_RECIPIENTS } from "@/lib/mailer";
-import { saveSubmission } from "@/lib/saveSubmission";
+import { saveTouristVisaApplication, saveServiceApplication } from "@/lib/db";
 import { buildApplicationEmail } from "@/lib/applicationEmail";
 
 export const runtime = "nodejs";
@@ -70,19 +70,46 @@ export async function POST(req: NextRequest) {
       ...(deferEmail ? { transactionStatus: "pending" } : {}),
     };
 
-    // Persist FIRST — saveSubmission never throws, and running it before the
-    // emails means a mail-provider outage can't lose the submission entirely
-    // (previously the throw from sendMail skipped the save).
-    await saveSubmission({
-      formType: "apply",
-      hub,
-      referenceId: referenceID,
-      applicantName,
-      email,
-      phone: field("mobileNo"),
-      data,
-      files: uploadedFiles,
-    });
+    // Persist FIRST — never throws, and running it before the emails means
+    // a mail-provider outage can't lose the submission entirely (previously
+    // the throw from sendMail skipped the save). Tourist Visa and every
+    // other hub have different real columns, hence the two save functions.
+    const transactionStatus = deferEmail ? "pending" : undefined;
+    if (hub === "Tourist Visa") {
+      await saveTouristVisaApplication({
+        referenceId: referenceID,
+        service,
+        applicantName,
+        email,
+        mobileNo: field("mobileNo"),
+        whatsappNo: field("whatsappNo"),
+        nationality: field("nationality"),
+        travelDate: field("travelDate"),
+        passengers: field("passengers"),
+        adults: parseJsonArray("adults"),
+        children: parseJsonArray("children"),
+        files: uploadedFiles,
+        transactionStatus,
+      });
+    } else {
+      await saveServiceApplication({
+        referenceId: referenceID,
+        hub,
+        service,
+        applicantName,
+        sponsorName: field("sponsorName"),
+        email,
+        mobileNo: field("mobileNo"),
+        applicationPriority: field("applicationPriority"),
+        applicationType: field("applicationType"),
+        insideOrOutside: field("insideOrOutside"),
+        emirates: field("emirates"),
+        address: field("address"),
+        comment: field("comment"),
+        files: uploadedFiles,
+        transactionStatus,
+      });
+    }
 
     if (!deferEmail) {
       assertMailConfigured();

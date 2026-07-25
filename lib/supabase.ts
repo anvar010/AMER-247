@@ -4,7 +4,7 @@ import { createClient, type SupabaseClient } from "@supabase/supabase-js";
 // createClient would throw during import when the env vars are missing,
 // which takes down every API route that imports it (even the email path,
 // which doesn't need Supabase at all). Lazy init confines a misconfigured
-// environment to a logged saveSubmission failure instead.
+// environment to a logged save-function failure instead.
 let client: SupabaseClient | null = null;
 
 export function getSupabaseAdmin(): SupabaseClient {

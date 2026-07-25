@@ -9,7 +9,7 @@ import styles from "@/components/SimpleFormFields/SimpleFormFields.module.css";
 const CITIES = ["Dubai", "Abu Dhabi", "Sharjah", "Ajman", "Lahore", "Karachi", "Other"];
 const EXPERIENCE = ["1 Year", "2 Years", "3 Years", "4 Years", "5+ Years"];
 
-// Matches the submission-files bucket's own 5MB limit (see lib/saveSubmission.ts).
+// Matches the submission-files bucket's own 5MB limit (see lib/db.ts).
 const MAX_UPLOAD_BYTES = 5 * 1024 * 1024;
 
 export default function CareerForm() {

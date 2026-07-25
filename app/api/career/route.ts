@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import type { Attachment } from "nodemailer/lib/mailer";
 import { mailer, assertMailConfigured, MAIL_FROM, CAREER_ADMIN_RECIPIENTS, escapeHtml } from "@/lib/mailer";
-import { saveSubmission } from "@/lib/saveSubmission";
+import { saveCareerApplication } from "@/lib/db";
 
 export const runtime = "nodejs";
 
@@ -57,14 +57,16 @@ export async function POST(req: NextRequest) {
       <b>Key Skills:</b> ${safe.skills}<br/><br/>
     `;
 
-    // Persist FIRST — saveSubmission never throws, so a mail-provider outage
-    // can't lose the submission entirely.
-    await saveSubmission({
-      formType: "career",
-      applicantName: fullName,
+    // Persist FIRST — never throws, so a mail-provider outage can't lose the
+    // submission entirely.
+    await saveCareerApplication({
+      fullName,
       email,
       phone,
-      data: { location, nationality, experience, skills },
+      location,
+      nationality,
+      experience,
+      skills,
       files: uploadedFiles,
     });
 

@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { mailer, assertMailConfigured, MAIL_FROM, CONTACT_ADMIN_RECIPIENTS, escapeHtml } from "@/lib/mailer";
-import { saveSubmission } from "@/lib/saveSubmission";
+import { saveContactSubmission } from "@/lib/db";
 
 export const runtime = "nodejs";
 
@@ -35,15 +35,9 @@ export async function POST(req: NextRequest) {
       <b>Message:</b> ${safeMessage}<br/><br/>
     `;
 
-    // Persist FIRST — saveSubmission never throws, so a mail-provider outage
-    // can't lose the submission entirely.
-    await saveSubmission({
-      formType: "contact",
-      applicantName: name,
-      email,
-      phone,
-      data: { reason, message },
-    });
+    // Persist FIRST — never throws, so a mail-provider outage can't lose the
+    // submission entirely.
+    await saveContactSubmission({ name, email, phone, reason, message });
 
     await mailer.sendMail({
       from: MAIL_FROM,
