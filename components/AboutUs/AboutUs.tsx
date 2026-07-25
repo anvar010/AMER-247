@@ -92,7 +92,7 @@ export default function AboutUs() {
             </div>
             
             {/* Dynamic call to action button with elegant interaction */}
-            <Link href="#services" className={styles.ctaButton}>
+            <Link href="/about" className={styles.ctaButton}>
               <span>Know more about Amer 24/7</span>
               <div className={styles.ctaIconCircle}>
                 <ArrowRight className={styles.ctaIcon} />
@@ -155,7 +155,7 @@ export default function AboutUs() {
         ))}
       </div>
 
-      <Link href="/online-services" className={mstyles.ctaBtn}>
+      <Link href="/about" className={mstyles.ctaBtn}>
         Know more about Amer 24/7
         <span className={mstyles.ctaIco}>
           <ArrowRight size={16} />
