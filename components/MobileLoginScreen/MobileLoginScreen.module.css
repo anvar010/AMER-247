@@ -22,7 +22,7 @@
 .heroBg {
   position: absolute;
   inset: 0;
-  background: url("/images/dubai.jpg") center 30% / cover;
+  background: url("/images/dubai.webp") center 30% / cover;
 }
 
 .heroBg::after {

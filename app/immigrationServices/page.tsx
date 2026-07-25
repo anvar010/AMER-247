@@ -90,7 +90,7 @@ export default function ImmigrationServicesPage() {
 
       <section className={styles.why}>
         <div className={`container ${styles.whyInner}`}>
-          <img src="/image.png" alt="" className={styles.whyImage} />
+          <img src="/images/immigration-services-illustration.webp" alt="" className={styles.whyImage} />
           <div className={styles.whyBody}>
             <span className={styles.eyebrow}>
               <span className={styles.eyebrowLine} />

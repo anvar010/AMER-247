@@ -25,7 +25,7 @@ export default function MobileHomeHero() {
       <video
         className={styles.bg}
         autoPlay muted loop playsInline
-        poster="/images/dubai.jpg"
+        poster="/images/dubai.webp"
       >
         <source src="/images/AMER-hero.mp4" type="video/mp4" />
       </video>

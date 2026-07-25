@@ -136,7 +136,7 @@ export default function WhoWeAre() {
       </div>
 
       <div className={mstyles.imageCard}>
-        <img src="/images/IMG_0898.jpg" alt="Amer247 Center" className={mstyles.image} />
+        <img src="/images/amer-lounge-interior.webp" alt="Amer247 Center" className={mstyles.image} />
         <div className={mstyles.imageOverlay} />
         <div className={mstyles.badge}>
           <span className={mstyles.badgeNum}>24/7</span>

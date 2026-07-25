@@ -25,7 +25,7 @@ export default function MobileAppFooter() {
   return (
     <div className={`${styles.wrap} ${outfit.className}`}>
       <div className={styles.card}>
-        <img src="/logos/amernew-cropped.png" alt="Amer 24/7" className={styles.logo} />
+        <img src="/logos/amernew-cropped.webp" alt="Amer 24/7" className={styles.logo} />
         <p className={styles.tag}>We are open 24 hours, all days.</p>
 
         <div className={styles.rows}>

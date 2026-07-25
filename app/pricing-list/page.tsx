@@ -78,7 +78,7 @@ export default function PricingListPage() {
             <div className={styles.heroRight} aria-hidden="true">
               <div className={styles.heroImageWrap}>
                 <img
-                  src="/images/image copy.png"
+                  src="/images/uae-passport-emirates-id-visa.webp"
                   alt=""
                   className={styles.heroImage}
                 />

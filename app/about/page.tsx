@@ -112,7 +112,7 @@ export default function AboutPage() {
               className={mstyles.video}
               src="/images/Amerwebvideo.mp4"
               autoPlay loop muted playsInline preload="metadata"
-              poster="/images/dubai.jpg"
+              poster="/images/dubai.webp"
               aria-label="Amer 24/7 brand video"
             />
             <div className={mstyles.videoOverlay} />
@@ -230,7 +230,7 @@ export default function AboutPage() {
               <span className={styles.heroRingMaroon} />
               <div className={styles.heroLogoCircle}>
                 <img
-                  src="/logos/amernew-cropped-dark.png"
+                  src="/logos/amernew-cropped-dark.webp"
                   alt="Amer 24/7"
                   className={styles.heroLogoImg}
                 />
@@ -267,7 +267,7 @@ export default function AboutPage() {
                 muted
                 playsInline
                 preload="metadata"
-                poster="/images/dubai.jpg"
+                poster="/images/dubai.webp"
                 aria-label="Amer 24/7 brand video"
               />
               <span className={styles.storyImgFrame} aria-hidden="true" />

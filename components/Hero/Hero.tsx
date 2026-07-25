@@ -112,7 +112,7 @@ export default function Hero() {
           <video
             className={styles.video}
             autoPlay muted loop playsInline
-            poster="/images/dubai.jpg"
+            poster="/images/dubai.webp"
           >
             <source src="/images/AMER-hero.mp4" type="video/mp4" />
           </video>

@@ -61,7 +61,7 @@ export default function Footer() {
       <span className={styles.glow} aria-hidden="true" />
       <div className={`container ${styles.top}`}>
         <AnimatedContainer className={styles.brand}>
-          <img src="/logos/amernew-cropped.png" alt="Amer 24/7" className={styles.logo} />
+          <img src="/logos/amernew-cropped.webp" alt="Amer 24/7" className={styles.logo} />
           <p className={styles.wordmark}>AMER 24/7</p>
           <p className={styles.tagline}>We are open 24 hrs all days.</p>
           <p className={styles.copy}>

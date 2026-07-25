@@ -54,7 +54,7 @@ export default function PickUpService() {
           <div className={styles.imageWrap}>
             <div className={styles.imageOutline} />
             <img
-              src="/images/IMG_0897.jpg"
+              src="/images/amer247-center-exterior.webp"
               alt="Amer 24 7 provides documents pick up and drop off service"
               className={styles.mainImage}
             />
@@ -112,7 +112,7 @@ export default function PickUpService() {
 
       <div className={mstyles.card}>
         <div className={mstyles.imgWrap}>
-          <img src="/images/IMG_0897.jpg" alt="Amer 24/7 courier service" className={mstyles.img} />
+          <img src="/images/amer247-center-exterior.webp" alt="Amer 24/7 courier service" className={mstyles.img} />
           <div className={mstyles.badge}>
             <span className={mstyles.badgeIco}>
               <Clock size={18} />

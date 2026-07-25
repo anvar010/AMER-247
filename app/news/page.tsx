@@ -49,7 +49,7 @@ export default function NewsPage() {
             FEATURED
           </div>
           <div className={styles.featuredImageWrap}>
-            <img src="/images/document_pickup_delivery.png" alt="" className={styles.featuredImage} />
+            <img src="/images/document_pickup_delivery.webp" alt="" className={styles.featuredImage} />
           </div>
           <p className={styles.imageCaption}>
             Stay Informed with the Latest News and Blogs for Seamless Journey

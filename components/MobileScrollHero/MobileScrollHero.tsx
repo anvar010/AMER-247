@@ -235,7 +235,7 @@ export default function MobileScrollHero() {
         <div className={styles.overlay} />
 
         {/* Clone Logo for Yoyo Animation */}
-        <img ref={cloneLogoRef} src="/logos/amernew-cropped.png" className={styles.cloneLogo} alt="" />
+        <img ref={cloneLogoRef} src="/logos/amernew-cropped.webp" className={styles.cloneLogo} alt="" />
 
         <span ref={overlineRef} className={styles.overline} style={{ zIndex: 2 }}>
           24/7 IMMIGRATION <br /> &amp; VISA SERVICES

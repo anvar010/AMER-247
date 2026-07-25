@@ -46,7 +46,7 @@ export default function BlogsPage() {
             FEATURED
           </div>
           <div className={styles.featuredImageWrap}>
-            <img src="/images/document_pickup_delivery.png" alt="" className={styles.featuredImage} />
+            <img src="/images/document_pickup_delivery.webp" alt="" className={styles.featuredImage} />
           </div>
           <p className={styles.imageCaption}>
             Discover Our Latest Blogs

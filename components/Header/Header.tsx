@@ -140,7 +140,7 @@ export default function Header() {
         <Link href="/" className={styles.logos}>
           <img
             id="global-header-logo"
-            src={scrolled ? "/logos/amernew-cropped-dark.png" : "/logos/amernew-cropped.png"}
+            src={scrolled ? "/logos/amernew-cropped-dark.webp" : "/logos/amernew-cropped.webp"}
             alt="Amer 24/7"
             className={styles.logoImg}
           />
@@ -194,7 +194,7 @@ export default function Header() {
           aria-label="Main menu"
         >
           <div className={styles.menuPanelHead}>
-            <img src="/logos/amernew-cropped-dark.png" alt="Amer 24/7" className={styles.menuPanelLogo} />
+            <img src="/logos/amernew-cropped-dark.webp" alt="Amer 24/7" className={styles.menuPanelLogo} />
             <button className={styles.menuClose} onClick={() => setMenuOpen(false)} aria-label="Close menu">
               <X size={20} />
             </button>
