@@ -3,7 +3,12 @@
   top: 0;
   left: 0;
   right: 0;
-  z-index: 50;
+  /* Above MobileBottomNav (z-index:100) — .header creates its own stacking
+     context (position:fixed + z-index), so .menuOverlay's z-index:300 only
+     ranks within it and can't out-rank a sibling on its own. Kept below
+     the search/fee-calculator overlays (z-index:200), which need to sit
+     above the header when opened. */
+  z-index: 180;
   background: transparent;
   border-bottom: 1px solid transparent;
   transition: background 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease, padding 0.3s ease;
