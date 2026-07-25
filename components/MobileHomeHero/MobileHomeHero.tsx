@@ -1,8 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Link from "next/link";
-import { User } from "lucide-react";
 import { Outfit } from "next/font/google";
 import styles from "./MobileHomeHero.module.css";
 
@@ -30,11 +28,6 @@ export default function MobileHomeHero() {
         <source src="/images/AMER-hero.mp4" type="video/mp4" />
       </video>
       <div className={styles.overlay} />
-
-      <Link href="/account" className={styles.avatar} aria-label="Account">
-        <User size={19} />
-        <span className={styles.bellDot} />
-      </Link>
 
       <div className={styles.greetRow}>
         <div className={styles.greetHi}>{greeting}</div>

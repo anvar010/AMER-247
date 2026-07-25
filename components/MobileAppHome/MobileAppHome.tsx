@@ -4,8 +4,8 @@ import { useMemo, useState } from "react";
 import Link from "next/link";
 import { Outfit } from "next/font/google";
 import {
-  Search, Mic, MousePointerClick, FileText, Calculator, Headset,
-  ArrowRight, Sparkles,
+  Search, Mic, MousePointerClick, Calculator, Headset,
+  ArrowRight,
 } from "lucide-react";
 import MobileSearchOverlay from "@/components/MobileSearchOverlay/MobileSearchOverlay";
 import MobileFeeCalculator from "@/components/MobileFeeCalculator/MobileFeeCalculator";
@@ -17,12 +17,10 @@ const outfit = Outfit({ subsets: ["latin"], weight: ["400", "500", "600", "700",
 type Cat = "Visa" | "ID" | "Medical" | "Business";
 const CATS: readonly ("All" | Cat)[] = ["All", "Visa", "ID", "Medical", "Business"];
 
-// Matches the app's quick-action row exactly (Apply/Track/Fees/Support —
-// the 3rd slot is "Fees", opening the Fee Calculator, not "Book").
-// In the real app, Track requires being signed in — same here.
+// Matches the app's quick-action row (Apply/Fees/Support — "Track" was
+// dropped along with /login/account, which had no real backend behind them).
 const QUICK = [
   { icon: MousePointerClick, label: "Apply", tone: "gold" as const, href: "/online-services" },
-  { icon: FileText, label: "Track", tone: "primary" as const, href: "/login" },
   { icon: Calculator, label: "Fees", tone: "default" as const, href: null },
   { icon: Headset, label: "Support", tone: "default" as const, href: "/contact" },
 ];
@@ -68,21 +66,6 @@ export default function MobileAppHome() {
           )
         )}
       </div>
-
-      {/* Get started */}
-      <div className={styles.secHead}>
-        <h2 className={styles.h2}>Get started</h2>
-      </div>
-      <Link href="/login" className={styles.tracker}>
-        <span className={styles.trackerIco}>
-          <Sparkles size={19} />
-        </span>
-        <span className={styles.trackerBody}>
-          <span className={styles.trackerT}>Start your application</span>
-          <span className={styles.trackerD}>Sign in to track every step here — live, 24/7.</span>
-        </span>
-        <ArrowRight size={18} className={styles.trackerArrow} />
-      </Link>
 
       {/* Our services */}
       <div className={styles.secHead}>

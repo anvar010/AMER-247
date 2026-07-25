@@ -18,9 +18,9 @@ export default function MobileBottomNav() {
   // the same one-viewport-tall section) takes over the full screen first —
   // the tab bar only appears once actually scrolled past it into the merged
   // home content below (#mobile-home-start). Everywhere else it's just
-  // hidden on the sub-flow screens (login/apply), same as before.
+  // hidden on the apply-form sub-flow, same as before.
   const [pastSplash, setPastSplash] = useState(false);
-  const showNav = isSplash ? pastSplash : pathname !== "/login" && !isApplyFormRoute(pathname);
+  const showNav = isSplash ? pastSplash : !isApplyFormRoute(pathname);
 
   useEffect(() => {
     if (!isSplash) {
