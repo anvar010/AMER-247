@@ -16,6 +16,15 @@ const outfit = Outfit({ subsets: ["latin"], weight: ["400", "500", "600", "700",
 
 type Cat = "Visa" | "ID" | "Medical" | "Business";
 const CATS: readonly ("All" | Cat)[] = ["All", "Visa", "ID", "Medical", "Business"];
+// Display-only — the filter value itself stays "ID" (matches WhatWeDo's
+// category data), just the chip label reads more clearly.
+const CAT_LABELS: Record<"All" | Cat, string> = {
+  All: "All",
+  Visa: "Visa",
+  ID: "Emirates ID",
+  Medical: "Medical",
+  Business: "Business",
+};
 
 // Matches the app's quick-action row (Apply/Fees/Support — "Track" was
 // dropped along with /login/account, which had no real backend behind them).
@@ -82,7 +91,7 @@ export default function MobileAppHome() {
             className={`${styles.chip} ${cat === c ? styles.chipOn : ""}`}
             onClick={() => setCat(c)}
           >
-            {c}
+            {CAT_LABELS[c]}
           </button>
         ))}
       </div>

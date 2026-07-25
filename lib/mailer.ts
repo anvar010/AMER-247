@@ -68,7 +68,7 @@ export const HUB_ADMIN_RECIPIENTS: Record<string, string[]> = {
 
 // Matches master's sendMail route (the general Amer contact form).
 export const CONTACT_ADMIN_RECIPIENTS = ["info@amer247.com"];
-// No dedicated career mail route exists in master (its CareerForm doesn't
-// send an admin email at all, just posts to Strapi) — kept as-is since
-// there's nothing real to match here.
-export const CAREER_ADMIN_RECIPIENTS = ["anvarshaknavas588@gmail.com"];
+// No CAREER_ADMIN_RECIPIENTS — master's CareerForm doesn't send an admin
+// email at all (its handleSubmit doesn't even save the application, just
+// redirects). /api/career only emails the applicant a confirmation now;
+// no one gets notified admin-side.
