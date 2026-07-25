@@ -13,7 +13,6 @@ dist/
 # Environment files
 .env
 .env.*
-!.env.example
 
 # OS files
 .DS_Store
@@ -29,7 +28,13 @@ npm-debug.log*
 
 # Claude Code skills & internal tooling — not part of the project
 .agents/
+.claude/
+.mcp.json
 skills-lock.json
+
+# Local Supabase schema reference — not needed at runtime, and shouldn't be
+# pushed to other remotes this repo gets mirrored to.
+supabase-setup.sql
 
 # TypeScript
 *.tsbuildinfo
