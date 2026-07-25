@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from "react";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import { Outfit } from "next/font/google";
 import {
   Search, X, Layers, Eye, Building2, IdCard, Gem, FileText, Stethoscope,
@@ -47,8 +48,16 @@ function PriceBlock({ item }: { item: PriceItem }) {
   );
 }
 
+// The Hero/WhatWeDo cards link with ?tab=golden-visa (matching desktop
+// CategoryTabs's key), but this component's own key for the same hub is
+// "golden" — same mismatch that desktop's CATALOG_HUB_KEY works around.
+const TAB_PARAM_ALIASES: Record<string, string> = { "golden-visa": "golden" };
+
 export default function MobileOnlineServicesScreen() {
-  const [activeKey, setActiveKey] = useState<string>("amer");
+  const tabParam = useSearchParams().get("tab");
+  const resolvedTab = tabParam ? (TAB_PARAM_ALIASES[tabParam] ?? tabParam) : "amer";
+  const initialKey = CATEGORIES.some((c) => c.key === resolvedTab) ? resolvedTab : "amer";
+  const [activeKey, setActiveKey] = useState<string>(initialKey);
   const [q, setQ] = useState("");
   const [docsFor, setDocsFor] = useState<{ name: string; slug?: string } | null>(null);
 

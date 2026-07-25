@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import { Check, ShieldCheck, Fingerprint, FileText, Clock } from 'lucide-react';
 import styles from "./online-services.module.css";
 import ApplicationTracker from './ApplicationTracker';
@@ -19,7 +20,9 @@ export default function OnlineServicesPage() {
     <>
       {/* Mobile-only — same URL, app-matching card design instead of the
           desktop hero + dark-image-card tabs below. */}
-      <MobileOnlineServicesScreen />
+      <Suspense fallback={null}>
+        <MobileOnlineServicesScreen />
+      </Suspense>
 
       {/* ===================== Hero (desktop-only) ===================== */}
       <section className={styles.hero}>
@@ -88,7 +91,9 @@ export default function OnlineServicesPage() {
       </section>
 
       {/* ===================== Category Tabs ===================== */}
-      <CategoryTabs />
+      <Suspense fallback={null}>
+        <CategoryTabs />
+      </Suspense>
     </>
   );
 }

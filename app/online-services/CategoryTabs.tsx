@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef, type ComponentType } from "react";
+import { useSearchParams } from "next/navigation";
 import {
   AmerIcon,
   EmiratesIdIcon,
@@ -53,8 +54,17 @@ const CATALOG_HUB_KEY: Partial<Record<CategoryKey, string>> = {
   insurance: "insurance",
 };
 
+const CATEGORY_KEYS = categories.map((c) => c.key);
+
 export default function CategoryTabs() {
-  const [active, setActive] = useState<CategoryKey>("amer");
+  // Deep-links like /online-services?tab=golden-visa (used by the Hero and
+  // WhatWeDo service cards) were being silently ignored — nothing read the
+  // query param, so every link just landed on the default "amer" tab.
+  const tabParam = useSearchParams().get("tab");
+  const initialActive = (CATEGORY_KEYS as string[]).includes(tabParam ?? "")
+    ? (tabParam as CategoryKey)
+    : "amer";
+  const [active, setActive] = useState<CategoryKey>(initialActive);
   const sectionRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
