@@ -50,7 +50,8 @@ export default function Footer() {
     { label: "Refund Policy", href: "/refund-policy" },
     { label: "Terms & Conditions", href: "/terms-conditions" },
     { label: "Careers", href: "/career" },
-    { label: "Covid Testing", href: "/covid-testing" },
+    // Covid Testing hidden for now.
+    // { label: "Covid Testing", href: "/covid-testing" },
     { label: "Contact", href: "/contact" },
   ];
 
@@ -107,7 +108,12 @@ export default function Footer() {
           </p>
           <div className={styles.mapWrap}>
             <span className={styles.mapBar}></span>
-            <Link href="#" className={styles.mapLink}>
+            <Link
+              href="https://maps.app.goo.gl/xbg3hDWXjzAZKzMNA"
+              target="_blank"
+              rel="noopener noreferrer"
+              className={styles.mapLink}
+            >
               Follow Map <ArrowRight size={14} />
             </Link>
           </div>

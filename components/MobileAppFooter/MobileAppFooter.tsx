@@ -10,7 +10,8 @@ const pageLinks = [
   { label: "Refund Policy", href: "/refund-policy" },
   { label: "Terms & Conditions", href: "/terms-conditions" },
   { label: "Careers", href: "/career" },
-  { label: "Covid Testing", href: "/covid-testing" },
+  // Covid Testing hidden for now.
+  // { label: "Covid Testing", href: "/covid-testing" },
   { label: "Contact", href: "/contact" },
 ];
 
