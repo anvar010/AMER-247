@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { findPayableSubmission, updatePayableSubmission } from "@/lib/db";
+import { notifyPaymentStage } from "@/lib/paymentNotify";
 
 export const runtime = "nodejs";
 
@@ -10,6 +11,12 @@ export const runtime = "nodejs";
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
+    // Logged unconditionally (not just on error) — this is Mettpay's
+    // undocumented webhook, so the only way to confirm it's actually being
+    // called (and see its real payload shape) is to see every hit in Render
+    // logs, success or not.
+    console.log("paymentCallBack received:", JSON.stringify(body));
+
     const orderNo = String(body.order_no ?? "");
     const transactionStatus = String(body.transaction_status ?? "");
 
@@ -22,7 +29,20 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Order not found." }, { status: 404 });
     }
 
-    await updatePayableSubmission(existing, { transaction_status: transactionStatus });
+    // "success" is our own convention (matches what the redirect fallback
+    // uses) — Mettpay's real webhook vocabulary is unconfirmed, so anything
+    // else just gets recorded as-is without firing the success notification.
+    const isSuccess = transactionStatus === "success";
+    const successAt = isSuccess ? new Date().toISOString() : undefined;
+    await updatePayableSubmission(existing, {
+      transaction_status: transactionStatus,
+      ...(successAt ? { success_at: successAt } : {}),
+    });
+    console.log(`paymentCallBack: ${orderNo} -> ${transactionStatus}`);
+
+    if (isSuccess) {
+      await notifyPaymentStage({ ...existing, success_at: successAt }, "success");
+    }
 
     return NextResponse.json({ status: "Success" }, { status: 200 });
   } catch (error) {

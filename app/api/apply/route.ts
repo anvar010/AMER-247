@@ -67,14 +67,16 @@ export async function POST(req: NextRequest) {
       passengers: field("passengers"),
       adults: parseJsonArray("adults"),
       children: parseJsonArray("children"),
-      ...(deferEmail ? { transactionStatus: "pending" } : {}),
+      ...(deferEmail ? { transactionStatus: "initiated" } : {}),
     };
 
     // Persist FIRST — never throws, and running it before the emails means
     // a mail-provider outage can't lose the submission entirely (previously
     // the throw from sendMail skipped the save). Tourist Visa and every
     // other hub have different real columns, hence the two save functions.
-    const transactionStatus = deferEmail ? "pending" : undefined;
+    // "initiated" — submitted, payment not yet attempted. create-payment
+    // moves this to "pending" once Mettpay actually accepts the order.
+    const transactionStatus = deferEmail ? "initiated" : undefined;
     if (hub === "Tourist Visa") {
       await saveTouristVisaApplication({
         referenceId: referenceID,

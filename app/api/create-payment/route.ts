@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createMettpayOrder } from "@/lib/mettpay";
-import { savePayOnlineOrder } from "@/lib/db";
+import { savePayOnlineOrder, findPayableSubmission, updatePayableSubmission } from "@/lib/db";
+import { notifyPaymentStage } from "@/lib/paymentNotify";
 
 export const runtime = "nodejs";
 
@@ -59,7 +60,7 @@ export async function POST(req: NextRequest) {
     }).toString();
 
     if (!existingReferenceId) {
-      // Persist as "pending" before calling out to Mettpay — mirrors
+      // Persist as "initiated" before calling out to Mettpay — mirrors
       // /api/apply's own "save before the risky external call" pattern, so
       // a Mettpay outage never loses the record of someone attempting to
       // pay.
@@ -71,7 +72,7 @@ export async function POST(req: NextRequest) {
         amount,
         comments,
         applicationReference,
-        transactionStatus: "pending",
+        transactionStatus: "initiated",
       });
     }
 
@@ -85,6 +86,17 @@ export async function POST(req: NextRequest) {
       returnSuccUrl: `${origin}/payment-status?${params}`,
       returnErrorUrl: `${origin}/payment-status?${errorParams}`,
     });
+
+    // Mettpay confirmed the order and generated a real checkout link — move
+    // from "initiated" (submitted, payment not yet attempted) to "pending"
+    // (customer is now on Mettpay's checkout page) and notify admin/customer.
+    const row = await findPayableSubmission(referenceId);
+    if (row) {
+      const pendingAt = new Date().toISOString();
+      await updatePayableSubmission(row, { transaction_status: "pending", pending_at: pendingAt });
+      console.log(`create-payment: ${referenceId} moved to pending`);
+      await notifyPaymentStage({ ...row, pending_at: pendingAt }, "pending");
+    }
 
     return NextResponse.json({ paymentUrl: order.payment_url }, { status: 200 });
   } catch (error) {

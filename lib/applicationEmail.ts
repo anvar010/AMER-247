@@ -18,7 +18,22 @@ function str(v: unknown): string {
   return v == null ? "" : String(v);
 }
 
-export function buildApplicationEmail(row: SubmissionRowForEmail): {
+function formatTimestamp(iso?: string | null): string {
+  if (!iso) return "";
+  return new Date(iso).toISOString().slice(0, 19).replace("T", " ");
+}
+
+export type PaymentStageInfo = {
+  stage: "pending" | "success";
+  initiatedAt: string;
+  pendingAt?: string | null;
+  successAt?: string | null;
+};
+
+export function buildApplicationEmail(
+  row: SubmissionRowForEmail,
+  payment?: PaymentStageInfo
+): {
   subject: string;
   adminHtml: string;
   customerHtml: string;
@@ -28,8 +43,22 @@ export function buildApplicationEmail(row: SubmissionRowForEmail): {
   const email = row.email ?? "";
   const data = row.data ?? {};
 
+  // Only one status line (whatever the current stage is) plus a timestamp
+  // per stage actually reached so far — a "pending" email only shows
+  // Initiated/Pending, a "success" email shows all three.
+  const paymentRows: [string, string][] = payment
+    ? ([
+        ["Payment Status", payment.stage.toUpperCase()],
+        ["Initiated", formatTimestamp(payment.initiatedAt)],
+        payment.pendingAt ? ["Pending", formatTimestamp(payment.pendingAt)] : null,
+        payment.successAt ? ["Success", formatTimestamp(payment.successAt)] : null,
+      ].filter((r): r is [string, string] => r !== null))
+    : [];
+
   if (row.hub === "Pay Online") {
+    const isPending = payment?.stage === "pending";
     const rows: [string, string][] = [
+      ...paymentRows,
       ["Name", applicantName],
       ["Email", email],
       ["Mobile No", row.phone ?? ""],
@@ -40,20 +69,24 @@ export function buildApplicationEmail(row: SubmissionRowForEmail): {
     ].filter(([, v]) => v) as [string, string][];
 
     return {
-      subject: `Payment Received - Amer ${referenceId} - ${str(data.amount)}`,
+      subject: `${isPending ? "Payment Pending" : "Payment Received"} - Amer ${referenceId} - ${str(data.amount)}`,
       adminHtml: renderBrandedEmail({
-        title: "Payment Received",
-        heroEmoji: "💳",
-        heroSubtitle: "A new online payment has been submitted.",
-        intro: "A payment was just submitted with the following details:",
+        title: isPending ? "Payment Pending" : "Payment Received",
+        heroEmoji: isPending ? "⏳" : "💳",
+        heroSubtitle: isPending ? "A new online payment has been initiated." : "A new online payment has been submitted.",
+        intro: isPending
+          ? "A payment was just started with the following details:"
+          : "A payment was just submitted with the following details:",
         rows,
       }),
       customerHtml: renderBrandedEmail({
-        title: "Payment Received",
-        heroEmoji: "💳",
-        heroSubtitle: "We've received your payment details.",
+        title: isPending ? "Payment Pending" : "Payment Received",
+        heroEmoji: isPending ? "⏳" : "💳",
+        heroSubtitle: isPending ? "We're processing your payment." : "We've received your payment details.",
         greetingName: applicantName,
-        intro: "Our support team will contact you. Here are your details:",
+        intro: isPending
+          ? "Your payment is being processed. We'll email you again once it's confirmed."
+          : "Our support team will contact you. Here are your details:",
         rows,
       }),
     };
@@ -61,6 +94,7 @@ export function buildApplicationEmail(row: SubmissionRowForEmail): {
 
   const service = row.service ?? "";
   const rows: [string, string][] = [
+    ...paymentRows,
     ["Service", service],
     ["Reference ID", referenceId],
     ["Name", applicantName],
