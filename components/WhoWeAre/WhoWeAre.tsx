@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import Link from "next/link";
 import { Outfit } from "next/font/google";
 import { Sparkles, Quote, ShieldCheck, ArrowRight, FileText, Gem, IdCard, Stethoscope } from "lucide-react";
 import styles from "./WhoWeAre.module.css";
@@ -97,7 +98,7 @@ export default function WhoWeAre() {
             </div>
 
             {/* Mini Highlight Card */}
-            <div className={styles.highlightCard}>
+            <Link href="/amer247-services" className={styles.highlightCard}>
               <div className={styles.highlightInfo}>
                 <div className={styles.highlightLabel}>Customer Happiness</div>
                 <div className={styles.highlightValue}>Priority #1</div>
@@ -105,7 +106,7 @@ export default function WhoWeAre() {
               <div className={styles.highlightArrowWrap}>
                 <ArrowRight className={styles.arrowIcon} size={20} />
               </div>
-            </div>
+            </Link>
           </div>
 
         </div>
@@ -158,7 +159,7 @@ export default function WhoWeAre() {
         </div>
       </div>
 
-      <div className={mstyles.highlightCard}>
+      <Link href="/amer247-services" className={mstyles.highlightCard}>
         <span className={mstyles.highlightInfo}>
           <span className={mstyles.highlightLabel}>Customer Happiness</span>
           <span className={mstyles.highlightValue}>Priority #1</span>
@@ -166,7 +167,7 @@ export default function WhoWeAre() {
         <span className={mstyles.highlightArrow}>
           <ArrowRight size={18} />
         </span>
-      </div>
+      </Link>
     </section>
     </>
   );
