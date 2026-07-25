@@ -105,6 +105,44 @@
   color: #E4342A;
 }
 
+.fieldError {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #E4342A;
+}
+
+.captchaRow {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.captchaBox {
+  flex: 1;
+  height: 52px;
+  display: flex;
+  align-items: center;
+  border-radius: 18px;
+  border: 1px solid #E9EDF4;
+  background: #FAFBFD;
+  padding: 0 0.875rem;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #1A1A1A;
+}
+
+.captchaRefresh {
+  height: 52px;
+  border-radius: 18px;
+  border: 1px solid #E9EDF4;
+  background: #ffffff;
+  padding: 0 1rem;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #1A1A1A;
+  white-space: nowrap;
+}
+
 .input,
 .textarea {
   width: 100%;

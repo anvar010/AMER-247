@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Upload, Check } from "lucide-react";
 import { countries } from "@/app/contact/Selects";
@@ -18,13 +18,33 @@ export default function CareerForm() {
   const [error, setError] = useState("");
   const [cv, setCv] = useState<File | null>(null);
   const [cvSizeError, setCvSizeError] = useState("");
+  const [captchaAnswer, setCaptchaAnswer] = useState("");
+  const [captchaNum1, setCaptchaNum1] = useState(0);
+  const [captchaNum2, setCaptchaNum2] = useState(0);
+  const [captchaError, setCaptchaError] = useState("");
   const fileRef = useRef<HTMLInputElement>(null);
+
+  const generateCaptcha = () => {
+    setCaptchaNum1(Math.floor(Math.random() * 10) + 1);
+    setCaptchaNum2(Math.floor(Math.random() * 10) + 1);
+    setCaptchaAnswer("");
+    setCaptchaError("");
+  };
+
+  useEffect(() => { generateCaptcha(); }, []);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (loading) return;
-    setLoading(true);
     setError("");
+    setCaptchaError("");
+
+    if (Number(captchaAnswer) !== captchaNum1 + captchaNum2) {
+      setCaptchaError("Incorrect captcha answer.");
+      return;
+    }
+
+    setLoading(true);
 
     const fd = new FormData(e.currentTarget);
     if (cv) fd.append("files", cv);
@@ -123,6 +143,24 @@ export default function CareerForm() {
         </button>
         <span style={{ fontSize: "0.78rem", color: "#64748B" }}>Max per file size 5MB</span>
         {cvSizeError && <p style={{ margin: 0, fontSize: "0.85rem", color: "#dc2626" }}>{cvSizeError}</p>}
+      </div>
+
+      <div className={styles.field}>
+        <label htmlFor="career-captcha">Captcha <span className={styles.req}>*</span></label>
+        <div className={styles.captchaRow}>
+          <span className={styles.captchaBox}>{captchaNum1} + {captchaNum2} = ?</span>
+          <button type="button" className={styles.captchaRefresh} onClick={generateCaptcha}>Refresh</button>
+        </div>
+        <input
+          id="career-captcha"
+          className={styles.input}
+          type="text"
+          placeholder="Enter answer"
+          value={captchaAnswer}
+          onChange={(e) => setCaptchaAnswer(e.target.value)}
+          required
+        />
+        {captchaError && <span className={styles.captchaError}>{captchaError}</span>}
       </div>
 
       {error && <p style={{ margin: 0, fontSize: "0.85rem", color: "#dc2626" }}>{error}</p>}

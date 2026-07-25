@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { ArrowRight } from "lucide-react";
 import styles from "./contact.module.css";
@@ -12,12 +12,32 @@ export default function DesktopContactForm() {
   const router = useRouter();
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
+  const [captchaAnswer, setCaptchaAnswer] = useState("");
+  const [captchaNum1, setCaptchaNum1] = useState(0);
+  const [captchaNum2, setCaptchaNum2] = useState(0);
+  const [captchaError, setCaptchaError] = useState("");
+
+  const generateCaptcha = () => {
+    setCaptchaNum1(Math.floor(Math.random() * 10) + 1);
+    setCaptchaNum2(Math.floor(Math.random() * 10) + 1);
+    setCaptchaAnswer("");
+    setCaptchaError("");
+  };
+
+  useEffect(() => { generateCaptcha(); }, []);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (submitting) return;
-    setSubmitting(true);
     setError("");
+    setCaptchaError("");
+
+    if (Number(captchaAnswer) !== captchaNum1 + captchaNum2) {
+      setCaptchaError("Incorrect captcha answer.");
+      return;
+    }
+
+    setSubmitting(true);
 
     const fd = new FormData(e.currentTarget);
     const payload = {
@@ -78,6 +98,23 @@ export default function DesktopContactForm() {
         <span className={styles.fieldLabel}>Message <span className={styles.req}>*</span></span>
         <textarea className={styles.textarea} name="message" rows={6} placeholder="Tell us a bit more…" required />
       </label>
+
+      <div className={styles.field}>
+        <span className={styles.fieldLabel}>Captcha <span className={styles.req}>*</span></span>
+        <div className={styles.captchaRow}>
+          <span className={styles.captchaBox}>{captchaNum1} + {captchaNum2} = ?</span>
+          <button type="button" className={styles.captchaRefresh} onClick={generateCaptcha}>Refresh</button>
+        </div>
+        <input
+          className={styles.input}
+          type="text"
+          placeholder="Enter answer"
+          value={captchaAnswer}
+          onChange={(e) => setCaptchaAnswer(e.target.value)}
+          required
+        />
+        {captchaError && <p className={styles.fieldLabel} style={{ color: "#dc2626" }}>{captchaError}</p>}
+      </div>
 
       {error && <p className={styles.fieldLabel} style={{ color: "#dc2626" }}>{error}</p>}
 
