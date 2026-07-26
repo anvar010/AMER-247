@@ -28,6 +28,8 @@ export type PaymentStageInfo = {
   initiatedAt: string;
   pendingAt?: string | null;
   successAt?: string | null;
+  mettpayOrderId?: string | null;
+  mettpayTxnId?: string | null;
 };
 
 export function buildApplicationEmail(
@@ -50,6 +52,8 @@ export function buildApplicationEmail(
         ["Payment Status", payment.stage.toUpperCase()],
         payment.pendingAt ? ["Pending", formatTimestamp(payment.pendingAt)] : null,
         payment.successAt ? ["Success", formatTimestamp(payment.successAt)] : null,
+        payment.mettpayOrderId ? ["Mettpay Order ID", payment.mettpayOrderId] : null,
+        payment.mettpayTxnId ? ["Mettpay Txn ID", payment.mettpayTxnId] : null,
       ].filter((r): r is [string, string] => r !== null))
     : [];
 

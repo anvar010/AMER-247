@@ -32,6 +32,8 @@ export async function notifyPaymentStage(row: PayableRow, stage: "pending" | "su
       initiatedAt: row.created_at as string,
       pendingAt: (row.pending_at as string | null) ?? null,
       successAt: (row.success_at as string | null) ?? null,
+      mettpayOrderId: (row.mettpay_order_id as string | null) ?? null,
+      mettpayTxnId: (row.mettpay_txn_id as string | null) ?? null,
     });
 
     const attachments: Attachment[] = [];
