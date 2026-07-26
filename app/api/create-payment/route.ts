@@ -86,6 +86,10 @@ export async function POST(req: NextRequest) {
       returnSuccUrl: `${origin}/payment-status?${params}`,
       returnErrorUrl: `${origin}/payment-status?${errorParams}`,
     });
+    // Logged unconditionally — we only ever read `payment_url` from this
+    // response today, so this is the only way to see whether Mettpay
+    // already includes an Order ID at creation time (before any webhook).
+    console.log("create-payment: Mettpay create-order response:", JSON.stringify(order));
 
     // Mettpay confirmed the order and generated a real checkout link — move
     // from "initiated" (submitted, payment not yet attempted) to "pending"
@@ -93,13 +97,24 @@ export async function POST(req: NextRequest) {
     const row = await findPayableSubmission(referenceId);
     if (row) {
       const pendingAt = new Date().toISOString();
+      // Field name unconfirmed (checked defensively) — may already be
+      // present at order-creation time, before any webhook ever fires.
+      const mettpayOrderId = (order as Record<string, unknown>).order_id ?? (order as Record<string, unknown>).orderId ?? (order as Record<string, unknown>).id ?? null;
       // `amount` is written here (not just at insert) because
       // tourist_visa_applications/online_services_applications rows are
       // created by /api/apply with no amount at all — this is the first and
       // only place those tables ever learn the real charged price.
-      await updatePayableSubmission(row, { transaction_status: "pending", pending_at: pendingAt, amount });
+      await updatePayableSubmission(row, {
+        transaction_status: "pending",
+        pending_at: pendingAt,
+        amount,
+        ...(mettpayOrderId ? { mettpay_order_id: String(mettpayOrderId) } : {}),
+      });
       console.log(`create-payment: ${referenceId} moved to pending`);
-      await notifyPaymentStage({ ...row, pending_at: pendingAt, amount }, "pending");
+      await notifyPaymentStage(
+        { ...row, pending_at: pendingAt, amount, mettpay_order_id: mettpayOrderId ? String(mettpayOrderId) : null },
+        "pending"
+      );
     }
 
     return NextResponse.json({ paymentUrl: order.payment_url }, { status: 200 });
