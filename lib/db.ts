@@ -41,6 +41,16 @@ function sanitizeFileName(name: string): string {
   return `${base || "file"}${ext ? "." + ext : ""}`;
 }
 
+// Same non-ASCII problem as sanitizeFileName, but for folder-path segments
+// built from user input (currently just career's applicant name — Tourist
+// Visa/Service applications use a system-generated referenceId instead,
+// which is always ASCII-safe). An Arabic/non-Latin name here silently broke
+// every upload for that submission until this existed.
+function sanitizeFolderSegment(name: string): string {
+  const cleaned = name.replace(/[^a-zA-Z0-9_-]+/g, "_").replace(/^_+|_+$/g, "").slice(0, 40);
+  return cleaned || "applicant";
+}
+
 // Shared by every save*() below — uploads attachments to Storage under their
 // own per-submission folder, returns the stored paths. Never throws; a
 // rejected/oversized file is just skipped and logged, same as before.
@@ -108,7 +118,7 @@ export async function saveCareerApplication(args: {
   files?: File[];
 }): Promise<void> {
   try {
-    const filePaths = await uploadFiles(`career/${args.fullName || "no-name"}`, args.files ?? []);
+    const filePaths = await uploadFiles(`career/${sanitizeFolderSegment(args.fullName || "no-name")}`, args.files ?? []);
     const supabase = getSupabaseAdmin();
     const { error } = await supabase.from("career_applications").insert({
       full_name: args.fullName || null,
