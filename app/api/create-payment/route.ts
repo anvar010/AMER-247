@@ -93,9 +93,13 @@ export async function POST(req: NextRequest) {
     const row = await findPayableSubmission(referenceId);
     if (row) {
       const pendingAt = new Date().toISOString();
-      await updatePayableSubmission(row, { transaction_status: "pending", pending_at: pendingAt });
+      // `amount` is written here (not just at insert) because
+      // tourist_visa_applications/online_services_applications rows are
+      // created by /api/apply with no amount at all — this is the first and
+      // only place those tables ever learn the real charged price.
+      await updatePayableSubmission(row, { transaction_status: "pending", pending_at: pendingAt, amount });
       console.log(`create-payment: ${referenceId} moved to pending`);
-      await notifyPaymentStage({ ...row, pending_at: pendingAt }, "pending");
+      await notifyPaymentStage({ ...row, pending_at: pendingAt, amount }, "pending");
     }
 
     return NextResponse.json({ paymentUrl: order.payment_url }, { status: 200 });

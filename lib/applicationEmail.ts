@@ -97,6 +97,7 @@ export function buildApplicationEmail(
     ["Reference ID", referenceId],
     ["Name", applicantName],
   ];
+  if (data.amount) rows.push(["Amount (AED)", str(data.amount)]);
   if (data.sponsorName) rows.push(["Sponsor Name", str(data.sponsorName)]);
   rows.push(["Email", email]);
   if (row.phone) rows.push(["Mobile No", row.phone]);

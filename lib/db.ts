@@ -350,6 +350,7 @@ export function payableRowToEmailInput(row: PayableRow): {
       email: (row.email as string) ?? null,
       phone: (row.mobile_no as string) ?? null,
       data: {
+        amount: row.amount,
         whatsappNo: row.whatsapp_no,
         nationality: row.nationality,
         travelDate: row.travel_date,
@@ -368,6 +369,7 @@ export function payableRowToEmailInput(row: PayableRow): {
     email: (row.email as string) ?? null,
     phone: (row.mobile_no as string) ?? null,
     data: {
+      amount: row.amount,
       sponsorName: row.sponsor_name,
       applicationPriority: row.application_priority,
       applicationType: row.application_type,

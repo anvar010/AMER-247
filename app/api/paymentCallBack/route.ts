@@ -29,6 +29,13 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Order not found." }, { status: 404 });
     }
 
+    // Mettpay's own transaction/order reference (for cross-referencing
+    // against their dashboard) — field name is unconfirmed since the
+    // payload shape has never been seen, so every plausible key is checked
+    // defensively rather than guessing one.
+    const mettpayOrderId = body.order_id ?? body.orderId ?? body.mettpay_order_id ?? null;
+    const mettpayTxnId = body.txn_id ?? body.txnId ?? body.transaction_id ?? body.transactionId ?? null;
+
     // "success" is our own convention (matches what the redirect fallback
     // uses) — Mettpay's real webhook vocabulary is unconfirmed, so anything
     // else just gets recorded as-is without firing the success notification.
@@ -37,6 +44,8 @@ export async function POST(req: NextRequest) {
     await updatePayableSubmission(existing, {
       transaction_status: transactionStatus,
       ...(successAt ? { success_at: successAt } : {}),
+      ...(mettpayOrderId ? { mettpay_order_id: String(mettpayOrderId) } : {}),
+      ...(mettpayTxnId ? { mettpay_txn_id: String(mettpayTxnId) } : {}),
     });
     console.log(`paymentCallBack: ${orderNo} -> ${transactionStatus}`);
 
