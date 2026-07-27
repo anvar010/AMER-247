@@ -29,6 +29,7 @@ export default function PaymentStatusView() {
   const [emailSent, setEmailSent] = useState(false);
   const [retrying, setRetrying] = useState(false);
   const [retryError, setRetryError] = useState("");
+  const [mettpayOrderId, setMettpayOrderId] = useState("");
 
   // Re-attempts payment against the SAME reference/submission row instead of
   // sending the user back to refill the whole form — a fresh form load would
@@ -66,7 +67,12 @@ export default function PaymentStatusView() {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ orderid }),
-    }).catch((error) => console.error("send-application-email failed:", error));
+    })
+      .then((res) => res.json())
+      .then((json) => {
+        if (json?.mettpayOrderId) setMettpayOrderId(String(json.mettpayOrderId));
+      })
+      .catch((error) => console.error("send-application-email failed:", error));
   }, [st, orderid, emailSent]);
 
   const details: [string, string][] = [
@@ -75,6 +81,7 @@ export default function PaymentStatusView() {
     ["Email", email ?? ""],
     ["Mobile", mobile ?? ""],
     ["Amount", amount ? `AED ${amount}` : ""],
+    ["Mettpay Order ID", mettpayOrderId],
   ].filter(([, v]) => v) as [string, string][];
 
   return (

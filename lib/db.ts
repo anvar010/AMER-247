@@ -281,7 +281,7 @@ export async function saveServiceApplication(args: {
 // concerns these 3 tables — Contact/Career/DET247 never go through Mettpay.
 // Mirrors master's own paymentCallBack route, which loops through a fixed
 // list of Strapi content types the exact same way.
-const PAYABLE_TABLES = ["pay_online_orders", "tourist_visa_applications", "online_services_applications"] as const;
+export const PAYABLE_TABLES = ["pay_online_orders", "tourist_visa_applications", "online_services_applications"] as const;
 export type PayableTable = (typeof PAYABLE_TABLES)[number];
 
 export type PayableRow = {

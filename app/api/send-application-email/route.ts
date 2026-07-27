@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { findPayableSubmission, updatePayableSubmission } from "@/lib/db";
 import { notifyPaymentStage } from "@/lib/paymentNotify";
+import { getMettpayOrderDetails } from "@/lib/mettpay";
 
 export const runtime = "nodejs";
 
@@ -27,14 +28,31 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ success: true, alreadySent: true }, { status: 200 });
     }
 
+    // Best-effort lookup of Mettpay's own Order ID for this reference — never
+    // blocks or fails the actual success confirmation below if Mettpay's API
+    // errors out; this is a nice-to-have, not the ground truth for success.
+    let mettpayOrderId: string | null = (row.mettpay_order_id as string | null) ?? null;
+    if (!mettpayOrderId) {
+      try {
+        const details = await getMettpayOrderDetails(referenceId);
+        if (details?.unique_order_id) mettpayOrderId = String(details.unique_order_id);
+      } catch (error) {
+        console.error("send-application-email: getMettpayOrderDetails failed:", error);
+      }
+    }
+
     // Mark the payment itself confirmed BEFORE attempting to email — this is
     // ground truth from Mettpay's own redirect (st=1), and must never stay
     // stuck at "pending" just because a mail-provider hiccup throws below.
     const successAt = (row.success_at as string | null) ?? new Date().toISOString();
-    await updatePayableSubmission(row, { transaction_status: "success", success_at: successAt });
-    await notifyPaymentStage({ ...row, success_at: successAt }, "success");
+    await updatePayableSubmission(row, {
+      transaction_status: "success",
+      success_at: successAt,
+      ...(mettpayOrderId ? { mettpay_order_id: mettpayOrderId } : {}),
+    });
+    await notifyPaymentStage({ ...row, success_at: successAt, mettpay_order_id: mettpayOrderId }, "success");
 
-    return NextResponse.json({ success: true }, { status: 200 });
+    return NextResponse.json({ success: true, mettpayOrderId }, { status: 200 });
   } catch (error) {
     console.error("API /send-application-email error:", error);
     return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });

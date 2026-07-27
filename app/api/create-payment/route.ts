@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createMettpayOrder } from "@/lib/mettpay";
+import { createMettpayOrder, getMettpayOrderDetails } from "@/lib/mettpay";
 import { savePayOnlineOrder, findPayableSubmission, updatePayableSubmission } from "@/lib/db";
 import { notifyPaymentStage } from "@/lib/paymentNotify";
 
@@ -110,9 +110,18 @@ export async function POST(req: NextRequest) {
     const row = await findPayableSubmission(referenceId);
     if (row) {
       const pendingAt = new Date().toISOString();
-      // Field name unconfirmed (checked defensively) — may already be
-      // present at order-creation time, before any webhook ever fires.
-      const mettpayOrderId = (order as Record<string, unknown>).order_id ?? (order as Record<string, unknown>).orderId ?? (order as Record<string, unknown>).id ?? null;
+      // Mettpay's create-order response never includes it (confirmed: only
+      // payment_url comes back) — but get_order_details does return
+      // unique_order_id even for a brand-new, not-yet-paid order, so this is
+      // the real way to get it at the pending stage. Best-effort — never
+      // blocks the pending update/notification below if it fails.
+      let mettpayOrderId: string | null = null;
+      try {
+        const details = await getMettpayOrderDetails(referenceId);
+        if (details?.unique_order_id) mettpayOrderId = String(details.unique_order_id);
+      } catch (error) {
+        console.error("create-payment: getMettpayOrderDetails failed:", error);
+      }
       // `amount` is written here (not just at insert) because
       // tourist_visa_applications/online_services_applications rows are
       // created by /api/apply with no amount at all — this is the first and

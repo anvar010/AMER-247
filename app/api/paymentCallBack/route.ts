@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { findPayableSubmission, updatePayableSubmission } from "@/lib/db";
 import { notifyPaymentStage } from "@/lib/paymentNotify";
+import { METTPAY_SUCCESS_STATUSES } from "@/lib/mettpay";
 
 export const runtime = "nodejs";
 
@@ -36,18 +37,21 @@ export async function POST(req: NextRequest) {
     const mettpayOrderId = body.order_id ?? body.orderId ?? body.mettpay_order_id ?? null;
     const mettpayTxnId = body.txn_id ?? body.txnId ?? body.transaction_id ?? body.transactionId ?? null;
 
-    // "success" is our own convention (matches what the redirect fallback
-    // uses) — Mettpay's real webhook vocabulary is unconfirmed, so anything
-    // else just gets recorded as-is without firing the success notification.
-    const isSuccess = transactionStatus === "success";
+    // Mettpay's confirmed real word for a paid order is "SETTLED" (verified
+    // via get_order_details) — checked against a few likely synonyms
+    // defensively, then mapped to our own "success" value. We never write
+    // Mettpay's raw status word into transaction_status directly; that would
+    // break our own initiated/pending/success convention with whatever
+    // random word they happen to use.
+    const isSuccess = METTPAY_SUCCESS_STATUSES.has(transactionStatus);
     const successAt = isSuccess ? new Date().toISOString() : undefined;
     await updatePayableSubmission(existing, {
-      transaction_status: transactionStatus,
+      transaction_status: isSuccess ? "success" : transactionStatus,
       ...(successAt ? { success_at: successAt } : {}),
       ...(mettpayOrderId ? { mettpay_order_id: String(mettpayOrderId) } : {}),
       ...(mettpayTxnId ? { mettpay_txn_id: String(mettpayTxnId) } : {}),
     });
-    console.log(`paymentCallBack: ${orderNo} -> ${transactionStatus}`);
+    console.log(`paymentCallBack: ${orderNo} -> ${transactionStatus} (mapped to ${isSuccess ? "success" : transactionStatus})`);
 
     if (isSuccess) {
       await notifyPaymentStage({ ...existing, success_at: successAt }, "success");
