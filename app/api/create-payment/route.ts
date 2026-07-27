@@ -33,6 +33,11 @@ export async function POST(req: NextRequest) {
 
     const referenceId = existingReferenceId ?? generateReferenceId();
     const origin = req.nextUrl.origin;
+    // Logged unconditionally — origin comes from the incoming request's own
+    // Host header via req.nextUrl, so this confirms whether it's actually
+    // resolving to the real live domain (vs. an internal/default value)
+    // when the request comes in through Render's reverse proxy.
+    console.log(`create-payment: resolved origin = ${origin} (referenceId ${referenceId})`);
     const returnUrl = body.returnUrl
       ? String(body.returnUrl)
       : `${origin}${existingReferenceId ? "" : "/pay-online"}`;
