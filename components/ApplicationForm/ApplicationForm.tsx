@@ -16,8 +16,19 @@ import styles from "./ApplicationForm.module.css";
 
 const outfit = Outfit({ subsets: ["latin"], weight: ["500", "600", "700", "800"] });
 
-function genRef() {
-  return "AMR-" + Math.floor(40000 + Math.random() * 9999);
+const IMPORTANT_NOTES = [
+  "We can process the application only after getting and verifying all the documents.",
+  "For some applications we need to collect Sponsor Physical Emirates ID. We will arrange accordingly.",
+  "If there is any additional payment in the Immigration system (Overstay fine, open sponsor file etc.), we will share a separate payment link.",
+];
+
+// Prefix identifies the hub at a glance in reports/support conversations —
+// Medical Test/Emirates ID/Golden Visa get their own; everything else
+// (Amer Services, Insurance, Tas-Heel Services) keeps the original "AMR".
+function genRef(hub: string) {
+  const prefix =
+    hub === "Medical Test" ? "MED" : hub === "Emirates ID" ? "EID" : hub === "Golden Visa" ? "GLD" : "AMR";
+  return prefix + "-" + Math.floor(40000 + Math.random() * 9999);
 }
 
 // Same parsing as the fee calculators (PricingCalculator.tsx /
@@ -143,7 +154,7 @@ export default function ApplicationForm({
   const [attempted, setAttempted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState("");
-  const refNum = useRef(genRef());
+  const refNum = useRef(genRef(hub));
   // True once /api/apply has saved this submission — a retry click after a
   // failed payment-start (same mounted form, same refNum) must not call
   // /api/apply again, since that would insert a second row under the same
@@ -351,6 +362,15 @@ export default function ApplicationForm({
           </section>
 
           <section className={styles.infoBlock}>
+            <h2 className={styles.infoTitle}>Important Notes</h2>
+            <ul className={styles.infoList}>
+              {IMPORTANT_NOTES.map((note, i) => (
+                <li key={i} className={styles.infoItem}>{note}</li>
+              ))}
+            </ul>
+          </section>
+
+          <section className={styles.infoBlock}>
             <h2 className={styles.infoTitle}>A Step by Step Guide to Application Process</h2>
             <ul className={styles.infoList}>
               {STEP_GUIDE.map((f, i) => (
@@ -397,6 +417,10 @@ export default function ApplicationForm({
             <Eye size={15} />
           </button>
         </div>
+
+        <p className={styles.notice}>
+          Note: For Pakistan National, currently all kinds of new visa have chances for rejection.
+        </p>
 
         <h2 className={styles.formH}>{meta.title}</h2>
         <p className={styles.formDesc}>{meta.desc}</p>

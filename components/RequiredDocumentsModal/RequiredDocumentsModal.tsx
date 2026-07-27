@@ -12,6 +12,12 @@ import styles from "./RequiredDocumentsModal.module.css";
 // dialog on desktop, both from one component (pure CSS breakpoint switch).
 const CLOSE_MS = 220;
 
+const IMPORTANT_NOTES = [
+  "We can process the application only after getting and verifying all the documents.",
+  "For some applications we need to collect Sponsor Physical Emirates ID. We will arrange accordingly.",
+  "If there is any additional payment in the Immigration system (Overstay fine, open sponsor file etc.), we will share a separate payment link.",
+];
+
 export default function RequiredDocumentsModal({
   open,
   onClose,
@@ -86,6 +92,15 @@ export default function RequiredDocumentsModal({
               </li>
             ))}
           </ul>
+
+          <div className={styles.guideBlock}>
+            <h3 className={styles.guideTitle}>Important Notes</h3>
+            <ul className={styles.guideList}>
+              {IMPORTANT_NOTES.map((note, i) => (
+                <li key={i} className={styles.guideItem}>{note}</li>
+              ))}
+            </ul>
+          </div>
 
           <div className={styles.guideBlock}>
             <h3 className={styles.guideTitle}>A Step by Step Guide to Application Process</h3>

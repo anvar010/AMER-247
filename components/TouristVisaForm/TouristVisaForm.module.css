@@ -404,6 +404,19 @@
   margin-bottom: 0.875rem;
 }
 
+.noticeList {
+  margin: 0.35rem 0 0;
+  padding-left: 1.1rem;
+}
+
+.noticeList li {
+  margin-bottom: 0.35rem;
+}
+
+.noticeList li:last-child {
+  margin-bottom: 0;
+}
+
 /* ---------- Passenger groups ---------- */
 .passengerGroup {
   margin-bottom: 1.25rem;

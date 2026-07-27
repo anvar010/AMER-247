@@ -54,6 +54,12 @@ const HOTEL_TICKET_NOTICE =
 const FEES_NOTICE =
   "We help our customers to keep updated with application fees and other charges required for the kind of applications they applied for. We also request to keep checking this page for regular updates or contact us for latest revisions of Amer services fees and charges.";
 
+const IMPORTANT_NOTES = [
+  "We can process the application only after getting and verifying all the documents.",
+  "For some applications we need to collect Sponsor Physical Emirates ID. We will arrange accordingly.",
+  "If there is any additional payment in the Immigration system (Overstay fine, open sponsor file etc.), we will share a separate payment link.",
+];
+
 type Passenger = { name: string; dob: string };
 
 // Real form is a 2-step flow (General Details -> Passenger Details, with a
@@ -320,6 +326,10 @@ export default function TouristVisaForm({
           </div>
         </div>
 
+        <p className={styles.notice}>
+          Note: For Pakistan National, currently all kinds of new visa have chances for rejection.
+        </p>
+
         <div className={styles.stepper}>
           <div className={styles.stepItem}>
             <span className={`${styles.stepDot} ${step >= 1 ? styles.stepDotOn : ""}`}>1</span>
@@ -382,6 +392,14 @@ export default function TouristVisaForm({
 
             <div className={styles.notice}>{WHATSAPP_NOTICE}</div>
             <div className={styles.notice}>{HOTEL_TICKET_NOTICE}</div>
+            <div className={styles.notice}>
+              <strong>Note:</strong>
+              <ul className={styles.noticeList}>
+                {IMPORTANT_NOTES.map((note, i) => (
+                  <li key={i}>{note}</li>
+                ))}
+              </ul>
+            </div>
 
             <div className={styles.foot}>
               <button type="submit" className={styles.submitBtn}>
