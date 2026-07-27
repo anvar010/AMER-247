@@ -12,6 +12,15 @@ function generateReferenceId(): string {
   return "PAY-" + Math.floor(40000 + Math.random() * 9999);
 }
 
+// Fixed, not derived from the incoming request — req.nextUrl.origin would
+// correctly reflect "http://localhost:3000" during local testing, but since
+// local testing hits Mettpay's real/live API (no sandbox key exists), that
+// meant real Mettpay orders got created with a localhost return URL that no
+// real customer could ever reach. Hardcoding the live domain means Mettpay
+// always redirects back to the real site — change this only when
+// deliberately testing payments locally.
+const LIVE_ORIGIN = "https://amer247.com";
+
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
@@ -32,12 +41,11 @@ export async function POST(req: NextRequest) {
     }
 
     const referenceId = existingReferenceId ?? generateReferenceId();
-    const origin = req.nextUrl.origin;
-    // Logged unconditionally — origin comes from the incoming request's own
-    // Host header via req.nextUrl, so this confirms whether it's actually
-    // resolving to the real live domain (vs. an internal/default value)
-    // when the request comes in through Render's reverse proxy.
-    console.log(`create-payment: resolved origin = ${origin} (referenceId ${referenceId})`);
+    // Logged for visibility only — not used for the return URLs below (see
+    // LIVE_ORIGIN comment). Lets us notice if req.nextUrl.origin ever
+    // disagrees with the live domain for some other reason.
+    console.log(`create-payment: req.nextUrl.origin = ${req.nextUrl.origin} (referenceId ${referenceId})`);
+    const origin = LIVE_ORIGIN;
     const returnUrl = body.returnUrl
       ? String(body.returnUrl)
       : `${origin}${existingReferenceId ? "" : "/pay-online"}`;
