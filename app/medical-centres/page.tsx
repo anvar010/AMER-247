@@ -3,6 +3,17 @@ import { MEDICAL_CENTRES, EMIRATES_ORDER } from "@/lib/medicalCentres";
 import MedicalCentresExplorer from "./MedicalCentresExplorer";
 import styles from "./medical-centres.module.css";
 
+export const metadata = {
+  title: "DHA-Approved Medical Fitness Test Centres - Amer247",
+  description:
+    "Find DHA and EHS-approved medical fitness test centres across Dubai, Sharjah, Ajman, Ras Al Khaimah, Fujairah, and Umm Al Quwain for your UAE visa medical test.",
+  openGraph: {
+    title: "DHA-Approved Medical Fitness Test Centres - Amer247",
+    description:
+      "Find DHA and EHS-approved medical fitness test centres across Dubai, Sharjah, Ajman, Ras Al Khaimah, Fujairah, and Umm Al Quwain for your UAE visa medical test.",
+  },
+};
+
 export default function MedicalCentresPage() {
   return (
     <>
