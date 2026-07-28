@@ -49,7 +49,7 @@ export const amerSubCategories: SubCategory[] = [
       { name: "Employment Visa",                       slug: "employment_visa",             ...PRICES.employment_visa },
       { name: "Virtual Work Visa (Remote Work Visa)",  slug: "virtual_work_visa",           ...PRICES.virtual_work_visa },
       { name: "Job Seeker Visa (inside UAE)",          slug: "job_seeker_visa",             ...PRICES.job_seeker_visa },
-      { name: "Re-Entry Permit",                       slug: "re_entry_permit",             ...PRICES.re_entry_permit },
+      { name: "Re-Entry Permit (Only For Family)",     slug: "re_entry_permit",             ...PRICES.re_entry_permit },
     ],
   },
   {
@@ -126,6 +126,7 @@ export const amerSubCategories: SubCategory[] = [
     items: [
       { name: "Data Modification – Family",  slug: "data_modification_family",  ...PRICES.data_modification_family },
       { name: "Data Modification – Company", slug: "data_modification_company", ...PRICES.data_modification_company },
+      { name: "Data Modification – Golden Visa", slug: "data_modification_golden_visa", ...PRICES.data_modification_golden_visa },
     ],
   },
   {
@@ -139,6 +140,7 @@ export const amerSubCategories: SubCategory[] = [
       // (likely an unfinished page on their end) — kept as its own working
       // item here rather than replicating that dead link.
       { name: "Travel Report – Golden Visa", slug: "travel_report_golden_visa", ...PRICES.travel_report_golden_visa },
+      { name: "Travel Report for Employees", slug: "travel_report_employees", ...PRICES.travel_report_employees },
     ],
   },
   {

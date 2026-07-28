@@ -2,6 +2,8 @@
 
 import { useState, useEffect, useRef, type ComponentType } from "react";
 import { useSearchParams } from "next/navigation";
+import Link from "next/link";
+import { Stethoscope, ArrowRight } from "lucide-react";
 import {
   AmerIcon,
   EmiratesIdIcon,
@@ -137,6 +139,11 @@ export default function CategoryTabs() {
               <span className={styles.panelTag}>Category {activeCategory.tag}</span>
               <h3 className={styles.panelTitle}>{activeCategory.label}</h3>
             </div>
+            {active === "medical" && (
+              <Link href="/medical-centres" className={styles.panelLink}>
+                <Stethoscope size={14} /> View Medical Centres <ArrowRight size={14} />
+              </Link>
+            )}
           </div>
           {(() => {
             const active_hub = active === "amer"

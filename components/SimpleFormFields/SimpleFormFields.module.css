@@ -111,6 +111,13 @@
   opacity: 0.6;
 }
 
+.paymentIcons {
+  display: block;
+  height: 40px;
+  width: auto;
+  margin: 0.75rem auto 0;
+}
+
 .successMsg {
   color: #1ba39c;
   font-weight: 600;

@@ -108,6 +108,8 @@ export default function PayOnlineForm() {
       <button type="submit" className={styles.submitBtn} disabled={loading}>
         {loading ? "Processing…" : "Proceed to Payment"}
       </button>
+
+      <img src="/payments-Photoroom.png" alt="Visa, Mastercard, Apple Pay, Samsung Pay" className={styles.paymentIcons} />
     </form>
   );
 }

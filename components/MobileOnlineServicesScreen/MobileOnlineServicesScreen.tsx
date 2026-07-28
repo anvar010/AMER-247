@@ -7,7 +7,7 @@ import { Outfit } from "next/font/google";
 import {
   Search, X, Layers, Eye, Building2, IdCard, Gem, FileText, Stethoscope,
   ShieldPlus, Stamp, Users, HeartPulse, CalendarCheck, Printer, Globe,
-  TrendingUp, Landmark, ShieldCheck, type LucideIcon,
+  TrendingUp, Landmark, ShieldCheck, ArrowRight, type LucideIcon,
 } from "lucide-react";
 import { amerSubCategories, type PriceItem } from "@/app/online-services/AmerServicesData";
 import { OTHER_HUBS } from "@/components/MobileSearchOverlay/catalog";
@@ -87,10 +87,16 @@ export default function MobileOnlineServicesScreen() {
           for the kind of applications they applied for. We also request to keep checking this
           page for regular updates or contact us for latest revisions of Amer services fees and charges.
         </p>
-        <span className={styles.countChip}>
-          <Layers size={12} />
-          {totalCount} services
-        </span>
+        <div className={styles.heroChipRow}>
+          <span className={styles.countChip}>
+            <Layers size={12} />
+            {totalCount} services
+          </span>
+          <Link href="/medical-centres" className={styles.countChip}>
+            <Stethoscope size={12} />
+            Medical Centres
+          </Link>
+        </div>
       </div>
 
       <div className={styles.body}>
@@ -121,6 +127,14 @@ export default function MobileOnlineServicesScreen() {
             </button>
           )}
         </div>
+
+        {active.key === "medical" && (
+          <div className={styles.medicalCentresRow}>
+            <Link href="/medical-centres" className={styles.medicalCentresLink}>
+              <Stethoscope size={14} /> View Medical Centres <ArrowRight size={14} />
+            </Link>
+          </div>
+        )}
 
         {groups.map((g) => (
           <div key={g.key} className={styles.group}>
@@ -185,6 +199,7 @@ export default function MobileOnlineServicesScreen() {
         onClose={() => setDocsFor(null)}
         serviceName={docsFor?.name ?? ""}
         slug={docsFor?.slug}
+        hub={active.label}
       />
     </div>
   );

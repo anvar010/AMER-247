@@ -263,6 +263,7 @@ export default function MobileHubScreen({ title, blurb, subCategories, gold, her
         onClose={() => setDocsFor(null)}
         serviceName={docsFor?.name ?? ""}
         slug={docsFor?.slug}
+        hub={title}
       />
     </div>
   );

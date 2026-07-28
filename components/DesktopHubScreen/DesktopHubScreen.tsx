@@ -212,6 +212,7 @@ export function DesktopServiceGrid({ subCategories, hubTitle, gold }: DesktopSer
         onClose={() => setDocsFor(null)}
         serviceName={docsFor?.name ?? ""}
         slug={docsFor?.slug}
+        hub={hubTitle}
       />
     </div>
   );

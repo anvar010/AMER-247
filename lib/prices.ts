@@ -52,11 +52,13 @@ export const PRICES: Record<string, PriceValue> = {
   // --- Data Modification ---
   data_modification_family: { single: "423.90 AED" },
   data_modification_company: { single: "461.90 AED" },
+  data_modification_golden_visa: { single: "473.90 AED" },
 
   // --- Travel Report ---
   travel_report_family: { single: "352.90 AED" },
   travel_report_company: { single: "388.90 AED" },
   travel_report_golden_visa: { single: "488.90 AED" },
+  travel_report_employees: { single: "352.90 AED" },
 
   // --- Establishment Card ---
   new_establishment_card_with_online: { single: "2894.90 AED" },
@@ -98,7 +100,7 @@ export const PRICES: Record<string, PriceValue> = {
   emirates_id_renewal_1_year: { single: "362.00 AED" },
   emirates_id_renewal_2_year: { single: "462.00 AED" },
   emirates_id_replacement_lost: { single: "562.00 AED" },
-  golden_emirates_id: { single: "1262.00 AED" },
+  golden_emirates_id: { single: "1268.00 AED" },
 
   // --- Medical Test (Normal/VIP/VVIP tiers) ---
   "new-entry": {

@@ -219,6 +219,7 @@ function PriceRow({ item, hubTitle }: { item: PriceItem; hubTitle: string }) {
         onClose={() => setDocsOpen(false)}
         serviceName={item.name}
         slug={item.slug}
+        hub={hubTitle}
       />
     </li>
   );

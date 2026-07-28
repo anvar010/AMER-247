@@ -335,11 +335,25 @@ export const REQUIRED_DOCUMENTS: Record<string, string[]> = {
     "Applicant's one Digital Photo [From Studio]",
     "The applicant should be in the country",
   ],
+  // Golden Visa holders are self-sponsored — no separate family/company
+  // sponsor documents (per GDRFA's own "Amendment of Residence Permit Data"
+  // service, whose base requirement is just a photo + passport).
+  data_modification_golden_visa: [
+    "Applicant's Golden Visa / Emirates ID Copy",
+    "Applicant Passport Copy [Old and New]",
+    "Applicant's one Digital Photo [From Studio]",
+    "The applicant should be in the country",
+  ],
 
   // ---------------------------------------------------------------------
   // Amer Services — Travel Report
   // ---------------------------------------------------------------------
   travel_report_family: [
+    "Applicant Original ID",
+    "Applicant Passport + Visa copy",
+    "Important note: all documents must be scanned clear and in colour",
+  ],
+  travel_report_employees: [
     "Applicant Original ID",
     "Applicant Passport + Visa copy",
     "Important note: all documents must be scanned clear and in colour",
@@ -366,12 +380,15 @@ export const REQUIRED_DOCUMENTS: Record<string, string[]> = {
     "Original sponsor's Emirates ID",
     "Copy of Trade License & Partner list page",
     "Passport copy of all partners",
+    "Company Bank Statement",
+    "Company Ejari",
   ],
   new_establishment_card_without_online: [
-    "Copy of Establishment Card",
     "Original sponsor's Emirates ID",
     "Copy of Trade License & Partner list page",
     "Passport copy of all partners",
+    "Company Bank Statement",
+    "Company Ejari",
   ],
   renewal_of_establishment_card_with_online: [
     "Copy of Establishment Card",
@@ -472,7 +489,7 @@ export const REQUIRED_DOCUMENTS: Record<string, string[]> = {
     "Babies born in UAE who haven't left the country qualify for the newborn category",
   ],
   new_born_emirates_id_2_year: [
-    "Sponsor visa copy",
+    "New born visa",
     "Passport copy of the baby",
     "One clear digital photo of the baby",
     "Arabic birth certificate of the baby",
@@ -524,6 +541,7 @@ export const REQUIRED_DOCUMENTS: Record<string, string[]> = {
     "Previous Emirates ID copy",
     "One clear digital photo of the applicant",
     "Applicant should be inside UAE to process the application",
+    "There will be need for biometric scan if the applicant not able to provide OTP",
   ],
   golden_emirates_id: [
     "Applicant's Golden Visa copy",

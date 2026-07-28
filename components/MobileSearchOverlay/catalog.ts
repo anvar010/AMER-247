@@ -76,10 +76,10 @@ export const OTHER_HUBS: CatalogHub[] = [
         { name: "New Residency (1st Time Visiting) / 1 Year", slug: "new_residency_1st_time_visiting_1_year", ...PRICES.new_residency_1st_time_visiting_1_year },
         { name: "New Residency (1st Time Visiting) / 2 Year", slug: "new_residency_1st_time_visiting_2_year", ...PRICES.new_residency_1st_time_visiting_2_year },
       ] },
-      { key: "eid-transfer", label: "Sponsor Transfer", icon: "Users", items: [
-        { name: "Emirates ID Sponsor Transfer / 1 Year", slug: "emirates_id_sponsor_transfer_1_year", ...PRICES.emirates_id_sponsor_transfer_1_year },
-        { name: "Emirates ID Sponsor Transfer / 2 Year", slug: "emirates_id_sponsor_transfer_2_year", ...PRICES.emirates_id_sponsor_transfer_2_year },
-      ] },
+      // { key: "eid-transfer", label: "Sponsor Transfer", icon: "Users", items: [
+      //   { name: "Emirates ID Sponsor Transfer / 1 Year", slug: "emirates_id_sponsor_transfer_1_year", ...PRICES.emirates_id_sponsor_transfer_1_year },
+      //   { name: "Emirates ID Sponsor Transfer / 2 Year", slug: "emirates_id_sponsor_transfer_2_year", ...PRICES.emirates_id_sponsor_transfer_2_year },
+      // ] },
       { key: "eid-renewal", label: "Emirates ID Renewal", icon: "CalendarCheck", items: [
         { name: "Emirates ID Renewal / 1 Year", slug: "emirates_id_renewal_1_year", ...PRICES.emirates_id_renewal_1_year },
         { name: "Emirates ID Renewal / 2 Year", slug: "emirates_id_renewal_2_year", ...PRICES.emirates_id_renewal_2_year },

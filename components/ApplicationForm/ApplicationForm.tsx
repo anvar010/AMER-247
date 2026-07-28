@@ -12,15 +12,10 @@ import CountryCodeSelect from "@/components/CountryCodeSelect/CountryCodeSelect"
 import { getRequiredDocuments } from "@/lib/requiredDocuments";
 import { findCountry } from "@/lib/countryCodes";
 import { features as STEP_GUIDE } from "@/components/PickUpService/PickUpService";
+import { IMPORTANT_NOTES } from "@/lib/importantNotes";
 import styles from "./ApplicationForm.module.css";
 
 const outfit = Outfit({ subsets: ["latin"], weight: ["500", "600", "700", "800"] });
-
-const IMPORTANT_NOTES = [
-  "We can process the application only after getting and verifying all the documents.",
-  "For some applications we need to collect Sponsor Physical Emirates ID. We will arrange accordingly.",
-  "If there is any additional payment in the Immigration system (Overstay fine, open sponsor file etc.), we will share a separate payment link.",
-];
 
 // Prefix identifies the hub at a glance in reports/support conversations —
 // Medical Test/Emirates ID/Golden Visa get their own; everything else
@@ -239,7 +234,11 @@ export default function ApplicationForm({
     // A priced item defers the notification emails until Mettpay confirms
     // payment (see `deferEmail` in /api/apply) instead of sending them right
     // away for an application that might never get paid for.
-    const amount = parseAed(priceLabel);
+    // Employment Visa Cancellation (outside UAE) is a special case — the fee
+    // still shows for reference, but the customer isn't charged immediately;
+    // support contacts them with payment details separately instead.
+    const skipPayment = slug === "employment_visa_cancellation" && loc === "outside";
+    const amount = skipPayment ? null : parseAed(priceLabel);
 
     const fd = new FormData();
     fd.set("hub", hub);
@@ -353,7 +352,7 @@ export default function ApplicationForm({
             .svcEye's display:none at the desktop breakpoint). */}
         <div className={styles.infoCol}>
           <section className={styles.infoBlock}>
-            <h2 className={styles.infoTitle}>Required Documents To Apply For {service}</h2>
+            <h2 className={styles.infoTitle}>Required Documents To Apply For {hub === "Medical Test" ? "Medical test" : service}</h2>
             <ul className={styles.infoList}>
               {documents.map((doc, i) => (
                 <li key={i} className={styles.infoItem}>{doc}</li>
@@ -629,6 +628,8 @@ export default function ApplicationForm({
           <Lock size={13} /> Your data is encrypted &amp; processed under UAE data-protection law.
         </div>
 
+        <img src="/payments-Photoroom.png" alt="Visa, Mastercard, Apple Pay, Samsung Pay" className={styles.paymentIcons} />
+
         {submitError && <span className={styles.fieldError}>{submitError}</span>}
 
         <div className={styles.foot}>
@@ -645,6 +646,7 @@ export default function ApplicationForm({
         onClose={() => setDocsOpen(false)}
         serviceName={service}
         slug={slug}
+        hub={hub}
       />
     </div>
   );

@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { X, FileCheck2 } from "lucide-react";
 import { getRequiredDocuments } from "@/lib/requiredDocuments";
 import { features as STEP_GUIDE } from "@/components/PickUpService/PickUpService";
+import { IMPORTANT_NOTES } from "@/lib/importantNotes";
 import { lockBodyScroll, unlockBodyScroll } from "@/lib/useBodyScrollLock";
 import styles from "./RequiredDocumentsModal.module.css";
 
@@ -12,17 +13,12 @@ import styles from "./RequiredDocumentsModal.module.css";
 // dialog on desktop, both from one component (pure CSS breakpoint switch).
 const CLOSE_MS = 220;
 
-const IMPORTANT_NOTES = [
-  "We can process the application only after getting and verifying all the documents.",
-  "For some applications we need to collect Sponsor Physical Emirates ID. We will arrange accordingly.",
-  "If there is any additional payment in the Immigration system (Overstay fine, open sponsor file etc.), we will share a separate payment link.",
-];
-
 export default function RequiredDocumentsModal({
   open,
   onClose,
   serviceName,
   slug,
+  hub,
 }: {
   open: boolean;
   onClose: () => void;
@@ -31,6 +27,9 @@ export default function RequiredDocumentsModal({
   // (e.g. the two "Cancellation – Entry Permit (After Entry) – Company"
   // items) but always have distinct slugs. Falls back to serviceName.
   slug?: string;
+  // Medical Test's specific tier/service name isn't shown here — same
+  // override as the desktop side panel in ApplicationForm.tsx.
+  hub?: string;
 }) {
   const [mounted, setMounted] = useState(false);
   const [visible, setVisible] = useState(false);
@@ -76,7 +75,7 @@ export default function RequiredDocumentsModal({
           <span className={styles.headIco}><FileCheck2 size={19} /></span>
           <div className={styles.headBody}>
             <h2 className={styles.title}>Required Documents</h2>
-            <p className={styles.subtitle}>{serviceName}</p>
+            <p className={styles.subtitle}>{hub === "Medical Test" ? "Medical test" : serviceName}</p>
           </div>
           <button className={styles.closeBtn} onClick={onClose} aria-label="Close">
             <X size={17} />

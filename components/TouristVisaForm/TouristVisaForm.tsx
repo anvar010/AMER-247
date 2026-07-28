@@ -11,6 +11,7 @@ import { countries } from "@/app/contact/Selects";
 import CountryCodeSelect from "@/components/CountryCodeSelect/CountryCodeSelect";
 import { findCountry } from "@/lib/countryCodes";
 import { features as STEP_GUIDE } from "@/components/PickUpService/PickUpService";
+import { IMPORTANT_NOTES } from "@/lib/importantNotes";
 import styles from "./TouristVisaForm.module.css";
 
 const outfit = Outfit({ subsets: ["latin"], weight: ["500", "600", "700", "800"] });
@@ -53,12 +54,6 @@ const HOTEL_TICKET_NOTICE =
 // heading (the service name) changes.
 const FEES_NOTICE =
   "We help our customers to keep updated with application fees and other charges required for the kind of applications they applied for. We also request to keep checking this page for regular updates or contact us for latest revisions of Amer services fees and charges.";
-
-const IMPORTANT_NOTES = [
-  "We can process the application only after getting and verifying all the documents.",
-  "For some applications we need to collect Sponsor Physical Emirates ID. We will arrange accordingly.",
-  "If there is any additional payment in the Immigration system (Overstay fine, open sponsor file etc.), we will share a separate payment link.",
-];
 
 type Passenger = { name: string; dob: string };
 
@@ -565,6 +560,8 @@ export default function TouristVisaForm({
             <div className={styles.encrypted}>
               <Lock size={13} /> Your data is encrypted &amp; processed under UAE data-protection law.
             </div>
+
+            <img src="/payments-Photoroom.png" alt="Visa, Mastercard, Apple Pay, Samsung Pay" className={styles.paymentIcons} />
 
             <div className={styles.stepFoot}>
               <button type="button" className={styles.backBtn} onClick={() => setStep(1)}>

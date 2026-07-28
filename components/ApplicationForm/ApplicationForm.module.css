@@ -553,6 +553,13 @@
   color: #6B7687;
 }
 
+.paymentIcons {
+  display: block;
+  height: 40px;
+  width: auto;
+  margin: 0.75rem auto 0;
+}
+
 .foot {
   margin-top: 1.4rem;
 }

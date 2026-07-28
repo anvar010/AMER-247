@@ -80,9 +80,17 @@ export default function Header() {
       }
     };
 
+    // needsOpaqueHeader's desktop-only routes depend on window.innerWidth —
+    // without this, resizing the window (e.g. crossing the 769px breakpoint)
+    // without also scrolling or navigating left the header stuck in
+    // whichever opaque/transparent state it last evaluated at.
     evaluate();
     window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
+    window.addEventListener("resize", onScroll, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+    };
   }, []);
 
   // Re-evaluate immediately on every route change — a client-side nav (e.g.
