@@ -225,9 +225,9 @@
 .payCard {
   background: #ffffff;
   border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 6px;
-  padding: 0.4rem 0.75rem;
-  height: 40px;
+  border-radius: 8px;
+  padding: 0.5rem 1rem;
+  height: 60px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -239,6 +239,12 @@
 
 .payCard svg {
   height: 22px;
+  width: auto;
+  display: block;
+}
+
+.payImg {
+  height: 44px;
   width: auto;
   display: block;
 }

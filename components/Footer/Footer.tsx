@@ -125,24 +125,8 @@ export default function Footer() {
           We accept payments online using Visa and MasterCard credit/debit card in AED
         </p>
         <div className={styles.payLogos}>
-          <span className={styles.payCard} aria-label="Visa">
-            <svg viewBox="0 0 80 26" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-              <text x="40" y="20" textAnchor="middle" fontFamily="Helvetica, Arial, sans-serif" fontWeight="900" fontStyle="italic" fontSize="22" letterSpacing="1" fill="#1A1F71">VISA</text>
-            </svg>
-          </span>
-          <span className={styles.payCard} aria-label="Mastercard">
-            <svg viewBox="0 0 48 30" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-              <circle cx="19" cy="15" r="11" fill="#EB001B" />
-              <circle cx="29" cy="15" r="11" fill="#F79E1B" fillOpacity="0.9" />
-              <path d="M24 7.5a11 11 0 0 1 0 15 11 11 0 0 1 0-15z" fill="#FF5F00" />
-            </svg>
-          </span>
-          <span className={styles.payCard} aria-label="American Express">
-            <svg viewBox="0 0 80 26" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-              <rect width="80" height="26" rx="3" fill="#1F72CD" />
-              <text x="40" y="18" textAnchor="middle" fontFamily="Helvetica, Arial, sans-serif" fontWeight="900" fontSize="11" letterSpacing="1" fill="#fff">AMERICAN</text>
-              <text x="40" y="24" textAnchor="middle" fontFamily="Helvetica, Arial, sans-serif" fontWeight="900" fontSize="6" letterSpacing="2" fill="#fff">EXPRESS</text>
-            </svg>
+          <span className={styles.payCard} aria-label="Visa, Mastercard, Apple Pay, Samsung Pay">
+            <img src="/payments-Photoroom.png" alt="Visa, Mastercard, Apple Pay, Samsung Pay" className={styles.payImg} />
           </span>
         </div>
       </div>
