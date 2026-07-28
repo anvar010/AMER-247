@@ -434,7 +434,7 @@ export const REQUIRED_DOCUMENTS: Record<string, string[]> = {
     "New Offer letter",
     "Applicant Passport and Visa copy",
     "Job change only possible within Dubai",
-    "Warranty deposit: AED 5000",
+    "Warranty deposit of AED 5000 is included in the total price",
     "Additional AED 100 for each dependent",
   ],
 

@@ -73,7 +73,7 @@ export const PRICES: Record<string, PriceValue> = {
 
   // --- Security Deposit / Holding Visa ---
   security_deposit: { single: "Cost Depends on Application" },
-  holding_visa: { single: "512.90 AED" },
+  holding_visa: { single: "5512.90 AED" },
 
   // --- Golden Visa ---
   golden_visa_for_commercial_investor: { single: "2992.90 AED" },
