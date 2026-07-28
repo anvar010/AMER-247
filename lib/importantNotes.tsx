@@ -23,7 +23,7 @@ export function PakistanNotice() {
         href={`https://wa.me/971581257700?text=${whatsappText}`}
         target="_blank"
         rel="noopener noreferrer"
-        style={{ fontWeight: 700, color: "#0000EE", textDecoration: "underline" }}
+        style={{ fontWeight: 700, color: "#3B82F6", textDecoration: "underline" }}
       >
         support
       </a>{" "}
