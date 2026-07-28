@@ -12,7 +12,7 @@ import CountryCodeSelect from "@/components/CountryCodeSelect/CountryCodeSelect"
 import { getRequiredDocuments } from "@/lib/requiredDocuments";
 import { findCountry } from "@/lib/countryCodes";
 import { features as STEP_GUIDE } from "@/components/PickUpService/PickUpService";
-import { IMPORTANT_NOTES } from "@/lib/importantNotes";
+import { IMPORTANT_NOTES, PAKISTAN_NOTICE } from "@/lib/importantNotes";
 import styles from "./ApplicationForm.module.css";
 
 const outfit = Outfit({ subsets: ["latin"], weight: ["500", "600", "700", "800"] });
@@ -417,9 +417,7 @@ export default function ApplicationForm({
           </button>
         </div>
 
-        <p className={styles.notice}>
-          Note: For Pakistan National, currently all kinds of new visa have chances for rejection.
-        </p>
+        <p className={styles.notice}>{PAKISTAN_NOTICE}</p>
 
         <h2 className={styles.formH}>{meta.title}</h2>
         <p className={styles.formDesc}>{meta.desc}</p>
