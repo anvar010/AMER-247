@@ -98,6 +98,23 @@
   justify-content: center;
 }
 
+.payCard {
+  display: flex;
+  width: fit-content;
+  align-items: center;
+  justify-content: center;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.16);
+  padding: 0.5rem 1.5rem;
+  margin: 1rem auto 0;
+}
+
+.payImg {
+  height: 30px;
+  width: auto;
+  display: block;
+}
+
 .legal {
   text-align: center;
   font-size: 0.68rem;

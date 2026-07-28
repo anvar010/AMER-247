@@ -81,6 +81,13 @@ export default function MedicalCentresPage() {
         </div>
       </section>
 
+      {/* Tells the site Header exactly where this page's hero ends, so it
+          switches from transparent-over-hero to its solid frosted state
+          right at that boundary instead of a generic 40px scroll guess
+          (which was going opaque while still overlapping the hero heading
+          on mobile). Hidden — contributes no visible height/layout. */}
+      <div id="mobile-header-opaque-start" />
+
       <div className={`container ${styles.body}`}>
         <section className={styles.introCard}>
           <span className={styles.introIco}><ShieldCheck size={22} /></span>

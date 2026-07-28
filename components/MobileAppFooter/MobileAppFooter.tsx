@@ -59,6 +59,14 @@ export default function MobileAppFooter() {
             </Link>
           ))}
         </div>
+
+        <div className={styles.payCard}>
+          <img
+            src="/payments-Photoroom.png"
+            alt="Visa, Mastercard, Apple Pay, Samsung Pay"
+            className={styles.payImg}
+          />
+        </div>
       </div>
 
       <p className={styles.legal}>© {new Date().getFullYear()} Amer 24/7. All rights reserved.</p>

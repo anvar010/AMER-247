@@ -41,35 +41,72 @@ export default function Header() {
     pathnameRef.current = pathname;
   }, [pathname]);
 
+  // Whether we've scrolled past this page's "#mobile-header-opaque-start"
+  // marker (right after its hero section) — kept in a ref, updated by the
+  // IntersectionObserver below, instead of being read via
+  // marker.getBoundingClientRect() on every scroll frame. Doing that read on
+  // every frame forces a synchronous layout whenever it lands in the same
+  // frame as Lenis's own scroll-position tracking (confirmed via Chrome's
+  // forced-reflow profiler — this was measurable scroll jank).
+  const pastMarkerRef = useRef(false);
+  // Not every route renders the marker — pages without one fall back to the
+  // plain "y > 40" threshold below, same as before this marker existed.
+  const hasMarkerRef = useRef(false);
+  useEffect(() => {
+    const marker = document.getElementById("mobile-header-opaque-start");
+    if (!marker) {
+      hasMarkerRef.current = false;
+      return;
+    }
+    hasMarkerRef.current = true;
+    pastMarkerRef.current = marker.getBoundingClientRect().top <= 0;
+
+    // Default root (the full viewport, no rootMargin) — a zero-height
+    // marker counts as "intersecting" for the entire stretch its position
+    // (0 < top < viewport height) falls inside the viewport, so leaving via
+    // the top edge (top crossing 0) and re-entering are both ordinary,
+    // reliably-fired transitions. An earlier version shrank the observed
+    // root to a 0-height line at y=0 to try to catch that crossing more
+    // "precisely" — but a 0-height marker crossing a 0-height line is a
+    // vanishing window that the browser's async intersection checks mostly
+    // never landed on, so the callback almost never fired after the first.
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        pastMarkerRef.current = entry.boundingClientRect.top <= 0;
+        if (!needsOpaqueHeader(pathnameRef.current)) {
+          setScrolled(pastMarkerRef.current);
+        }
+      },
+      { threshold: 0 }
+    );
+    observer.observe(marker);
+    return () => observer.disconnect();
+  }, [pathname]);
+
   useEffect(() => {
     let ticking = false;
 
     const evaluate = () => {
-      const y = window.scrollY;
-
-      // The splash stays transparent for its whole scroll range, but that
-      // range ends where the "#mobile-header-opaque-start" marker sits in
-      // the DOM (right after MobileHomeHero's own dark hero image, on both
-      // mobile and desktop — hidden on desktop so it contributes no height
-      // there, same effective position as before) — reading its real
-      // position is exact on every device, unlike the previous viewport
-      // -height guess, which could fall short (opaque header mid-animation)
-      // or, if forced to never trigger, leave the header transparent for the
-      // rest of the page too. This is a distinct marker from
-      // "#mobile-home-start" (which Skip/quick-links scroll to) since that
-      // one must stay right where the pinned animation releases, not
-      // further down past the greeting section.
-      const isHome = pathnameRef.current === "/";
+      // A hero's transparent header stays that way for its whole scroll
+      // range, but that range ends where the page's own
+      // "#mobile-header-opaque-start" marker sits in the DOM (right after
+      // the hero section) — reading its real position is exact on every
+      // device, unlike a generic scroll-distance guess, which could turn
+      // the header opaque mid-hero (visibly overlapping the hero's own
+      // heading) or, if tuned too conservatively, leave it transparent too
+      // long. This is a distinct marker from "#mobile-home-start" (which
+      // Skip/quick-links scroll to on the home page) since that one must
+      // stay right where the pinned animation releases, not further down
+      // past the greeting section.
       if (needsOpaqueHeader(pathnameRef.current)) {
         // The apply form has a light background with no dark hero to
         // contrast against, so the header needs its solid background from
         // the very top of the page, not just after scrolling.
         setScrolled(true);
-      } else if (isHome) {
-        const marker = document.getElementById("mobile-header-opaque-start");
-        setScrolled(marker ? marker.getBoundingClientRect().top <= 0 : y > 40);
+      } else if (hasMarkerRef.current) {
+        setScrolled(pastMarkerRef.current);
       } else {
-        setScrolled(y > 40);
+        setScrolled(window.scrollY > 40);
       }
     };
 
@@ -99,15 +136,12 @@ export default function Header() {
   // otherwise left the previous page's stale "scrolled" state visible on
   // the new page until the user scrolled again.
   useEffect(() => {
-    const y = window.scrollY;
-    const isHome = pathname === "/";
     if (needsOpaqueHeader(pathname)) {
       setScrolled(true);
-    } else if (isHome) {
-      const marker = document.getElementById("mobile-header-opaque-start");
-      setScrolled(marker ? marker.getBoundingClientRect().top <= 0 : y > 40);
+    } else if (hasMarkerRef.current) {
+      setScrolled(pastMarkerRef.current);
     } else {
-      setScrolled(y > 40);
+      setScrolled(window.scrollY > 40);
     }
   }, [pathname]);
 
