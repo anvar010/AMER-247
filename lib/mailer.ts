@@ -40,7 +40,6 @@ const AMER_STYLE_RECIPIENTS = [
   "online@amer247.online",
   "amerapplications@gmail.com",
   "online.amer247@gmail.com",
-  ...TRACKING_RECIPIENTS,
 ];
 
 export const HUB_ADMIN_RECIPIENTS: Record<string, string[]> = {
