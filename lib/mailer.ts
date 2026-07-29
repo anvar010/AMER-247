@@ -58,7 +58,6 @@ export const HUB_ADMIN_RECIPIENTS: Record<string, string[]> = {
     "mettinformation@gmail.com",
     "nisar@amer247.com",
     "accounts@mettholidays.ae",
-    ...TRACKING_RECIPIENTS,
   ],
   "Pay Online": [
     "amertouristvisas@gmail.com",
@@ -67,11 +66,10 @@ export const HUB_ADMIN_RECIPIENTS: Record<string, string[]> = {
     "accounts@mettholidays.ae",
     "online@amer247.online",
     "online.amer247@gmail.com",
-    ...TRACKING_RECIPIENTS,
   ],
 };
 
 
-export const CONTACT_ADMIN_RECIPIENTS = ["info@amer247.com", ...TRACKING_RECIPIENTS];
+export const CONTACT_ADMIN_RECIPIENTS = ["info@amer247.com"];
 
-export const CAREER_ADMIN_RECIPIENTS = ["info@amer247.com", ...TRACKING_RECIPIENTS];
+export const CAREER_ADMIN_RECIPIENTS = ["info@amer247.com"];
