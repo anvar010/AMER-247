@@ -24,8 +24,8 @@ export const PRICES: Record<string, PriceValue> = {
   new_born_residence_visa: { inside: "623.90 AED" },
 
   // --- Visa Extension ---
-  visit_visa_extend: { single: "1009.90 AED" },
-  gulf_residents_visit_visa_extend: { single: "1009.90 AED" },
+  visit_visa_extend: { single: "994.90 AED" },
+  gulf_residents_visit_visa_extend: { single: "994.90 AED" },
 
   // --- Residence Visa Renewal ---
   spouse_children_visa_renewal: { inside: "623.90 AED" },
@@ -50,9 +50,9 @@ export const PRICES: Record<string, PriceValue> = {
   entry_permit_cancellation_company_2: { inside: "339.90 AED" },
 
   // --- Data Modification ---
-  data_modification_family: { single: "423.90 AED" },
-  data_modification_company: { single: "461.90 AED" },
-  data_modification_golden_visa: { single: "473.90 AED" },
+  data_modification_family: { single: "323.90 AED" },
+  data_modification_company: { single: "361.90 AED" },
+  data_modification_golden_visa: { single: "373.90 AED" },
 
   // --- Travel Report ---
   travel_report_family: { single: "352.90 AED" },
