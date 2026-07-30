@@ -4,7 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { ArrowLeft, MessageCircle, List, FileText, ChevronLeft, Star } from "lucide-react";
 import { amerSubCategories } from "@/app/online-services/AmerServicesData";
-import { getRequiredDocuments } from "@/lib/requiredDocuments";
+import { getRequiredDocuments, docLabel } from "@/lib/requiredDocuments";
 import styles from "./center.module.css";
 
 type Screen = "home" | "services" | "documents";
@@ -106,7 +106,7 @@ export default function CenterCard() {
                       </button>
                       {isOpen && (
                         <ul className={styles.docList}>
-                          {docs.map((d, i) => <li key={i}>{d}</li>)}
+                          {docs.map((d, i) => <li key={i}>{docLabel(d)}</li>)}
                         </ul>
                       )}
                     </div>

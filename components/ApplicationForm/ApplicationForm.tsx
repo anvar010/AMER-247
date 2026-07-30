@@ -5,11 +5,11 @@ import Link from "next/link";
 import { Outfit } from "next/font/google";
 import {
   X, User, Users, Mail, MapPin, Upload, Check, Lock, ArrowRight, Clock,
-  Building2, IdCard, Gem, FileText, Stethoscope, ShieldPlus, Eye, type LucideIcon,
+  Building2, IdCard, Gem, FileText, Stethoscope, ShieldPlus, Eye, Plus, Minus, type LucideIcon,
 } from "lucide-react";
 import RequiredDocumentsModal from "@/components/RequiredDocumentsModal/RequiredDocumentsModal";
 import CountryCodeSelect from "@/components/CountryCodeSelect/CountryCodeSelect";
-import { getRequiredDocuments } from "@/lib/requiredDocuments";
+import { getRequiredDocuments, docLabel, isUploadableDoc } from "@/lib/requiredDocuments";
 import { findCountry } from "@/lib/countryCodes";
 import { features as STEP_GUIDE } from "@/components/PickUpService/PickUpService";
 import { IMPORTANT_NOTES, PakistanNotice } from "@/lib/importantNotes";
@@ -39,14 +39,6 @@ function parseAed(v?: string | null): number | null {
 // Matches the submission-files bucket's own 5MB limit (see lib/db.ts)
 // — enforced here too since accept="" only filters file *type*, not size.
 const MAX_UPLOAD_BYTES = 5 * 1024 * 1024;
-
-function splitBySize(files: FileList | null): { ok: File[]; oversized: File[] } {
-  const all = Array.from(files ?? []);
-  return {
-    ok: all.filter((f) => f.size <= MAX_UPLOAD_BYTES),
-    oversized: all.filter((f) => f.size > MAX_UPLOAD_BYTES),
-  };
-}
 
 // The real app defines 4 distinct form types (A/B/C/D), one per hub, each
 // with its own field set — this mirrors that exactly (247APP/amer-247-expo/
@@ -119,6 +111,9 @@ export default function ApplicationForm({
   const meta = FORM_META[formType];
   const HubIcon = HUB_ICONS[hub] ?? Building2;
   const documents = getRequiredDocuments(slug ?? service);
+  // Notice-only entries (fees, eligibility conditions) still show in the
+  // checklist above but get no upload row of their own — nothing to attach.
+  const uploadableDocuments = documents.filter(isUploadableDoc);
 
   const showSponsor = formType === "A";
   const showPriority = formType === "A" || formType === "D";
@@ -140,8 +135,20 @@ export default function ApplicationForm({
   const [emirate, setEmirate] = useState("Dubai");
   const [address, setAddress] = useState("");
   const [comment, setComment] = useState("");
-  const [files, setFiles] = useState<File[]>([]);
-  const [fileSizeError, setFileSizeError] = useState("");
+  // Documents are revealed one at a time (docCount starts at 1, the first
+  // required document) — each row gets its own file slot keyed by index,
+  // instead of one generic multi-file input, so a submitted file is
+  // traceable to the specific requirement it was meant to satisfy (see
+  // the label embedded in the filename in `submit()` below).
+  const [docCount, setDocCount] = useState(1);
+  const [docFiles, setDocFiles] = useState<Record<number, File | null>>({});
+  const [docSizeErrors, setDocSizeErrors] = useState<Record<number, string>>({});
+  // Once every listed required document has been revealed, the "+" opens
+  // exactly one extra, optional "Additional Documents" slot for supporting
+  // files that aren't on the fixed checklist — then the "+" is gone for good.
+  const [extraOpen, setExtraOpen] = useState(false);
+  const [extraFile, setExtraFile] = useState<File | null>(null);
+  const [extraSizeError, setExtraSizeError] = useState("");
   const [goldenFiles, setGoldenFiles] = useState<Record<string, File | null>>({});
   const [goldenSizeErrors, setGoldenSizeErrors] = useState<Record<string, string>>({});
   const [submitted, setSubmitted] = useState(false);
@@ -159,7 +166,8 @@ export default function ApplicationForm({
   // a stranger's submission on a coincidental collision. Gating here avoids
   // that risk entirely instead of trading it for a different one.
   const appliedRef = useRef(false);
-  const fileInputRef = useRef<HTMLInputElement>(null);
+  const docFileRefs = useRef<Record<number, HTMLInputElement | null>>({});
+  const extraFileRef = useRef<HTMLInputElement>(null);
 
   // The site's global Lenis smooth-scroll never resets on navigation (it's
   // set up once for the app's whole lifetime), so arriving here already
@@ -177,18 +185,59 @@ export default function ApplicationForm({
   }, [submitted]);
   const goldenFileRefs = useRef<Record<string, HTMLInputElement | null>>({});
 
-  const uploaded = files.length > 0;
   const goldenDocs = Object.fromEntries(
     Object.entries(goldenFiles).map(([k, f]) => [k, !!f])
   );
 
-  const handleUploadClick = () => {
-    if (uploaded) {
-      setFiles([]);
-      setFileSizeError("");
-      if (fileInputRef.current) fileInputRef.current.value = "";
+  const handleDocUploadClick = (i: number) => {
+    if (docFiles[i]) {
+      setDocFiles((s) => ({ ...s, [i]: null }));
+      setDocSizeErrors((s) => ({ ...s, [i]: "" }));
+      const el = docFileRefs.current[i];
+      if (el) el.value = "";
     } else {
-      fileInputRef.current?.click();
+      docFileRefs.current[i]?.click();
+    }
+  };
+
+  const handleExtraUploadClick = () => {
+    if (extraFile) {
+      setExtraFile(null);
+      setExtraSizeError("");
+      if (extraFileRef.current) extraFileRef.current.value = "";
+    } else {
+      extraFileRef.current?.click();
+    }
+  };
+
+  // "+" reveals one more required-document slot while any remain, then a
+  // single extra optional "Additional Documents" slot after the checklist
+  // is exhausted — and that's the last "+" there is, by design.
+  const addSlot = () => {
+    if (docCount < uploadableDocuments.length) setDocCount((c) => c + 1);
+    else if (!extraOpen) setExtraOpen(true);
+  };
+
+  // "-" removes whichever slot is currently last: the extra one if it's
+  // open, otherwise the last required document (never below the first).
+  const removeSlot = () => {
+    if (extraOpen) {
+      setExtraOpen(false);
+      setExtraFile(null);
+      setExtraSizeError("");
+    } else if (docCount > 1) {
+      const removedIndex = docCount - 1;
+      setDocCount((c) => c - 1);
+      setDocFiles((s) => {
+        const copy = { ...s };
+        delete copy[removedIndex];
+        return copy;
+      });
+      setDocSizeErrors((s) => {
+        const copy = { ...s };
+        delete copy[removedIndex];
+        return copy;
+      });
     }
   };
 
@@ -216,7 +265,7 @@ export default function ApplicationForm({
   const addressValid = !showAddressComment || address.trim().length > 1;
   const uploadValid = showGoldenUploads
     ? GOLDEN_UPLOADS.every((u) => goldenDocs[u.key])
-    : !showSingleUpload || uploaded;
+    : !showSingleUpload || Array.from({ length: docCount }, (_, i) => !!docFiles[i]).every(Boolean);
 
   const canSubmit =
     applicantValid && sponsorValid && emailValid && phoneValid && addressValid && uploadValid;
@@ -263,7 +312,11 @@ export default function ApplicationForm({
         if (f) fd.append("files", f, `${u.label} - ${f.name}`);
       }
     } else {
-      for (const f of files) fd.append("files", f);
+      for (let i = 0; i < docCount; i++) {
+        const f = docFiles[i];
+        if (f) fd.append("files", f, `${uploadableDocuments[i]} - ${f.name}`);
+      }
+      if (extraFile) fd.append("files", extraFile, `Additional Documents - ${extraFile.name}`);
     }
 
     let applySucceeded = appliedRef.current;
@@ -355,7 +408,7 @@ export default function ApplicationForm({
             <h2 className={styles.infoTitle}>Required Documents To Apply For {hub === "Medical Test" ? "Medical test" : service}</h2>
             <ul className={styles.infoList}>
               {documents.map((doc, i) => (
-                <li key={i} className={styles.infoItem}>{doc}</li>
+                <li key={i} className={styles.infoItem}>{docLabel(doc)}</li>
               ))}
             </ul>
           </section>
@@ -526,38 +579,104 @@ export default function ApplicationForm({
 
         {showSingleUpload && (
           <div className={styles.field} style={{ marginBottom: showAddressComment ? undefined : 0 }}>
-            <label htmlFor="form-upload">Upload Required Documents <span className={styles.req}>*</span></label>
-            <input
-              id="form-upload"
-              ref={fileInputRef}
-              type="file"
-              multiple
-              accept=".pdf,.jpg,.jpeg,.png"
-              className={styles.fileInput}
-              onChange={(e) => {
-                const { ok, oversized } = splitBySize(e.target.files);
-                setFiles(ok);
-                setFileSizeError(
-                  oversized.length
-                    ? `Skipped (over 5MB): ${oversized.map((f) => f.name).join(", ")}`
-                    : ""
-                );
-              }}
-            />
-            <button
-              type="button"
-              className={`${styles.upload} ${uploaded ? styles.uploadOn : ""} ${attempted && !uploaded ? styles.uploadError : ""}`}
-              onClick={handleUploadClick}
-            >
-              <span className={styles.upIco}>{uploaded ? <Check size={20} /> : <Upload size={20} />}</span>
-              <span className={styles.upTxt}>
-                <b>{uploaded ? (files.length === 1 ? files[0].name : `${files.length} files attached`) : "Attach files"}</b>
-                <span>{uploaded ? "Attached · tap to remove" : "Required · tap to attach"} · Max per file size 5MB</span>
-              </span>
-              <span className={styles.upAct}>{uploaded ? "✓" : "+"}</span>
-            </button>
-            {attempted && !uploaded && <span className={styles.fieldError}>Please attach the required document(s).</span>}
-            {fileSizeError && <span className={uploaded ? styles.fieldNotice : styles.fieldError}>{fileSizeError}</span>}
+            <span className={styles.uploadHead}>Upload Required Documents <span className={styles.req}>*</span></span>
+            {uploadableDocuments.slice(0, docCount).map((doc, i) => {
+              const file = docFiles[i] ?? null;
+              const on = !!file;
+              // Controls only ever sit on the very last visible row overall —
+              // once the extra slot is open, that's it, not this one, even
+              // if this is the last required doc.
+              const showCtrls = i === docCount - 1 && !extraOpen;
+              return (
+                <div key={i} className={styles.docItem}>
+                  <input
+                    ref={(el) => { docFileRefs.current[i] = el; }}
+                    type="file"
+                    accept=".pdf,.jpg,.jpeg,.png"
+                    className={styles.fileInput}
+                    onChange={(e) => {
+                      const picked = e.target.files?.[0] ?? null;
+                      if (picked && picked.size > MAX_UPLOAD_BYTES) {
+                        setDocFiles((s) => ({ ...s, [i]: null }));
+                        setDocSizeErrors((s) => ({ ...s, [i]: `"${picked.name}" is over 5MB — please choose a smaller file.` }));
+                        return;
+                      }
+                      setDocFiles((s) => ({ ...s, [i]: picked }));
+                      setDocSizeErrors((s) => ({ ...s, [i]: "" }));
+                    }}
+                  />
+                  <div className={styles.docRow}>
+                    <button
+                      type="button"
+                      className={`${styles.upload} ${styles.uploadOneItem} ${on ? styles.uploadOn : ""} ${attempted && !on ? styles.uploadError : ""}`}
+                      onClick={() => handleDocUploadClick(i)}
+                    >
+                      <span className={styles.upIco}>{on ? <Check size={20} /> : <Upload size={20} />}</span>
+                      <span className={styles.upTxt}>
+                        <b>{doc}</b>
+                        <span>{on ? `Attached: ${file!.name} · tap to remove` : "Required · tap to attach"} · Max per file size 5MB</span>
+                      </span>
+                      <span className={styles.upAct}>{on ? "✓" : "+"}</span>
+                    </button>
+                    {showCtrls && (
+                      <div className={styles.docRowCtrls}>
+                        {docCount > 1 && (
+                          <button type="button" className={styles.docCtrlBtn} aria-label="Remove this document" onClick={removeSlot}>
+                            <Minus size={16} />
+                          </button>
+                        )}
+                        <button type="button" className={styles.docCtrlBtn} aria-label="Add another document" onClick={addSlot}>
+                          <Plus size={16} />
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                  {attempted && !on && <span className={styles.fieldError}>Required.</span>}
+                  {docSizeErrors[i] && <span className={styles.fieldError}>{docSizeErrors[i]}</span>}
+                </div>
+              );
+            })}
+
+            {extraOpen && (
+              <div className={styles.docItem}>
+                <input
+                  ref={extraFileRef}
+                  type="file"
+                  accept=".pdf,.jpg,.jpeg,.png"
+                  className={styles.fileInput}
+                  onChange={(e) => {
+                    const picked = e.target.files?.[0] ?? null;
+                    if (picked && picked.size > MAX_UPLOAD_BYTES) {
+                      setExtraFile(null);
+                      setExtraSizeError(`"${picked.name}" is over 5MB — please choose a smaller file.`);
+                      return;
+                    }
+                    setExtraFile(picked);
+                    setExtraSizeError("");
+                  }}
+                />
+                <div className={styles.docRow}>
+                  <button
+                    type="button"
+                    className={`${styles.upload} ${styles.uploadOneItem} ${extraFile ? styles.uploadOn : ""}`}
+                    onClick={handleExtraUploadClick}
+                  >
+                    <span className={styles.upIco}>{extraFile ? <Check size={20} /> : <Upload size={20} />}</span>
+                    <span className={styles.upTxt}>
+                      <b>Additional Documents</b>
+                      <span>{extraFile ? `Attached: ${extraFile.name} · tap to remove` : "Optional · tap to attach"} · Max per file size 5MB</span>
+                    </span>
+                    <span className={styles.upAct}>{extraFile ? "✓" : "+"}</span>
+                  </button>
+                  <div className={styles.docRowCtrls}>
+                    <button type="button" className={styles.docCtrlBtn} aria-label="Remove additional documents" onClick={removeSlot}>
+                      <Minus size={16} />
+                    </button>
+                  </div>
+                </div>
+                {extraSizeError && <span className={styles.fieldError}>{extraSizeError}</span>}
+              </div>
+            )}
           </div>
         )}
 

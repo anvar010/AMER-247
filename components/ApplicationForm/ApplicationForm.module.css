@@ -465,6 +465,40 @@
   margin-bottom: 0.625rem;
 }
 
+.docItem {
+  margin-bottom: 0.625rem;
+}
+
+.docRow {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.docRow .uploadOneItem {
+  flex: 1;
+  margin-bottom: 0;
+}
+
+.docRowCtrls {
+  display: flex;
+  gap: 0.4rem;
+}
+
+.docCtrlBtn {
+  flex-shrink: 0;
+  width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1.5px solid #E9EDF4;
+  border-radius: 10px;
+  background: #ffffff;
+  color: #FF512F;
+  font-family: inherit;
+}
+
 .fileInput {
   position: absolute;
   width: 1px;

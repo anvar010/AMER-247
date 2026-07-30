@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { X, FileCheck2 } from "lucide-react";
-import { getRequiredDocuments } from "@/lib/requiredDocuments";
+import { getRequiredDocuments, docLabel } from "@/lib/requiredDocuments";
 import { features as STEP_GUIDE } from "@/components/PickUpService/PickUpService";
 import { IMPORTANT_NOTES } from "@/lib/importantNotes";
 import { lockBodyScroll, unlockBodyScroll } from "@/lib/useBodyScrollLock";
@@ -87,7 +87,7 @@ export default function RequiredDocumentsModal({
             {documents.map((doc, i) => (
               <li key={i} className={styles.item}>
                 <span className={styles.itemNum}>{i + 1}</span>
-                {doc}
+                {docLabel(doc)}
               </li>
             ))}
           </ul>
