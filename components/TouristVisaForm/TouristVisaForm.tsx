@@ -121,14 +121,6 @@ export default function TouristVisaForm({
   const [agreed, setAgreed] = useState(false);
   const passportInputRef = useRef<HTMLInputElement>(null);
   const photoInputRef = useRef<HTMLInputElement>(null);
-  // A single optional slot for anything beyond the two required uploads —
-  // e.g. the hotel reservation / ticket copy HOTEL_TICKET_NOTICE asks for,
-  // which otherwise has no upload field of its own. "+" opens it once;
-  // after that there's no more "+", matching ApplicationForm's pattern.
-  const [extraOpen, setExtraOpen] = useState(false);
-  const [extraFile, setExtraFile] = useState<File | null>(null);
-  const [extraSizeError, setExtraSizeError] = useState("");
-  const extraFileRef = useRef<HTMLInputElement>(null);
 
   const applicantValid = applicant.trim().length > 1;
   const emailValid = email.trim().length > 3;
@@ -149,16 +141,6 @@ export default function TouristVisaForm({
     setAdults((a) => a.map((p, idx) => (idx === i ? { ...p, [field]: value } : p)));
   const updateChild = (i: number, field: keyof Passenger, value: string) =>
     setChildren((c) => c.map((p, idx) => (idx === i ? { ...p, [field]: value } : p)));
-
-  const handleExtraUploadClick = () => {
-    if (extraFile) {
-      setExtraFile(null);
-      setExtraSizeError("");
-      if (extraFileRef.current) extraFileRef.current.value = "";
-    } else {
-      extraFileRef.current?.click();
-    }
-  };
 
   const goNext = (e: React.FormEvent) => {
     e.preventDefault();
@@ -203,7 +185,6 @@ export default function TouristVisaForm({
     if (amount) fd.set("deferEmail", "1");
     for (const f of passportFiles) fd.append("files", f, `Passport - ${f.name}`);
     for (const f of photoFiles) fd.append("files", f, `Photo - ${f.name}`);
-    if (extraFile) fd.append("files", extraFile, `Additional Documents - ${extraFile.name}`);
 
     let applySucceeded = appliedRef.current;
     try {
@@ -541,79 +522,29 @@ export default function TouristVisaForm({
                   );
                 }}
               />
-              <div className={styles.docRow}>
-                <button
-                  type="button"
-                  className={`${styles.upload} ${photoFiles.length ? styles.uploadOn : ""} ${attempted2 && !photoValid ? styles.uploadError : ""}`}
-                  onClick={() => {
-                    if (photoFiles.length) {
-                      setPhotoFiles([]);
-                      setPhotoSizeError("");
-                      if (photoInputRef.current) photoInputRef.current.value = "";
-                    } else {
-                      photoInputRef.current?.click();
-                    }
-                  }}
-                >
-                  <span className={styles.upIco}>{photoFiles.length ? <Check size={20} /> : <Upload size={20} />}</span>
-                  <span className={styles.upTxt}>
-                    <b>{photoFiles.length ? `${photoFiles.length} file(s) attached` : "Attach passenger photos"}</b>
-                    <span>JPG/JPEG only, 5MB max per file</span>
-                  </span>
-                  <span className={styles.upAct}>{photoFiles.length ? "✓" : "+"}</span>
-                </button>
-                {!extraOpen && (
-                  <div className={styles.docRowCtrls}>
-                    <button type="button" className={styles.docCtrlBtn} aria-label="Add another document" onClick={() => setExtraOpen(true)}>
-                      <Plus size={16} />
-                    </button>
-                  </div>
-                )}
-              </div>
+              <button
+                type="button"
+                className={`${styles.upload} ${photoFiles.length ? styles.uploadOn : ""} ${attempted2 && !photoValid ? styles.uploadError : ""}`}
+                onClick={() => {
+                  if (photoFiles.length) {
+                    setPhotoFiles([]);
+                    setPhotoSizeError("");
+                    if (photoInputRef.current) photoInputRef.current.value = "";
+                  } else {
+                    photoInputRef.current?.click();
+                  }
+                }}
+              >
+                <span className={styles.upIco}>{photoFiles.length ? <Check size={20} /> : <Upload size={20} />}</span>
+                <span className={styles.upTxt}>
+                  <b>{photoFiles.length ? `${photoFiles.length} file(s) attached` : "Attach passenger photos"}</b>
+                  <span>JPG/JPEG only, 5MB max per file</span>
+                </span>
+                <span className={styles.upAct}>{photoFiles.length ? "✓" : "+"}</span>
+              </button>
               {attempted2 && !photoValid && <span className={styles.fieldError}>Please attach at least one photo.</span>}
               {photoSizeError && <span className={photoFiles.length ? styles.fieldNotice : styles.fieldError}>{photoSizeError}</span>}
             </div>
-
-            {extraOpen && (
-              <div className={styles.field}>
-                <input
-                  ref={extraFileRef}
-                  type="file"
-                  accept=".pdf,.jpg,.jpeg,.png"
-                  className={styles.fileInput}
-                  onChange={(e) => {
-                    const picked = e.target.files?.[0] ?? null;
-                    if (picked && picked.size > MAX_UPLOAD_BYTES) {
-                      setExtraFile(null);
-                      setExtraSizeError(`"${picked.name}" is over 5MB — please choose a smaller file.`);
-                      return;
-                    }
-                    setExtraFile(picked);
-                    setExtraSizeError("");
-                  }}
-                />
-                <div className={styles.docRow}>
-                  <button
-                    type="button"
-                    className={`${styles.upload} ${extraFile ? styles.uploadOn : ""}`}
-                    onClick={handleExtraUploadClick}
-                  >
-                    <span className={styles.upIco}>{extraFile ? <Check size={20} /> : <Upload size={20} />}</span>
-                    <span className={styles.upTxt}>
-                      <b>Additional Documents</b>
-                      <span>{extraFile ? `Attached: ${extraFile.name} · tap to remove` : "Optional · e.g. hotel reservation, ticket copy"} · Max per file size 5MB</span>
-                    </span>
-                    <span className={styles.upAct}>{extraFile ? "✓" : "+"}</span>
-                  </button>
-                  <div className={styles.docRowCtrls}>
-                    <button type="button" className={styles.docCtrlBtn} aria-label="Remove additional documents" onClick={() => { setExtraOpen(false); setExtraFile(null); setExtraSizeError(""); }}>
-                      <Minus size={16} />
-                    </button>
-                  </div>
-                </div>
-                {extraSizeError && <span className={styles.fieldError}>{extraSizeError}</span>}
-              </div>
-            )}
 
             <label className={styles.terms}>
               <input type="checkbox" checked={agreed} onChange={(e) => setAgreed(e.target.checked)} />
