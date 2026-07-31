@@ -30,6 +30,14 @@ function parseAed(v?: string | null): number | null {
   return Number.isFinite(n) && n > 0 ? n : null;
 }
 
+// 5% VAT, added only to the amount actually charged via Mettpay — the price
+// shown on the form/summary card stays the pre-VAT figure everywhere else.
+// *105 (not *1.05) keeps the multiplication on an integer to avoid an extra
+// floating-point rounding step.
+function withVat(amount: number): number {
+  return Math.round(amount * 105) / 100;
+}
+
 // Matches the "5MB max per file" label on the passport/photo uploaders —
 // enforced here since the accept="" attribute only filters file *type* in
 // the picker, not size.
@@ -213,7 +221,7 @@ export default function TouristVisaForm({
             name: applicant,
             email,
             mobile: `${findCountry(mobileCountry)?.dial ?? ""} ${mobile}`,
-            amount: String(amount),
+            amount: String(withVat(amount)),
             comments: service,
             referenceId: refNum.current,
             returnUrl: window.location.href,

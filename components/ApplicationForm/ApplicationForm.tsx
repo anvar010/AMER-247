@@ -36,6 +36,14 @@ function parseAed(v?: string | null): number | null {
   return Number.isFinite(n) && n > 0 ? n : null;
 }
 
+// 5% VAT, added only to the amount actually charged via Mettpay — the price
+// shown on the form/summary card stays the pre-VAT figure everywhere else.
+// *105 (not *1.05) keeps the multiplication on an integer to avoid an extra
+// floating-point rounding step.
+function withVat(amount: number): number {
+  return Math.round(amount * 105) / 100;
+}
+
 // Matches the submission-files bucket's own 5MB limit (see lib/db.ts)
 // — enforced here too since accept="" only filters file *type*, not size.
 const MAX_UPLOAD_BYTES = 5 * 1024 * 1024;
@@ -346,7 +354,7 @@ export default function ApplicationForm({
             name: applicant,
             email,
             mobile: `${findCountry(phoneCountry)?.dial ?? ""} ${phone}`,
-            amount: String(amount),
+            amount: String(withVat(amount)),
             comments: service,
             referenceId: refNum.current,
             returnUrl: window.location.href,
