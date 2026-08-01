@@ -8,7 +8,7 @@ import {
 } from "lucide-react";
 import WhatsAppIcon from "@/components/icons/WhatsAppIcon";
 import CountryCodeSelect from "@/components/CountryCodeSelect/CountryCodeSelect";
-import { findCountry } from "@/lib/countryCodes";
+import { COUNTRY_CODES, type CountryCode } from "@/lib/countryCodes";
 import { features as STEP_GUIDE } from "@/components/PickUpService/PickUpService";
 import { IMPORTANT_NOTES } from "@/lib/importantNotes";
 import styles from "./TouristVisaForm.module.css";
@@ -39,6 +39,80 @@ const NATIONALITIES = [
   "Russia", "Serbia", "Slovakia", "Slovenia", "Sweden", "Switzerland", "Taiwan",
   "Thailand", "Ukraine", "Uruguay", "Uzbekistan", "Vietnam", "Zimbabwe",
 ];
+
+// Mobile/WhatsApp country-code dropdown — same "keep local, don't touch the
+// shared list" reasoning as NATIONALITIES above, since COUNTRY_CODES (lib/
+// countryCodes.ts) is also used by ApplicationForm. Sudan/Tunisia/Algeria/
+// Iraq/Morocco/Russia are already in COUNTRY_CODES, so they're excluded here
+// to avoid duplicate entries in the dropdown.
+const TOURIST_COUNTRY_CODES: CountryCode[] = [
+  ...COUNTRY_CODES,
+  { iso2: "za", name: "South Africa", dial: "+27" },
+  { iso2: "ke", name: "Kenya", dial: "+254" },
+  { iso2: "tz", name: "Tanzania", dial: "+255" },
+  { iso2: "mu", name: "Mauritius", dial: "+230" },
+  { iso2: "mr", name: "Mauritania", dial: "+222" },
+  { iso2: "al", name: "Albania", dial: "+355" },
+  { iso2: "ao", name: "Angola", dial: "+244" },
+  { iso2: "ar", name: "Argentina", dial: "+54" },
+  { iso2: "am", name: "Armenia", dial: "+374" },
+  { iso2: "at", name: "Austria", dial: "+43" },
+  { iso2: "az", name: "Azerbaijan", dial: "+994" },
+  { iso2: "by", name: "Belarus", dial: "+375" },
+  { iso2: "be", name: "Belgium", dial: "+32" },
+  { iso2: "bt", name: "Bhutan", dial: "+975" },
+  { iso2: "bo", name: "Bolivia", dial: "+591" },
+  { iso2: "ba", name: "Bosnia and Herzegovina", dial: "+387" },
+  { iso2: "br", name: "Brazil", dial: "+55" },
+  { iso2: "bg", name: "Bulgaria", dial: "+359" },
+  { iso2: "kh", name: "Cambodia", dial: "+855" },
+  { iso2: "cl", name: "Chile", dial: "+56" },
+  { iso2: "co", name: "Colombia", dial: "+57" },
+  { iso2: "hr", name: "Croatia", dial: "+385" },
+  { iso2: "cy", name: "Cyprus", dial: "+357" },
+  { iso2: "cz", name: "Czech Republic (Czechia)", dial: "+420" },
+  { iso2: "dk", name: "Denmark", dial: "+45" },
+  { iso2: "do", name: "Dominican Republic", dial: "+1" },
+  { iso2: "ec", name: "Ecuador", dial: "+593" },
+  { iso2: "fi", name: "Finland", dial: "+358" },
+  { iso2: "ge", name: "Georgia", dial: "+995" },
+  { iso2: "gr", name: "Greece", dial: "+30" },
+  { iso2: "hu", name: "Hungary", dial: "+36" },
+  { iso2: "is", name: "Iceland", dial: "+354" },
+  { iso2: "ir", name: "Iran", dial: "+98" },
+  { iso2: "ie", name: "Ireland", dial: "+353" },
+  { iso2: "jm", name: "Jamaica", dial: "+1" },
+  { iso2: "kz", name: "Kazakhstan", dial: "+7" },
+  { iso2: "la", name: "Laos", dial: "+856" },
+  { iso2: "lu", name: "Luxembourg", dial: "+352" },
+  { iso2: "mv", name: "Maldives", dial: "+960" },
+  { iso2: "mx", name: "Mexico", dial: "+52" },
+  { iso2: "mn", name: "Mongolia", dial: "+976" },
+  { iso2: "mm", name: "Myanmar", dial: "+95" },
+  { iso2: "nl", name: "Netherlands", dial: "+31" },
+  { iso2: "nz", name: "New Zealand", dial: "+64" },
+  { iso2: "no", name: "Norway", dial: "+47" },
+  { iso2: "pe", name: "Peru", dial: "+51" },
+  { iso2: "pl", name: "Poland", dial: "+48" },
+  { iso2: "pt", name: "Portugal", dial: "+351" },
+  { iso2: "ro", name: "Romania", dial: "+40" },
+  { iso2: "rs", name: "Serbia", dial: "+381" },
+  { iso2: "sk", name: "Slovakia", dial: "+421" },
+  { iso2: "si", name: "Slovenia", dial: "+386" },
+  { iso2: "se", name: "Sweden", dial: "+46" },
+  { iso2: "ch", name: "Switzerland", dial: "+41" },
+  { iso2: "tw", name: "Taiwan", dial: "+886" },
+  { iso2: "th", name: "Thailand", dial: "+66" },
+  { iso2: "ua", name: "Ukraine", dial: "+380" },
+  { iso2: "uy", name: "Uruguay", dial: "+598" },
+  { iso2: "uz", name: "Uzbekistan", dial: "+998" },
+  { iso2: "vn", name: "Vietnam", dial: "+84" },
+  { iso2: "zw", name: "Zimbabwe", dial: "+263" },
+];
+
+function findTouristCountry(iso2: string): CountryCode {
+  return TOURIST_COUNTRY_CODES.find((c) => c.iso2 === iso2) ?? TOURIST_COUNTRY_CODES[0];
+}
 
 // Same parsing as the fee calculators (PricingCalculator.tsx /
 // MobileFeeCalculator.tsx) — strips everything but digits/decimal so a
@@ -195,8 +269,8 @@ export default function TouristVisaForm({
     fd.set("referenceID", refNum.current);
     fd.set("applicantName", applicant);
     fd.set("email", email);
-    fd.set("mobileNo", `${findCountry(mobileCountry)?.dial ?? ""} ${mobile}`);
-    fd.set("whatsappNo", `${findCountry(whatsappCountry)?.dial ?? ""} ${whatsapp}`);
+    fd.set("mobileNo", `${findTouristCountry(mobileCountry)?.dial ?? ""} ${mobile}`);
+    fd.set("whatsappNo", `${findTouristCountry(whatsappCountry)?.dial ?? ""} ${whatsapp}`);
     fd.set("nationality", nationality);
     if (travelDate) fd.set("travelDate", travelDate);
     const passengers = [
@@ -240,7 +314,7 @@ export default function TouristVisaForm({
           body: JSON.stringify({
             name: applicant,
             email,
-            mobile: `${findCountry(mobileCountry)?.dial ?? ""} ${mobile}`,
+            mobile: `${findTouristCountry(mobileCountry)?.dial ?? ""} ${mobile}`,
             amount: String(withVat(amount)),
             comments: service,
             referenceId: refNum.current,
@@ -378,7 +452,7 @@ export default function TouristVisaForm({
             <div className={styles.field}>
               <label htmlFor="tv-mobile">Enter Mobile No. <span className={styles.req}>*</span></label>
               <div className={styles.phoneRow}>
-                <CountryCodeSelect value={mobileCountry} onChange={setMobileCountry} label="Mobile country code" />
+                <CountryCodeSelect value={mobileCountry} onChange={setMobileCountry} label="Mobile country code" countries={TOURIST_COUNTRY_CODES} />
                 <input id="tv-mobile" className={err(attempted1 && !mobileValid)} type="tel" inputMode="tel" placeholder="50 000 0000" value={mobile} onChange={(e) => setMobile(e.target.value)} />
               </div>
               {attempted1 && !mobileValid && <span className={styles.fieldError}>Please enter a valid mobile number.</span>}
@@ -387,7 +461,7 @@ export default function TouristVisaForm({
             <div className={styles.field}>
               <label htmlFor="tv-whatsapp">WhatsApp No. <span className={styles.req}>*</span></label>
               <div className={styles.phoneRow}>
-                <CountryCodeSelect value={whatsappCountry} onChange={setWhatsappCountry} label="WhatsApp country code" />
+                <CountryCodeSelect value={whatsappCountry} onChange={setWhatsappCountry} label="WhatsApp country code" countries={TOURIST_COUNTRY_CODES} />
                 <input id="tv-whatsapp" className={err(attempted1 && !whatsappValid)} type="tel" inputMode="tel" placeholder="50 000 0000" value={whatsapp} onChange={(e) => setWhatsapp(e.target.value)} />
               </div>
               {attempted1 && !whatsappValid && <span className={styles.fieldError}>Please enter a valid WhatsApp number.</span>}

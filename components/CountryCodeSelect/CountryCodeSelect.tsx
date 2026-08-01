@@ -2,30 +2,35 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import { ChevronDown, Check, Search } from "lucide-react";
-import { COUNTRY_CODES, findCountry } from "@/lib/countryCodes";
+import { COUNTRY_CODES, type CountryCode } from "@/lib/countryCodes";
 import styles from "./CountryCodeSelect.module.css";
 
 export default function CountryCodeSelect({
   value,
   onChange,
   label = "Country code",
+  countries = COUNTRY_CODES,
 }: {
   value: string;
   onChange: (iso2: string) => void;
   label?: string;
+  // Defaults to the site-wide list — pass a longer list (e.g. Tourist
+  // Visa's expanded set) without affecting every other form using this
+  // same component.
+  countries?: CountryCode[];
 }) {
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState("");
   const rootRef = useRef<HTMLDivElement>(null);
-  const current = findCountry(value);
+  const current = countries.find((c) => c.iso2 === value) ?? countries[0];
 
   const results = useMemo(() => {
     const q = query.trim().toLowerCase();
-    if (!q) return COUNTRY_CODES;
-    return COUNTRY_CODES.filter(
+    if (!q) return countries;
+    return countries.filter(
       (c) => c.name.toLowerCase().includes(q) || c.dial.includes(q)
     );
-  }, [query]);
+  }, [query, countries]);
 
   useEffect(() => {
     if (!open) return;
