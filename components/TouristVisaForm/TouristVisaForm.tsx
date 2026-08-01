@@ -7,7 +7,6 @@ import {
   X, ArrowRight, ArrowLeft, Check, Clock, Upload, Plus, Minus, Lock, Phone,
 } from "lucide-react";
 import WhatsAppIcon from "@/components/icons/WhatsAppIcon";
-import { countries } from "@/app/contact/Selects";
 import CountryCodeSelect from "@/components/CountryCodeSelect/CountryCodeSelect";
 import { findCountry } from "@/lib/countryCodes";
 import { features as STEP_GUIDE } from "@/components/PickUpService/PickUpService";
@@ -19,6 +18,27 @@ const outfit = Outfit({ subsets: ["latin"], weight: ["500", "600", "700", "800"]
 function genRef() {
   return "AMR-" + Math.floor(40000 + Math.random() * 9999);
 }
+
+// Nationality dropdown for Step 1 — kept local to this form (not shared with
+// Career/DET247's smaller "countries" list in app/contact/Selects.tsx) so
+// expanding this list doesn't change theirs.
+const NATIONALITIES = [
+  "United Arab Emirates", "Saudi Arabia", "Qatar", "Bahrain", "Kuwait", "Oman",
+  "United States", "United Kingdom", "India", "Pakistan", "Philippines", "Egypt",
+  "Jordan", "Lebanon", "Turkey", "Germany", "France", "Italy", "Spain", "China",
+  "Japan", "South Korea", "Australia", "Canada", "South Africa", "Nigeria",
+  "Bangladesh", "Sri Lanka", "Nepal", "Indonesia", "Malaysia", "Singapore",
+  "Kenya", "Sudan", "Tanzania", "Tunisia", "Mauritius", "Mauritania", "Albania",
+  "Algeria", "Angola", "Argentina", "Armenia", "Austria", "Azerbaijan", "Belarus",
+  "Belgium", "Bhutan", "Bolivia", "Bosnia and Herzegovina", "Brazil", "Bulgaria",
+  "Cambodia", "Chile", "Colombia", "Croatia", "Cyprus", "Czech Republic (Czechia)",
+  "Denmark", "Dominican Republic", "Ecuador", "Finland", "Georgia", "Greece",
+  "Hungary", "Iceland", "Iran", "Iraq", "Ireland", "Jamaica", "Kazakhstan", "Laos",
+  "Luxembourg", "Maldives", "Mexico", "Mongolia", "Morocco", "Myanmar",
+  "Netherlands", "New Zealand", "Norway", "Peru", "Poland", "Portugal", "Romania",
+  "Russia", "Serbia", "Slovakia", "Slovenia", "Sweden", "Switzerland", "Taiwan",
+  "Thailand", "Ukraine", "Uruguay", "Uzbekistan", "Vietnam", "Zimbabwe",
+];
 
 // Same parsing as the fee calculators (PricingCalculator.tsx /
 // MobileFeeCalculator.tsx) — strips everything but digits/decimal so a
@@ -377,8 +397,8 @@ export default function TouristVisaForm({
               <label htmlFor="tv-nationality">Select Your Nationality <span className={styles.req}>*</span></label>
               <select id="tv-nationality" className={`${styles.select} ${attempted1 && !nationalityValid ? styles.inputError : ""}`} value={nationality} onChange={(e) => setNationality(e.target.value)}>
                 <option value="" disabled>Select nationality…</option>
-                {countries.map((c) => (
-                  <option key={c.iso} value={c.name}>{c.name}</option>
+                {NATIONALITIES.map((name) => (
+                  <option key={name} value={name}>{name}</option>
                 ))}
               </select>
               {attempted1 && !nationalityValid && <span className={styles.fieldError}>Please select a nationality.</span>}
