@@ -3,6 +3,12 @@ import PageHero from "@/components/PageHero/PageHero";
 import { MISSION_CARDS, COUNTRIES_WE_SERVE, WE_HELP_WITH, WHY_GLOBAL_AXIS_COPY } from "@/lib/immigrationContent";
 import styles from "./immigrationServices.module.css";
 
+export const metadata = {
+  alternates: {
+    canonical: "/immigrationServices",
+  },
+};
+
 const MISSION_ICONS = [Target, HeartHandshake, Eye];
 
 // Split the source paragraph into an editorial lede (first sentence, with

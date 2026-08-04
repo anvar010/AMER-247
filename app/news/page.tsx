@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Sparkles, Tag, ArrowRight, Calendar } from "lucide-react";
 import { newsArticles } from "@/lib/newsData";
 import styles from "./news.module.css";
+import { OG_IMAGE } from "@/lib/ogImage";
 
 const FEATURED_TITLE =
   "UAE Immigration Insights: Stay Informed with the Latest News and Blogs for Seamless Journey";
@@ -14,6 +15,10 @@ export const metadata = {
     title: "UAE Visa and Residency News Update - Amer 247",
     description:
       "We are open 24 hrs all days. Our services are available online by clicking on. APPLY ONLINE. ADDRESS. 24 Seven Government Transaction Center LLC",
+    images: [OG_IMAGE],
+  },
+  alternates: {
+    canonical: "/news",
   },
 };
 

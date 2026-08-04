@@ -15,6 +15,9 @@ export async function generateMetadata({ params }: { params: Params }) {
   if (!resolved) return {};
   return {
     title: `Apply — ${resolved.item.name} — Amer 24/7`,
+    alternates: {
+      canonical: `/${formPrefix}/${slug}`,
+    },
   };
 }
 

@@ -4,6 +4,12 @@ import FaqAccordion from "@/components/FaqAccordion/FaqAccordion";
 import { PCR_TERMS, PCR_FAQS } from "@/lib/legalContent";
 import styles from "./covid-testing.module.css";
 
+export const metadata = {
+  alternates: {
+    canonical: "/covid-testing",
+  },
+};
+
 export default function CovidTestingPage() {
   return (
     <>

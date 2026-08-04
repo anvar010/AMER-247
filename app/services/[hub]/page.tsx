@@ -18,6 +18,9 @@ export async function generateMetadata({ params }: { params: Params }) {
   return {
     title: `${hub.title} — Amer 24/7`,
     description: hub.blurb,
+    alternates: {
+      canonical: `/services/${hubKey}`,
+    },
   };
 }
 

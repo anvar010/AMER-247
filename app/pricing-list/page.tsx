@@ -5,6 +5,7 @@ import {
 import styles from "./pricing-list.module.css";
 import PricingCalculator from "./PricingCalculator";
 import ViewFeesButton from "./ViewFeesButton";
+import { OG_IMAGE } from "@/lib/ogImage";
 
 const heroFeatures = [
   { icon: ShieldCheck, label: "Official Fees" },
@@ -19,10 +20,21 @@ const heroStats = [
   { icon: Headphones, num: "24/7", label: "Online Support" },
 ];
 
+const currentYear = new Date().getFullYear();
+
 export const metadata = {
-  title: "Pricing — Amer 24/7",
+  title: `Dubai Visa Renewal Cost & Emirates ID Fees ${currentYear} | Amer247`,
   description:
-    "AMER 24/7's services fees and payments. Pick a service and see the exact fee — immigration, Emirates ID, Golden Visa, medical, insurance, and more.",
+    `Check Dubai visa renewal cost, new residence visa fees, Emirates ID renewal charges & medical test prices. ${currentYear} Amer center price list – no hidden fees.`,
+  openGraph: {
+    title: `Dubai Visa Renewal Cost & Emirates ID Fees ${currentYear} | Amer247`,
+    description:
+      "Updated price list for visa renewal, Emirates ID, medical fitness & visa cancellation in Dubai. Transparent Amer center fees with secure online payment.",
+    images: [OG_IMAGE],
+  },
+  alternates: {
+    canonical: "/pricing-list",
+  },
 };
 
 export default function PricingListPage() {

@@ -9,9 +9,35 @@ import PickUpService from "@/components/PickUpService/PickUpService";
 import MobileLiveStats from "@/components/MobileLiveStats/MobileLiveStats";
 import Partners from "@/components/Partners/Partners";
 
+export const metadata = {
+  alternates: {
+    canonical: "/",
+  },
+};
+
+const LOCAL_BUSINESS_SCHEMA = {
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  name: "Amer247 - 24 Seven Government Transaction Center LLC",
+  telephone: "+971 4 2300500",
+  address: {
+    "@type": "PostalAddress",
+    streetAddress:
+      "17 A Street, Al Khabaisi (Behind Abu Baker Al Siddique Metro Station)",
+    addressLocality: "Deira, Dubai",
+    addressCountry: "AE",
+  },
+  openingHours: "Mo-Su 00:00-24:00",
+  url: "https://amer247.com",
+};
+
 export default function HomePage() {
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(LOCAL_BUSINESS_SCHEMA) }}
+      />
       <Hero />
 
       {/* On mobile, Hero renders MobileScrollHero (the pinned splash

@@ -5,19 +5,26 @@ import Header from "@/components/Header/Header";
 import Footer from "@/components/Footer/Footer";
 import SmoothScroll from "@/components/SmoothScroll/SmoothScroll";
 import MobileBottomNav from "@/components/MobileBottomNav/MobileBottomNav";
+import { OG_IMAGE } from "@/lib/ogImage";
 
-// Same GA property as the master project, for continuity of analytics
+
 // history across the two sites.
 const GA_ID = "G-QLXBYED5DJ";
 
 export const metadata: Metadata = {
-  title: "AMER247 - Immigration Services | Dubai Visa Applications/Renewal",
+  metadataBase: new URL("https://amer247.com"),
+  title: "Amer Center Dubai – Visa Renewal & Emirates ID | Open 24/7",
   description:
-    "Amer247 is a Semi Government Organization operating 24 hrs, allowing residents to complete all Visa and Residency transactions. Apply Online!",
+    "Amer247 – Amer center & typing center in Deira, Dubai open 24 hours. Residence visa renewal, new visa, Emirates ID renewal & medical typing. Apply online now.",
   openGraph: {
-    title: "AMER247 - Immigration Services | Dubai Visa Applications/Renewal",
+    title: "Amer Center Dubai – Visa Renewal & Emirates ID | Open 24/7",
     description:
-      "Amer247 is a Semi Government Organization operating 24 hrs, allowing residents to complete all Visa and Residency transactions. Apply Online!",
+      "Dubai's only 24-hour Amer center. Visa renewal, Emirates ID, medical typing & all GDRFA services online or in Deira, near Abu Baker Al Siddique Metro.",
+    images: [OG_IMAGE],
+  },
+  twitter: {
+    card: "summary_large_image",
+    images: [OG_IMAGE.url],
   },
 };
 

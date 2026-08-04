@@ -5,13 +5,20 @@ import ApplicationTracker from './ApplicationTracker';
 import CategoryTabs from "./CategoryTabs";
 import MobileOnlineServicesScreen from "@/components/MobileOnlineServicesScreen/MobileOnlineServicesScreen";
 import HeroActions from "./HeroActions";
+import { OG_IMAGE } from "@/lib/ogImage";
 
 export const metadata = {
-  title: "Amer Online Services - Amer247",
+  title: "Dubai Visa Online – Apply, Renew & Track | Amer247",
+  description:
+    "Apply for Dubai visa online: residence visa renewal, family visa, visit visa extension, change status & Emirates ID. Secure payment, fast approval, 24/7.",
   openGraph: {
-    title: "Amer Online Services - Amer247",
+    title: "Dubai Visa Online – Apply, Renew & Track | Amer247",
     description:
-      "Explore a range of convenient online services for immigration, visas, and citizenship at Amer247.com. Streamline your application process with expert guidance and 24/7 support.",
+      "UAE visa application online made easy — renew your residence visa, sponsor family or extend a visit visa in minutes with Amer247.",
+    images: [OG_IMAGE],
+  },
+  alternates: {
+    canonical: "/online-services",
   },
 };
 

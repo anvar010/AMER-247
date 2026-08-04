@@ -2,6 +2,12 @@ import PageHero from "@/components/PageHero/PageHero";
 import LegalSections from "@/components/LegalSections/LegalSections";
 import { PRIVACY_POLICY } from "@/lib/legalContent";
 
+export const metadata = {
+  alternates: {
+    canonical: "/privacy-policy",
+  },
+};
+
 export default function PrivacyPolicyPage() {
   return (
     <>

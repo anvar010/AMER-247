@@ -5,6 +5,7 @@ import {
   Gauge, Landmark, Truck, Rocket,
 } from "lucide-react";
 import styles from "./amer247-services.module.css";
+import { OG_IMAGE } from "@/lib/ogImage";
 
 const features = [
   { icon: Gauge, title: "Fast Processing", sub: "Quick, reliable and efficient services." },
@@ -22,9 +23,18 @@ const PARTNER_LOGOS = [
 ];
 
 export const metadata = {
-  title: "AMER 247's Corporate Services — Amer 24/7",
+  title: "PRO Services Dubai – Company Visa & Typing Center | Amer247",
   description:
-    "Amer247 offers many services to small and medium businesses with the highest standards of quality and speed for any transactions of all Government departments in Dubai; we also provide dispatch services of companies and individuals transactions all around Dubai.",
+    "PRO services in Dubai: employment visa processing, labour & establishment card, Emirates ID, medical fitness & VAT. Trusted services center, open 24/7.",
+  openGraph: {
+    title: "PRO Services Dubai – Company Visa & Typing Center | Amer247",
+    description:
+      "Employment visas, establishment cards, medical typing & dispatch — end-to-end PRO services for Dubai companies from the city's only 24-hour Amer center.",
+    images: [OG_IMAGE],
+  },
+  alternates: {
+    canonical: "/amer247-services",
+  },
 };
 
 // Real hub each service opens — left undefined for services that don't

@@ -2,6 +2,13 @@ import Link from "next/link";
 import { AlertTriangle, ArrowRight } from "lucide-react";
 import styles from "./error.module.css";
 
+export const metadata = {
+  robots: {
+    index: false,
+    follow: true,
+  },
+};
+
 export default function ErrorPage() {
   return (
     <div className={styles.wrap}>

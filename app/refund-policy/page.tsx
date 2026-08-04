@@ -2,6 +2,12 @@ import PageHero from "@/components/PageHero/PageHero";
 import LegalSections from "@/components/LegalSections/LegalSections";
 import { REFUND_POLICY } from "@/lib/legalContent";
 
+export const metadata = {
+  alternates: {
+    canonical: "/refund-policy",
+  },
+};
+
 export default function RefundPolicyPage() {
   return (
     <>

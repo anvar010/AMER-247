@@ -1,6 +1,7 @@
 import PageHero from "@/components/PageHero/PageHero";
 import CareerForm from "./CareerForm";
 import styles from "./career.module.css";
+import { OG_IMAGE } from "@/lib/ogImage";
 
 export const metadata = {
   title: "Career- Amer 247 Our Performance-oriented Culture",
@@ -8,6 +9,10 @@ export const metadata = {
     title: "Career- Amer 247 Our Performance-oriented Culture",
     description:
       "We are hiring. At amer247 hiring, our performance-oriented culture and responsible approach are the foundations of our success.",
+    images: [OG_IMAGE],
+  },
+  alternates: {
+    canonical: "/career",
   },
 };
 

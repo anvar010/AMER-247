@@ -9,6 +9,9 @@ const FEATURED_DESC =
 export const metadata = {
   title: "Blogs — Amer 24/7",
   description: "Stay informed with the latest blogs for a seamless journey.",
+  alternates: {
+    canonical: "/blogs",
+  },
 };
 
 export default function BlogsPage() {

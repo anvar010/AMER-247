@@ -2,6 +2,13 @@ import PageHero from "@/components/PageHero/PageHero";
 import PayOnlineForm from "./PayOnlineForm";
 import styles from "./pay-online.module.css";
 
+export const metadata = {
+  robots: {
+    index: false,
+    follow: true,
+  },
+};
+
 export default function PayOnlinePage() {
   return (
     <>

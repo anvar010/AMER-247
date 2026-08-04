@@ -16,6 +16,7 @@ import {
 import styles from "./about.module.css";
 import mstyles from "@/components/MobileAboutScreen/MobileAboutScreen.module.css";
 import CountUp from "@/components/CountUp/CountUp";
+import { OG_IMAGE } from "@/lib/ogImage";
 
 const outfit = Outfit({ subsets: ["latin"], weight: ["500", "600", "700", "800"] });
 
@@ -73,11 +74,17 @@ const differences = [
 ];
 
 export const metadata = {
-  title: "Visa and Residency Services Dubai - Amer247",
+  title: "About Amer247 – 24 Hour Amer Center Near Deira City Centre",
+  description:
+    "Amer247 is a semi-government Amer & Tasheel services center in Deira, Dubai — the only Amer office open 24 hours for visa, residency & Emirates ID services.",
   openGraph: {
-    title: "Visa and Residency Services Dubai - Amer247",
+    title: "About Amer247 – 24 Hour Amer Center in Deira, Dubai",
     description:
-      "Amer247 operates 24/7 and provides Entry permits, Issuing & Renewals of a Residency Visa, Visa Cancellation and other related services.",
+      "The only Amer center in Dubai open 24/7. Semi-government transaction center simplifying UAE visa, residency and Emirates ID services.",
+    images: [OG_IMAGE],
+  },
+  alternates: {
+    canonical: "/about",
   },
 };
 

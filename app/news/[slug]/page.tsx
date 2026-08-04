@@ -17,6 +17,9 @@ export async function generateMetadata({ params }: { params: Params }) {
   return {
     title: `${article.title} — Amer 24/7`,
     description: article.content.slice(0, 155),
+    alternates: {
+      canonical: `/news/${slug}`,
+    },
   };
 }
 

@@ -20,6 +20,7 @@ import { faqs } from "./faqs";
 import MobileScreenHead from "@/components/MobileScreenHead/MobileScreenHead";
 import MobileMenuRow from "@/components/MobileMenuRow/MobileMenuRow";
 import MobileAppFooter from "@/components/MobileAppFooter/MobileAppFooter";
+import { OG_IMAGE } from "@/lib/ogImage";
 
 const outfit = Outfit({ subsets: ["latin"], weight: ["500", "600", "700"] });
 
@@ -38,6 +39,10 @@ export const metadata = {
     title: "Amer Center Dubai | Amer247",
     description:
       "We are the only Amer Center in Dubai which opens 24 hrs all days. Our services are available online by clicking on. APPLY ONLINE.",
+    images: [OG_IMAGE],
+  },
+  alternates: {
+    canonical: "/contact",
   },
 };
 

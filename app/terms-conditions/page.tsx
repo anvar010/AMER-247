@@ -2,6 +2,12 @@ import PageHero from "@/components/PageHero/PageHero";
 import LegalSections from "@/components/LegalSections/LegalSections";
 import { TERMS_CONDITIONS } from "@/lib/legalContent";
 
+export const metadata = {
+  alternates: {
+    canonical: "/terms-conditions",
+  },
+};
+
 export default function TermsConditionsPage() {
   return (
     <>
