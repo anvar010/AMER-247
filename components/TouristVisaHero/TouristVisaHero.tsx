@@ -1,3 +1,5 @@
+"use client";
+
 import { Plane, Clock, ShieldCheck, Zap, ArrowDown, Phone } from "lucide-react";
 import WhatsAppIcon from "@/components/icons/WhatsAppIcon";
 import { PRICES } from "@/lib/prices";
@@ -21,6 +23,14 @@ export default function TouristVisaHero({
   title: string;
   blurb: string;
 }) {
+  const scrollToVisaList = (e: React.MouseEvent) => {
+    e.preventDefault();
+    const lenis = (window as any).lenis;
+    const target = document.getElementById("tourist-visa-list");
+    if (lenis) lenis.scrollTo("#tourist-visa-list", { duration: 1.4 });
+    else target?.scrollIntoView({ behavior: "smooth" });
+  };
+
   return (
     <section className={styles.hero}>
       <span className={styles.dots} aria-hidden />
@@ -44,15 +54,17 @@ export default function TouristVisaHero({
           </div>
 
           <div className={styles.ctaRow}>
-            <a href="#tourist-visa-list" className={styles.ctaPrimary}>
+            <a href="#tourist-visa-list" className={styles.ctaPrimary} onClick={scrollToVisaList}>
               Browse Visas <ArrowDown size={15} />
             </a>
             <span className={styles.heroContactIcons}>
-              <a href="https://wa.me/971547800500" className={styles.heroIconBtn} aria-label="Chat on WhatsApp">
+              <a href="https://wa.me/971547800500" className={styles.heroContactPill} aria-label="Chat on WhatsApp">
                 <WhatsAppIcon size={17} />
+                +971 54 780 0500
               </a>
-              <a href="tel:+971527276699" className={styles.heroIconBtn} aria-label="Call us">
+              <a href="tel:+971527276699" className={styles.heroContactPill} aria-label="Call us">
                 <Phone size={17} />
+                +971 52 727 6699
               </a>
             </span>
             <div className={styles.trustRow}>

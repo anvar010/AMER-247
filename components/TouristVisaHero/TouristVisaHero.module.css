@@ -145,21 +145,29 @@
   gap: 0.6rem;
 }
 
-.heroIconBtn {
-  display: flex;
+.heroContactPill {
+  display: inline-flex;
   align-items: center;
-  justify-content: center;
-  width: 40px;
+  gap: 0.5rem;
   height: 40px;
-  border-radius: 50%;
+  border-radius: 999px;
+  padding: 0 1rem;
   background: #ffffff;
   border: 1px solid #EDE7E0;
-  color: #E31E24;
+  color: #11204A;
+  font-size: 0.85rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
   box-shadow: 0 4px 10px rgba(17, 32, 74, 0.06);
   transition: transform 0.2s ease;
 }
 
-.heroIconBtn:hover {
+.heroContactPill svg {
+  color: #E31E24;
+  flex-shrink: 0;
+}
+
+.heroContactPill:hover {
   transform: translateY(-2px);
 }
 
