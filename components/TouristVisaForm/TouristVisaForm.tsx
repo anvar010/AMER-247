@@ -8,6 +8,7 @@ import {
 } from "lucide-react";
 import WhatsAppIcon from "@/components/icons/WhatsAppIcon";
 import CountryCodeSelect from "@/components/CountryCodeSelect/CountryCodeSelect";
+import SearchableSelect from "@/components/SearchableSelect/SearchableSelect";
 import { COUNTRY_CODES, type CountryCode } from "@/lib/countryCodes";
 import { features as STEP_GUIDE } from "@/components/PickUpService/PickUpService";
 import { IMPORTANT_NOTES } from "@/lib/importantNotes";
@@ -472,12 +473,15 @@ export default function TouristVisaForm({
 
             <div className={styles.field}>
               <label htmlFor="tv-nationality">Select Your Nationality <span className={styles.req}>*</span></label>
-              <select id="tv-nationality" className={`${styles.select} ${attempted1 && !nationalityValid ? styles.inputError : ""}`} value={nationality} onChange={(e) => setNationality(e.target.value)}>
-                <option value="" disabled>Select nationality…</option>
-                {NATIONALITIES.map((name) => (
-                  <option key={name} value={name}>{name}</option>
-                ))}
-              </select>
+              <SearchableSelect
+                id="tv-nationality"
+                value={nationality}
+                onChange={setNationality}
+                options={NATIONALITIES}
+                placeholder="Select nationality…"
+                searchPlaceholder="Search nationality…"
+                error={attempted1 && !nationalityValid}
+              />
               {attempted1 && !nationalityValid && <span className={styles.fieldError}>Please select a nationality.</span>}
             </div>
 
