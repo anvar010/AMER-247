@@ -151,5 +151,5 @@ export const PRICES: Record<string, PriceValue> = {
   "60_days_multiple_entry": { single: "1100.00 AED" },
 
   // --- TEMPORARY: live payment-flow testing, remove when done ---
-  test_service_do_not_use: { single: "1 AED" },
+  // test_service_do_not_use: { single: "1 AED" },
 };

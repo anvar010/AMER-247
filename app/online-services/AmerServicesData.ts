@@ -181,12 +181,12 @@ export const amerSubCategories: SubCategory[] = [
     ],
   },
   // TEMPORARY: live payment-flow testing, remove when done.
-  {
-    key: "test-service",
-    label: "Test Service (Do Not Use)",
-    icon: "Wrench",
-    items: [
-      { name: "Test Service (Do Not Use)", slug: "test_service_do_not_use", ...PRICES.test_service_do_not_use },
-    ],
-  },
+  // {
+  //   key: "test-service",
+  //   label: "Test Service (Do Not Use)",
+  //   icon: "Wrench",
+  //   items: [
+  //     { name: "Test Service (Do Not Use)", slug: "test_service_do_not_use", ...PRICES.test_service_do_not_use },
+  //   ],
+  // },
 ];
