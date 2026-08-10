@@ -23,7 +23,7 @@ const outfit = Outfit({ subsets: ["latin"], weight: ["500", "600", "700", "800"]
 const stats = [
   { value: <CountUp to={2017} />, label: "Established", icon: CalendarCheck },
   { value: <><CountUp to={24} />/<CountUp to={7} /></>, label: "Availability", icon: MapPin },
-  { value: <CountUp to={2} prefix="0" />, label: "Branches", icon: Building2 },
+  { value: <CountUp to={1} prefix="0" />, label: "Branches", icon: Building2 },
   { value: <CountUp to={100} suffix="%" />, label: "Government Backed", icon: ShieldCheck },
 ];
 
@@ -53,7 +53,7 @@ const differences = [
   },
   {
     icon: MapPin,
-    title: "We have two branches: Deira (behind Abu Baker Al Siddique Metro Station), JLT (One JLT Building)",
+    title: "We have one branch in Deira, behind Abu Baker Al Siddique Metro Station",
     body: "",
   },
   {
