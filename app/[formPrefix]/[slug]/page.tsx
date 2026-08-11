@@ -36,6 +36,7 @@ export default async function ApplyFormPage({ params }: { params: Params }) {
     return (
       <TouristVisaForm
         service={item.name}
+        serviceSlug={item.slug ?? slug}
         price={item.single ?? item.inside ?? item.outside}
       />
     );

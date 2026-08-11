@@ -170,9 +170,11 @@ type Passenger = { name: string; dob: string };
 // ApplicationForm.
 export default function TouristVisaForm({
   service = "Tourist Visa",
+  serviceSlug,
   price,
 }: {
   service?: string;
+  serviceSlug?: string;
   price?: string;
 }) {
   const [step, setStep] = useState<1 | 2>(1);
@@ -220,6 +222,12 @@ export default function TouristVisaForm({
   // Step 2 — Passenger Details
   const [adults, setAdults] = useState<Passenger[]>([{ name: "", dob: "" }]);
   const [children, setChildren] = useState<Passenger[]>([]);
+  // Government visa fee is per passport — every adult and child listed needs
+  // their own individual visa, so the charge must scale with headcount, not
+  // stay flat regardless of how many passengers are on the application.
+  const totalPassengers = adults.length + children.length;
+  const perPersonAmount = parseAed(price);
+  const totalAmount = perPersonAmount ? perPersonAmount * totalPassengers : null;
   const [passportFiles, setPassportFiles] = useState<File[]>([]);
   const [photoFiles, setPhotoFiles] = useState<File[]>([]);
   const [passportSizeError, setPassportSizeError] = useState("");
@@ -265,7 +273,7 @@ export default function TouristVisaForm({
     // A priced item defers the notification emails until Mettpay confirms
     // payment (see `deferEmail` in /api/apply) instead of sending them right
     // away for an application that might never get paid for.
-    const amount = parseAed(price);
+    const amount = totalAmount;
 
     const fd = new FormData();
     fd.set("hub", "Tourist Visa");
@@ -323,6 +331,11 @@ export default function TouristVisaForm({
             comments: service,
             referenceId: refNum.current,
             returnUrl: window.location.href,
+            // Lets the server independently recompute (and override, if it
+            // disagrees) the amount above from the authoritative price list
+            // and the passenger count already saved on this reference's DB
+            // row — a client-sent amount alone can't be trusted for billing.
+            serviceSlug,
           }),
         });
         const payJson = await payRes.json();
@@ -410,8 +423,15 @@ export default function TouristVisaForm({
             <div className={styles.svcK}>Tourist Visa</div>
             <div className={styles.svcName}>{service}</div>
             <div className={styles.svcFee}>
-              {price ? (
-                <span>Government + service fee · <b>{price}</b> (Inc. of VAT)</span>
+              {price && totalAmount ? (
+                totalPassengers > 1 ? (
+                  <span>
+                    Government + service fee · <b>{price}</b> × {totalPassengers} passengers ={" "}
+                    <b>{totalAmount.toFixed(2)} AED</b> (Excl. VAT)
+                  </span>
+                ) : (
+                  <span>Government + service fee · <b>{price}</b> (Excl. VAT)</span>
+                )
               ) : (
                 <span>Fee quoted after review</span>
               )}

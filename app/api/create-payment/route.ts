@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { createMettpayOrder, getMettpayOrderDetails } from "@/lib/mettpay";
 import { savePayOnlineOrder, findPayableSubmission, updatePayableSubmission } from "@/lib/db";
 import { notifyPaymentStage } from "@/lib/paymentNotify";
+import { PRICES } from "@/lib/prices";
 
 export const runtime = "nodejs";
 
@@ -10,6 +11,20 @@ export const runtime = "nodejs";
 // distinct from application submissions in the submissions table.
 function generateReferenceId(): string {
   return "PAY-" + Math.floor(40000 + Math.random() * 9999);
+}
+
+// Mirrors TouristVisaForm's own withVat() — kept as a separate copy (same
+// pattern already used across ApplicationForm/PricingCalculator/etc. in this
+// codebase) rather than a shared import, so this route has no dependency on
+// client component internals.
+function withVat(amount: number): number {
+  return Math.round(amount * 105) / 100;
+}
+
+function parseAedValue(v?: string | null): number | null {
+  if (!v) return null;
+  const n = parseFloat(v.replace(/[^\d.]/g, ""));
+  return Number.isFinite(n) && n > 0 ? n : null;
 }
 
 // Fixed, not derived from the incoming request — req.nextUrl.origin would
@@ -27,9 +42,10 @@ export async function POST(req: NextRequest) {
     const name = String(body.name ?? "");
     const email = String(body.email ?? "");
     const mobile = String(body.mobile ?? "");
-    const amount = String(body.amount ?? "");
+    let amount = String(body.amount ?? "");
     const comments = String(body.comments ?? "");
     const applicationReference = String(body.applicationReference ?? "");
+    const serviceSlug = body.serviceSlug ? String(body.serviceSlug) : null;
     // Application forms (ApplicationForm/TouristVisaForm) already save their
     // own submission row via /api/apply before calling here — passing that
     // same reference through skips a second, duplicate DB insert and keeps
@@ -38,6 +54,36 @@ export async function POST(req: NextRequest) {
 
     if (!name || !email || !mobile || !amount) {
       return NextResponse.json({ error: "Missing required fields." }, { status: 400 });
+    }
+
+    // Fetched early (before the amount is ever handed to Mettpay) so a
+    // Tourist Visa charge can be independently recomputed from the price
+    // list + this reference's already-saved passenger count, instead of
+    // trusting whatever `amount` the client sent — closes the gap where a
+    // multi-passenger booking (or a tampered request) could pay for one
+    // person's visa while applying for several. Reused below at the
+    // pending-status update instead of fetching the row twice.
+    let row = existingReferenceId ? await findPayableSubmission(existingReferenceId) : null;
+    if (row?.table === "tourist_visa_applications" && serviceSlug) {
+      const perPersonPrice = parseAedValue(PRICES[serviceSlug]?.single);
+      const adultsCount = Array.isArray(row.adults) ? row.adults.length : 0;
+      const childrenCount = Array.isArray(row.children) ? row.children.length : 0;
+      const passengerCount = adultsCount + childrenCount;
+      if (perPersonPrice && passengerCount > 0) {
+        const authoritativeAmount = withVat(perPersonPrice * passengerCount).toFixed(2);
+        // Compare as numbers, not strings — the client sends withVat()'s raw
+        // output (e.g. "3465"), which is numerically equal to but string-
+        // unequal from this route's .toFixed(2) (e.g. "3465.00"), so a
+        // string compare here logged a false "disagreement" on every exact
+        // match.
+        if (parseFloat(authoritativeAmount) !== parseFloat(amount)) {
+          console.warn(
+            `create-payment: client amount ${amount} disagreed with authoritative ${authoritativeAmount} ` +
+            `for ${existingReferenceId} (${passengerCount} passengers) — using authoritative amount.`
+          );
+        }
+        amount = authoritativeAmount;
+      }
     }
 
     const referenceId = existingReferenceId ?? generateReferenceId();
@@ -107,7 +153,11 @@ export async function POST(req: NextRequest) {
     // Mettpay confirmed the order and generated a real checkout link — move
     // from "initiated" (submitted, payment not yet attempted) to "pending"
     // (customer is now on Mettpay's checkout page) and notify admin/customer.
-    const row = await findPayableSubmission(referenceId);
+    // Reuses the row fetched above when available (existingReferenceId case)
+    // instead of querying again — only the fresh-PAY-order path (no
+    // existingReferenceId, row not created until savePayOnlineOrder above)
+    // actually needs this fetch.
+    if (!row) row = await findPayableSubmission(referenceId);
     if (row) {
       const pendingAt = new Date().toISOString();
       // Mettpay's create-order response never includes it (confirmed: only
