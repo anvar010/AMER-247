@@ -17,7 +17,11 @@ import styles from "./TouristVisaForm.module.css";
 const outfit = Outfit({ subsets: ["latin"], weight: ["500", "600", "700", "800"] });
 
 function genRef() {
-  return "AMR-" + Math.floor(40000 + Math.random() * 9999);
+  // Widened from a ~10k range (40000-49999) — that narrow a range made
+  // cross-customer reference collisions a real, observed problem (two
+  // unrelated applications sharing an ID, one's payment overwriting the
+  // other's record). 900k values makes that far less likely.
+  return "AMR-" + Math.floor(100000 + Math.random() * 900000);
 }
 
 // Nationality dropdown for Step 1 — kept local to this form (not shared with
@@ -336,6 +340,11 @@ export default function TouristVisaForm({
             // and the passenger count already saved on this reference's DB
             // row — a client-sent amount alone can't be trusted for billing.
             serviceSlug,
+            // Tells the server exactly which table this reference lives
+            // in, so a coincidental reference collision with some other
+            // application (a different form, a different table) can never
+            // get its payment update misattributed to the wrong one.
+            sourceTable: "tourist_visa_applications",
           }),
         });
         const payJson = await payRes.json();

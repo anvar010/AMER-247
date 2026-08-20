@@ -23,7 +23,11 @@ const outfit = Outfit({ subsets: ["latin"], weight: ["500", "600", "700", "800"]
 function genRef(hub: string) {
   const prefix =
     hub === "Medical Test" ? "MED" : hub === "Emirates ID" ? "EID" : hub === "Golden Visa" ? "GLD" : "AMR";
-  return prefix + "-" + Math.floor(40000 + Math.random() * 9999);
+  // Widened from a ~10k range (40000-49999) — that narrow a range made
+  // cross-customer reference collisions a real, observed problem (two
+  // unrelated applications sharing an ID, one's payment overwriting the
+  // other's record). 900k values makes that far less likely.
+  return prefix + "-" + Math.floor(100000 + Math.random() * 900000);
 }
 
 // Same parsing as the fee calculators (PricingCalculator.tsx /
@@ -358,6 +362,11 @@ export default function ApplicationForm({
             comments: service,
             referenceId: refNum.current,
             returnUrl: window.location.href,
+            // Tells the server exactly which table this reference lives
+            // in, so a coincidental reference collision with some other
+            // application (a different form, a different table) can never
+            // get its payment update misattributed to the wrong one.
+            sourceTable: "online_services_applications",
           }),
         });
         const payJson = await payRes.json();

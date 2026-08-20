@@ -1,6 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createMettpayOrder, getMettpayOrderDetails } from "@/lib/mettpay";
-import { savePayOnlineOrder, findPayableSubmission, updatePayableSubmission } from "@/lib/db";
+import {
+  savePayOnlineOrder,
+  findPayableSubmission,
+  findPayableSubmissionInTable,
+  updatePayableSubmission,
+  PAYABLE_TABLES,
+  type PayableTable,
+} from "@/lib/db";
 import { notifyPaymentStage } from "@/lib/paymentNotify";
 import { PRICES } from "@/lib/prices";
 
@@ -10,7 +17,9 @@ export const runtime = "nodejs";
 // ("AMR-" + ~10k random) — "PAY-" prefix keeps payment orders visually
 // distinct from application submissions in the submissions table.
 function generateReferenceId(): string {
-  return "PAY-" + Math.floor(40000 + Math.random() * 9999);
+  // Widened from a ~10k range (40000-49999) — see genRef() comments in
+  // TouristVisaForm.tsx / ApplicationForm.tsx for why.
+  return "PAY-" + Math.floor(100000 + Math.random() * 900000);
 }
 
 // Mirrors TouristVisaForm's own withVat() — kept as a separate copy (same
@@ -51,6 +60,16 @@ export async function POST(req: NextRequest) {
     // same reference through skips a second, duplicate DB insert and keeps
     // one submissions row per application, not two.
     const existingReferenceId = body.referenceId ? String(body.referenceId) : null;
+    // Which table that reference lives in, if the caller knows (both
+    // TouristVisaForm and ApplicationForm do). Lets the row lookup below go
+    // straight to the right table instead of guessing across all three —
+    // the guess-across-tables path is what silently misattributed a real
+    // payment (AMR-47377) from a brand-new online_services_applications row
+    // to an unrelated, already-completed tourist_visa_applications row that
+    // happened to share the same reference.
+    const sourceTable = PAYABLE_TABLES.includes(body.sourceTable)
+      ? (body.sourceTable as PayableTable)
+      : null;
 
     if (!name || !email || !mobile || !amount) {
       return NextResponse.json({ error: "Missing required fields." }, { status: 400 });
@@ -63,7 +82,11 @@ export async function POST(req: NextRequest) {
     // multi-passenger booking (or a tampered request) could pay for one
     // person's visa while applying for several. Reused below at the
     // pending-status update instead of fetching the row twice.
-    let row = existingReferenceId ? await findPayableSubmission(existingReferenceId) : null;
+    let row = existingReferenceId
+      ? sourceTable
+        ? await findPayableSubmissionInTable(existingReferenceId, sourceTable)
+        : await findPayableSubmission(existingReferenceId)
+      : null;
     if (row?.table === "tourist_visa_applications" && serviceSlug) {
       const perPersonPrice = parseAedValue(PRICES[serviceSlug]?.single);
       const adultsCount = Array.isArray(row.adults) ? row.adults.length : 0;

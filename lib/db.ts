@@ -293,11 +293,40 @@ export type PayableRow = {
   [key: string]: unknown;
 };
 
-// reference_id isn't guaranteed unique (client-generated with a small
-// random range — two different applicants can coincidentally collide) —
-// newest-first + limit(1) instead of a stricter lookup means a rare
-// collision degrades to "acts on the most recent match" instead of
-// throwing and dropping the whole webhook/email.
+// Looks up a single table directly — the safe option whenever the caller
+// already knows which table its own reference belongs to (every payable
+// form does). Never crosses into another table, so a reference collision
+// with an unrelated application elsewhere can't mis-attribute a payment to
+// it — the exact incident that motivated adding this (AMR-47377 collided
+// between an old tourist_visa_applications row and a brand-new
+// online_services_applications one; the old cross-table search below
+// silently updated the wrong customer's record).
+export async function findPayableSubmissionInTable(
+  referenceId: string,
+  table: PayableTable
+): Promise<PayableRow | null> {
+  const supabase = getSupabaseAdmin();
+  const { data } = await supabase
+    .from(table)
+    .select("*")
+    .eq("reference_id", referenceId)
+    .order("created_at", { ascending: false })
+    .limit(1);
+  if (data && data[0]) {
+    return { ...data[0], table } as PayableRow;
+  }
+  return null;
+}
+
+// Cross-table fallback for callers that don't know (or predate knowing)
+// which table their reference belongs to — e.g. Mettpay's webhook, which
+// only ever gives back the reference string. Checks tables in a fixed
+// order and returns the first match, NOT the true most-recent match across
+// all three — a same-table collision still degrades gracefully (newest row
+// in that table wins), but a cross-table collision does not: whichever
+// table is checked first here wins regardless of which row is actually
+// newer. Prefer findPayableSubmissionInTable() whenever the table is
+// already known.
 export async function findPayableSubmission(referenceId: string): Promise<PayableRow | null> {
   const supabase = getSupabaseAdmin();
   for (const table of PAYABLE_TABLES) {
