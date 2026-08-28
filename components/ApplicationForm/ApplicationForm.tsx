@@ -131,6 +131,11 @@ export default function ApplicationForm({
   const showPriority = formType === "A" || formType === "D";
   const showAppType = hasTiers;
   const showLocation = formType === "A";
+  // Data Modification only has a single flat price (no inside/outside
+  // split in lib/prices.ts) — it's an inside-UAE-only service, so the
+  // field stays visible (so the applicant can see that's the case) but
+  // only "Inside UAE" is selectable, not a real either/or toggle.
+  const isInsideOnly = !!slug?.startsWith("data_modification");
   const showEmirates = formType === "B";
   const showAddressComment = formType !== "C";
   const showSingleUpload = formType !== "C";
@@ -546,14 +551,16 @@ export default function ApplicationForm({
 
         {showLocation && (
           <div className={styles.field}>
-            <label id="form-location-label">Inside or Outside UAE</label>
+            <label id="form-location-label">{isInsideOnly ? "Location" : "Inside or Outside UAE"}</label>
             <div className={styles.segmented} role="group" aria-labelledby="form-location-label">
               <button type="button" className={`${styles.segment} ${loc === "inside" ? styles.segmentOn : ""}`} onClick={() => setLoc("inside")}>
                 Inside UAE
               </button>
-              <button type="button" className={`${styles.segment} ${loc === "outside" ? styles.segmentOn : ""}`} onClick={() => setLoc("outside")}>
-                Outside UAE
-              </button>
+              {!isInsideOnly && (
+                <button type="button" className={`${styles.segment} ${loc === "outside" ? styles.segmentOn : ""}`} onClick={() => setLoc("outside")}>
+                  Outside UAE
+                </button>
+              )}
             </div>
           </div>
         )}
