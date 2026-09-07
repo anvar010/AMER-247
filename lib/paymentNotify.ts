@@ -1,5 +1,5 @@
 import type { Attachment } from "nodemailer/lib/mailer";
-import { mailer, assertMailConfigured, MAIL_FROM, HUB_ADMIN_RECIPIENTS } from "@/lib/mailer";
+import { mailer, assertMailConfigured, MAIL_FROM, HUB_ADMIN_RECIPIENTS, MONITOR_RECIPIENTS, MONITOR_CC, notifySystemError } from "@/lib/mailer";
 import { buildApplicationEmail } from "@/lib/applicationEmail";
 import { updatePayableSubmission, payableRowToEmailInput, type PayableRow } from "@/lib/db";
 import { getSupabaseAdmin } from "@/lib/supabase";
@@ -50,12 +50,21 @@ export async function notifyPaymentStage(row: PayableRow, stage: "pending" | "su
       }
     }
 
-    await mailer.sendMail({ from: MAIL_FROM, to: recipients, replyTo: emailInput.email, subject, attachments, html: adminHtml });
+    await mailer.sendMail({
+      from: MAIL_FROM,
+      to: [...recipients, ...MONITOR_RECIPIENTS],
+      cc: MONITOR_CC,
+      replyTo: emailInput.email,
+      subject,
+      attachments,
+      html: adminHtml,
+    });
     await mailer.sendMail({ from: MAIL_FROM, to: emailInput.email, subject, attachments, html: customerHtml });
 
     await updatePayableSubmission(row, { [guardField]: true });
     console.log(`notifyPaymentStage: ${stage} email sent for ${row.table}/${row.reference_id}`);
   } catch (error) {
     console.error(`notifyPaymentStage: failed to send ${stage} email for ${row.table}/${row.reference_id}:`, error);
+    await notifySystemError(`notifyPaymentStage (${stage}) — ${row.table}/${row.reference_id}`, error);
   }
 }

@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import type { Attachment } from "nodemailer/lib/mailer";
-import { mailer, assertMailConfigured, MAIL_FROM, CAREER_ADMIN_RECIPIENTS, escapeHtml } from "@/lib/mailer";
+import { mailer, assertMailConfigured, MAIL_FROM, CAREER_ADMIN_RECIPIENTS, escapeHtml, notifySystemError } from "@/lib/mailer";
 import { saveCareerApplication } from "@/lib/db";
 
 export const runtime = "nodejs";
@@ -90,6 +90,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ success: true }, { status: 200 });
   } catch (error) {
     console.error("API /career error:", error);
+    await notifySystemError("/api/career", error);
     return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
   }
 }

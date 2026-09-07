@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { mailer, assertMailConfigured, MAIL_FROM, escapeHtml } from "@/lib/mailer";
+import { mailer, assertMailConfigured, MAIL_FROM, escapeHtml, notifySystemError } from "@/lib/mailer";
 import { saveDet247Request } from "@/lib/db";
 
 export const runtime = "nodejs";
@@ -86,6 +86,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ success: true }, { status: 200 });
   } catch (error) {
     console.error("API /det247-contact error:", error);
+    await notifySystemError("/api/det247-contact", error);
     return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
   }
 }

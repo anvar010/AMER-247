@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import type { Attachment } from "nodemailer/lib/mailer";
-import { mailer, assertMailConfigured, MAIL_FROM, HUB_ADMIN_RECIPIENTS } from "@/lib/mailer";
+import { mailer, assertMailConfigured, MAIL_FROM, HUB_ADMIN_RECIPIENTS, MONITOR_RECIPIENTS, MONITOR_CC, notifySystemError } from "@/lib/mailer";
 import { saveTouristVisaApplication, saveServiceApplication } from "@/lib/db";
 import { buildApplicationEmail } from "@/lib/applicationEmail";
 
@@ -133,7 +133,8 @@ export async function POST(req: NextRequest) {
 
       await mailer.sendMail({
         from: MAIL_FROM,
-        to: recipients,
+        to: [...recipients, ...MONITOR_RECIPIENTS],
+        cc: MONITOR_CC,
         replyTo: email,
         subject,
         attachments,
@@ -152,6 +153,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ success: true, referenceID }, { status: 200 });
   } catch (error) {
     console.error("API /apply error:", error);
+    await notifySystemError("/api/apply", error);
     return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
   }
 }

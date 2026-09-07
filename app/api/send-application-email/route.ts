@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { findPayableSubmission, updatePayableSubmission } from "@/lib/db";
 import { notifyPaymentStage } from "@/lib/paymentNotify";
 import { getMettpayOrderDetails } from "@/lib/mettpay";
+import { notifySystemError } from "@/lib/mailer";
 
 export const runtime = "nodejs";
 
@@ -55,6 +56,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ success: true, mettpayOrderId }, { status: 200 });
   } catch (error) {
     console.error("API /send-application-email error:", error);
+    await notifySystemError("/api/send-application-email", error);
     return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
   }
 }

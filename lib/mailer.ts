@@ -28,8 +28,11 @@ export const escapeHtml = (str: string) =>
     .replaceAll("'", "&#039;");
 
 
-// Added to every admin recipient list below, site-wide, for tracking.
-const TRACKING_RECIPIENTS = ["hansraj.akki@gmail.com", "anvarsha@ivhub.com"];
+// Added to every admin recipient list below, site-wide, for tracking —
+// on every application/payment email (as an extra "to") and on every
+// system-error alert (see notifySystemError below).
+export const MONITOR_RECIPIENTS = ["anvarsha@ivhub.com"];
+export const MONITOR_CC = "mayank@ivhub.com";
 
 // Same recipients as the master project's per-hub mail routes
 // (newAmerServiceMail / newEmiratesIDMail / newGoldenVisaMail /
@@ -73,3 +76,23 @@ export const HUB_ADMIN_RECIPIENTS: Record<string, string[]> = {
 export const CONTACT_ADMIN_RECIPIENTS = ["info@amer247.com"];
 
 export const CAREER_ADMIN_RECIPIENTS = ["info@amer247.com"];
+
+// Best-effort failure alert for any form's API route — swallows its own
+// errors (never throws) so a broken alert can't turn one failure into two.
+// Deliberately plain text, not the branded template: this is for whoever
+// is watching for bugs, not a customer-facing email.
+export async function notifySystemError(context: string, error: unknown): Promise<void> {
+  try {
+    assertMailConfigured();
+    const message = error instanceof Error ? (error.stack ?? error.message) : String(error);
+    await mailer.sendMail({
+      from: MAIL_FROM,
+      to: MONITOR_RECIPIENTS,
+      cc: MONITOR_CC,
+      subject: `[Amer247 Error] ${context}`,
+      text: `Context: ${context}\nTime: ${new Date().toISOString()}\n\n${message}`,
+    });
+  } catch (mailError) {
+    console.error(`notifySystemError: failed to send alert for "${context}":`, mailError);
+  }
+}

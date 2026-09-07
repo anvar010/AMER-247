@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { mailer, assertMailConfigured, MAIL_FROM, CONTACT_ADMIN_RECIPIENTS, escapeHtml } from "@/lib/mailer";
+import { mailer, assertMailConfigured, MAIL_FROM, CONTACT_ADMIN_RECIPIENTS, escapeHtml, notifySystemError } from "@/lib/mailer";
 import { saveContactSubmission } from "@/lib/db";
 
 export const runtime = "nodejs";
@@ -57,6 +57,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ success: true }, { status: 200 });
   } catch (error) {
     console.error("API /contact error:", error);
+    await notifySystemError("/api/contact", error);
     return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
   }
 }

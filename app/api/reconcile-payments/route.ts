@@ -3,6 +3,7 @@ import { getMettpayOrderDetails, METTPAY_SUCCESS_STATUSES } from "@/lib/mettpay"
 import { getSupabaseAdmin } from "@/lib/supabase";
 import { updatePayableSubmission, PAYABLE_TABLES, type PayableRow } from "@/lib/db";
 import { notifyPaymentStage } from "@/lib/paymentNotify";
+import { notifySystemError } from "@/lib/mailer";
 
 export const runtime = "nodejs";
 
@@ -64,5 +65,17 @@ export async function GET(req: NextRequest) {
   }
 
   console.log("reconcile-payments run:", JSON.stringify(results));
+
+  // One summary alert per run (not one per failing row) — this is a
+  // scheduled cron job, not a single user action, so batching avoids
+  // spamming an inbox if several rows fail in the same run.
+  const failed = Object.entries(results).filter(([, v]) => v.startsWith("error:"));
+  if (failed.length) {
+    await notifySystemError(
+      "/api/reconcile-payments",
+      new Error(failed.map(([ref, msg]) => `${ref}: ${msg}`).join("\n"))
+    );
+  }
+
   return NextResponse.json({ checked: Object.keys(results).length, results });
 }

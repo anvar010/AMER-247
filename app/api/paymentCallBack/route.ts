@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { findPayableSubmission, updatePayableSubmission } from "@/lib/db";
 import { notifyPaymentStage } from "@/lib/paymentNotify";
 import { METTPAY_SUCCESS_STATUSES } from "@/lib/mettpay";
+import { notifySystemError } from "@/lib/mailer";
 
 export const runtime = "nodejs";
 
@@ -60,6 +61,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ status: "Success" }, { status: 200 });
   } catch (error) {
     console.error("API /paymentCallBack error:", error);
+    await notifySystemError("/api/paymentCallBack", error);
     return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
   }
 }

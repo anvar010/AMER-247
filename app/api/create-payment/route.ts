@@ -9,13 +9,15 @@ import {
   type PayableTable,
 } from "@/lib/db";
 import { notifyPaymentStage } from "@/lib/paymentNotify";
+import { notifySystemError } from "@/lib/mailer";
 import { PRICES } from "@/lib/prices";
 
 export const runtime = "nodejs";
 
 // Same style as ApplicationForm/TouristVisaForm's client-side ref ids
-// ("AMR-" + ~10k random) — "PAY-" prefix keeps payment orders visually
-// distinct from application submissions in the submissions table.
+// ("AMR-" + a wide random range) — "PAY-" prefix keeps payment orders
+// visually distinct from application submissions in the submissions
+// table, and unambiguous in findPayableSubmission() too.
 function generateReferenceId(): string {
   // Widened from a ~10k range (40000-49999) — see genRef() comments in
   // TouristVisaForm.tsx / ApplicationForm.tsx for why.
@@ -215,6 +217,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ paymentUrl: order.payment_url }, { status: 200 });
   } catch (error) {
     console.error("API /create-payment error:", error);
+    await notifySystemError("/api/create-payment", error);
     return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
   }
 }
