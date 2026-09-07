@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import type { Attachment } from "nodemailer/lib/mailer";
-import { mailer, assertMailConfigured, MAIL_FROM, HUB_ADMIN_RECIPIENTS, MONITOR_RECIPIENTS, MONITOR_CC, notifySystemError } from "@/lib/mailer";
+import { mailer, assertMailConfigured, MAIL_FROM, HUB_ADMIN_RECIPIENTS, notifySystemError } from "@/lib/mailer";
 import { saveTouristVisaApplication, saveServiceApplication } from "@/lib/db";
 import { buildApplicationEmail } from "@/lib/applicationEmail";
 
@@ -133,8 +133,7 @@ export async function POST(req: NextRequest) {
 
       await mailer.sendMail({
         from: MAIL_FROM,
-        to: [...recipients, ...MONITOR_RECIPIENTS],
-        cc: MONITOR_CC,
+        to: recipients,
         replyTo: email,
         subject,
         attachments,

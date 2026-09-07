@@ -1,5 +1,5 @@
 import type { Attachment } from "nodemailer/lib/mailer";
-import { mailer, assertMailConfigured, MAIL_FROM, HUB_ADMIN_RECIPIENTS, MONITOR_RECIPIENTS, MONITOR_CC, notifySystemError } from "@/lib/mailer";
+import { mailer, assertMailConfigured, MAIL_FROM, HUB_ADMIN_RECIPIENTS, notifySystemError } from "@/lib/mailer";
 import { buildApplicationEmail } from "@/lib/applicationEmail";
 import { updatePayableSubmission, payableRowToEmailInput, type PayableRow } from "@/lib/db";
 import { getSupabaseAdmin } from "@/lib/supabase";
@@ -52,8 +52,7 @@ export async function notifyPaymentStage(row: PayableRow, stage: "pending" | "su
 
     await mailer.sendMail({
       from: MAIL_FROM,
-      to: [...recipients, ...MONITOR_RECIPIENTS],
-      cc: MONITOR_CC,
+      to: recipients,
       replyTo: emailInput.email,
       subject,
       attachments,
