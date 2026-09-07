@@ -140,7 +140,9 @@ export const PRICES: Record<string, PriceValue> = {
 
   // --- Tourist Visa ---
   On_arrival_visa_extension: { single: "1100.00 AED" },
-  "96_hours_tourist_visa": { single: "400.00 AED" },
+  // TEMPORARY: live payment-flow testing (AMR reference-range fix), revert
+  // to "400.00 AED" before pushing.
+  "96_hours_tourist_visa": { single: "10.00 AED" },
   "14_days_tourist_visa": { single: "650.00 AED" },
   "14_days_tourist_visa_express": { single: "750.00 AED" },
   "30_days_tourist_visa_popular": { single: "650.00 AED" },

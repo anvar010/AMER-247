@@ -26,8 +26,16 @@ function genRef(hub: string) {
   // Widened from a ~10k range (40000-49999) — that narrow a range made
   // cross-customer reference collisions a real, observed problem (two
   // unrelated applications sharing an ID, one's payment overwriting the
-  // other's record). 900k values makes that far less likely.
-  return prefix + "-" + Math.floor(100000 + Math.random() * 900000);
+  // other's record).
+  //
+  // "AMR-" specifically also gets its own non-overlapping half of the
+  // range (550000-999999) — TouristVisaForm's genRef() uses the other
+  // half (100000-549999) for its own "AMR-" references. Both used to draw
+  // from the same full range despite saving to different tables, which is
+  // what let AMR-47377/AMR-48564 collide across tables. MED-/EID-/GLD-
+  // don't need this split since their prefix alone is already unique.
+  const isAmr = prefix === "AMR";
+  return prefix + "-" + Math.floor((isAmr ? 550000 : 100000) + Math.random() * (isAmr ? 450000 : 900000));
 }
 
 // Same parsing as the fee calculators (PricingCalculator.tsx /

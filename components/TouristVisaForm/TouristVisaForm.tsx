@@ -17,11 +17,14 @@ import styles from "./TouristVisaForm.module.css";
 const outfit = Outfit({ subsets: ["latin"], weight: ["500", "600", "700", "800"] });
 
 function genRef() {
-  // Widened from a ~10k range (40000-49999) — that narrow a range made
-  // cross-customer reference collisions a real, observed problem (two
-  // unrelated applications sharing an ID, one's payment overwriting the
-  // other's record). 900k values makes that far less likely.
-  return "AMR-" + Math.floor(100000 + Math.random() * 900000);
+  // Tourist Visa and ApplicationForm's default "Amer Services" hub both
+  // keep the "AMR-" prefix, but now draw from non-overlapping number
+  // ranges (this one: 100000-549999) instead of the same shared pool —
+  // that overlap is what let AMR-47377 and AMR-48564 collide across
+  // tables (tourist_visa_applications vs online_services_applications)
+  // despite looking identical. See findPayableSubmission() in lib/db.ts,
+  // which now routes "AMR-" by number range instead of guessing.
+  return "AMR-" + Math.floor(100000 + Math.random() * 450000);
 }
 
 // Nationality dropdown for Step 1 — kept local to this form (not shared with

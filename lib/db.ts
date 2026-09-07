@@ -327,7 +327,45 @@ export async function findPayableSubmissionInTable(
 // table is checked first here wins regardless of which row is actually
 // newer. Prefer findPayableSubmissionInTable() whenever the table is
 // already known.
+//
+// Prefixes that unambiguously identify one table, so this function doesn't
+// need to guess for them at all. "AMR-" is deliberately not listed here —
+// both TouristVisaForm and ApplicationForm's default Amer Services hub use
+// it, which is what let AMR-47377/AMR-48564 collide across tables. It's
+// disambiguated separately below, by number range instead of prefix.
+const UNAMBIGUOUS_PREFIX_TABLE: Record<string, PayableTable> = {
+  "PAY-": "pay_online_orders",
+  "EID-": "online_services_applications",
+  "MED-": "online_services_applications",
+  "GLD-": "online_services_applications",
+};
+
+// TouristVisaForm's genRef() and ApplicationForm's genRef() (the "AMR-"
+// case) now draw from non-overlapping halves of the same number range —
+// see their own comments for the split. A number outside both halves is a
+// legacy reference from before this split (the old 40000-49999 range),
+// genuinely ambiguous, and falls through to the cross-table search below.
+const AMR_TOURIST_VISA_RANGE = [100000, 549999] as const;
+const AMR_AMER_SERVICES_RANGE = [550000, 999999] as const;
+
 export async function findPayableSubmission(referenceId: string): Promise<PayableRow | null> {
+  const prefix = Object.keys(UNAMBIGUOUS_PREFIX_TABLE).find((p) => referenceId.startsWith(p));
+  if (prefix) {
+    return findPayableSubmissionInTable(referenceId, UNAMBIGUOUS_PREFIX_TABLE[prefix]);
+  }
+
+  if (referenceId.startsWith("AMR-")) {
+    const n = parseInt(referenceId.slice(4), 10);
+    if (Number.isFinite(n)) {
+      if (n >= AMR_TOURIST_VISA_RANGE[0] && n <= AMR_TOURIST_VISA_RANGE[1]) {
+        return findPayableSubmissionInTable(referenceId, "tourist_visa_applications");
+      }
+      if (n >= AMR_AMER_SERVICES_RANGE[0] && n <= AMR_AMER_SERVICES_RANGE[1]) {
+        return findPayableSubmissionInTable(referenceId, "online_services_applications");
+      }
+    }
+  }
+
   const supabase = getSupabaseAdmin();
   for (const table of PAYABLE_TABLES) {
     const { data } = await supabase
