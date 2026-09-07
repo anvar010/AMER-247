@@ -149,9 +149,9 @@ export default function MobileHubScreen({ title, blurb, subCategories, gold, her
           {/* Tourist Visa only — quick WhatsApp/Call for visa inquiries. */}
           {title === "Tourist Visa" && (
             <div className={styles.heroContactRows}>
-              <a href="https://wa.me/971547800500" className={styles.heroContactRow} aria-label="Chat on WhatsApp">
+              <a href="https://wa.me/971581257700" className={styles.heroContactRow} aria-label="Chat on WhatsApp">
                 <WhatsAppIcon size={16} />
-                <span>+971 54 780 0500</span>
+                <span>+971 58 125 7700</span>
               </a>
               <a href="tel:+971527276699" className={styles.heroContactRow} aria-label="Call us">
                 <Phone size={16} />
