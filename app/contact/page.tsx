@@ -26,7 +26,7 @@ const outfit = Outfit({ subsets: ["latin"], weight: ["500", "600", "700"] });
 
 const mobileContacts = [
   { icon: Phone, label: "Call us", sub: "+971 4 2300500", href: "tel:+97142300500" },
-  { icon: MessageCircle, label: "WhatsApp", sub: "Chat with a consultant", href: "https://wa.me/97142300500" },
+  { icon: MessageCircle, label: "WhatsApp", sub: "Chat with a consultant", href: "https://wa.me/971581257700" },
   { icon: Mail, label: "Email", sub: "info@amer247.com", href: "mailto:info@amer247.com" },
 ];
 

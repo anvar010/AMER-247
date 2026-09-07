@@ -58,9 +58,9 @@ export default function TouristVisaHero({
               Browse Visas <ArrowDown size={15} />
             </a>
             <span className={styles.heroContactIcons}>
-              <a href="https://wa.me/971581257700" className={styles.heroContactPill} aria-label="Chat on WhatsApp">
+              <a href="https://wa.me/971547800500" className={styles.heroContactPill} aria-label="Chat on WhatsApp">
                 <WhatsAppIcon size={17} />
-                +971 58 125 7700
+                +971 54 780 0500
               </a>
               <a href="tel:+971527276699" className={styles.heroContactPill} aria-label="Call us">
                 <Phone size={17} />

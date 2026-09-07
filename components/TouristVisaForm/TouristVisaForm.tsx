@@ -450,7 +450,7 @@ export default function TouristVisaForm({
             </div>
           </div>
           <div className={styles.svcContactIcons}>
-            <a href="https://wa.me/971581257700" className={styles.svcIconBtn} aria-label="Chat on WhatsApp">
+            <a href="https://wa.me/971547800500" className={styles.svcIconBtn} aria-label="Chat on WhatsApp">
               <WhatsAppIcon size={15} />
             </a>
             <a href="tel:+971527276699" className={styles.svcIconBtn} aria-label="Call us">
