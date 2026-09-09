@@ -3,6 +3,7 @@ import type { Attachment } from "nodemailer/lib/mailer";
 import { mailer, assertMailConfigured, MAIL_FROM, HUB_ADMIN_RECIPIENTS, notifySystemError } from "@/lib/mailer";
 import { saveTouristVisaApplication, saveServiceApplication } from "@/lib/db";
 import { buildApplicationEmail } from "@/lib/applicationEmail";
+import { stripInvisibleChars } from "@/lib/sanitize";
 
 export const runtime = "nodejs";
 
@@ -20,7 +21,11 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: `Unknown hub: ${hub}` }, { status: 400 });
     }
 
-    const field = (key: string) => String(form.get(key) ?? "");
+    // Sanitized here at the single choke point every extracted field goes
+    // through — strips invisible RTL/LTR marks etc. that some mobile
+    // keyboards silently leave in input (see AMR-815591), so the database
+    // itself stores clean data, not just what later gets sent to Mettpay.
+    const field = (key: string) => stripInvisibleChars(String(form.get(key) ?? ""));
     const email = field("email");
     if (!email) {
       return NextResponse.json({ error: "Missing email." }, { status: 400 });

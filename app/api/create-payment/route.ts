@@ -11,6 +11,7 @@ import {
 import { notifyPaymentStage } from "@/lib/paymentNotify";
 import { notifySystemError } from "@/lib/mailer";
 import { PRICES } from "@/lib/prices";
+import { stripInvisibleChars } from "@/lib/sanitize";
 
 export const runtime = "nodejs";
 
@@ -50,9 +51,13 @@ const LIVE_ORIGIN = "https://amer247.com";
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
-    const name = String(body.name ?? "");
-    const email = String(body.email ?? "");
-    const mobile = String(body.mobile ?? "");
+    // Stripped here specifically because this is what actually gets sent
+    // to Mettpay's create-order API — an invisible RTL mark or similar
+    // silently inserted by a mobile keyboard (see AMR-815591) is enough to
+    // fail their validation and return an opaque 500.
+    const name = stripInvisibleChars(String(body.name ?? ""));
+    const email = stripInvisibleChars(String(body.email ?? ""));
+    const mobile = stripInvisibleChars(String(body.mobile ?? ""));
     let amount = String(body.amount ?? "");
     const comments = String(body.comments ?? "");
     const applicationReference = String(body.applicationReference ?? "");
