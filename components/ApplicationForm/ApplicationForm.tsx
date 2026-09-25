@@ -13,6 +13,7 @@ import { getRequiredDocuments, docLabel, isUploadableDoc } from "@/lib/requiredD
 import { findCountry } from "@/lib/countryCodes";
 import { features as STEP_GUIDE } from "@/components/PickUpService/PickUpService";
 import { IMPORTANT_NOTES, PakistanNotice } from "@/lib/importantNotes";
+import { isValidEmail } from "@/lib/sanitize";
 import styles from "./ApplicationForm.module.css";
 
 const outfit = Outfit({ subsets: ["latin"], weight: ["500", "600", "700", "800"] });
@@ -285,7 +286,7 @@ export default function ApplicationForm({
 
   const applicantValid = applicant.trim().length > 1;
   const sponsorValid = !showSponsor || sponsor.trim().length > 1;
-  const emailValid = email.trim().length > 3;
+  const emailValid = isValidEmail(email);
   const phoneValid = phone.replace(/\D/g, "").length >= 7;
   const addressValid = !showAddressComment || address.trim().length > 1;
   const uploadValid = showGoldenUploads

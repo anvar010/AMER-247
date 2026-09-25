@@ -3,7 +3,7 @@ import type { Attachment } from "nodemailer/lib/mailer";
 import { mailer, assertMailConfigured, MAIL_FROM, HUB_ADMIN_RECIPIENTS, notifySystemError } from "@/lib/mailer";
 import { saveTouristVisaApplication, saveServiceApplication } from "@/lib/db";
 import { buildApplicationEmail } from "@/lib/applicationEmail";
-import { stripInvisibleChars } from "@/lib/sanitize";
+import { stripInvisibleChars, isValidEmail } from "@/lib/sanitize";
 
 export const runtime = "nodejs";
 
@@ -27,8 +27,13 @@ export async function POST(req: NextRequest) {
     // itself stores clean data, not just what later gets sent to Mettpay.
     const field = (key: string) => stripInvisibleChars(String(form.get(key) ?? ""));
     const email = field("email");
-    if (!email) {
-      return NextResponse.json({ error: "Missing email." }, { status: 400 });
+    // Catches junk that isn't even shaped like an email (e.g. an Emirates
+    // ID number typed into the email field) — the client's own check is
+    // bypassable, and a row saved with a non-address here silently breaks
+    // every later payment-stage notification email for it (nodemailer
+    // can't build an envelope from it), not just this initial one.
+    if (!email || !isValidEmail(email)) {
+      return NextResponse.json({ error: "Missing or invalid email." }, { status: 400 });
     }
 
     const service = field("service");

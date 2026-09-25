@@ -19,3 +19,15 @@ const INVISIBLE_CHARS = /[​-‏‪-‮⁦-⁩﻿]/g;
 export function stripInvisibleChars(value: string): string {
   return value.replace(INVISIBLE_CHARS, "");
 }
+
+// Deliberately simple (not RFC 5322) — just enough to reject the junk that
+// has actually slipped through the old "length > 3" check on the client
+// (an Emirates ID number like "784-1988-9328293-3" is 19 characters and
+// contains no "@", so it passed): requires a local part, an "@", a domain
+// with at least one ".", and no whitespace anywhere. Good real-world
+// addresses always pass this; it only exists to catch obvious non-emails.
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+export function isValidEmail(value: string): boolean {
+  return EMAIL_RE.test(value.trim());
+}

@@ -12,6 +12,7 @@ import SearchableSelect from "@/components/SearchableSelect/SearchableSelect";
 import { COUNTRY_CODES, type CountryCode } from "@/lib/countryCodes";
 import { features as STEP_GUIDE } from "@/components/PickUpService/PickUpService";
 import { IMPORTANT_NOTES } from "@/lib/importantNotes";
+import { isValidEmail } from "@/lib/sanitize";
 import styles from "./TouristVisaForm.module.css";
 
 const outfit = Outfit({ subsets: ["latin"], weight: ["500", "600", "700", "800"] });
@@ -244,7 +245,7 @@ export default function TouristVisaForm({
   const photoInputRef = useRef<HTMLInputElement>(null);
 
   const applicantValid = applicant.trim().length > 1;
-  const emailValid = email.trim().length > 3;
+  const emailValid = isValidEmail(email);
   const mobileValid = mobile.replace(/\D/g, "").length >= 7;
   const whatsappValid = whatsapp.replace(/\D/g, "").length >= 7;
   const nationalityValid = !!nationality;
