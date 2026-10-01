@@ -247,6 +247,7 @@ export async function saveServiceApplication(args: {
   emirates?: string;
   address?: string;
   comment?: string;
+  iban?: string;
   files?: File[];
   transactionStatus?: string;
 }): Promise<void> {
@@ -267,6 +268,7 @@ export async function saveServiceApplication(args: {
       emirates: args.emirates || null,
       address: args.address || null,
       comment: args.comment || null,
+      iban: args.iban || null,
       file_paths: filePaths,
       transaction_status: args.transactionStatus || null,
       email_sent: false,
@@ -454,6 +456,7 @@ export function payableRowToEmailInput(row: PayableRow): {
       emirates: row.emirates,
       address: row.address,
       comment: row.comment,
+      iban: row.iban,
     },
   };
 }

@@ -153,6 +153,12 @@ export default function ApplicationForm({
       slug.endsWith("_visa_renewal") ||
       slug.endsWith("_visa_stamping") ||
       ["virtual_work_visa", "job_seeker_visa", "new_born_residence_visa"].includes(slug));
+  // Optional IBAN (for refunds) — entry permit and Golden Visa services only.
+  const showIban =
+    !!slug &&
+    (slug.startsWith("golden_visa_for_") ||
+      ["spouse_residence_visa", "son_daughter_residence_visa", "parents_residence_visa", "investor_partner_visa",
+        "employment_visa", "virtual_work_visa", "job_seeker_visa", "re_entry_permit"].includes(slug));
   const showEmirates = formType === "B";
   const showAddressComment = formType !== "C";
   const showSingleUpload = formType !== "C";
@@ -169,6 +175,7 @@ export default function ApplicationForm({
   const [emirate, setEmirate] = useState("Dubai");
   const [address, setAddress] = useState("");
   const [comment, setComment] = useState("");
+  const [iban, setIban] = useState("");
   // Documents are revealed one at a time (docCount starts at 1, the first
   // required document) — each row gets its own file slot keyed by index,
   // instead of one generic multi-file input, so a submitted file is
@@ -339,6 +346,7 @@ export default function ApplicationForm({
       fd.set("address", address);
       fd.set("comment", comment);
     }
+    if (showIban && iban.trim()) fd.set("iban", iban);
     if (amount) fd.set("deferEmail", "1");
     if (showGoldenUploads) {
       for (const u of GOLDEN_UPLOADS) {
@@ -718,6 +726,13 @@ export default function ApplicationForm({
                 {extraSizeError && <span className={styles.fieldError}>{extraSizeError}</span>}
               </div>
             )}
+          </div>
+        )}
+
+        {showIban && (
+          <div className={styles.field}>
+            <label htmlFor="form-iban">IBAN <span style={{ fontWeight: 400, opacity: 0.6 }}>(Optional)</span></label>
+            <input id="form-iban" className={styles.input} type="text" placeholder="AE00 0000 0000 0000 0000 000" value={iban} onChange={(e) => setIban(e.target.value.toUpperCase())} autoComplete="off" />
           </div>
         )}
 

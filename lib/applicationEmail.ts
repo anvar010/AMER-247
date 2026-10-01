@@ -113,6 +113,7 @@ export function buildApplicationEmail(
   if (data.nationality) rows.push(["Nationality", str(data.nationality)]);
   if (data.travelDate) rows.push(["Date of Travel", str(data.travelDate)]);
   if (data.address) rows.push(["Address", str(data.address)]);
+  if (data.iban) rows.push(["IBAN", str(data.iban)]);
   if (data.comment) rows.push(["Comment", str(data.comment)]);
   if (data.passengers) rows.push(["Passengers", str(data.passengers)]);
 

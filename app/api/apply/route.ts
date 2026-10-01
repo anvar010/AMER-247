@@ -74,6 +74,7 @@ export async function POST(req: NextRequest) {
       travelDate: field("travelDate"),
       address: field("address"),
       comment: field("comment"),
+      iban: field("iban"),
       passengers: field("passengers"),
       adults: parseJsonArray("adults"),
       children: parseJsonArray("children"),
@@ -118,6 +119,7 @@ export async function POST(req: NextRequest) {
         emirates: field("emirates"),
         address: field("address"),
         comment: field("comment"),
+        iban: field("iban"),
         files: uploadedFiles,
         transactionStatus,
       });
