@@ -144,7 +144,15 @@ export default function ApplicationForm({
   // split in lib/prices.ts) — it's an inside-UAE-only service, so the
   // field stays visible (so the applicant can see that's the case) but
   // only "Inside UAE" is selectable, not a real either/or toggle.
-  const isInsideOnly = !!slug?.startsWith("data_modification");
+  // Same for the services below — they can only be applied for from inside
+  // the country, so the "Outside UAE" option is hidden (commented out).
+  const isInsideOnly =
+    !!slug &&
+    (slug.startsWith("data_modification") ||
+      slug.startsWith("change_status_") ||
+      slug.endsWith("_visa_renewal") ||
+      slug.endsWith("_visa_stamping") ||
+      ["virtual_work_visa", "job_seeker_visa", "new_born_residence_visa"].includes(slug));
   const showEmirates = formType === "B";
   const showAddressComment = formType !== "C";
   const showSingleUpload = formType !== "C";
